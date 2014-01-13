@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
+
+namespace TurnItUp.Tmx
+{
+    public class Map
+    {
+        public string Version { get; private set; }
+        public Orientation Orientation { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public int TileWidth { get; private set; }
+        public int TileHeight { get; private set; }
+
+        public Map(string tmxPath)
+        {
+            XDocument xDocument = XDocument.Load(tmxPath);
+            XElement xMap = xDocument.Element("map");
+
+            Version = (string)xMap.Attribute("version");
+            Orientation = (Orientation)Enum.Parse(typeof(Orientation), xMap.Attribute("orientation").Value, true);
+            Width = (int)xMap.Attribute("width");
+            Height = (int)xMap.Attribute("height");
+            TileWidth = (int)xMap.Attribute("tilewidth");
+            TileHeight = (int)xMap.Attribute("tileheight");
+        }
+    }
+}
