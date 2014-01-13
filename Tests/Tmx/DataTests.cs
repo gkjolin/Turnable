@@ -17,11 +17,9 @@ namespace Tests.Tmx
             XElement xLayer = xMap.Elements("layer").First<XElement>();
             XElement xData = xLayer.Element("data");
 
-            Layer layer = new Layer(xLayer);
+            Data data = new Data(xData);
 
-            Assert.AreEqual("Tile Layer 1", layer.Name);
-            Assert.AreEqual(1.0, layer.Opacity);
-            Assert.AreEqual(true, layer.IsVisible);
+            Assert.AreEqual(15 * 15 * 4, data.Contents.length);
         }
     }
 }
