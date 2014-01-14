@@ -9,17 +9,44 @@ namespace Tests.Tmx
     [TestClass]
     public class DataTests
     {
+        private XDocument _xDocument;
+        private XElement _xMap;
+        private XElement _xLayer;
+        private XElement _xData;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+        _xDocument = XDocument.Load("../../Fixtures/Minimal.tmx");
+        _xMap = _xDocument.Element("map");
+        _xLayer = _xMap.Elements("layer").First<XElement>();
+        _xData = _xLayer.Element("data");
+        }
+
         [TestMethod]
         public void Data_Construction_IsSuccessful()
         {
-            XDocument xDocument = XDocument.Load("../../Fixtures/Minimal.tmx");
-            XElement xMap = xDocument.Element("map");
-            XElement xLayer = xMap.Elements("layer").First<XElement>();
-            XElement xData = xLayer.Element("data");
+            Data data = new Data(_xData);
 
-            Data data = new Data(xData);
+            Assert.AreEqual(15 * 16 * 4, data.Contents.Length);
+        }
 
-            Assert.AreEqual(15 * 15 * 4, data.Contents.length);
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void Data_ConstructionUsingNonBase64EncodedData_IsUnsuccessful()
+        {
+            _xData.Attribute("encoding").Value = "base32";
+
+            Data data = new Data(_xData);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void Data_ConstructionUsingNonGzipCompressedData_IsUnsuccessful()
+        {
+            _xData.Attribute("compression").Value = "zlib";
+
+            Data data = new Data(_xData);
         }
     }
 }
