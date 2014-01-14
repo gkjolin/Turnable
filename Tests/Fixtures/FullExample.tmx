@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="15" height="15" tilewidth="24" tileheight="24">
+ <tileset firstgid="1" name="World" tilewidth="24" tileheight="24">
+  <image source="../../../../Users/Praveen/Dropbox/Game Development/Assets/oryx_16-bit_fantasy_1.1/TMX Source/oryx_16bit_fantasy_world_cropped.png" width="1318" height="936"/>
+ </tileset>
+ <layer name="Background" width="15" height="15">
+  <data encoding="base64" compression="zlib">
+   eJyzZmBgsB7Fo3gUDxgGAJeFM9w=
+  </data>
+ </layer>
+ <layer name="Obstacles" width="15" height="15">
+  <properties>
+   <property name="IsCollision" value="true"/>
+   <property name="Name" value="Value"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQAkwOQ9WIzA5e5pNqLro5abqaGXmz+xxUW+MKKVHsp1UuMebRMG/jcQ8heQnK44ogYN1CCAX24AEY=
+  </data>
+ </layer>
+</map>

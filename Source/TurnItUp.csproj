@@ -36,6 +36,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Tuples">
+      <HintPath>..\Dependencies\System.Tuples.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -43,6 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tmx\ElementList.cs" />
+    <Compile Include="Tmx\IElement.cs" />
+    <Compile Include="Tmx\PropertyDictionary.cs" />
+    <Compile Include="Tmx\TileList.cs" />
     <Compile Include="Tmx\Data.cs" />
     <Compile Include="Tmx\Layer.cs" />
     <Compile Include="Tmx\Map.cs" />
