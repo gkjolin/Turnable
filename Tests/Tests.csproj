@@ -66,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\Minimal.tmx" />
+    <None Include="Fixtures\MinimalBase64Gzip.tmx" />
+    <None Include="Fixtures\MinimalBase64Zlib.tmx" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

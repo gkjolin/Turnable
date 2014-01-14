@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.Tmx;
+using System.IO;
 
 namespace Tests.Tmx
 {
@@ -14,39 +15,38 @@ namespace Tests.Tmx
         private XElement _xLayer;
         private XElement _xData;
 
-        [TestInitialize]
-        public void Initialize()
+        private void Load(string path)
         {
-        _xDocument = XDocument.Load("../../Fixtures/Minimal.tmx");
-        _xMap = _xDocument.Element("map");
-        _xLayer = _xMap.Elements("layer").First<XElement>();
-        _xData = _xLayer.Element("data");
+            _xDocument = XDocument.Load(path);
+            _xMap = _xDocument.Element("map");
+            _xLayer = _xMap.Elements("layer").First<XElement>();
+            _xData = _xLayer.Element("data");
         }
 
         [TestMethod]
-        public void Data_Construction_IsSuccessful()
+        public void Data_ConstructionWithZlibCompressedData_IsSuccessful()
         {
+            Load("../../Fixtures/MinimalBase64Zlib.tmx");
+
             Data data = new Data(_xData);
 
-            Assert.AreEqual(15 * 16 * 4, data.Contents.Length);
+            using (BinaryReader reader = new BinaryReader(data.Contents))
+            {
+                Assert.AreEqual((UInt32)0, reader.ReadUInt32());
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void Data_ConstructionUsingNonBase64EncodedData_IsUnsuccessful()
+        public void Data_ConstructionWithGzipCompressedData_IsSuccessful()
         {
-            _xData.Attribute("encoding").Value = "base32";
+            Load("../../Fixtures/MinimalBase64Gzip.tmx");
 
             Data data = new Data(_xData);
-        }
 
-        [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void Data_ConstructionUsingNonGzipCompressedData_IsUnsuccessful()
-        {
-            _xData.Attribute("compression").Value = "zlib";
-
-            Data data = new Data(_xData);
+            using (BinaryReader reader = new BinaryReader(data.Contents))
+            {
+                Assert.AreEqual((UInt32)0, reader.ReadUInt32());
+            }
         }
     }
 }

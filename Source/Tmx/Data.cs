@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -8,7 +10,7 @@ namespace TurnItUp.Tmx
 {
     public class Data
     {
-        public byte[] Contents { get; private set; }
+        public Stream Contents { get; private set; }
 
         public Data(XElement xData)
         {
@@ -18,10 +20,20 @@ namespace TurnItUp.Tmx
                 throw new NotSupportedException("Encodings other than Base64 are not supported for parsing .tmx files.");
             }
 
+            // Decode the contents of xData
+            byte[] rawContents = Convert.FromBase64String((string)xData.Value);
+            Contents = new MemoryStream(rawContents, false);
+
+            // Uncompress the decoded contents
             var compression = (string)xData.Attribute("compression");
-            if (compression != "gzip")
+            switch (compression)
             {
-                throw new NotSupportedException("Compression methods other than gzip are not supported for parsing .tmx files.");
+                case "gzip":
+                    Contents = new GZipStream(Contents, CompressionMode.Decompress, false);
+                    break;
+                case "zlib":
+                    Contents = new Ionic.Zlib.ZlibStream(Contents, Ionic.Zlib.CompressionMode.Decompress, false);
+                    break;
             }
         }
     }
