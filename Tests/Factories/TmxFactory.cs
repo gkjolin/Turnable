@@ -14,6 +14,11 @@ namespace Tests.Factories
             return (new Layer(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>(), 15, 15));
         }
 
+        public static XElement BuildTilesetXElement()
+        {
+            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").First<XElement>());
+        }
+
         public static XElement BuildLayerXElement()
         {
             return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>());

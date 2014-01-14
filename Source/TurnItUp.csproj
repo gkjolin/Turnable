@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tmx\Tileset.cs" />
     <Compile Include="Tmx\ElementList.cs" />
     <Compile Include="Tmx\IElement.cs" />
     <Compile Include="Tmx\PropertyDictionary.cs" />

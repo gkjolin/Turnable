@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Factories\TmxFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tmx\TilesetTests.cs" />
     <Compile Include="Tmx\ElementListTests.cs" />
     <Compile Include="Tmx\PropertyDictionaryTests.cs" />
     <Compile Include="Tmx\TileListTests.cs" />
