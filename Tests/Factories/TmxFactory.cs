@@ -34,5 +34,14 @@ namespace Tests.Factories
             return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>().Element("properties").Elements("property"));
         }
 
+        public static Data BuildDataWithNoTiles()
+        {
+            return (new Data(XDocument.Load("../../Fixtures/MinimalBase64Zlib.tmx").Element("map").Elements("layer").First<XElement>().Element("data")));
+        }
+
+        public static Data BuildDataWithTiles()
+        {
+            return (new Data(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>().Element("data")));
+        }
     }
 }
