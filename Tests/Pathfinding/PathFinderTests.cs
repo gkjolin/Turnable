@@ -40,12 +40,12 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonalAndNextToEachOther_CanFindPath()
         {
-            List<Node> path = PathFinder.SeekPath(new Node(0, 0), new Node(0, 1), _board);
+            List<Node> path = PathFinder.SeekPath(new Node(1, 1), new Node(1, 2), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(2, path.Count);
-            Assert.AreEqual(new Node(0, 0), path[0]);
-            Assert.AreEqual(new Node(0, 1), path[1]);
+            Assert.AreEqual(new Node(1, 1), path[0]);
+            Assert.AreEqual(new Node(1, 2), path[1]);
         }
 
         [TestMethod]
@@ -62,60 +62,58 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveNoObstaclesBetweenThem_CanFindPath()
         {
-            List<Node> path = PathFinder.SeekPath(new Node(0, 0), new Node(5, 0), _board);
+            List<Node> path = PathFinder.SeekPath(new Node(1, 1), new Node(5, 1), _board);
 
             Assert.IsNotNull(path);
-            Assert.AreEqual(6, path.Count);
-            Assert.AreEqual(new Node(0, 0), path[0]);
-            Assert.AreEqual(new Node(1, 0), path[1]);
-            Assert.AreEqual(new Node(2, 0), path[2]);
-            Assert.AreEqual(new Node(3, 0), path[3]);
-            Assert.AreEqual(new Node(4, 0), path[4]);
-            Assert.AreEqual(new Node(5, 0), path[5]);
+            Assert.AreEqual(5, path.Count);
+            Assert.AreEqual(new Node(1, 1), path[0]);
+            Assert.AreEqual(new Node(2, 1), path[1]);
+            Assert.AreEqual(new Node(3, 1), path[2]);
+            Assert.AreEqual(new Node(4, 1), path[3]);
+            Assert.AreEqual(new Node(5, 1), path[4]);
         }
 
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreDiagonallySeparatedAndHaveNoObstaclesBetweenThem_CanFindPath()
         {
-            List<Node> path = PathFinder.SeekPath(new Node(3, 3), new Node(8, 8), _board);
+            List<Node> path = PathFinder.SeekPath(new Node(3, 3), new Node(5, 5), _board);
 
             Assert.IsNotNull(path);
-            Assert.AreEqual(6, path.Count);
+            Assert.AreEqual(3, path.Count);
             Assert.AreEqual(new Node(3, 3), path[0]);
             Assert.AreEqual(new Node(4, 4), path[1]);
             Assert.AreEqual(new Node(5, 5), path[2]);
-            Assert.AreEqual(new Node(6, 6), path[3]);
-            Assert.AreEqual(new Node(7, 7), path[4]);
-            Assert.AreEqual(new Node(8, 8), path[5]);
         }
 
-            //        [TestMethod]
-            //        public void PathFinder_WhereEndingAndStartingPointsAreOrthogonalSeparatedAndHaveOneObstacle_CanFindPath()
-            //        {
-            //            // ..S.......
-            //            // ..o.......
-            //            // .oX.......
-            //            // ..o.......
-            //            // ..o.......
-            //            // ..E.......
-            //            // ..........
-            //            // ..........
-            //            // ..........
-            //            // ..........
-            //            // X - Obstacles, S - Starting Point, E - Ending Point, o - Expected path
-            //            _mapData[2, 2] = 1;
+        [TestMethod]
+        public void PathFinder_WhereEndingAndStartingPointsAreOrthogonalSeparatedAndHaveOneObstacle_CanFindPath()
+        {
+            // XXXXXXXXXXXXXXX
+            // X.S...........X
+            // XoX....X.....XX
+            // X.o.......X...X
+            // X.o...........X
+            // X.E...........X
+            // X...X.X..X....X
+            // X.X...........X
+            // X.............X
+            // X....X........X
+            // X.............X
+            // X.X........X..X
+            // X......X......X
+            // X...X.........X
+            // XXXXXXXXXXXXXXX
+            // X - Obstacles, S - Starting Point, E - Ending Point, o - Expected path
+            List<Node> path = PathFinder.SeekPath(new Node(2, 1), new Node(2, 5), _board);
 
-            //            List<Node> path = PathFinder.SeekPath(new Node(2, 0), new Node(2, 5), _mapData);
-
-            //            Assert.IsNotNull(path);
-            //            Assert.AreEqual(6, path.Count);
-            //            Assert.AreEqual(new Node(2, 0), path[0]);
-            //            Assert.AreEqual(new Node(2, 1), path[1]);
-            //            Assert.AreEqual(new Node(1, 2), path[2]);
-            //            Assert.AreEqual(new Node(2, 3), path[3]);
-            //            Assert.AreEqual(new Node(2, 4), path[4]);
-            //            Assert.AreEqual(new Node(2, 5), path[5]);
-            //        }
+            Assert.IsNotNull(path);
+            Assert.AreEqual(5, path.Count);
+            Assert.AreEqual(new Node(2, 1), path[0]);
+            Assert.AreEqual(new Node(3, 2), path[1]);
+            Assert.AreEqual(new Node(2, 3), path[2]);
+            Assert.AreEqual(new Node(2, 4), path[3]);
+            Assert.AreEqual(new Node(2, 5), path[4]);
+        }
 
             //        [TestMethod]
             //        public void PathFinder_CanDetermineMovementPointCostBetweenTwoNodes()

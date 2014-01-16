@@ -10,7 +10,7 @@ namespace TurnItUp.Pathfinding
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public Node Parent { get; private set; }
+        public Node Parent { get; set; }
         public int H { get; set; }
         private int _g;
 
