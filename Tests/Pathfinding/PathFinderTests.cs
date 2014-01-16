@@ -1,0 +1,306 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Tests.Pathfinding
+{
+    [TestClass]
+    public class PathFinderTests
+    {
+        [TestMethod]
+        public void TestMethod1()
+        {
+        }
+    }
+}
+
+//namespace Tests
+//{
+//    [TestClass]
+//    public class PathFinderTests
+//    {
+//        // -----------------------------------------
+//        // Node Tests
+//        // -----------------------------------------
+//        private int[,] _mapData;
+//        private Node _node;
+//        private PathFinder.NodeList _nodeList;
+
+//        [TestInitialize]
+//        public void Initialize()
+//        {
+//            _mapData = Factory.BuildMap(10, 10);
+//            _node = new Node(0, 0);
+//            _nodeList = new PathFinder.NodeList();
+//        }
+
+
+//        // -----------------------------------------
+//        // NodeList Tests
+//        // -----------------------------------------
+
+//        // 
+//        [TestMethod]
+//        public void NodeList_CanAddNewNode()
+//        {
+//            _nodeList.Add(_node);
+
+//            Assert.AreEqual(1, _nodeList.Count);
+//            Assert.AreEqual(_node, _nodeList[0]);
+//        }
+
+//        [TestMethod]
+//        [ExpectedException(typeof(NotImplementedException))]
+//        public void NodeList_WhenInserting_ThrowsException()
+//        {
+//            _nodeList.Insert(0, _node);
+//        }
+
+//        [TestMethod]
+//        public void NodeList_WhenAddingNodes_AddsThemSortedByF()
+//        {
+//            Node node2 = new Node(5, 5);
+//            Node node3 = new Node(5, 5);
+
+//            _node.G = 10;
+//            _node.H = 10;
+//            node2.G = 5;
+//            node2.H = 5;
+//            node3.G = 3;
+//            node3.H = 3;
+
+//            _nodeList.Add(_node);
+//            _nodeList.Add(node2);
+//            _nodeList.Add(node3);
+
+//            Assert.AreEqual(node3, _nodeList[0]);
+//            Assert.AreEqual(node2, _nodeList[1]);
+//            Assert.AreEqual(_node, _nodeList[2]);
+//        }
+
+//        [TestMethod]
+//        public void NodeList_WhenAddingNodesWithSameF_AddsThemSuccessfully()
+//        {
+//            Node node2 = new Node(5, 5);
+//            Node node3 = new Node(5, 5);
+
+//            _node.G = 5;
+//            _node.H = 5;
+//            node2.G = 5;
+//            node2.H = 5;
+//            node3.G = 5;
+//            node3.H = 5;
+
+//            _nodeList.Add(_node);
+//            _nodeList.Add(node2);
+//            _nodeList.Add(node3);
+
+//            Assert.AreEqual(_node, _nodeList[0]);
+//            Assert.AreEqual(node2, _nodeList[1]);
+//            Assert.AreEqual(node3, _nodeList[2]);
+//        }
+
+//        // -----------------------------------------
+//        // PathFinder Tests
+//        // -----------------------------------------
+
+//        [TestMethod]
+//        public void PathFinder_WhereEndingAndStartingPointsAreOrthogonalAndNextToEachOther_CanFindPath()
+//        {
+//            List<Node> path = PathFinder.SeekPath(new Node(0, 0), new Node(0, 1), _mapData);
+
+//            Assert.IsNotNull(path);
+//            Assert.AreEqual(2, path.Count);
+//            Assert.AreEqual(new Node(0, 0), path[0]);
+//            Assert.AreEqual(new Node(0, 1), path[1]);
+//        }
+
+//        [TestMethod]
+//        public void PathFinder_WhereEndingAndStartingPointsAreDiagonalAndNextToEachOther_CanFindPath()
+//        {
+//            List<Node> path = PathFinder.SeekPath(new Node(5, 5), new Node(4, 4), _mapData);
+
+//            Assert.IsNotNull(path);
+//            Assert.AreEqual(2, path.Count);
+//            Assert.AreEqual(new Node(5, 5), path[0]);
+//            Assert.AreEqual(new Node(4, 4), path[1]);
+//        }
+
+//        [TestMethod]
+//        public void PathFinder_WhereEndingAndStartingPointsAreOrthogonalSeparatedAndHaveNoObstacles_CanFindPath()
+//        {
+//            List<Node> path = PathFinder.SeekPath(new Node(0, 0), new Node(5, 0), _mapData);
+
+//            Assert.IsNotNull(path);
+//            Assert.AreEqual(6, path.Count);
+//            Assert.AreEqual(new Node(0, 0), path[0]);
+//            Assert.AreEqual(new Node(1, 0), path[1]);
+//            Assert.AreEqual(new Node(2, 0), path[2]);
+//            Assert.AreEqual(new Node(3, 0), path[3]);
+//            Assert.AreEqual(new Node(4, 0), path[4]);
+//            Assert.AreEqual(new Node(5, 0), path[5]);
+//        }
+
+//        [TestMethod]
+//        public void PathFinder_WhereEndingAndStartingPointsAreDiagonalSeparatedAndHaveNoObstacles_CanFindPath()
+//        {
+//            List<Node> path = PathFinder.SeekPath(new Node(3, 3), new Node(8, 8), _mapData);
+
+//            Assert.IsNotNull(path);
+//            Assert.AreEqual(6, path.Count);
+//            Assert.AreEqual(new Node(3, 3), path[0]);
+//            Assert.AreEqual(new Node(4, 4), path[1]);
+//            Assert.AreEqual(new Node(5, 5), path[2]);
+//            Assert.AreEqual(new Node(6, 6), path[3]);
+//            Assert.AreEqual(new Node(7, 7), path[4]);
+//            Assert.AreEqual(new Node(8, 8), path[5]);
+//        }
+
+//        [TestMethod]
+//        public void PathFinder_WhereEndingAndStartingPointsAreOrthogonalSeparatedAndHaveOneObstacle_CanFindPath()
+//        {
+//            // ..S.......
+//            // ..o.......
+//            // .oX.......
+//            // ..o.......
+//            // ..o.......
+//            // ..E.......
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // X - Obstacles, S - Starting Point, E - Ending Point, o - Expected path
+//            _mapData[2, 2] = 1;
+
+//            List<Node> path = PathFinder.SeekPath(new Node(2, 0), new Node(2, 5), _mapData);
+
+//            Assert.IsNotNull(path);
+//            Assert.AreEqual(6, path.Count);
+//            Assert.AreEqual(new Node(2, 0), path[0]);
+//            Assert.AreEqual(new Node(2, 1), path[1]);
+//            Assert.AreEqual(new Node(1, 2), path[2]);
+//            Assert.AreEqual(new Node(2, 3), path[3]);
+//            Assert.AreEqual(new Node(2, 4), path[4]);
+//            Assert.AreEqual(new Node(2, 5), path[5]);
+//        }
+
+//        [TestMethod]
+//        public void PathFinder_CanDetermineMovementPointCostBetweenTwoNodes()
+//        {
+//            Node startingNode, endingNode;
+
+//            // Starting and Ending location are the same
+//            startingNode = new Node(0, 0);
+//            endingNode = new Node(0, 0);
+//            Assert.AreEqual(0, PathFinder.MovementPointCost(startingNode, endingNode));
+
+//            // Starting and Ending location are in the same line vertically or horizontally
+//            endingNode = new Node(0, 5);
+//            Assert.AreEqual(5, PathFinder.MovementPointCost(startingNode, endingNode));
+//            endingNode = new Node(3, 0);
+//            Assert.AreEqual(3, PathFinder.MovementPointCost(startingNode, endingNode));
+
+//            // Starting and Ending location are exactly diagonal to each other
+//            endingNode = new Node(5, 5);
+//            Assert.AreEqual(5, PathFinder.MovementPointCost(startingNode, endingNode));
+//            endingNode = new Node(3, 3);
+//            Assert.AreEqual(3, PathFinder.MovementPointCost(startingNode, endingNode));
+
+//            // Starting and Ending location are not exactly diagonal or in the same line horizontally or vertically
+//            endingNode = new Node(3, 5);
+//            Assert.AreEqual(5, PathFinder.MovementPointCost(startingNode, endingNode));
+//            endingNode = new Node(6, 1);
+//            Assert.AreEqual(6, PathFinder.MovementPointCost(startingNode, endingNode));
+//        }
+
+//        [TestMethod]
+//        public void PathFinder_WhenMovementPointsIs1_CanFindPossibleMoveLocations()
+//        {
+//            // ......rrr.
+//            // ......rCr.
+//            // ......rrr.
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // X - Obstacles, C - Character, r - Possible move locations (1 Movement Point)
+//            HashSet<Node> possibleMoveLocations = PathFinder.GetPossibleMoveLocations(new Node(7, 1), _mapData, 1);
+
+//            Assert.AreEqual(8, possibleMoveLocations.Count);
+//            AssertPossibleMoveLocationsFor1MovementPoint(possibleMoveLocations);
+//        }
+
+//        [TestMethod]
+//        public void PathFinder_WhenMovementPointsIs1_CanFindPossibleMoveLocationsAndIgnoresUnwalkableLocations()
+//        {
+//            // .rrr......
+//            // .rCr......
+//            // .rXr......
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // X - Obstacles, C - Character, r - Possible move locations (1 Movement Point)
+//            _mapData[2, 2] = 1;
+//            HashSet<Node> possibleMoveLocations = PathFinder.GetPossibleMoveLocations(new Node(2, 1), _mapData, 1);
+
+//            Assert.AreEqual(7, possibleMoveLocations.Count);
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 0)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(2, 0)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 0)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 1)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 1)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 2)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 2)));
+//        }
+
+//        [TestMethod]
+//        public void PathFinder_WhenMovementPointsIs2_CanFindPossibleMoveLocations()
+//        {
+//            // .....rrrrr
+//            // .....rrCrr
+//            // .....rrrrr
+//            // .....rrrrr
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // ..........
+//            // X - Obstacles, C - Character, r - Possible move locations (1 Movement Point)
+//            HashSet<Node> possibleMoveLocations = PathFinder.GetPossibleMoveLocations(new Node(7, 1), _mapData, 2);
+
+//            Assert.AreEqual(19, possibleMoveLocations.Count);
+//            AssertPossibleMoveLocationsFor1MovementPoint(possibleMoveLocations);
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 0)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 0)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 1)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 1)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 2)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 2)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 3)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(6, 3)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(7, 3)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(8, 3)));
+//            Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 3)));
+//        }
+
+//        private void AssertPossibleMoveLocationsFor1MovementPoint(HashSet<Node> moveLocations)
+//        {
+//            Assert.IsTrue(moveLocations.Contains(new Node(6, 0)));
+//            Assert.IsTrue(moveLocations.Contains(new Node(7, 0)));
+//            Assert.IsTrue(moveLocations.Contains(new Node(8, 0)));
+//            Assert.IsTrue(moveLocations.Contains(new Node(6, 1)));
+//            Assert.IsFalse(moveLocations.Contains(new Node(7, 1)));
+//            Assert.IsTrue(moveLocations.Contains(new Node(8, 1)));
+//            Assert.IsTrue(moveLocations.Contains(new Node(6, 2)));
+//            Assert.IsTrue(moveLocations.Contains(new Node(7, 2)));
+//            Assert.IsTrue(moveLocations.Contains(new Node(8, 2)));
+//        }
+//    }
+//}

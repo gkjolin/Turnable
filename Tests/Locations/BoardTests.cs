@@ -16,18 +16,6 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Board_DeterminingObstacles_ConsidersNoTilesAsObstaclesIfALayerDoesNotHaveATrueIsCollisionProperty()
-        {
-            Board board = new Board("../../Fixtures/FullExample.tmx");
-
-            // The example board has a "wall" around the entire 15x15 level
-            Assert.IsFalse(board.IsObstacle(0, 0, 0));
-            Assert.IsFalse(board.IsObstacle(0, 1, 0));
-            Assert.IsFalse(board.IsObstacle(1, 0, 0));
-            Assert.IsFalse(board.IsObstacle(2, 0, 0));
-        }
-
-        [TestMethod]
         public void Board_DeterminingObstacles_TakesIntoAccountLayersHavingTrueForIsCollisionProperty()
         {
             Board board = new Board("../../Fixtures/FullExample.tmx");
@@ -39,6 +27,20 @@ namespace Tests.Locations
             Assert.IsTrue(board.IsObstacle(2, 0, 1));
 
             Assert.IsFalse(board.IsObstacle(1, 1, 1));
+        }
+
+        [TestMethod]
+        public void Board_DeterminingObstacles_TakesIntoAccountObstaclesOnLayerAboveIt()
+        {
+            Board board = new Board("../../Fixtures/FullExample.tmx");
+
+            // The example board has a "wall" around the entire 15x15 level
+            Assert.IsTrue(board.IsObstacle(0, 0, 0));
+            Assert.IsTrue(board.IsObstacle(0, 1, 0));
+            Assert.IsTrue(board.IsObstacle(1, 0, 0));
+            Assert.IsTrue(board.IsObstacle(2, 0, 0));
+
+            Assert.IsFalse(board.IsObstacle(1, 1, 0));
         }
     }
 }
