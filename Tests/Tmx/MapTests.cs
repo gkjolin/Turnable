@@ -29,6 +29,7 @@ namespace Tests.Tmx
             Assert.AreEqual(2, map.Layers["Obstacles"].Properties.Count);
 
             // Tilesets loaded?
+            Assert.AreEqual(1, map.Tilesets.Count);
         }
     }
 }

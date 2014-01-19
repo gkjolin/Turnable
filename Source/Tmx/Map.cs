@@ -15,6 +15,7 @@ namespace TurnItUp.Tmx
         public int TileWidth { get; private set; }
         public int TileHeight { get; private set; }
         public ElementList<Layer> Layers { get; private set; }
+        public ElementList<Tileset> Tilesets { get; private set; }
 
         public Map(string tmxPath)
         {
@@ -32,6 +33,12 @@ namespace TurnItUp.Tmx
             foreach (XElement xLayer in xMap.Elements("layer"))
             {
                 Layers.Add(new Layer(xLayer, Width, Height));
+            }
+
+            Tilesets = new ElementList<Tileset>();
+            foreach (XElement xTileset in xMap.Elements("tileset"))
+            {
+                Tilesets.Add(new Tileset(xTileset));
             }
         }
     }
