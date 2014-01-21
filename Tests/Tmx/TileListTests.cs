@@ -25,7 +25,7 @@ namespace Tests.Tmx
             TileList tileList = new TileList(TmxFactory.BuildDataWithTiles(), 15, 15);
 
             Assert.AreEqual(225, tileList.Count);
-            Assert.AreEqual((uint)59, tileList[new Tuple<int, int>(4, 5)].Gid);
+            Assert.AreEqual((uint)382, tileList[new Tuple<int, int>(4, 5)].Gid);
             Assert.AreEqual(4, tileList[new Tuple<int, int>(4, 5)].X);
             Assert.AreEqual(5, tileList[new Tuple<int, int>(4, 5)].Y);
         }

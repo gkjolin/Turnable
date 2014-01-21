@@ -15,9 +15,25 @@ namespace Tests.Tmx
         {
             PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
  
-            Assert.AreEqual(2, properties.Count);
-            Assert.AreEqual("true", properties["IsCollision"]);
-            Assert.AreEqual("Value", properties["Name"]);
+            Assert.AreEqual(1, properties.Count);
+            Assert.AreEqual("true", properties["IsCharacters"]);
+        }
+
+        [TestMethod]
+        public void PropertyDictionary_GivenAPropertyNameThatDiffersByCase_IgnoresCase()
+        {
+            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+
+            Assert.AreEqual("true", properties["ischaracters"]);
+        }
+
+        [TestMethod]
+        public void PropertyDictionary_WhenAskedToRetrieveAProperty_ReturnsValueInLowerCase()
+        {
+            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+
+            properties["IsCharacters"] = "TRUE";
+            Assert.AreEqual("true", properties["IsCharacters"]);
         }
     }
 }

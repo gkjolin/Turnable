@@ -41,5 +41,18 @@ namespace TurnItUp.Tmx
                 Tilesets.Add(new Tileset(xTileset));
             }
         }
+
+        public Layer FindLayerByProperty(string propertyName, string propertyValue)
+        {
+            foreach (Layer layer in Layers)
+            {
+                if (layer.Properties != null && layer.Properties.ContainsKey(propertyName) && layer.Properties[propertyName] == propertyValue)
+                {
+                    return layer;
+                }
+            }
+
+            return null;
+        }
     }
 }

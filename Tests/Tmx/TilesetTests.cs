@@ -21,6 +21,45 @@ namespace Tests.Tmx
             Assert.AreEqual(24, tileset.TileHeight);
             Assert.AreEqual(0, tileset.Spacing);
             Assert.AreEqual(0, tileset.Margin);
+            Assert.IsNotNull(tileset.ReferenceTiles);
+        }
+
+        [TestMethod]
+        public void Tileset_ConstructionUsingTilesetDataWithReferenceTiles_IsSuccessful()
+        {
+            Tileset tileset = new Tileset(TmxFactory.BuildTilesetXElementWithReferenceTiles());
+
+            Assert.AreEqual(2107, tileset.FirstGid);
+            Assert.AreEqual("Characters", tileset.Name);
+            Assert.AreEqual(24, tileset.TileWidth);
+            Assert.AreEqual(24, tileset.TileHeight);
+            Assert.AreEqual(0, tileset.Spacing);
+            Assert.AreEqual(0, tileset.Margin);
+
+            // Have the reference tiles been loaded with their properties?
+            Assert.AreEqual(1, tileset.ReferenceTiles.Count);
+            Assert.AreEqual(1, tileset.ReferenceTiles[0].Properties.Count);
+        }
+
+        [TestMethod]
+        public void Tileset_GivenAPropertyNameAndValue_CanFindAReferenceTile()
+        {
+            Tileset tileset = TmxFactory.BuildTileset();
+
+            ReferenceTile referenceTile = tileset.FindReferenceTileByProperty("IsPlayer", "true");
+
+            Assert.IsNotNull(referenceTile);
+            Assert.AreEqual("true", referenceTile.Properties["IsPlayer"]);
+        }
+
+        [TestMethod]
+        public void Tileset_GivenAPropertyNameAndValue_ReturnsNullIfReferenceTileWithPropertyCannotBeFound()
+        {
+            Tileset tileset = TmxFactory.BuildTileset();
+
+            ReferenceTile referenceTile = tileset.FindReferenceTileByProperty("IsPlayer", "false");
+
+            Assert.IsNull(referenceTile);
         }
     }
 }

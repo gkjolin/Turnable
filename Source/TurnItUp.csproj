@@ -45,11 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Characters\Character.cs" />
+    <Compile Include="Characters\TurnManager.cs" />
+    <Compile Include="Components\Position.cs" />
     <Compile Include="Locations\Board.cs" />
     <Compile Include="Pathfinding\Node.cs" />
     <Compile Include="Pathfinding\NodeList.cs" />
     <Compile Include="Pathfinding\PathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tmx\ReferenceTile.cs" />
     <Compile Include="Tmx\Tile.cs" />
     <Compile Include="Tmx\Tileset.cs" />
     <Compile Include="Tmx\ElementList.cs" />

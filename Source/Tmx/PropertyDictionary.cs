@@ -10,11 +10,23 @@ namespace TurnItUp.Tmx
 {
     public class PropertyDictionary : Dictionary<string, string>
     {
-        public PropertyDictionary(IEnumerable<XElement> xProperties)
+        public PropertyDictionary(IEnumerable<XElement> xProperties) : base(StringComparer.OrdinalIgnoreCase)
         {
             foreach (XElement xProperty in xProperties)
             {
                 Add((string)xProperty.Attribute("name"), (string)xProperty.Attribute("value"));
+            }
+        }
+
+        public string this[string key]
+        {
+            get 
+            {
+                return base[key].ToLower();
+            }
+            set
+            {
+                base[key] = value;
             }
         }
     }

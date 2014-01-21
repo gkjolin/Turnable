@@ -13,6 +13,11 @@ namespace Tests.Locations
             Board board = new Board("../../Fixtures/FullExample.tmx");
 
             Assert.IsNotNull(board.Map);
+
+            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
+            Assert.IsNotNull(board.TurnManager);
+            Assert.IsNotNull(board.TurnManager.TurnQueue);
+            Assert.AreEqual(9, board.TurnManager.TurnQueue.Count);
         }
 
         [TestMethod]

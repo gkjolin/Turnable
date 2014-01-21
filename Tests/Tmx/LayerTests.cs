@@ -30,17 +30,17 @@ namespace Tests.Tmx
         {
             Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties(), 15, 15);
 
-            Assert.AreEqual("Obstacles", layer.Name);
+            Assert.AreEqual("Characters", layer.Name);
             Assert.AreEqual(15, layer.Width);
             Assert.AreEqual(15, layer.Height);
             Assert.AreEqual(1.0, layer.Opacity);
             Assert.AreEqual(true, layer.IsVisible);
 
             // Are Tiles in the layer created?
-            Assert.AreEqual(69, layer.Tiles.Count);
+            Assert.AreEqual(9, layer.Tiles.Count);
 
             // Are the Properties for this Layer loaded?
-            Assert.AreEqual(2, layer.Properties.Count);
+            Assert.AreEqual(1, layer.Properties.Count);
         }
     }
 }
