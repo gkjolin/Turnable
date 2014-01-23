@@ -37,5 +37,13 @@ namespace TurnItUp.Tmx
                 Properties = new PropertyDictionary(xProperties);
             }
         }
+
+        public void UnsetTile(int x, int y)
+        {
+            if (Tiles.ContainsKey(new System.Tuples.Tuple<int,int>(x, y)))
+            {
+                Tiles.Remove(new System.Tuples.Tuple<int,int>(x, y));
+            }
+        }
     }
 }

@@ -25,8 +25,8 @@ namespace Tests.Tmx
             // Map attributes correctly loaded?
             Assert.AreEqual("1.0", map.Version);
             Assert.AreEqual(Orientation.Orthogonal, map.Orientation);
-            Assert.AreEqual(15, map.Width);
-            Assert.AreEqual(15, map.Height);
+            Assert.AreEqual(16, map.Width);
+            Assert.AreEqual(16, map.Height);
             Assert.AreEqual(24, map.TileWidth);
             Assert.AreEqual(24, map.TileHeight);
 

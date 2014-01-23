@@ -47,5 +47,19 @@ namespace Tests.Locations
 
             Assert.IsFalse(board.IsObstacle(1, 1, 0));
         }
+
+        [TestMethod]
+        public void Board_DeterminingObstacles_TakesIntoAccountObstaclesOnLayerBelowIt()
+        {
+            Board board = new Board("../../Fixtures/FullExample.tmx");
+
+            // The example board has a "wall" around the entire 15x15 level
+            Assert.IsTrue(board.IsObstacle(0, 0, 2));
+            Assert.IsTrue(board.IsObstacle(0, 1, 2));
+            Assert.IsTrue(board.IsObstacle(1, 0, 2));
+            Assert.IsTrue(board.IsObstacle(2, 0, 2));
+
+            Assert.IsFalse(board.IsObstacle(1, 1, 2));
+        }
     }
 }

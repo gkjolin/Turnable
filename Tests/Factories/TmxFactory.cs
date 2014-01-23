@@ -16,7 +16,7 @@ namespace Tests.Factories
 
         public static Layer BuildLayer()
         {
-            return (new Layer(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>(), 15, 15));
+            return (new Layer(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>(), 16, 16));
         }
 
         public static Tileset BuildTileset()

@@ -10,7 +10,7 @@ namespace Tests.Characters
     public class TurnManagerTests
     {
         [TestMethod]
-        public void TurnManager_Construction_IsConstructedAsWell()
+        public void TurnManager_Construction_IsSuccessful()
         {
             Board board = LocationsFactory.BuildBoard();
 

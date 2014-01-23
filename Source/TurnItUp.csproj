@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Characters\Character.cs" />
+    <Compile Include="Characters\CharacterManager.cs" />
     <Compile Include="Characters\TurnManager.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Locations\Board.cs" />

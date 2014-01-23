@@ -56,12 +56,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Characters\CharacterManagerTests.cs" />
     <Compile Include="Characters\CharacterTests.cs" />
     <Compile Include="Characters\TurnManagerTests.cs" />
     <Compile Include="Components\PositionTests.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TmxFactory.cs" />
     <Compile Include="Locations\BoardTests.cs" />
+    <Compile Include="Locations\Direction.cs" />
     <Compile Include="Pathfinding\NodeListTests.cs" />
     <Compile Include="Pathfinding\NodeTests.cs" />
     <Compile Include="Pathfinding\PathFinderTests.cs" />

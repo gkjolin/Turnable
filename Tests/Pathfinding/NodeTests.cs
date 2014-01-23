@@ -196,7 +196,7 @@ namespace Tests.Pathfinding
             _node = new Node(-1, -1);
             Assert.IsFalse(_node.IsWithinBounds(_board));
 
-            _node = new Node(15, 15);
+            _node = new Node(16, 16);
             Assert.IsFalse(_node.IsWithinBounds(_board));
         }
 
