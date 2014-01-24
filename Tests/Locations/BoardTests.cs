@@ -18,6 +18,8 @@ namespace Tests.Locations
             Assert.IsNotNull(board.TurnManager);
             Assert.IsNotNull(board.TurnManager.TurnQueue);
             Assert.AreEqual(9, board.TurnManager.TurnQueue.Count);
+            Assert.IsNotNull(board.CharacterManager);
+            Assert.AreEqual(9, board.CharacterManager.Characters.Count);
         }
 
         [TestMethod]

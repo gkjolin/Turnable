@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Tests.Locations
+namespace TurnItUp.Locations
 {
     public enum Direction
     {
         Up,
         Down,
-        Left, 
+        Left,
         Right
     }
 }

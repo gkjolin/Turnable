@@ -12,6 +12,7 @@ namespace TurnItUp.Locations
     {
         public Map Map { get; private set; }
         public TurnManager TurnManager { get; set; }
+        public CharacterManager CharacterManager { get; set; }
 
         public Board(string tmxPath)
         {
@@ -22,6 +23,7 @@ namespace TurnItUp.Locations
             if (charactersLayer != null)
             {
                 TurnManager = new TurnManager(Map.Tilesets["Characters"], Map.Layers["Characters"]);
+                CharacterManager = new CharacterManager(Map.Tilesets["Characters"], Map.Layers["Characters"]);
             }
         }
 

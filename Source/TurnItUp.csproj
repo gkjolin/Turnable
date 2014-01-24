@@ -50,6 +50,7 @@
     <Compile Include="Characters\TurnManager.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Locations\Board.cs" />
+    <Compile Include="Locations\Direction.cs" />
     <Compile Include="Pathfinding\Node.cs" />
     <Compile Include="Pathfinding\NodeList.cs" />
     <Compile Include="Pathfinding\PathFinder.cs" />

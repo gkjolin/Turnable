@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.Locations;
 using TurnItUp.Tmx;
 
 namespace TurnItUp.Characters
@@ -27,6 +28,25 @@ namespace TurnItUp.Characters
                 }
 
                 Characters.Add(character);
+            }
+        }
+
+        public void MovePlayer(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    PlayerCharacter.Position.Y--;
+                    break;
+                case Direction.Down:
+                    PlayerCharacter.Position.Y++;
+                    break;
+                case Direction.Left:
+                    PlayerCharacter.Position.X--;
+                    break;
+                case Direction.Right:
+                    PlayerCharacter.Position.X++;
+                    break;
             }
         }
     }

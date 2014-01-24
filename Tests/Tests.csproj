@@ -63,7 +63,6 @@
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TmxFactory.cs" />
     <Compile Include="Locations\BoardTests.cs" />
-    <Compile Include="Locations\Direction.cs" />
     <Compile Include="Pathfinding\NodeListTests.cs" />
     <Compile Include="Pathfinding\NodeTests.cs" />
     <Compile Include="Pathfinding\PathFinderTests.cs" />
