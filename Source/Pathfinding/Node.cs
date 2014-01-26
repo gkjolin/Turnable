@@ -118,7 +118,7 @@ namespace TurnItUp.Pathfinding
 
         public bool IsWalkable(Board board)
         {
-            return (IsWithinBounds(board) && !board.IsObstacle(X, Y, 0));
+            return (IsWithinBounds(board) && !board.IsObstacle(X, Y));
         }
 
         public bool IsOrthogonalTo(Node other)

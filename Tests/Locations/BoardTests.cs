@@ -7,61 +7,48 @@ namespace Tests.Locations
     [TestClass]
     public class BoardTests
     {
-        [TestMethod]
-        public void Board_ConstructionFromTmxTileMap_IsSuccessful()
+        private Board _board;
+
+        [TestInitialize]
+        public void Initialize()
         {
-            Board board = new Board("../../Fixtures/FullExample.tmx");
+            _board = new Board();
+            _board.Initialize("../../Fixtures/FullExample.tmx");
+        }
+
+        [TestMethod]
+        public void Board_Initialization_LoadsMapAndSetsParentReferences()
+        {
+            Board board = new Board();
+            board.Initialize("../../Fixtures/FullExample.tmx");
 
             Assert.IsNotNull(board.Map);
 
             // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
             Assert.IsNotNull(board.TurnManager);
-            Assert.IsNotNull(board.TurnManager.TurnQueue);
             Assert.AreEqual(9, board.TurnManager.TurnQueue.Count);
+            Assert.AreEqual(board, board.TurnManager.Board);
             Assert.IsNotNull(board.CharacterManager);
             Assert.AreEqual(9, board.CharacterManager.Characters.Count);
+            Assert.AreEqual(board, board.CharacterManager.Board);
         }
 
         [TestMethod]
-        public void Board_DeterminingObstacles_TakesIntoAccountLayersHavingTrueForIsCollisionProperty()
+        public void Board_DeterminingObstacles_TakesIntoAccountLayerHavingTrueForIsCollisionProperty()
         {
-            Board board = new Board("../../Fixtures/FullExample.tmx");
-
             // The example board has a "wall" around the entire 15x15 level
-            Assert.IsTrue(board.IsObstacle(0, 0, 1));
-            Assert.IsTrue(board.IsObstacle(0, 1, 1));
-            Assert.IsTrue(board.IsObstacle(1, 0, 1));
-            Assert.IsTrue(board.IsObstacle(2, 0, 1));
+            Assert.IsTrue(_board.IsObstacle(0, 0));
+            Assert.IsTrue(_board.IsObstacle(0, 1));
+            Assert.IsTrue(_board.IsObstacle(1, 0));
+            Assert.IsTrue(_board.IsObstacle(2, 0));
 
-            Assert.IsFalse(board.IsObstacle(1, 1, 1));
+            Assert.IsFalse(_board.IsObstacle(1, 1));
         }
 
         [TestMethod]
-        public void Board_DeterminingObstacles_TakesIntoAccountObstaclesOnLayerAboveIt()
+        public void Board_DeterminingIfCharacterIsAtAPosition_IsSuccessful()
         {
-            Board board = new Board("../../Fixtures/FullExample.tmx");
-
-            // The example board has a "wall" around the entire 15x15 level
-            Assert.IsTrue(board.IsObstacle(0, 0, 0));
-            Assert.IsTrue(board.IsObstacle(0, 1, 0));
-            Assert.IsTrue(board.IsObstacle(1, 0, 0));
-            Assert.IsTrue(board.IsObstacle(2, 0, 0));
-
-            Assert.IsFalse(board.IsObstacle(1, 1, 0));
-        }
-
-        [TestMethod]
-        public void Board_DeterminingObstacles_TakesIntoAccountObstaclesOnLayerBelowIt()
-        {
-            Board board = new Board("../../Fixtures/FullExample.tmx");
-
-            // The example board has a "wall" around the entire 15x15 level
-            Assert.IsTrue(board.IsObstacle(0, 0, 2));
-            Assert.IsTrue(board.IsObstacle(0, 1, 2));
-            Assert.IsTrue(board.IsObstacle(1, 0, 2));
-            Assert.IsTrue(board.IsObstacle(2, 0, 2));
-
-            Assert.IsFalse(board.IsObstacle(1, 1, 2));
+            Assert.IsTrue(_board.IsCharacterAt(_board.CharacterManager.Characters[0].Position.X, _board.CharacterManager.Characters[0].Position.Y));
         }
     }
 }

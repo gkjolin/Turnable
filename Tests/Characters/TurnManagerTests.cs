@@ -14,8 +14,9 @@ namespace Tests.Characters
         {
             Board board = LocationsFactory.BuildBoard();
 
-            TurnManager turnManager = new TurnManager(board.Map.Tilesets["Characters"], board.Map.Layers["Characters"]);
+            TurnManager turnManager = new TurnManager(board);
 
+            Assert.AreEqual(turnManager.Board, board);
             Assert.IsNotNull(turnManager.TurnQueue);
             Assert.AreEqual(9, turnManager.TurnQueue.Count);
             Assert.IsTrue(turnManager.TurnQueue[0].IsPlayer);

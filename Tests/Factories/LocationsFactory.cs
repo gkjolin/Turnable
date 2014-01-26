@@ -12,7 +12,10 @@ namespace Tests.Factories
     {
         public static Board BuildBoard()
         {
-            return new Board("../../Fixtures/FullExample.tmx");
+            Board board = new Board();
+            board.Initialize("../../Fixtures/FullExample.tmx");
+
+            return board;
         }
     }
 }

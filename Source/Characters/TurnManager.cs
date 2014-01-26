@@ -10,9 +10,13 @@ namespace TurnItUp.Characters
     public class TurnManager
     {
         public List<Character> TurnQueue { get; private set; }
+        public Board Board { get; private set; }
 
-        public TurnManager(Tileset characterTileset, Layer characterlayer)
+        public TurnManager(Board board)
         {
+            Tileset characterTileset = board.Map.Tilesets["Characters"];
+            Layer characterlayer = board.Map.Layers["Characters"];
+
             TurnQueue = new List<Character>();
             Character playerCharacter = null;
 
@@ -32,6 +36,8 @@ namespace TurnItUp.Characters
 
             TurnQueue.Remove(playerCharacter);
             TurnQueue.Insert(0, playerCharacter);
+
+            Board = board;
         }
     }
 }
