@@ -49,6 +49,7 @@
     <Compile Include="Characters\CharacterManager.cs" />
     <Compile Include="Characters\TurnManager.cs" />
     <Compile Include="Components\Position.cs" />
+    <Compile Include="Interfaces\ICharacterManager.cs" />
     <Compile Include="Locations\Board.cs" />
     <Compile Include="Locations\MoveResult.cs" />
     <Compile Include="Locations\Direction.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Tmx\Map.cs" />
     <Compile Include="Tmx\Orientation.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

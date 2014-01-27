@@ -93,7 +93,7 @@ namespace TurnItUp.Pathfinding
             return !(node1 == node2);
         }
 
-        public List<Node> GetAdjacentNodes(Board board)
+        public List<Node> GetAdjacentNodes(Board board, bool allowDiagonalNodes = true)
         {
             List<Node> returnValue = new List<Node>();
 
@@ -105,6 +105,13 @@ namespace TurnItUp.Pathfinding
 
                     returnValue.Add(new Node(x, y));
                 }
+            }
+
+            // Remove nodes that are diagonal if we only want to find orthogonal nodes. 
+            // This is used when the PathFinder is not allowed to use diagonal movement.
+            if (!allowDiagonalNodes)
+            {
+                returnValue = returnValue.FindAll(n => n.IsOrthogonalTo(this));
             }
 
             return returnValue.FindAll(n => n.IsWithinBounds(board));

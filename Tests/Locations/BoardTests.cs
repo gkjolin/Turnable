@@ -1,6 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.Locations;
+using TurnItUp.Interfaces;
+using Moq;
+using TurnItUp.Components;
+using System.Collections.Generic;
 
 namespace Tests.Locations
 {
@@ -8,12 +12,14 @@ namespace Tests.Locations
     public class BoardTests
     {
         private Board _board;
+        private Mock<ICharacterManager> _characterManagerMock;
 
         [TestInitialize]
         public void Initialize()
         {
             _board = new Board();
             _board.Initialize("../../Fixtures/FullExample.tmx");
+            _characterManagerMock = new Mock<ICharacterManager>();
         }
 
         [TestMethod]
@@ -45,10 +51,23 @@ namespace Tests.Locations
             Assert.IsFalse(_board.IsObstacle(1, 1));
         }
 
+        // Facade implementation tests
         [TestMethod]
-        public void Board_DeterminingIfCharacterIsAtAPosition_IsSuccessful()
+        public void Board_DeterminingIfCharacterIsAtAPosition_DelegatesToCharacterManager()
         {
-            Assert.IsTrue(_board.IsCharacterAt(_board.CharacterManager.Characters[0].Position.X, _board.CharacterManager.Characters[0].Position.Y));
+            _board.CharacterManager = _characterManagerMock.Object;
+
+            _board.IsCharacterAt(0, 0);
+            _characterManagerMock.Verify(cm => cm.IsCharacterAt(0, 0));
+        }
+
+        [TestMethod]
+        public void Board_MovingAPlayer_DelegatesToCharacterManager()
+        {
+            _board.CharacterManager = _characterManagerMock.Object;
+
+            _board.MovePlayer(Direction.Down);
+            _characterManagerMock.Verify(cm => cm.MovePlayer(Direction.Down));
         }
     }
 }

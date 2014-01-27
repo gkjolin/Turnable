@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Tuples;
 using TurnItUp.Components;
+using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 using TurnItUp.Tmx;
 
 namespace TurnItUp.Characters
 {
-    public class CharacterManager
+    public class CharacterManager : ICharacterManager
     {
-        public List<Character> Characters { get; private set; }
-        public Character PlayerCharacter { get; private set; }
-        public Board Board { get; private set; }
+        public List<Character> Characters { get; set; }
+        public Character PlayerCharacter { get; set; }
+        public Board Board { get; set; }
 
         public bool IsCharacterAt(int x, int y)
         {

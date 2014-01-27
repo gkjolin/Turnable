@@ -5,6 +5,8 @@ using System.Text;
 using TurnItUp.Tmx;
 using System.Tuples;
 using TurnItUp.Characters;
+using TurnItUp.Components;
+using TurnItUp.Interfaces;
 
 namespace TurnItUp.Locations
 {
@@ -14,7 +16,7 @@ namespace TurnItUp.Locations
 
         public Map Map { get; private set; }
         public TurnManager TurnManager { get; set; }
-        public CharacterManager CharacterManager { get; set; }
+        public ICharacterManager CharacterManager { get; set; }
 
         public void Initialize(string tmxPath)
         {
@@ -41,12 +43,11 @@ namespace TurnItUp.Locations
         public bool IsCharacterAt(int x, int y)
         {
             return CharacterManager.IsCharacterAt(x, y);
-            Layer obstacleLayer = Map.FindLayerByProperty("IsCollision", "true");
+        }
 
-            // No obstacle layer exists. Currently the only way to mark obstacles is to use a layer in Tiled that has a IsCollision propert with the value "true"
-            if (obstacleLayer == null) return false;
-
-            return (obstacleLayer.Tiles.ContainsKey(new Tuple<int, int>(x, y)));
+        public Tuple<MoveResult, List<Position>> MovePlayer(Direction direction)
+        {
+            return CharacterManager.MovePlayer(direction);
         }
     }
 }

@@ -219,6 +219,20 @@ namespace Tests.Pathfinding
         }
 
         [TestMethod]
+        public void Node_CanFindOnlyOrthogonallyAdjacentNodes()
+        {
+            _node = new Node(5, 5);
+
+            List<Node> adjacentNodes = _node.GetAdjacentNodes(_board, false);
+
+            Assert.AreEqual(4, adjacentNodes.Count);
+            Assert.IsTrue(adjacentNodes.Contains(new Node(5, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(4, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(6, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(5, 6)));
+        }
+
+        [TestMethod]
         public void Node_CanFindAdjacentNodes_AndDisregardsNodesThatAreOutOfBounds()
         {
             _node = new Node(0, 0);

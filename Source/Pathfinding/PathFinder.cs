@@ -10,6 +10,8 @@ namespace TurnItUp.Pathfinding
     // http://www.policyalmanac.org/games/aStarTutorial.htm
     public class PathFinder
     {
+        public static bool AllowDiagonalMovement = true;
+
         public static List<Node> SeekPath(Node startingNode, Node endingNode, Board board)
         {
             NodeList openNodes = new NodeList();
@@ -37,7 +39,7 @@ namespace TurnItUp.Pathfinding
                     break;
                 }
 
-                foreach (Node adjacentNode in currentNode.GetAdjacentNodes(board))
+                foreach (Node adjacentNode in currentNode.GetAdjacentNodes(board, AllowDiagonalMovement))
                 {
                     // If it is not walkable or if it is on the closed list, ignore it.
                     if (closedNodes.Find(x => x == adjacentNode) != null || !(adjacentNode.IsWalkable(board)))
