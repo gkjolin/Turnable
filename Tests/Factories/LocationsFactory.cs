@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using TurnItUp.Tmx;
 using TurnItUp.Locations;
+using Entropy;
 
 namespace Tests.Factories
 {
@@ -12,8 +13,9 @@ namespace Tests.Factories
     {
         public static Board BuildBoard()
         {
+            World world = new World();
             Board board = new Board();
-            board.Initialize("../../Fixtures/FullExample.tmx");
+            board.Initialize(world, "../../Fixtures/FullExample.tmx");
 
             return board;
         }

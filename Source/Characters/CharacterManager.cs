@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entropy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,31 +13,38 @@ namespace TurnItUp.Characters
 {
     public class CharacterManager : ICharacterManager
     {
-        public List<Character> Characters { get; set; }
-        public Character PlayerCharacter { get; set; }
+        public List<Entity> Characters { get; set; }
+        public Entity Player { get; set; }
         public Board Board { get; set; }
 
         public bool IsCharacterAt(int x, int y)
         {
-            return Characters.Find(c => c.Position == new Position(x, y)) != null;
+            return Characters.Find(c => c.GetComponent<Position>() == new Position(x, y)) != null;
         }
 
-        public CharacterManager(Board board)
+        public CharacterManager(World world, Board board)
         {
             Tileset characterTileset = board.Map.Tilesets["Characters"];
             Layer characterLayer = board.Map.Layers["Characters"];
-            Characters = new List<Character>();
+            Characters = new List<Entity>();
 
             foreach (Tile tile in characterLayer.Tiles.Values)
             {
-                Character character = new Character(tile.X, tile.Y);
+                Entity character = null;
                 ReferenceTile referenceTile = characterTileset.FindReferenceTileByProperty("IsPlayer", "true");
 
                 if (referenceTile != null && referenceTile.Id == ((int)tile.Gid - characterTileset.FirstGid))
                 {
-                    PlayerCharacter = character;
-                    PlayerCharacter.IsPlayer = true;
+                    character = world.CreateEntityFromTemplate<PC>();
+                    Player = character;
                 }
+                else
+                {
+                    character = world.CreateEntityFromTemplate<Npc>();
+                }
+
+                character.GetComponent<Position>().X = tile.X;
+                character.GetComponent<Position>().Y = tile.Y;
 
                 Characters.Add(character);
             }
@@ -48,22 +56,22 @@ namespace TurnItUp.Characters
         {
             Tuple<MoveResult, List<Position>> returnValue = new Tuple<MoveResult, List<Position>>();
             List<Position> positionChanges = new List<Position>();
-            positionChanges.Add(PlayerCharacter.Position.DeepClone());
+            positionChanges.Add(Player.GetComponent<Position>().DeepClone());
             Position newPosition = new Position(0, 0);
 
             switch (direction)
             {
                 case Direction.Up:
-                    newPosition = new Position(PlayerCharacter.Position.X, PlayerCharacter.Position.Y - 1);
+                    newPosition = new Position(Player.GetComponent<Position>().X, Player.GetComponent<Position>().Y - 1);
                     break;
                 case Direction.Down:
-                    newPosition = new Position(PlayerCharacter.Position.X, PlayerCharacter.Position.Y + 1);
+                    newPosition = new Position(Player.GetComponent<Position>().X, Player.GetComponent<Position>().Y + 1);
                     break;
                 case Direction.Left:
-                    newPosition = new Position(PlayerCharacter.Position.X - 1, PlayerCharacter.Position.Y);
+                    newPosition = new Position(Player.GetComponent<Position>().X - 1, Player.GetComponent<Position>().Y);
                     break;
                 case Direction.Right:
-                    newPosition = new Position(PlayerCharacter.Position.X + 1, PlayerCharacter.Position.Y);
+                    newPosition = new Position(Player.GetComponent<Position>().X + 1, Player.GetComponent<Position>().Y);
                     break;
             }
 
@@ -77,8 +85,8 @@ namespace TurnItUp.Characters
             }
             else
             {
-                PlayerCharacter.Position.X = newPosition.X;
-                PlayerCharacter.Position.Y = newPosition.Y;
+                Player.GetComponent<Position>().X = newPosition.X;
+                Player.GetComponent<Position>().Y = newPosition.Y;
                 returnValue.Element1 = MoveResult.Success;
             }
 

@@ -5,6 +5,7 @@ using TurnItUp.Interfaces;
 using Moq;
 using TurnItUp.Components;
 using System.Collections.Generic;
+using Entropy;
 
 namespace Tests.Locations
 {
@@ -13,12 +14,14 @@ namespace Tests.Locations
     {
         private Board _board;
         private Mock<ICharacterManager> _characterManagerMock;
+        private World _world;
 
         [TestInitialize]
         public void Initialize()
         {
+            _world = new World();
             _board = new Board();
-            _board.Initialize("../../Fixtures/FullExample.tmx");
+            _board.Initialize(_world, "../../Fixtures/FullExample.tmx");
             _characterManagerMock = new Mock<ICharacterManager>();
         }
 
@@ -26,7 +29,7 @@ namespace Tests.Locations
         public void Board_Initialization_LoadsMapAndSetsParentReferences()
         {
             Board board = new Board();
-            board.Initialize("../../Fixtures/FullExample.tmx");
+            board.Initialize(_world, "../../Fixtures/FullExample.tmx");
 
             Assert.IsNotNull(board.Map);
 

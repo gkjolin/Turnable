@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Entropy">
+      <HintPath>..\Dependencies\Entropy.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zlib">
       <HintPath>..\Dependencies\Ionic.Zlib.dll</HintPath>
     </Reference>
@@ -47,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Characters\CharacterManager.cs" />
+    <Compile Include="Characters\Npc.cs" />
+    <Compile Include="Characters\PC.cs" />
     <Compile Include="Characters\TurnManager.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Interfaces\ICharacterManager.cs" />

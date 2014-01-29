@@ -7,6 +7,7 @@ using System.Tuples;
 using TurnItUp.Characters;
 using TurnItUp.Components;
 using TurnItUp.Interfaces;
+using Entropy;
 
 namespace TurnItUp.Locations
 {
@@ -18,7 +19,7 @@ namespace TurnItUp.Locations
         public TurnManager TurnManager { get; set; }
         public ICharacterManager CharacterManager { get; set; }
 
-        public void Initialize(string tmxPath)
+        public void Initialize(World world, string tmxPath)
         {
             Map = new Map(tmxPath);
             Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
@@ -26,7 +27,7 @@ namespace TurnItUp.Locations
             if (charactersLayer != null)
             {
                 TurnManager = new TurnManager(this);
-                CharacterManager = new CharacterManager(this);
+                CharacterManager = new CharacterManager(world, this);
             }
         }
 

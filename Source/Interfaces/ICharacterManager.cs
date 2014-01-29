@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entropy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,9 @@ namespace TurnItUp.Interfaces
 {
     public interface ICharacterManager
     {
-        List<Character> Characters { get; set; }
+        List<Entity> Characters { get; set; }
         Board Board { get; set; }
-        Character PlayerCharacter { get; set; }
+        Entity Player { get; set; }
 
         bool IsCharacterAt(int x, int y);
         Tuple<MoveResult, List<Position>> MovePlayer(Direction direction);

@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Entropy">
+      <HintPath>..\Dependencies\Entropy.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\Source\packages\Moq.4.2.1312.1622\lib\net35\Moq.dll</HintPath>
     </Reference>
@@ -61,7 +64,10 @@
   <ItemGroup>
     <Compile Include="Characters\CharacterManagerTests.cs" />
     <Compile Include="Characters\CharacterTests.cs" />
+    <Compile Include="Characters\NpcTests.cs" />
+    <Compile Include="Characters\PCTests.cs" />
     <Compile Include="Characters\TurnManagerTests.cs" />
+    <Compile Include="Components\MobileTests.cs" />
     <Compile Include="Components\PositionTests.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TmxFactory.cs" />
@@ -91,6 +97,9 @@
     <None Include="Fixtures\MinimalBase64Gzip.tmx" />
     <None Include="Fixtures\MinimalBase64Zlib.tmx" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AI\Agent\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

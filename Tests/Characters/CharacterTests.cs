@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.Characters;
+using Entropy;
 
 namespace Tests.Characters
 {

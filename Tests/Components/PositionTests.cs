@@ -1,12 +1,30 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.Components;
+using Entropy;
 
 namespace Tests.Components
 {
     [TestClass]
     public class PositionTests
     {
+        [TestMethod]
+        public void Position_IsAnEntropyComponent()
+        {
+            Position position = new Position(1, 2);
+
+            Assert.IsInstanceOfType(position, typeof(IComponent));
+        }
+
+        [TestMethod]
+        public void Position_HasADefaultConstructor()
+        {
+            Position position = new Position();
+
+            Assert.AreEqual(0, position.X);
+            Assert.AreEqual(0, position.Y);
+        }
+
         [TestMethod]
         public void Position_Construction_IsSuccessful()
         {
