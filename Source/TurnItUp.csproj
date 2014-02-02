@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\Goals\Goal.cs" />
+    <Compile Include="AI\Goals\GoalProcessResult.cs" />
+    <Compile Include="AI\State Machines\StateMachine.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Characters\CharacterManager.cs" />
     <Compile Include="Characters\Npc.cs" />
@@ -55,6 +58,7 @@
     <Compile Include="Characters\TurnManager.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Interfaces\ICharacterManager.cs" />
+    <Compile Include="Interfaces\IState.cs" />
     <Compile Include="Locations\Board.cs" />
     <Compile Include="Locations\MoveResult.cs" />
     <Compile Include="Locations\Direction.cs" />

@@ -10,9 +10,14 @@ namespace TurnItUp.Pathfinding
     // http://www.policyalmanac.org/games/aStarTutorial.htm
     public class PathFinder
     {
-        public static bool AllowDiagonalMovement = true;
+        public bool AllowDiagonalMovement { get; private set; }
 
-        public static List<Node> SeekPath(Node startingNode, Node endingNode, Board board)
+        public PathFinder(bool allowDiagonalMovement)
+        {
+            AllowDiagonalMovement = allowDiagonalMovement;
+        }
+
+        public List<Node> SeekPath(Node startingNode, Node endingNode, Board board)
         {
             NodeList openNodes = new NodeList();
             NodeList closedNodes = new NodeList();
@@ -101,10 +106,17 @@ namespace TurnItUp.Pathfinding
             }
         }
 
-        //public static int MovementPointCost(Node startingNode, Node endingNode)
-        //{
-        //    return Math.Max(Math.Abs(startingNode.X - endingNode.X), Math.Abs(startingNode.Y - endingNode.Y)); 
-        //}
+        public int MovementPointCost(Node startingNode, Node endingNode)
+        {
+            if (AllowDiagonalMovement)
+            {
+                return Math.Max(Math.Abs(startingNode.X - endingNode.X), Math.Abs(startingNode.Y - endingNode.Y));
+            }
+            else
+            {
+                return (Math.Abs(startingNode.X - endingNode.X) + Math.Abs(startingNode.Y - endingNode.Y));
+            }
+        }
 
         //public static HashSet<Node> GetPossibleMoveLocations(Node startingNode, int[,] mapData, int movementPoints)
         //{
@@ -125,6 +137,21 @@ namespace TurnItUp.Pathfinding
         //    returnValue.RemoveWhere(n => !n.IsWalkable(mapData));
         //    return returnValue;
         //}
+
+        public object ClosestNode(Node startingNode, List<Node> candidateNodes)
+        {
+            Node returnValue = candidateNodes[0];
+
+            foreach (Node node in candidateNodes)
+            {
+                if (MovementPointCost(startingNode, node) <= MovementPointCost(startingNode, returnValue))
+                {
+                    returnValue = node;
+                }
+            }
+
+            return returnValue;
+        }
     }
 }
 
