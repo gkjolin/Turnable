@@ -16,6 +16,7 @@ namespace TurnItUp.Characters
         public List<Entity> Characters { get; set; }
         public Entity Player { get; set; }
         public Board Board { get; set; }
+        public List<Entity> TurnQueue { get; set; }
 
         public bool IsCharacterAt(int x, int y)
         {
@@ -27,6 +28,7 @@ namespace TurnItUp.Characters
             Tileset characterTileset = board.Map.Tilesets["Characters"];
             Layer characterLayer = board.Map.Layers["Characters"];
             Characters = new List<Entity>();
+            TurnQueue = new List<Entity>();
 
             foreach (Tile tile in characterLayer.Tiles.Values)
             {
@@ -48,6 +50,14 @@ namespace TurnItUp.Characters
 
                 Characters.Add(character);
             }
+
+            foreach (Entity character in Characters)
+            {
+                TurnQueue.Add(character);
+            }
+            // Move player to the front of the TurnQueue
+            TurnQueue.Remove(Player);
+            TurnQueue.Insert(0, Player);
 
             Board = board;
         }
@@ -93,6 +103,14 @@ namespace TurnItUp.Characters
             positionChanges.Add(newPosition);
             returnValue.Element2 = positionChanges;
             return returnValue;
+        }
+
+        public void EndTurn()
+        {
+            Entity currentCharacter = TurnQueue[0];
+
+            TurnQueue.Remove(currentCharacter);
+            TurnQueue.Add(currentCharacter);
         }
     }
 }

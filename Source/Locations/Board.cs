@@ -16,7 +16,6 @@ namespace TurnItUp.Locations
         // Facade pattern
 
         public Map Map { get; private set; }
-        public TurnManager TurnManager { get; set; }
         public ICharacterManager CharacterManager { get; set; }
 
         public void Initialize(World world, string tmxPath)
@@ -26,7 +25,6 @@ namespace TurnItUp.Locations
 
             if (charactersLayer != null)
             {
-                TurnManager = new TurnManager(this);
                 CharacterManager = new CharacterManager(world, this);
             }
         }

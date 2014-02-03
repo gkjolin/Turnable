@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TurnItUp.AI.Goals
 {
-    public enum GoalProcessResult
+    public enum GoalStatus
     {
         Inactive,
         Active,

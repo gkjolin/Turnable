@@ -39,6 +39,9 @@ namespace Tests.Characters
             Assert.IsNotNull(characterManager.Characters);
             Assert.AreEqual(9, characterManager.Characters.Count);
             Assert.IsNotNull(characterManager.Player);
+            Assert.IsNotNull(characterManager.TurnQueue);
+            Assert.AreEqual(9, characterManager.TurnQueue.Count);
+            Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
         }
 
         [TestMethod]
@@ -148,5 +151,18 @@ namespace Tests.Characters
         {
             Assert.IsTrue(_characterManager.IsCharacterAt(_characterManager.Characters[0].GetComponent<Position>().X, _characterManager.Characters[0].GetComponent<Position>().Y));
         }
+
+        [TestMethod]
+        public void CharacterManager_EndingTurn_MovesTheCurrentCharacterToTheEndOfTheTurnQueue()
+        {
+            Entity firstCharacter = _characterManager.TurnQueue[0];
+            Entity secondCharacter = _characterManager.TurnQueue[1];
+
+            _characterManager.EndTurn();
+
+            Assert.AreEqual(secondCharacter, _characterManager.TurnQueue[0]);
+            Assert.AreEqual(firstCharacter, _characterManager.TurnQueue[_characterManager.TurnQueue.Count - 1]);
+        }
+
     }
 }

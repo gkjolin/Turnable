@@ -13,6 +13,7 @@ namespace TurnItUp.Interfaces
     public interface ICharacterManager
     {
         List<Entity> Characters { get; set; }
+        List<Entity> TurnQueue { get; set; }
         Board Board { get; set; }
         Entity Player { get; set; }
 
