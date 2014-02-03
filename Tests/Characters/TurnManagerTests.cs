@@ -9,6 +9,16 @@ namespace Tests.Characters
     [TestClass]
     public class TurnManagerTests
     {
+        private Board _board;
+        private TurnManager _turnManager;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _board = LocationsFactory.BuildBoard();
+            _turnManager = new TurnManager(_board);
+        }
+
         [TestMethod]
         public void TurnManager_Construction_IsSuccessful()
         {
@@ -20,6 +30,12 @@ namespace Tests.Characters
             Assert.IsNotNull(turnManager.TurnQueue);
             Assert.AreEqual(9, turnManager.TurnQueue.Count);
             Assert.IsTrue(turnManager.TurnQueue[0].IsPlayer);
+        }
+
+        [TestMethod]
+        public void TurnManager_EndingATurn_MovesTheCharacterToTheEndOfTheTurnQueue()
+        {
+
         }
     }
 }

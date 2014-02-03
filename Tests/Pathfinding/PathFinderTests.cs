@@ -232,6 +232,36 @@ namespace Tests.Pathfinding
             Assert.AreEqual(new Node(5, 8), _pathFinderWithDiagonalMovement.ClosestNode(startingNode, candidateNodes));
         }
 
+        [TestMethod]
+        public void PathFinder_WhenDiagonalMovementIsNotAllowed_CanFindClosestNodeToAnotherNodeFromASetOfNodes()
+        {
+            // The sample board:
+            // XXXXXXXXXXXXXXXX
+            // X....EEE.......X
+            // X..........X...X
+            // X.......E......X
+            // X.E.X..........X
+            // X.....E....E...X
+            // X........X.....X
+            // X.....S....XXXXX
+            // X.F..S.....X...X
+            // X.....S....X...X
+            // X......X.......X
+            // X.X........X...X
+            // X..........X...X
+            // X..........X...X
+            // X......P...X...X
+            // XXXXXXXXXXXXXXXX
+            // X - Obstacles, P - Player, E - Enemies, F - First Node, S - Set of nodes to choose the closest one from
+            Node startingNode = new Node(2, 8);
+            List<Node> candidateNodes = new List<Node>();
+            candidateNodes.Add(new Node(5, 8));
+            candidateNodes.Add(new Node(6, 7));
+            candidateNodes.Add(new Node(6, 9));
+
+            Assert.AreEqual(new Node(5, 8), _pathFinderWithoutDiagonalMovement.ClosestNode(startingNode, candidateNodes));
+        }
+
             //        [TestMethod]
             //        public void PathFinder_WhenMovementPointsIs1_CanFindPossibleMoveLocations()
             //        {
