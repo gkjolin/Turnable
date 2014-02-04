@@ -17,7 +17,7 @@ namespace TurnItUp.AI.Goals
             throw new NotImplementedException();
         }
 
-        public override void Process()
+        public override GoalStatus Process()
         {
             throw new NotImplementedException();
         }
