@@ -53,6 +53,10 @@
     <Compile Include="AI\Goals\Goal.cs" />
     <Compile Include="AI\Goals\GoalStatus.cs" />
     <Compile Include="AI\State Machines\StateMachine.cs" />
+    <Compile Include="AI\Tactician\MoveAlongPathGoal.cs" />
+    <Compile Include="AI\Tactician\FindPathBetweenNodesGoal.cs" />
+    <Compile Include="AI\Tactician\FindClosestNodeInListOfNodesGoal.cs" />
+    <Compile Include="AI\Tactician\MoveToClosestNodeInListOfNodesGoal.cs" />
     <Compile Include="Characters\CharacterManager.cs" />
     <Compile Include="Characters\Npc.cs" />
     <Compile Include="Characters\PC.cs" />

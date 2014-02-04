@@ -17,6 +17,8 @@
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Source\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,7 +42,7 @@
       <HintPath>..\Dependencies\Entropy.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
-      <HintPath>..\Source\packages\Moq.4.2.1312.1622\lib\net35\Moq.dll</HintPath>
+      <HintPath>..\Dependencies\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Tuples">
@@ -66,6 +68,7 @@
     <Compile Include="AI\Goals\AtomicGoalTests.cs" />
     <Compile Include="AI\State Machines\StateMachineTests.cs" />
     <Compile Include="AI\State Machines\StateTests.cs" />
+    <Compile Include="AI\Tactician\MoveToClosestNodeCompositeGoalTests.cs" />
     <Compile Include="Characters\CharacterManagerTests.cs" />
     <Compile Include="Characters\NpcTests.cs" />
     <Compile Include="Characters\PCTests.cs" />
@@ -101,11 +104,8 @@
     <None Include="Fixtures\FullExample.tmx" />
     <None Include="Fixtures\MinimalBase64Gzip.tmx" />
     <None Include="Fixtures\MinimalBase64Zlib.tmx" />
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AI\Tactician\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
@@ -126,6 +126,7 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
