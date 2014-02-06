@@ -65,43 +65,51 @@ namespace TurnItUp.Characters
 
         public Tuple<MoveResult, List<Position>> MovePlayer(Direction direction)
         {
+            return MoveCharacter(Player, direction);
+        }
+
+        public Tuple<MoveResult, List<Position>> MoveCharacter(Entity character, Direction direction)
+        {
             Tuple<MoveResult, List<Position>> returnValue = new Tuple<MoveResult, List<Position>>();
             List<Position> positionChanges = new List<Position>();
-            positionChanges.Add(Player.GetComponent<Position>().DeepClone());
+            Position currentPosition = character.GetComponent<Position>().DeepClone();
+            positionChanges.Add(currentPosition);
             Position newPosition = new Position(0, 0);
 
             switch (direction)
             {
                 case Direction.Up:
-                    newPosition = new Position(Player.GetComponent<Position>().X, Player.GetComponent<Position>().Y - 1);
+                    newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y - 1);
                     break;
                 case Direction.Down:
-                    newPosition = new Position(Player.GetComponent<Position>().X, Player.GetComponent<Position>().Y + 1);
+                    newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y + 1);
                     break;
                 case Direction.Left:
-                    newPosition = new Position(Player.GetComponent<Position>().X - 1, Player.GetComponent<Position>().Y);
+                    newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y);
                     break;
                 case Direction.Right:
-                    newPosition = new Position(Player.GetComponent<Position>().X + 1, Player.GetComponent<Position>().Y);
+                    newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y);
                     break;
             }
 
             if (Board.IsObstacle(newPosition.X, newPosition.Y))
             {
                 returnValue.Element1 = MoveResult.HitObstacle;
+                positionChanges.Add(currentPosition);
             }
             else if (Board.IsCharacterAt(newPosition.X, newPosition.Y))
             {
                 returnValue.Element1 = MoveResult.HitCharacter;
+                positionChanges.Add(currentPosition);
             }
             else
             {
-                Player.GetComponent<Position>().X = newPosition.X;
-                Player.GetComponent<Position>().Y = newPosition.Y;
+                character.GetComponent<Position>().X = newPosition.X;
+                character.GetComponent<Position>().Y = newPosition.Y;
                 returnValue.Element1 = MoveResult.Success;
+                positionChanges.Add(newPosition);
             }
 
-            positionChanges.Add(newPosition);
             returnValue.Element2 = positionChanges;
             return returnValue;
         }

@@ -15,5 +15,12 @@ namespace TurnItUp.AI.Tactician
         {
             Path = path;
         }
+
+        public override void Activate()
+        {
+            base.Activate();
+
+            AddSubgoal(new MoveToGoal(Path[1]));
+        }
     }
 }

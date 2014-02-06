@@ -69,6 +69,7 @@
     <Compile Include="AI\Goals\FindClosestNodeInListOfNodesGoalTests.cs" />
     <Compile Include="AI\State Machines\StateMachineTests.cs" />
     <Compile Include="AI\State Machines\StateTests.cs" />
+    <Compile Include="AI\Tactician\MoveToGoalTests.cs" />
     <Compile Include="AI\Tactician\FollowPathGoalTests.cs" />
     <Compile Include="Characters\CharacterManagerTests.cs" />
     <Compile Include="Characters\NpcTests.cs" />

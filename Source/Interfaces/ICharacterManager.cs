@@ -19,6 +19,7 @@ namespace TurnItUp.Interfaces
 
         bool IsCharacterAt(int x, int y);
         Tuple<MoveResult, List<Position>> MovePlayer(Direction direction);
+        Tuple<MoveResult, List<Position>> MoveCharacter(Entity character, Direction direction);
     }
 }
 

@@ -39,9 +39,7 @@ namespace Tests.AI.Tactician
 
             Assert.AreEqual(1, goal.Subgoals.Count);
             Assert.IsInstanceOfType(goal.Subgoals[0], typeof(MoveToGoal));
-            Assert.AreEqual(goal.Subgoals[0]
-
-
+            Assert.AreEqual(_path[1], ((MoveToGoal)goal.Subgoals[0]).Destination);
         }
     }
 }

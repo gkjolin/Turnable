@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using TurnItUp.Components;
 using System.Tuples;
 using Entropy;
+using Moq;
+using TurnItUp.Interfaces;
 
 namespace Tests.Characters
 {
@@ -24,9 +26,7 @@ namespace Tests.Characters
         {
             _world = new World();
             _board = LocationsFactory.BuildBoard();
-            _characterManager = new CharacterManager(_world, _board);
-            _currentX = _characterManager.Player.GetComponent<Position>().X;
-            _currentY = _characterManager.Player.GetComponent<Position>().Y;
+            _characterManager = (CharacterManager)_board.CharacterManager;
         }
 
         [TestMethod]
@@ -50,105 +50,117 @@ namespace Tests.Characters
         }
 
         [TestMethod]
-        public void CharacterManager_MovingPlayerLeft_MovesPlayerCorrectly()
+        public void CharacterManager_MovingCharacterLeft_MovesCharacterCorrectly()
         {
-            Position currentPosition = _characterManager.Player.GetComponent<Position>().DeepClone();
+            Entity character = _characterManager.Characters[0];
+            Position currentPosition = character.GetComponent<Position>().DeepClone();
             Position newPosition = new Position(currentPosition.X - 1, currentPosition.Y);
 
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MovePlayer(Direction.Left);
+            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacter(character, Direction.Left);
 
-            Assert.AreEqual(newPosition, _characterManager.Player.GetComponent<Position>());
-            Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(MoveResult.Success, moveResult.Element1);
+            Assert.AreEqual(newPosition, character.GetComponent<Position>());
+            Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(currentPosition, moveResult.Element2[0]);
             Assert.AreEqual(newPosition, moveResult.Element2[1]);
         }
 
         [TestMethod]
-        public void CharacterManager_MovingPlayerRight_MovesPlayerCorrectly()
+        public void CharacterManager_MovingCharacterRight_MovesPlayerCorrectly()
         {
-            Position currentPosition = _characterManager.Player.GetComponent<Position>().DeepClone();
+            Entity character = _characterManager.Characters[0];
+
+            // In the test map, the character we've selected has another character directly to the right
+            // We need to move the character down before we can test moving right
+            _characterManager.MoveCharacter(character, Direction.Down);
+            Position currentPosition = character.GetComponent<Position>().DeepClone();
             Position newPosition = new Position(currentPosition.X + 1, currentPosition.Y);
 
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MovePlayer(Direction.Right);
+            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacter(character, Direction.Right);
 
-            Assert.AreEqual(newPosition, _characterManager.Player.GetComponent<Position>());
-            Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(MoveResult.Success, moveResult.Element1);
+            Assert.AreEqual(newPosition, character.GetComponent<Position>());
+            Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(currentPosition, moveResult.Element2[0]);
             Assert.AreEqual(newPosition, moveResult.Element2[1]);
         }
 
         [TestMethod]
-        public void CharacterManager_MovingPlayerDown_MovesPlayerCorrectly()
+        public void CharacterManager_MovingCharacterDown_MovesCharacterCorrectly()
         {
-            // In the test map, the player has an obstacle right below, so we need to move the player up before we can test moving down.
-            _characterManager.MovePlayer(Direction.Up);
-
-            Position currentPosition = _characterManager.Player.GetComponent<Position>().DeepClone(); 
+            Entity character = _characterManager.Characters[0];
+            Position currentPosition = character.GetComponent<Position>().DeepClone();
             Position newPosition = new Position(currentPosition.X, currentPosition.Y + 1);
 
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MovePlayer(Direction.Down);
+            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacter(character, Direction.Down);
 
-            Assert.AreEqual(newPosition, _characterManager.Player.GetComponent<Position>());
-            Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(MoveResult.Success, moveResult.Element1);
+            Assert.AreEqual(newPosition, character.GetComponent<Position>());
+            Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(currentPosition, moveResult.Element2[0]);
             Assert.AreEqual(newPosition, moveResult.Element2[1]);
         }
 
         [TestMethod]
-        public void CharacterManager_MovingPlayerUp_MovesPlayerCorrectly()
+        public void CharacterManager_MovingCharacterUp_MovesCharacterCorrectly()
         {
-            Position currentPosition = _characterManager.Player.GetComponent<Position>().DeepClone();
+            Entity character = _characterManager.Characters[0];
+
+            // In the test map, the character we've selected has an obstacle direcly above it
+            // We need to move the character down before we can test moving up
+            _characterManager.MoveCharacter(character, Direction.Down);
+            Position currentPosition = character.GetComponent<Position>().DeepClone();
             Position newPosition = new Position(currentPosition.X, currentPosition.Y - 1);
 
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MovePlayer(Direction.Up);
+            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacter(character, Direction.Up);
 
-            Assert.AreEqual(newPosition, _characterManager.Player.GetComponent<Position>());
-            Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(MoveResult.Success, moveResult.Element1);
+            Assert.AreEqual(newPosition, character.GetComponent<Position>());
+            Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(currentPosition, moveResult.Element2[0]);
             Assert.AreEqual(newPosition, moveResult.Element2[1]);
         }
 
         [TestMethod]
-        public void CharacterManager_TryingToMovePlayerIntoAnObstacle_ReturnsHitObstacleMoveResultAndPositionOfObstacleToIndicateMoveWasUnsuccessful()
+        public void CharacterManager_TryingToMoveCharacterIntoAnObstacle_ReturnsHitObstacleMoveResultAndPositionOfObstacleToIndicateMoveWasUnsuccessful()
         {
-            _characterManager.MovePlayer(Direction.Up);
-            _characterManager.MovePlayer(Direction.Up);
-            _characterManager.MovePlayer(Direction.Up);
+            Entity character = _characterManager.Characters[0];
+            Position currentPosition = character.GetComponent<Position>().DeepClone();
+            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacter(character, Direction.Up);
 
-            Position currentPosition = _characterManager.Player.GetComponent<Position>().DeepClone();
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MovePlayer(Direction.Up);
-
-            // Make sure that player was NOT moved
-            Assert.AreEqual(currentPosition, _characterManager.Player.GetComponent<Position>());
+            // Make sure that character was NOT moved
             Assert.AreEqual(MoveResult.HitObstacle, moveResult.Element1);
+            Assert.AreEqual(currentPosition, character.GetComponent<Position>());
             Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(currentPosition, moveResult.Element2[0]);
-            Assert.AreEqual(new Position(7, 10), moveResult.Element2[1]);
+            Assert.AreEqual(new Position(5, 1), moveResult.Element2[1]);
         }
 
         [TestMethod]
-        public void CharacterManager_TryingToMovePlayerIntoAnotherCharacter_ReturnsHitCharacterMoveResultAndPositionOfCharacterToIndicateMoveWasUnsuccessful()
+        public void CharacterManager_TryingToMoveCharacterIntoAnotherCharacter_ReturnsHitCharacterMoveResultAndPositionOfCharacterToIndicateMoveWasUnsuccessful()
         {
-            _characterManager.MovePlayer(Direction.Up);
-            _characterManager.MovePlayer(Direction.Up);
-            _characterManager.MovePlayer(Direction.Up);
-            _characterManager.MovePlayer(Direction.Right);
-            _characterManager.MovePlayer(Direction.Up);
-            _characterManager.MovePlayer(Direction.Up);
-
-            Position currentPosition = _characterManager.Player.GetComponent<Position>().DeepClone();
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MovePlayer(Direction.Up);
+            Entity character = _characterManager.Characters[0];
+            Position currentPosition = character.GetComponent<Position>().DeepClone();
+            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacter(character, Direction.Right);
 
             // Make sure that player was NOT moved
-            Assert.AreEqual(currentPosition, _characterManager.Player.GetComponent<Position>());
             Assert.AreEqual(MoveResult.HitCharacter, moveResult.Element1);
+            Assert.AreEqual(currentPosition, character.GetComponent<Position>());
             Assert.AreEqual(2, moveResult.Element2.Count);
             Assert.AreEqual(currentPosition, moveResult.Element2[0]);
-            Assert.AreEqual(new Position(8, 8), moveResult.Element2[1]);
+            Assert.AreEqual(new Position(5, 1), moveResult.Element2[1]);
+        }
+
+        [TestMethod]
+        public void CharacterManager_TryingToMovePlayer_DelegatesToMoveCharacter()
+        {
+            Entity player = _characterManager.Player;
+            Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>() { CallBase = true };
+            characterManagerMock.Setup(cm => cm.Player).Returns(player);
+
+            characterManagerMock.MovePlayer(Direction.Down);
+
+            characterManagerMock.Verify(cm => cm.MoveCharacter(player, Direction.Down));
         }
 
         [TestMethod]
