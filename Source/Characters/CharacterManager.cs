@@ -14,13 +14,17 @@ namespace TurnItUp.Characters
     public class CharacterManager : ICharacterManager
     {
         public List<Entity> Characters { get; set; }
-        public Entity Player { get; set; }
+        public virtual Entity Player { get; set; }
         public Board Board { get; set; }
         public List<Entity> TurnQueue { get; set; }
 
         public bool IsCharacterAt(int x, int y)
         {
             return Characters.Find(c => c.GetComponent<Position>().X == x && c.GetComponent<Position>().Y == y) != null;
+        }
+
+        public CharacterManager()
+        {
         }
 
         public CharacterManager(World world, Board board)
@@ -63,55 +67,59 @@ namespace TurnItUp.Characters
             Board = board;
         }
 
-        public Tuple<MoveResult, List<Position>> MovePlayer(Direction direction)
+        public virtual Tuple<MoveResult, List<Position>> MovePlayer(Direction direction)
         {
             return MoveCharacter(Player, direction);
         }
 
-        public Tuple<MoveResult, List<Position>> MoveCharacter(Entity character, Direction direction)
+        public virtual Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination)
         {
             Tuple<MoveResult, List<Position>> returnValue = new Tuple<MoveResult, List<Position>>();
             List<Position> positionChanges = new List<Position>();
             Position currentPosition = character.GetComponent<Position>().DeepClone();
             positionChanges.Add(currentPosition);
-            Position newPosition = new Position(0, 0);
+
+            if (Board.IsObstacle(destination.X, destination.Y))
+            {
+                returnValue.Element1 = MoveResult.HitObstacle;
+            }
+            else if (Board.IsCharacterAt(destination.X, destination.Y))
+            {
+                returnValue.Element1 = MoveResult.HitCharacter;
+            }
+            else
+            {
+                character.GetComponent<Position>().X = destination.X;
+                character.GetComponent<Position>().Y = destination.Y;
+                returnValue.Element1 = MoveResult.Success;
+            }
+
+            positionChanges.Add(destination);
+            returnValue.Element2 = positionChanges;
+            return returnValue;
+        }
+
+        public virtual Tuple<MoveResult, List<Position>> MoveCharacter(Entity character, Direction direction)
+        {
+            Position newPosition = new Position();
 
             switch (direction)
             {
                 case Direction.Up:
                     newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y - 1);
-                    break;
+                    return MoveCharacterTo(character, newPosition);
                 case Direction.Down:
                     newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y + 1);
-                    break;
+                    return MoveCharacterTo(character, newPosition);
                 case Direction.Left:
                     newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y);
-                    break;
+                    return MoveCharacterTo(character, newPosition);
                 case Direction.Right:
                     newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y);
-                    break;
+                    return MoveCharacterTo(character, newPosition);
+                default:
+                    return null;
             }
-
-            if (Board.IsObstacle(newPosition.X, newPosition.Y))
-            {
-                returnValue.Element1 = MoveResult.HitObstacle;
-                positionChanges.Add(currentPosition);
-            }
-            else if (Board.IsCharacterAt(newPosition.X, newPosition.Y))
-            {
-                returnValue.Element1 = MoveResult.HitCharacter;
-                positionChanges.Add(currentPosition);
-            }
-            else
-            {
-                character.GetComponent<Position>().X = newPosition.X;
-                character.GetComponent<Position>().Y = newPosition.Y;
-                returnValue.Element1 = MoveResult.Success;
-                positionChanges.Add(newPosition);
-            }
-
-            returnValue.Element2 = positionChanges;
-            return returnValue;
         }
 
         public void EndTurn()
