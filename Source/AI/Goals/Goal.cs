@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Entropy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace TurnItUp.AI.Goals
 {
-    public abstract class Goal
+    public abstract class Goal : IComponent
     {
         public List<Goal> Subgoals { get; set; }
         public GoalStatus Status { get; set; }
+        public Entity Entity { get; set; }
 
         public virtual void Activate()
         {

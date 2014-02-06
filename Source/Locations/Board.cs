@@ -48,5 +48,11 @@ namespace TurnItUp.Locations
         {
             return CharacterManager.MovePlayer(direction);
         }
+
+        public Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination)
+        {
+            return CharacterManager.MoveCharacterTo(character, destination);
+        }
+
     }
 }

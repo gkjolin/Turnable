@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.AI.Goals;
 using Moq;
+using Entropy;
 
 namespace Tests.AI.Goals
 {
@@ -14,6 +15,14 @@ namespace Tests.AI.Goals
             AtomicGoal atomicGoal = new AtomicGoal();
 
             Assert.AreEqual(GoalStatus.Inactive, atomicGoal.Status);
+        }
+
+        [TestMethod]
+        public void AtomicGoal_IsAnEntropyComponent()
+        {
+            AtomicGoal atomicGoal = new AtomicGoal();
+
+            Assert.IsInstanceOfType(atomicGoal, typeof(IComponent));
         }
 
         [TestMethod]

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.AI.Goals;
 using Tests.SupportingClasses;
 using Moq;
+using Entropy;
 
 namespace Tests.AI.Goals
 {
@@ -16,6 +17,14 @@ namespace Tests.AI.Goals
 
             Assert.IsNotNull(compositeGoal.Subgoals);
             Assert.AreEqual(GoalStatus.Inactive, compositeGoal.Status);
+        }
+
+        [TestMethod]
+        public void CompositeGoal_IsAnEntropyComponent()
+        {
+            CompositeGoal compositeGoal = new CompositeGoal();
+
+            Assert.IsInstanceOfType(compositeGoal, typeof(IComponent));
         }
 
         [TestMethod]

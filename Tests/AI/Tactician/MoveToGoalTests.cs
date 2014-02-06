@@ -24,5 +24,14 @@ namespace Tests.AI.Tactician
 
             Assert.AreEqual(_destination, goal.Destination);
         }
+
+        [TestMethod]
+        public void MoveToGoal_Process_MovesTheOwnerToTheDestination()
+        {
+            MoveToGoal goal = new MoveToGoal(_destination);
+
+            Assert.AreEqual(_destination, goal.Destination);
+        }
+
     }
 }

@@ -70,5 +70,14 @@ namespace Tests.Locations
             _board.MovePlayer(Direction.Down);
             _characterManagerMock.Verify(cm => cm.MovePlayer(Direction.Down));
         }
+
+        [TestMethod]
+        public void Board_MovingACharacterToAPosition_DelegatesToCharacterManager()
+        {
+            _board.CharacterManager = _characterManagerMock.Object;
+
+            _board.MoveCharacterTo(null, new Position(0, 0));
+            _characterManagerMock.Verify(cm => cm.MoveCharacterTo(null, new Position(0, 0)));
+        }
     }
 }
