@@ -20,7 +20,7 @@ namespace TurnItUp.Characters
 
         public bool IsCharacterAt(int x, int y)
         {
-            return Characters.Find(c => c.GetComponent<Position>() == new Position(x, y)) != null;
+            return Characters.Find(c => c.GetComponent<Position>().X == x && c.GetComponent<Position>().Y == y) != null;
         }
 
         public CharacterManager(World world, Board board)
@@ -45,6 +45,7 @@ namespace TurnItUp.Characters
                     character = world.CreateEntityFromTemplate<Npc>();
                 }
 
+                character.GetComponent<OnBoard>().Board = board;
                 character.GetComponent<Position>().X = tile.X;
                 character.GetComponent<Position>().Y = tile.Y;
 

@@ -42,6 +42,11 @@ namespace Tests.Characters
             Assert.IsNotNull(characterManager.TurnQueue);
             Assert.AreEqual(9, characterManager.TurnQueue.Count);
             Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
+
+            foreach (Entity character in characterManager.Characters)
+            {
+                Assert.AreEqual(_board, character.GetComponent<OnBoard>().Board);
+            }
         }
 
         [TestMethod]

@@ -2,12 +2,22 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.Components;
 using Entropy;
+using TurnItUp.Locations;
+using Tests.Factories;
 
 namespace Tests.Components
 {
     [TestClass]
     public class PositionTests
     {
+        private Board _board;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _board = LocationsFactory.BuildBoard();
+        }
+
         [TestMethod]
         public void Position_IsAnEntropyComponent()
         {

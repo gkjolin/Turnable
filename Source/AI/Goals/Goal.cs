@@ -10,8 +10,21 @@ namespace TurnItUp.AI.Goals
         public List<Goal> Subgoals { get; set; }
         public GoalStatus Status { get; set; }
 
-        public abstract void Activate();
-        public abstract GoalStatus Process();
+        public virtual void Activate()
+        {
+            Status = GoalStatus.Active;
+        }
+        
+        public virtual GoalStatus Process()
+        {
+            if (Status == GoalStatus.Inactive)
+            {
+                Activate();
+            }
+
+            return Status;
+        }
+        
         public abstract void Terminate();
         public abstract void AddSubgoal(Goal goal);
     }

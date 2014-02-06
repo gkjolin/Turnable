@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.AI.Goals;
+using Moq;
 
 namespace Tests.AI.Goals
 {
@@ -13,6 +14,16 @@ namespace Tests.AI.Goals
             AtomicGoal atomicGoal = new AtomicGoal();
 
             Assert.AreEqual(GoalStatus.Inactive, atomicGoal.Status);
+        }
+
+        [TestMethod]
+        public void AtomicGoal_WhenProcessing_ActivatesIfInactive()
+        {
+            Mock<AtomicGoal> atomicGoalMock = new Mock<AtomicGoal>() { CallBase = true };
+
+            atomicGoalMock.Object.Process();
+            atomicGoalMock.Verify(ag => ag.Activate());
+            Assert.AreEqual(GoalStatus.Active, atomicGoalMock.Object.Status);
         }
 
         [TestMethod]

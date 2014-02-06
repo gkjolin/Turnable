@@ -26,7 +26,8 @@ namespace Tests.Characters
         {
             Entity npc = _world.CreateEntityFromTemplate<Npc>();
 
-            Assert.AreEqual(1, npc.Components.Count);
+            Assert.AreEqual(2, npc.Components.Count);
+            Assert.IsTrue(npc.Components.ContainsKey(typeof(OnBoard)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(Position)));
         }
     }

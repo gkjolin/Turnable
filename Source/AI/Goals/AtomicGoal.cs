@@ -14,12 +14,12 @@ namespace TurnItUp.AI.Goals
 
         public override void Activate()
         {
-            throw new NotImplementedException();
+            base.Activate();
         }
 
         public override GoalStatus Process()
         {
-            throw new NotImplementedException();
+            return base.Process();
         }
 
         public override void Terminate()

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TurnItUp.AI.Goals;
 using Tests.SupportingClasses;
+using Moq;
 
 namespace Tests.AI.Goals
 {
@@ -14,6 +15,17 @@ namespace Tests.AI.Goals
             CompositeGoal compositeGoal = new CompositeGoal();
 
             Assert.IsNotNull(compositeGoal.Subgoals);
+            Assert.AreEqual(GoalStatus.Inactive, compositeGoal.Status);
+        }
+
+        [TestMethod]
+        public void CompositeGoal_WhenProcessing_ActivatesIfInactive()
+        {
+            Mock<CompositeGoal> compositeGoalMock = new Mock<CompositeGoal>() { CallBase = true };
+
+            compositeGoalMock.Object.Process();
+            compositeGoalMock.Verify(ag => ag.Activate());
+            Assert.AreEqual(GoalStatus.Active, compositeGoalMock.Object.Status);
         }
 
         [TestMethod]

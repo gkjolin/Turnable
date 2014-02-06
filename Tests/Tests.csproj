@@ -64,17 +64,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AI\Brains\BrainTests.cs" />
     <Compile Include="AI\Goals\CompositeGoalTests.cs" />
     <Compile Include="AI\Goals\AtomicGoalTests.cs" />
+    <Compile Include="AI\Goals\FindClosestNodeInListOfNodesGoalTests.cs" />
     <Compile Include="AI\State Machines\StateMachineTests.cs" />
     <Compile Include="AI\State Machines\StateTests.cs" />
-    <Compile Include="AI\Tactician\MoveNextToCharacterGoalTests.cs" />
-    <Compile Include="AI\Tactician\MoveToClosestNodeCompositeGoalTests.cs" />
+    <Compile Include="AI\Tactician\FollowPathGoalTests.cs" />
     <Compile Include="Characters\CharacterManagerTests.cs" />
     <Compile Include="Characters\NpcTests.cs" />
     <Compile Include="Characters\PCTests.cs" />
-    <Compile Include="Components\MobileTests.cs" />
+    <Compile Include="Components\OnBoardTests.cs" />
     <Compile Include="Components\PositionTests.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TmxFactory.cs" />
@@ -107,7 +106,9 @@
     <None Include="Fixtures\MinimalBase64Gzip.tmx" />
     <None Include="Fixtures\MinimalBase64Zlib.tmx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AI\Brains\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

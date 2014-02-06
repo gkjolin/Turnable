@@ -7,8 +7,9 @@ namespace Tests.AI.Goals
     public class FindClosestNodeInListOfNodesGoalTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void FindClosestNodeInListOfNodesGoal_Construction_IsSuccessful()
         {
+
         }
     }
 }

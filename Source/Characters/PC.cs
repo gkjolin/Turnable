@@ -13,6 +13,7 @@ namespace TurnItUp.Characters
         {
             Entity returnValue = world.CreateEntity();
 
+            returnValue.AddComponent(new OnBoard());
             returnValue.AddComponent(new Position());
             
             return returnValue;
