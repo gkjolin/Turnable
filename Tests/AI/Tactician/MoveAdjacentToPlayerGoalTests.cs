@@ -17,11 +17,17 @@ namespace Tests.AI.Tactician
         private Entity _entity;
         private Mock<Board> _mockBoard;
         private Entity _player;
+        private List<Node> _bestPath;
 
         [TestInitialize]
         public void Initialize()
         {
+            _bestPath = new List<Node>();
+            _bestPath.Add(new Node(0, 0));
+            _bestPath.Add(new Node(0, 1));
+            _bestPath.Add(new Node(0, 2));
             _mockBoard = new Mock<Board>();
+            _mockBoard.Setup(b => b.FindBestPathToMoveAdjacentToPlayer(It.IsAny<Position>())).Returns(_bestPath);
             _player = EntropyFactory.BuildEntity();
             _player.AddComponent(new Position(5, 5));
             _entity = EntropyFactory.BuildEntity();
@@ -39,17 +45,12 @@ namespace Tests.AI.Tactician
         [TestMethod]
         public void MoveAdjacentToPlayerGoal_WhenActivated_CreatesAFollowPathGoalWithTheBestPathToMoveAdjacentToThePlayer()
         {
-            //_path.Add(new Node(0, 0));
-            //_path.Add(new Node(0, 1));
+            MoveAdjacentToPlayerGoal goal = new MoveAdjacentToPlayerGoal(_entity);
 
-            //FollowPathGoal goal = new FollowPathGoal(_entity, _path);
+            goal.Activate();
 
-            //goal.Activate();
-
-            //Assert.AreEqual(1, goal.Subgoals.Count);
-            //Assert.IsInstanceOfType(goal.Subgoals[0], typeof(MoveToGoal));
-            //Assert.AreEqual(_entity, ((MoveToGoal)goal.Subgoals[0]).Entity);
-            //Assert.AreEqual(_path[1], ((MoveToGoal)goal.Subgoals[0]).Destination);
+            Assert.AreEqual(1, goal.Subgoals.Count);
+            Assert.AreEqual(_bestPath.Count, ((FollowPathGoal)goal.Subgoals[0]).Path.Count);
         }
     }
 }

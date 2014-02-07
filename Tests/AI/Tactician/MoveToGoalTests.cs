@@ -42,7 +42,7 @@ namespace Tests.AI.Tactician
             MoveToGoal goal = new MoveToGoal(_entity, _destination);
 
             goal.Process();
-            _mockBoard.Verify(b => b.MoveCharacterTo(_entity, new Position(_destination.X, _destination.Y)));
+            _mockBoard.Verify(b => b.MoveCharacterTo(_entity, new Position(_destination.Position.X, _destination.Position.Y)));
         }
     }
 }

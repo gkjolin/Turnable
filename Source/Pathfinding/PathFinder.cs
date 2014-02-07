@@ -56,8 +56,8 @@ namespace TurnItUp.Pathfinding
                     // If it isn’t on the open list, add it to the open list. Make the current square the parent of this square. Record the G and H costs of the square. 
                     if (node == null)
                     {
-                        node = new Node(adjacentNode.X, adjacentNode.Y, currentNode);
-                        node.CalculateH(endingNode.X, endingNode.Y);
+                        node = new Node(adjacentNode.Position.X, adjacentNode.Position.Y, currentNode);
+                        node.CalculateH(endingNode.Position.X, endingNode.Position.Y);
                         openNodes.Add(node);
                     }
                     else
@@ -110,11 +110,11 @@ namespace TurnItUp.Pathfinding
         {
             if (AllowDiagonalMovement)
             {
-                return Math.Max(Math.Abs(startingNode.X - endingNode.X), Math.Abs(startingNode.Y - endingNode.Y));
+                return Math.Max(Math.Abs(startingNode.Position.X - endingNode.Position.X), Math.Abs(startingNode.Position.Y - endingNode.Position.Y));
             }
             else
             {
-                return (Math.Abs(startingNode.X - endingNode.X) + Math.Abs(startingNode.Y - endingNode.Y));
+                return (Math.Abs(startingNode.Position.X - endingNode.Position.X) + Math.Abs(startingNode.Position.Y - endingNode.Position.Y));
             }
         }
 

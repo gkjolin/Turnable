@@ -53,6 +53,16 @@ namespace Tests.Locations
             Assert.IsFalse(_board.IsObstacle(1, 1));
         }
 
+        [TestMethod]
+        public void Board_HasAHelperFunction_ToFindTheBestPathToANodeAdjacentToThePlayer()
+        {
+            List<Node> bestPath = _board.FindBestPathToMoveAdjacentToPlayer(new Position(1, 1));
+
+            Assert.AreEqual(19, bestPath.Count);
+            Assert.AreEqual(new Node(1, 1), bestPath[0]);
+            Assert.AreEqual(new Node(_board.CharacterManager.Player.GetComponent<Position>().X, _board.CharacterManager.Player.GetComponent<Position>().Y - 1), bestPath[18]);
+        }
+
         // Facade implementation tests
         [TestMethod]
         public void Board_DeterminingIfCharacterIsAtAPosition_DelegatesToCharacterManager()

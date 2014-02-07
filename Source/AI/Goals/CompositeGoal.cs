@@ -63,5 +63,15 @@ namespace TurnItUp.AI.Goals
         {
             Subgoals.Insert(0, goal);
         }
+
+        public virtual void RemoveAllSubgoals()
+        {
+            foreach (Goal goal in Subgoals)
+            {
+                goal.Terminate();
+            }
+
+            Subgoals.Clear();
+        }
     }
 }

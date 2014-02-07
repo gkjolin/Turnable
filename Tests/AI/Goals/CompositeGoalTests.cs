@@ -41,12 +41,21 @@ namespace Tests.AI.Goals
         }
 
         [TestMethod]
+        public void CompositeGoal_Activating_SetsStatusToActive()
+        {
+            Mock<CompositeGoal> compositeGoalMock = new Mock<CompositeGoal>() { CallBase = true };
+
+            compositeGoalMock.Object.Activate();
+            Assert.AreEqual(GoalStatus.Active, compositeGoalMock.Object.Status);
+        }
+
+        [TestMethod]
         public void CompositeGoal_Processing_ActivatesIfInactive()
         {
             Mock<CompositeGoal> compositeGoalMock = new Mock<CompositeGoal>() { CallBase = true };
 
             compositeGoalMock.Object.Process();
-            compositeGoalMock.Verify(ag => ag.Activate());
+            compositeGoalMock.Verify(cg => cg.Activate());
             Assert.AreEqual(GoalStatus.Completed, compositeGoalMock.Object.Status);
         }
 
@@ -146,6 +155,24 @@ namespace Tests.AI.Goals
 
             _compositeGoal.AddSubgoal(subgoal);
             Assert.AreEqual(subgoal, _compositeGoal.Subgoals[0]);
+        }
+
+        [TestMethod]
+        public void CompositeGoal_RemovingAllSubgoals_TerminatesAndRemovesAllSubgoals()
+        {
+            _compositeGoal.AddSubgoal(_atomicGoalMocks[3].Object);
+            _compositeGoal.AddSubgoal(_atomicGoalMocks[2].Object);
+            _compositeGoal.AddSubgoal(_atomicGoalMocks[1].Object);
+            _compositeGoal.AddSubgoal(_atomicGoalMocks[0].Object);
+
+            _compositeGoal.RemoveAllSubgoals();
+
+            _atomicGoalMocks[0].Verify(ag => ag.Terminate());
+            _atomicGoalMocks[1].Verify(ag => ag.Terminate());
+            _atomicGoalMocks[2].Verify(ag => ag.Terminate());
+            _atomicGoalMocks[3].Verify(ag => ag.Terminate());
+
+            Assert.AreEqual(0, _compositeGoal.Subgoals.Count);
         }
     }
 }

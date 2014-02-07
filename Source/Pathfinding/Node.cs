@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.Components;
 using TurnItUp.Locations;
 
 namespace TurnItUp.Pathfinding
 {
     public class Node
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public Position Position { get; private set; }
         public Node Parent { get; set; }
         public int H { get; set; }
         private int _g;
 
         public Node(int x, int y, Node parent = null)
         {
-            X = x;
-            Y = y;
+            Position = new Position(x, y);
             Parent = parent;
         }
 
@@ -31,7 +30,7 @@ namespace TurnItUp.Pathfinding
                 }
                 else
                 {
-                    if (X == Parent.X || Y == Parent.Y)
+                    if (Position.X == Parent.Position.X || Position.Y == Parent.Position.Y)
                     {
                         return Parent.G + 10;
                     }
@@ -58,7 +57,7 @@ namespace TurnItUp.Pathfinding
 
         public void CalculateH(int endingX, int endingY)
         {
-            H = (Math.Abs(endingX - X) + Math.Abs(endingY - Y)) * 10;
+            H = (Math.Abs(endingX - Position.X) + Math.Abs(endingY - Position.Y)) * 10;
         }
 
         public override bool Equals(object obj)
@@ -71,7 +70,7 @@ namespace TurnItUp.Pathfinding
 
         public override int GetHashCode()
         {
-            return X.GetHashCode() ^ Y.GetHashCode();
+            return Position.X.GetHashCode() ^ Position.Y.GetHashCode();
         }
 
         public static bool operator ==(Node node1, Node node2)
@@ -85,7 +84,7 @@ namespace TurnItUp.Pathfinding
                 return object.ReferenceEquals(node1, null);
             }
 
-            return node1.X == node2.X && node1.Y == node2.Y;
+            return node1.Position == node2.Position;
         }
 
         public static bool operator !=(Node node1, Node node2)
@@ -97,11 +96,11 @@ namespace TurnItUp.Pathfinding
         {
             List<Node> returnValue = new List<Node>();
 
-            for (int x = X - 1; x <= X + 1; x++)
+            for (int x = Position.X - 1; x <= Position.X + 1; x++)
             {
-                for (int y = Y - 1; y <= Y + 1; y++)
+                for (int y = Position.Y - 1; y <= Position.Y + 1; y++)
                 {
-                    if (x == X && y == Y) continue;
+                    if (x == Position.X && y == Position.Y) continue;
 
                     returnValue.Add(new Node(x, y));
                 }
@@ -119,18 +118,18 @@ namespace TurnItUp.Pathfinding
 
         public bool IsWithinBounds(Board board)
         {
-            return (X >= 0 && X <= (board.Map.Width - 1) &&
-                    Y >= 0 && Y <= (board.Map.Height - 1));
+            return (Position.X >= 0 && Position.X <= (board.Map.Width - 1) &&
+                    Position.Y >= 0 && Position.Y <= (board.Map.Height - 1));
         }
 
         public bool IsWalkable(Board board)
         {
-            return (IsWithinBounds(board) && !board.IsObstacle(X, Y));
+            return (IsWithinBounds(board) && !board.IsObstacle(Position.X, Position.Y));
         }
 
         public bool IsOrthogonalTo(Node other)
         {
-            return (X == other.X || Y == other.Y);
+            return (Position.X == other.Position.X || Position.Y == other.Position.Y);
         }
     }
 }

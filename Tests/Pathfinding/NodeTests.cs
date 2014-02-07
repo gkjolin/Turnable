@@ -25,8 +25,8 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(0, 0);
 
-            Assert.AreEqual(0, node.X);
-            Assert.AreEqual(0, node.Y);
+            Assert.AreEqual(0, node.Position.X);
+            Assert.AreEqual(0, node.Position.Y);
             Assert.IsNull(node.Parent);
         }
 
@@ -37,8 +37,8 @@ namespace Tests.Pathfinding
 
             Node node = new Node(0, 0, parentNode);
 
-            Assert.AreEqual(0, node.X);
-            Assert.AreEqual(0, node.Y);
+            Assert.AreEqual(0, node.Position.X);
+            Assert.AreEqual(0, node.Position.Y);
             Assert.AreEqual(parentNode, node.Parent);
         }
 
@@ -74,18 +74,18 @@ namespace Tests.Pathfinding
             Assert.AreEqual(parent.G + 10, _node.G);
 
             // Parent directly below child
-            parent.Y = 6;
+            parent.Position.Y = 6;
 
             Assert.AreEqual(parent.G + 10, _node.G);
 
             // Parent to left of child
-            parent.Y = 5;
-            parent.X = 4;
+            parent.Position.Y = 5;
+            parent.Position.X = 4;
 
             Assert.AreEqual(parent.G + 10, _node.G);
 
             // Parent to right of child
-            parent.X = 6;
+            parent.Position.X = 6;
 
             Assert.AreEqual(parent.G + 10, _node.G);
         }
@@ -101,18 +101,18 @@ namespace Tests.Pathfinding
             Assert.AreEqual(parent.G + 14, _node.G);
 
             // Parent directly below and left of child
-            parent.Y = 6;
+            parent.Position.Y = 6;
 
             Assert.AreEqual(parent.G + 14, _node.G);
 
             // Parent to below and right of child
-            parent.X = 6;
+            parent.Position.X = 6;
 
             Assert.AreEqual(parent.G + 14, _node.G);
 
             // Parent to above and right of child
-            parent.X = 4;
-            parent.Y = 6;
+            parent.Position.X = 4;
+            parent.Position.Y = 6;
 
             Assert.AreEqual(parent.G + 14, _node.G);
         }

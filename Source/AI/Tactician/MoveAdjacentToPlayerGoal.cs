@@ -12,8 +12,6 @@ namespace TurnItUp.AI.Tactician
     // TODO: Test this class!
     public class MoveAdjacentToPlayerGoal : CompositeGoal
     {
-        List<Node> BestPath { get; set; }
-
         public MoveAdjacentToPlayerGoal(Entity character)
         {
             Entity = character;
@@ -23,14 +21,13 @@ namespace TurnItUp.AI.Tactician
         {
             base.Activate();
 
-            BestPath = Entity.GetComponent<OnBoard>().Board.FindBestPathToMoveAdjacentToPlayer(Entity.GetComponent<Position>());
+            List<Node> bestPath = Entity.GetComponent<OnBoard>().Board.FindBestPathToMoveAdjacentToPlayer(Entity.GetComponent<Position>());
+            Subgoals.Add(new FollowPathGoal(Entity, bestPath));
         }
 
         public override void Process()
         {
             base.Process();
-
-            Subgoals.Add(new FollowPathGoal(Entity, BestPath));
         }
     }
 }
