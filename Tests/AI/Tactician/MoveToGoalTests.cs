@@ -7,6 +7,7 @@ using Moq;
 using TurnItUp.Locations;
 using Entropy;
 using Tests.Factories;
+using TurnItUp.Components;
 
 namespace Tests.AI.Tactician
 {
@@ -15,11 +16,14 @@ namespace Tests.AI.Tactician
     {
         private Entity _entity;
         private Node _destination;
+        private Mock<Board> _mockBoard;
 
         [TestInitialize]
         public void Initialize()
         {
+            _mockBoard = new Mock<Board>();
             _entity = EntropyFactory.BuildEntity();
+            _entity.AddComponent(new OnBoard(_mockBoard.Object));
             _destination = new Node(0, 0);
         }
 
@@ -30,6 +34,15 @@ namespace Tests.AI.Tactician
 
             Assert.AreEqual(_entity, goal.Entity);
             Assert.AreEqual(_destination, goal.Destination);
+        }
+
+        [TestMethod]
+        public void MoveToGoal_Processing_IsSuccessful()
+        {
+            MoveToGoal goal = new MoveToGoal(_entity, _destination);
+
+            goal.Process();
+            _mockBoard.Verify(b => b.MoveCharacterTo(_entity, new Position(_destination.X, _destination.Y)));
         }
     }
 }

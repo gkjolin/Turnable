@@ -138,7 +138,7 @@ namespace TurnItUp.Pathfinding
         //    return returnValue;
         //}
 
-        public object ClosestNode(Node startingNode, List<Node> candidateNodes)
+        public Node ClosestNode(Node startingNode, List<Node> candidateNodes)
         {
             Node returnValue = candidateNodes[0];
 

@@ -8,6 +8,7 @@ using TurnItUp.Characters;
 using TurnItUp.Components;
 using TurnItUp.Interfaces;
 using Entropy;
+using TurnItUp.Pathfinding;
 
 namespace TurnItUp.Locations
 {
@@ -29,6 +30,18 @@ namespace TurnItUp.Locations
             }
         }
 
+        // TODO: Test this!
+        public virtual List<Node> FindBestPathToMoveAdjacentToPlayer(Position position)
+        {
+            PathFinder pathFinder = new PathFinder(false);
+            Position playerPosition = CharacterManager.Player.GetComponent<Position>();
+
+            Node startingNode = new Node(position.X, position.Y);
+            List<Node> candidateNodes = new Node(playerPosition.X, playerPosition.Y).GetAdjacentNodes(this, false);
+            Node closestNode = pathFinder.ClosestNode(startingNode, candidateNodes);
+            return pathFinder.SeekPath(startingNode, closestNode, this);
+        }
+
         public bool IsObstacle(int x, int y)
         {
             Layer obstacleLayer = Map.FindLayerByProperty("IsCollision", "true");
@@ -44,12 +57,12 @@ namespace TurnItUp.Locations
             return CharacterManager.IsCharacterAt(x, y);
         }
 
-        public Tuple<MoveResult, List<Position>> MovePlayer(Direction direction)
+        public virtual Tuple<MoveResult, List<Position>> MovePlayer(Direction direction)
         {
             return CharacterManager.MovePlayer(direction);
         }
 
-        public Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination)
+        public virtual Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination)
         {
             return CharacterManager.MoveCharacterTo(character, destination);
         }

@@ -6,6 +6,7 @@ using Moq;
 using TurnItUp.Components;
 using System.Collections.Generic;
 using Entropy;
+using TurnItUp.Pathfinding;
 
 namespace Tests.Locations
 {

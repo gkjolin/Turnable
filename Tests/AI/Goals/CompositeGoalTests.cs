@@ -78,7 +78,7 @@ namespace Tests.AI.Goals
             _atomicGoalMocks[0].Setup(ag => ag.Status).Returns(GoalStatus.Completed);
             _atomicGoalMocks[1].Setup(ag => ag.Status).Returns(GoalStatus.Failed);
             _atomicGoalMocks[2].Setup(ag => ag.Status).Returns(GoalStatus.Inactive);
-            _atomicGoalMocks[2].Setup(ag => ag.Process());
+            _atomicGoalMocks[2].Setup(ag => ag.Process()).Callback(() => _atomicGoalMocks[2].Setup(ag => ag.Status).Returns(GoalStatus.Active));
             _atomicGoalMocks[3].Setup(ag => ag.Status).Returns(GoalStatus.Inactive);
 
             _compositeGoal.AddSubgoal(_atomicGoalMocks[3].Object);
@@ -127,7 +127,7 @@ namespace Tests.AI.Goals
             _compositeGoal.AddSubgoal(_atomicGoalMocks[0].Object);
 
             _compositeGoal.Process();
-            Assert.AreEqual(GoalStatus.Active, _compositeGoal.Status);
+            Assert.AreEqual(GoalStatus.Failed, _compositeGoal.Status);
 
             _atomicGoalMocks[2].Verify(ag => ag.Process());
         }
