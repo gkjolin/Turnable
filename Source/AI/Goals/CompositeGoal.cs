@@ -17,9 +17,41 @@ namespace TurnItUp.AI.Goals
             base.Activate();
         }
 
-        public override GoalStatus Process()
+        public override void Process()
         {
-            return base.Process();
+            base.Process();
+
+            // Terminate and remove all subgoals in the front of the subgoal list
+            List<Goal> goalsToRemove = new List<Goal>();
+            foreach (Goal goal in Subgoals)
+            {
+                if (goal.Status == GoalStatus.Completed || goal.Status == GoalStatus.Failed)
+                {
+                    goal.Terminate();
+                    goalsToRemove.Add(goal);
+                }
+            }
+            foreach (Goal goal in goalsToRemove)
+            {
+                Subgoals.Remove(goal);
+            }
+
+            if (Subgoals.Count > 0)
+            {
+                Subgoals[0].Process();
+                Status = Subgoals[0].Status;
+
+                // Keep this goal active even if the foremost subgoal completes, but if further subgoals exist
+                if (Status == GoalStatus.Completed && Subgoals.Count >= 2)
+                {
+                    Status = GoalStatus.Active;
+                }
+            }
+            else
+            {
+                
+                Status = GoalStatus.Completed;
+            }
         }
 
         public override void Terminate()

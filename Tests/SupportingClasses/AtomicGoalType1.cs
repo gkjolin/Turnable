@@ -15,7 +15,7 @@ namespace Tests.SupportingClasses
             throw new NotImplementedException();
         }
 
-        public override GoalStatus Process()
+        public override void Process()
         {
             throw new NotImplementedException();
         }

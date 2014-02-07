@@ -66,7 +66,6 @@
   <ItemGroup>
     <Compile Include="AI\Goals\CompositeGoalTests.cs" />
     <Compile Include="AI\Goals\AtomicGoalTests.cs" />
-    <Compile Include="AI\Goals\FindClosestNodeInListOfNodesGoalTests.cs" />
     <Compile Include="AI\State Machines\StateMachineTests.cs" />
     <Compile Include="AI\State Machines\StateTests.cs" />
     <Compile Include="AI\Tactician\MoveToGoalTests.cs" />
@@ -76,6 +75,7 @@
     <Compile Include="Characters\PCTests.cs" />
     <Compile Include="Components\OnBoardTests.cs" />
     <Compile Include="Components\PositionTests.cs" />
+    <Compile Include="Factories\EntropyFactory.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TmxFactory.cs" />
     <Compile Include="Locations\BoardTests.cs" />

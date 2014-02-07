@@ -9,7 +9,7 @@ namespace TurnItUp.AI.Goals
     public abstract class Goal : IComponent
     {
         public List<Goal> Subgoals { get; set; }
-        public GoalStatus Status { get; set; }
+        public virtual GoalStatus Status { get; set; }
         public Entity Entity { get; set; }
 
         public virtual void Activate()
@@ -17,14 +17,12 @@ namespace TurnItUp.AI.Goals
             Status = GoalStatus.Active;
         }
         
-        public virtual GoalStatus Process()
+        public virtual void Process()
         {
             if (Status == GoalStatus.Inactive)
             {
                 Activate();
             }
-
-            return Status;
         }
         
         public abstract void Terminate();

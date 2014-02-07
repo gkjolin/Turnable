@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entropy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,9 @@ namespace TurnItUp.AI.Tactician
     {
         public List<Node> Path { get; private set; }
 
-        public FollowPathGoal(List<Node> path)
+        public FollowPathGoal(Entity character, List<Node> path)
         {
+            Entity = character;
             Path = path;
         }
 
@@ -20,7 +22,7 @@ namespace TurnItUp.AI.Tactician
         {
             base.Activate();
 
-            AddSubgoal(new MoveToGoal(Path[1]));
+            AddSubgoal(new MoveToGoal(Entity, Path[1]));
         }
     }
 }

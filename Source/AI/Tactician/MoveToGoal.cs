@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entropy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,9 @@ namespace TurnItUp.AI.Tactician
     {
         public Node Destination { get; private set; }
 
-        public MoveToGoal(Node destination)
+        public MoveToGoal(Entity character, Node destination)
         {
+            Entity = character;
             Destination = destination;
         }
     }

@@ -17,9 +17,9 @@ namespace TurnItUp.AI.Goals
             base.Activate();
         }
 
-        public override GoalStatus Process()
+        public override void Process()
         {
-            return base.Process();
+            base.Process();
         }
 
         public override void Terminate()
