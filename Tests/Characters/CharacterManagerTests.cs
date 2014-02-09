@@ -18,10 +18,12 @@ namespace Tests.Characters
         private World _world;
         private Board _board;
         private CharacterManager _characterManager;
+        private bool _eventTriggeredFlag;
 
         [TestInitialize]
         public void Initialize()
         {
+            _eventTriggeredFlag = false;
             _world = new World();
             _board = LocationsFactory.BuildBoard();
             _characterManager = (CharacterManager)_board.CharacterManager;
@@ -147,6 +149,29 @@ namespace Tests.Characters
 
             Assert.AreEqual(secondCharacter, _characterManager.TurnQueue[0]);
             Assert.AreEqual(firstCharacter, _characterManager.TurnQueue[_characterManager.TurnQueue.Count - 1]);
+        }
+
+        private void SetEventTriggeredFlag(object sender, EventArgs e)
+        {
+            _eventTriggeredFlag = true;
+        }
+
+        [TestMethod]
+        public void CharacterManager_EndingTurn_RaisesATurnEndedEvent()
+        {
+            // TODO: How do I check that the EntityEventArgs are correctly set?
+            _characterManager.TurnEnded += this.SetEventTriggeredFlag;
+            _characterManager.EndTurn();
+            Assert.IsTrue(_eventTriggeredFlag);
+        }
+
+        [TestMethod]
+        public void CharacterManager_MovingCharacterToAPosition_RaisesACharacterMovedEvent()
+        {
+            // TODO: How do I check that the EntityEventArgs are correctly set?
+            _characterManager.CharacterMoved += this.SetEventTriggeredFlag;
+            _characterManager.MoveCharacterTo(_characterManager.Characters[0], new Position(1, 1));
+            Assert.IsTrue(_eventTriggeredFlag);
         }
     }
 }

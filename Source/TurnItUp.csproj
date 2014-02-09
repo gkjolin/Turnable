@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\Brains\Brain.cs" />
     <Compile Include="AI\Goals\CompositeGoal.cs" />
     <Compile Include="AI\Goals\AtomicGoal.cs" />
     <Compile Include="AI\Goals\Goal.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="AI\Tactician\MoveToGoal.cs" />
     <Compile Include="AI\Tactician\FollowPathGoal.cs" />
     <Compile Include="Characters\CharacterManager.cs" />
+    <Compile Include="Characters\CharacterMovedEventArgs.cs" />
     <Compile Include="Characters\Npc.cs" />
     <Compile Include="Characters\PC.cs" />
     <Compile Include="Components\OnBoard.cs" />
@@ -82,9 +84,7 @@
     <Compile Include="Tmx\Map.cs" />
     <Compile Include="Tmx\Orientation.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AI\Brains\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -14,7 +14,7 @@ namespace TurnItUp.AI.Tactician
 
         public FollowPathGoal(Entity character, List<Node> path)
         {
-            Entity = character;
+            Owner = character;
             Path = path;
         }
 
@@ -22,7 +22,7 @@ namespace TurnItUp.AI.Tactician
         {
             base.Activate();
 
-            AddSubgoal(new MoveToGoal(Entity, Path[1]));
+            AddSubgoal(new MoveToGoal(Owner, Path[1]));
         }
     }
 }

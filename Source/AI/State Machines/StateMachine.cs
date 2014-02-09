@@ -9,7 +9,7 @@ namespace TurnItUp.AI.State_Machines
 {
     public class StateMachine : IComponent
     {
-        public Entity Entity { get; set; }
+        public Entity Owner { get; set; }
 
         public IState CurrentState { get; set; }
         public IState PreviousState { get; set; }
@@ -17,7 +17,7 @@ namespace TurnItUp.AI.State_Machines
 
         public StateMachine(Entity entity)
         {
-            Entity = entity;
+            Owner = entity;
         }
 
         public void ChangeState(IState newState)
@@ -28,9 +28,9 @@ namespace TurnItUp.AI.State_Machines
             }
 
             PreviousState = CurrentState;
-            CurrentState.Exit(Entity);
+            CurrentState.Exit(Owner);
             CurrentState = newState;
-            newState.Enter(Entity);
+            newState.Enter(Owner);
         }
 
         public bool IsInState(Type stateType)

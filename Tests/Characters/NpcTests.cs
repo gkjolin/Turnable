@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TurnItUp.Components;
 using System.Tuples;
 using Entropy;
+using TurnItUp.AI.Brains;
 
 namespace Tests.Characters
 {
@@ -26,7 +27,8 @@ namespace Tests.Characters
         {
             Entity npc = _world.CreateEntityFromTemplate<Npc>();
 
-            Assert.AreEqual(2, npc.Components.Count);
+            Assert.AreEqual(3, npc.Components.Count);
+            Assert.IsTrue(npc.Components.ContainsKey(typeof(Brain)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(OnBoard)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(Position)));
         }

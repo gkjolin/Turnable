@@ -78,15 +78,14 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveNoObstaclesBetweenThem_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(1, 1), new Node(5, 1), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(1, 1), new Node(4, 1), _board);
 
             Assert.IsNotNull(path);
-            Assert.AreEqual(5, path.Count);
+            Assert.AreEqual(4, path.Count);
             Assert.AreEqual(new Node(1, 1), path[0]);
             Assert.AreEqual(new Node(2, 1), path[1]);
             Assert.AreEqual(new Node(3, 1), path[2]);
             Assert.AreEqual(new Node(4, 1), path[3]);
-            Assert.AreEqual(new Node(5, 1), path[4]);
         }
 
         [TestMethod]
@@ -124,7 +123,7 @@ namespace Tests.Pathfinding
             Assert.IsNotNull(path);
             Assert.AreEqual(3, path.Count);
             Assert.AreEqual(new Node(6, 6), path[0]);
-            Assert.AreEqual(new Node(6, 5), path[1]);
+            Assert.AreEqual(new Node(5, 6), path[1]);
             Assert.AreEqual(new Node(5, 5), path[2]);
         }
 
@@ -142,6 +141,52 @@ namespace Tests.Pathfinding
             Assert.AreEqual(new Node(3, 4), path[4]);
             Assert.AreEqual(new Node(3, 5), path[5]);
             Assert.AreEqual(new Node(4, 5), path[6]);
+        }
+
+        [TestMethod]
+        public void PathFinder_WhereDiagonalMovementIsNotAllowedAndThereAreBothObstaclesAndCharactersInTheWay_CanFindPath()
+        {
+            // The sample board:
+            // XXXXXXXXXXXXXXXX
+            // X....1EE.......X
+            // X....ooooooX2..X
+            // X.......E.ooo..X
+            // X.E.X..........X
+            // X.....E....E...X
+            // X........X.....X
+            // X..........XXXXX
+            // X.F........X...X
+            // X..........X...X
+            // X......X.......X
+            // X.X........X...X
+            // X..........X...X
+            // X..........X...X
+            // X......P...X...X
+            // XXXXXXXXXXXXXXXX
+            // X - Obstacles, P - Player, E - Enemies, F - First Node, o - Expected path, 1 - Starting node, 2 - Ending node
+
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(5, 1), new Node(12, 2), _board);
+
+            Assert.IsNotNull(path);
+            Assert.AreEqual(11, path.Count);
+            Assert.AreEqual(new Node(5, 1), path[0]);
+            Assert.AreEqual(new Node(5, 2), path[1]);
+            Assert.AreEqual(new Node(6, 2), path[2]);
+            Assert.AreEqual(new Node(7, 2), path[3]);
+            Assert.AreEqual(new Node(8, 2), path[4]);
+            Assert.AreEqual(new Node(9, 2), path[5]);
+            Assert.AreEqual(new Node(10, 2), path[6]);
+            Assert.AreEqual(new Node(10, 1), path[7]);
+            Assert.AreEqual(new Node(11, 1), path[8]);
+            Assert.AreEqual(new Node(12, 1), path[9]);
+            Assert.AreEqual(new Node(12, 2), path[10]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void PathFinder_WhenEndingNodeIsUnwalkable_ThrowsAnException()
+        {
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(4, 1), new Node(5, 1), _board);
         }
 
         [TestMethod]

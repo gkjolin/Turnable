@@ -19,6 +19,12 @@ namespace TurnItUp.Pathfinding
 
         public List<Node> SeekPath(Node startingNode, Node endingNode, Board board)
         {
+            // If the endingNode is unwalkable, it's impossible to find a path to this node
+            if (!endingNode.IsWalkable(board))
+            {
+                throw new InvalidOperationException("<PathFinder::SeekPath>: ending node is unwalkable. Cannot calculate path to this node.");
+            }
+
             NodeList openNodes = new NodeList();
             NodeList closedNodes = new NodeList();
             Node node;

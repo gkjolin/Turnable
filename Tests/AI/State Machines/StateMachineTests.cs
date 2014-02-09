@@ -37,7 +37,7 @@ namespace Tests.AI.StateMachines
         {
             StateMachine stateMachine = new StateMachine(_entity);
 
-            Assert.AreEqual(_entity, stateMachine.Entity);
+            Assert.AreEqual(_entity, stateMachine.Owner);
             Assert.IsNull(stateMachine.CurrentState);
             Assert.IsNull(stateMachine.PreviousState);
             Assert.IsNull(stateMachine.GlobalState);
@@ -60,8 +60,8 @@ namespace Tests.AI.StateMachines
 
             _stateMachine.ChangeState(newStateMock.Object);
 
-            currentStateMock.Verify(cs => cs.Exit(_stateMachine.Entity));
-            newStateMock.Verify(ns => ns.Enter(_stateMachine.Entity));
+            currentStateMock.Verify(cs => cs.Exit(_stateMachine.Owner));
+            newStateMock.Verify(ns => ns.Enter(_stateMachine.Owner));
             Assert.AreEqual(currentStateMock.Object, _stateMachine.PreviousState);
             Assert.AreEqual(newStateMock.Object, _stateMachine.CurrentState);
         }

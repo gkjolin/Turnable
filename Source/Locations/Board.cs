@@ -38,6 +38,10 @@ namespace TurnItUp.Locations
 
             Node startingNode = new Node(position.X, position.Y);
             List<Node> candidateNodes = new Node(playerPosition.X, playerPosition.Y).GetAdjacentNodes(this, false);
+
+            //TODO: Test this!
+            candidateNodes.RemoveAll(cn => !(cn.IsWalkable(this)));
+
             Node closestNode = pathFinder.ClosestNode(startingNode, candidateNodes);
             return pathFinder.SeekPath(startingNode, closestNode, this);
         }

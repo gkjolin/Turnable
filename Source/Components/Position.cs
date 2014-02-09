@@ -11,7 +11,7 @@ namespace TurnItUp.Components
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public Entity Entity { get; set; }
+        public Entity Owner { get; set; }
 
         public Position() : this(0, 0)
         {

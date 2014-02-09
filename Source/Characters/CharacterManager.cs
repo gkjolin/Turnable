@@ -96,6 +96,8 @@ namespace TurnItUp.Characters
 
             positionChanges.Add(destination);
             returnValue.Element2 = positionChanges;
+
+            OnCharacterMoved(new CharacterMovedEventArgs(character, returnValue));
             return returnValue;
         }
 
@@ -107,19 +109,21 @@ namespace TurnItUp.Characters
             {
                 case Direction.Up:
                     newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y - 1);
-                    return MoveCharacterTo(character, newPosition);
+                    break;
                 case Direction.Down:
                     newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y + 1);
-                    return MoveCharacterTo(character, newPosition);
+                    break;
                 case Direction.Left:
                     newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y);
-                    return MoveCharacterTo(character, newPosition);
+                    break;
                 case Direction.Right:
                     newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y);
-                    return MoveCharacterTo(character, newPosition);
+                    break;
                 default:
                     return null;
             }
+
+            return MoveCharacterTo(character, newPosition);
         }
 
         public void EndTurn()
@@ -128,6 +132,27 @@ namespace TurnItUp.Characters
 
             TurnQueue.Remove(currentCharacter);
             TurnQueue.Add(currentCharacter);
+
+            OnTurnEnded(new EntityEventArgs(currentCharacter));
+        }
+
+        public virtual event EventHandler<EntityEventArgs> TurnEnded;
+        public virtual event EventHandler<CharacterMovedEventArgs> CharacterMoved;
+
+        protected virtual void OnTurnEnded(EntityEventArgs e)
+        {
+            if (TurnEnded != null)
+            {
+                TurnEnded(this, e);
+            }
+        }
+
+        protected virtual void OnCharacterMoved(CharacterMovedEventArgs e)
+        {
+            if (CharacterMoved != null)
+            {
+                CharacterMoved(this, e);
+            }
         }
     }
 }

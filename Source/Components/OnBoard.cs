@@ -9,7 +9,7 @@ namespace TurnItUp.Components
 {
     public class OnBoard : IComponent
     {
-        public Entity Entity { get; set; }
+        public Entity Owner { get; set; }
         public Board Board { get; set; }
 
         public OnBoard() : this(null)

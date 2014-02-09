@@ -13,6 +13,25 @@ namespace Tests.Locations
     [TestClass]
     public class BoardTests
     {
+        // The sample board:
+        // XXXXXXXXXXXXXXXX
+        // X....EEE.......X
+        // X..........X...X
+        // X.......E......X
+        // X.E.X..........X
+        // X.....E....E...X
+        // X........X.....X
+        // X..........XXXXX
+        // X..........X...X
+        // X..........X...X
+        // X......X.......X
+        // X.X........X...X
+        // X..........X...X
+        // X..........X...X
+        // X......P...X...X
+        // XXXXXXXXXXXXXXXX
+        // X - Obstacles, P - Player, E - Enemies
+
         private Board _board;
         private Mock<ICharacterManager> _characterManagerMock;
         private World _world;

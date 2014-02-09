@@ -39,7 +39,7 @@ namespace Tests.AI.Tactician
         {
             MoveAdjacentToPlayerGoal goal = new MoveAdjacentToPlayerGoal(_entity);
 
-            Assert.AreEqual(_entity, goal.Entity);
+            Assert.AreEqual(_entity, goal.Owner);
         }
 
         [TestMethod]

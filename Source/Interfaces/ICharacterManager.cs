@@ -21,6 +21,10 @@ namespace TurnItUp.Interfaces
         Tuple<MoveResult, List<Position>> MovePlayer(Direction direction);
         Tuple<MoveResult, List<Position>> MoveCharacter(Entity character, Direction direction);
         Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination);
+        void EndTurn();
+
+        event EventHandler<EntityEventArgs> TurnEnded;
+        event EventHandler<CharacterMovedEventArgs> CharacterMoved;
     }
 }
 

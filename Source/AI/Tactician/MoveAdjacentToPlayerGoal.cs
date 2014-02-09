@@ -14,20 +14,28 @@ namespace TurnItUp.AI.Tactician
     {
         public MoveAdjacentToPlayerGoal(Entity character)
         {
-            Entity = character;
+            Owner = character;
         }
 
         public override void Activate()
         {
             base.Activate();
 
-            List<Node> bestPath = Entity.GetComponent<OnBoard>().Board.FindBestPathToMoveAdjacentToPlayer(Entity.GetComponent<Position>());
-            Subgoals.Add(new FollowPathGoal(Entity, bestPath));
+            List<Node> bestPath = Owner.GetComponent<OnBoard>().Board.FindBestPathToMoveAdjacentToPlayer(Owner.GetComponent<Position>());
+            Subgoals.Add(new FollowPathGoal(Owner, bestPath));
         }
 
         public override void Process()
         {
             base.Process();
+        }
+
+        public override void Terminate()
+        {
+            base.Terminate();
+
+            // TODO: Test this
+            Owner.GetComponent<OnBoard>().Board.CharacterManager.EndTurn();
         }
     }
 }

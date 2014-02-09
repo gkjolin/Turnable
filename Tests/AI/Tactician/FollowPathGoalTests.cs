@@ -26,7 +26,7 @@ namespace Tests.AI.Tactician
         {
             FollowPathGoal goal = new FollowPathGoal(_entity, _path);
 
-            Assert.AreEqual(_entity, goal.Entity);
+            Assert.AreEqual(_entity, goal.Owner);
             Assert.AreEqual(_path, goal.Path);
         }
 
@@ -42,7 +42,7 @@ namespace Tests.AI.Tactician
 
             Assert.AreEqual(1, goal.Subgoals.Count);
             Assert.IsInstanceOfType(goal.Subgoals[0], typeof(MoveToGoal));
-            Assert.AreEqual(_entity, ((MoveToGoal)goal.Subgoals[0]).Entity);
+            Assert.AreEqual(_entity, ((MoveToGoal)goal.Subgoals[0]).Owner);
             Assert.AreEqual(_path[1], ((MoveToGoal)goal.Subgoals[0]).Destination);
         }
     }

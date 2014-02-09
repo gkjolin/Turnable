@@ -263,13 +263,18 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void Node_CanDetermineIfItIsWalkable()
         {
-            _node = new Node(0, 0);
+            // Anything out of bounds is unwalkable
+            _node = new Node(-1, 1);
             Assert.IsFalse(_node.IsWalkable(_board));
 
+            // Any obstacle is unwalkable
+            _node = new Node(0, 0);
+            Assert.IsFalse(_node.IsWalkable(_board));
             _node = new Node(0, 1);
             Assert.IsFalse(_node.IsWalkable(_board));
 
-            _node = new Node(-1, 1);
+            // Any character is unwalkable
+            _node = new Node(5, 1);
             Assert.IsFalse(_node.IsWalkable(_board));
 
             _node = new Node(5, 10);

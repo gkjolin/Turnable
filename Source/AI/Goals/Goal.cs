@@ -10,7 +10,7 @@ namespace TurnItUp.AI.Goals
     {
         public List<Goal> Subgoals { get; set; }
         public virtual GoalStatus Status { get; set; }
-        public Entity Entity { get; set; }
+        public Entity Owner { get; set; }
 
         public virtual void Activate()
         {

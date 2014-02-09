@@ -32,7 +32,7 @@ namespace Tests.AI.Tactician
         {
             MoveToGoal goal = new MoveToGoal(_entity, _destination);
 
-            Assert.AreEqual(_entity, goal.Entity);
+            Assert.AreEqual(_entity, goal.Owner);
             Assert.AreEqual(_destination, goal.Destination);
         }
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.AI.Brains;
 using TurnItUp.Components;
 
 namespace TurnItUp.Characters
@@ -13,6 +14,7 @@ namespace TurnItUp.Characters
         {
             Entity returnValue = world.CreateEntity();
 
+            returnValue.AddComponent(new Brain());
             returnValue.AddComponent(new OnBoard());
             returnValue.AddComponent(new Position());
             

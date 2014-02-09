@@ -15,7 +15,7 @@ namespace TurnItUp.AI.Tactician
 
         public MoveToGoal(Entity character, Node destination)
         {
-            Entity = character;
+            Owner = character;
             Destination = destination;
         }
 
@@ -23,7 +23,7 @@ namespace TurnItUp.AI.Tactician
         {
             base.Process();
 
-            Entity.GetComponent<OnBoard>().Board.MoveCharacterTo(Entity, Destination.Position);
+            Owner.GetComponent<OnBoard>().Board.MoveCharacterTo(Owner, Destination.Position);
         }
     }
 }
