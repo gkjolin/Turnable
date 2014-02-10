@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TurnItUp.Pathfinding;
 using TurnItUp.Locations;
 using Tests.Factories;
+using TurnItUp.Tmx;
 
 namespace Tests.Pathfinding
 {
@@ -187,6 +188,34 @@ namespace Tests.Pathfinding
         public void PathFinder_WhenEndingNodeIsUnwalkable_ThrowsAnException()
         {
             List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(4, 1), new Node(5, 1), _board);
+        }
+
+        [TestMethod]
+        public void PathFinder_WhenEndingNodeIsUnreachable_ReturnsANullPath()
+        {
+            // The sample board:
+            // XXXXXXXXXXXXXXXX
+            // X....1EE.......X
+            // X....ooooooX2..X
+            // X.......E.ooo..X
+            // X.E.X..........X
+            // X.....E....E...X
+            // X........X.....X
+            // X..........XXXXX
+            // X.F........X...X
+            // X..........X...X
+            // X......X...N...X
+            // X.X........X...X
+            // X..........X...X
+            // X..........X...X
+            // X......P...X...X
+            // XXXXXXXXXXXXXXXX
+            // N - New Obstacle
+
+            _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 10), new Tile(1, 11, 10));
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(4, 1), new Node(12, 10), _board);
+
+            Assert.IsNull(path);
         }
 
         [TestMethod]

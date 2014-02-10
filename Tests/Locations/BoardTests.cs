@@ -7,6 +7,7 @@ using TurnItUp.Components;
 using System.Collections.Generic;
 using Entropy;
 using TurnItUp.Pathfinding;
+using TurnItUp.Tmx;
 
 namespace Tests.Locations
 {
@@ -80,6 +81,38 @@ namespace Tests.Locations
             Assert.AreEqual(19, bestPath.Count);
             Assert.AreEqual(new Node(1, 1), bestPath[0]);
             Assert.AreEqual(new Node(_board.CharacterManager.Player.GetComponent<Position>().X, _board.CharacterManager.Player.GetComponent<Position>().Y - 1), bestPath[18]);
+        }
+
+        [TestMethod]
+        public void Board_WhenThereIsNoPathToThePlayer_ReturnsNullWhenAskedToFindTheBestPathToANodeAdjacentToThePlayer()
+        {
+            // The sample board:
+            // XXXXXXXXXXXXXXXX
+            // X....EEE.......X
+            // X..........X...X
+            // X.......E......X
+            // X.E.X..........X
+            // X.....E....E...X
+            // X........X.....X
+            // X..........XXXXX
+            // X..........X...X
+            // X..........X...X
+            // X......X.......X
+            // X.X........X...X
+            // X..........X...X
+            // X.....NNN..X...X
+            // X.....NPN..X...X
+            // XXXXXXXXXXXXXXXX
+            // X - Obstacles, P - Player, E - Enemies, N - New Obstacles
+            _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int,int>(6, 14), new Tile(1, 6, 14));
+            _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int,int>(8, 14), new Tile(1, 8, 14));
+            _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int,int>(6, 13), new Tile(1, 6, 13));
+            _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int,int>(7, 13), new Tile(1, 7, 13));
+            _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int,int>(8, 13), new Tile(1, 8, 13));
+
+            List<Node> bestPath = _board.FindBestPathToMoveAdjacentToPlayer(new Position(1, 1));
+
+            Assert.IsNull(bestPath);
         }
 
         // Facade implementation tests

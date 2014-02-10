@@ -22,7 +22,15 @@ namespace TurnItUp.AI.Tactician
             base.Activate();
 
             List<Node> bestPath = Owner.GetComponent<OnBoard>().Board.FindBestPathToMoveAdjacentToPlayer(Owner.GetComponent<Position>());
-            Subgoals.Add(new FollowPathGoal(Owner, bestPath));
+
+            if (bestPath == null)
+            {
+                Status = GoalStatus.Failed;
+            }
+            else
+            {
+                Subgoals.Add(new FollowPathGoal(Owner, bestPath));
+            }
         }
 
         public override void Process()

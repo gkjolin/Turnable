@@ -37,6 +37,12 @@ namespace TurnItUp.Pathfinding
 
             while (shortestPathFound == null)
             {
+                // If a path to the endingNode has not yet been found AND there are no openNodes, there is no feasible path to the endingNode
+                if (openNodes.Count == 0)
+                {
+                    return null;
+                }
+
                 currentNode = openNodes[0];
 
                 openNodes.Remove(currentNode);

@@ -56,7 +56,6 @@ namespace TurnItUp.AI.Goals
 
         public override void Terminate()
         {
-            throw new NotImplementedException();
         }
 
         public override void AddSubgoal(Goal goal)

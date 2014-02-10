@@ -41,6 +41,11 @@ namespace TurnItUp.Locations
 
             //TODO: Test this!
             candidateNodes.RemoveAll(cn => !(cn.IsWalkable(this)));
+            // If there are no candidate nodes available, there is no path to the player
+            if (candidateNodes.Count == 0)
+            {
+                return null;
+            }
 
             Node closestNode = pathFinder.ClosestNode(startingNode, candidateNodes);
             return pathFinder.SeekPath(startingNode, closestNode, this);

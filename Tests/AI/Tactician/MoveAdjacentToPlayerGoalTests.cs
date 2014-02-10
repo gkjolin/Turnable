@@ -8,6 +8,7 @@ using Tests.Factories;
 using Moq;
 using TurnItUp.Locations;
 using TurnItUp.Components;
+using TurnItUp.AI.Goals;
 
 namespace Tests.AI.Tactician
 {
@@ -51,6 +52,19 @@ namespace Tests.AI.Tactician
 
             Assert.AreEqual(1, goal.Subgoals.Count);
             Assert.AreEqual(_bestPath.Count, ((FollowPathGoal)goal.Subgoals[0]).Path.Count);
+        }
+
+        [TestMethod]
+        public void MoveAdjacentToPlayerGoal_WhenActivatedAndThereIsNoViablePathToThePlayer_Fails()
+        {
+            _bestPath = null;
+            _mockBoard.Setup(b => b.FindBestPathToMoveAdjacentToPlayer(It.IsAny<Position>())).Returns(_bestPath);
+            MoveAdjacentToPlayerGoal goal = new MoveAdjacentToPlayerGoal(_entity);
+
+            goal.Activate();
+
+            Assert.AreEqual(0, goal.Subgoals.Count);
+            Assert.AreEqual(GoalStatus.Failed, goal.Status);
         }
     }
 }
