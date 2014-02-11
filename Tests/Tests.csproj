@@ -73,6 +73,7 @@
     <Compile Include="AI\Tactician\MoveToGoalTests.cs" />
     <Compile Include="AI\Tactician\FollowPathGoalTests.cs" />
     <Compile Include="Characters\CharacterManagerTests.cs" />
+    <Compile Include="Characters\InTeamTests.cs" />
     <Compile Include="Characters\NpcTests.cs" />
     <Compile Include="Characters\PCTests.cs" />
     <Compile Include="Components\OnBoardTests.cs" />

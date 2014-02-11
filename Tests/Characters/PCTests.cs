@@ -26,9 +26,11 @@ namespace Tests.Characters
         {
             Entity pc = _world.CreateEntityFromTemplate<PC>();
 
-            Assert.AreEqual(2, pc.Components.Count);
+            Assert.AreEqual(3, pc.Components.Count);
             Assert.IsTrue(pc.Components.ContainsKey(typeof(OnBoard)));
             Assert.IsTrue(pc.Components.ContainsKey(typeof(Position)));
+            Assert.IsTrue(pc.Components.ContainsKey(typeof(InTeam)));
+            Assert.AreEqual("PCs", pc.GetComponent<InTeam>().Name);
         }
     }
 }

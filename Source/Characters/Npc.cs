@@ -17,7 +17,8 @@ namespace TurnItUp.Characters
             returnValue.AddComponent(new Brain());
             returnValue.AddComponent(new OnBoard());
             returnValue.AddComponent(new Position());
-            
+            returnValue.AddComponent(new InTeam("NPCs"));
+
             return returnValue;
         }
     }

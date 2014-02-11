@@ -10,26 +10,18 @@ namespace TurnItUp.Skills
     {
         public RangeTypes RangeTypes { get; set; }
         public TargetTypes TargetTypes { get; set; }
+        public int Range { get; set; }
 
         public Skill()
         {
             RangeTypes = Skills.RangeTypes.Adjacent;
-            TargetTypes = Skills.TargetTypes.Enemies;
+            TargetTypes = Skills.TargetTypes.InAnotherTeam;
+            Range = 1;
         }
 
         public TargetMap CalculateTargetMap(Position skillUserPosition)
         {
-            TargetMap returnValue = new TargetMap();
-
-            if ((TargetTypes & TargetTypes.Self) == TargetTypes.Self) 
-            {
-                HashSet<Position> possibleTargetPositions = new HashSet<Position>();
-
-                possibleTargetPositions.Add(skillUserPosition.DeepClone());
-                returnValue.Add(new System.Tuples.Tuple<int, int>(skillUserPosition.X, skillUserPosition.Y), possibleTargetPositions);
-            }
-
-            return returnValue;
+            return null;
         }
     }
 }

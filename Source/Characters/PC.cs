@@ -15,7 +15,8 @@ namespace TurnItUp.Characters
 
             returnValue.AddComponent(new OnBoard());
             returnValue.AddComponent(new Position());
-            
+            returnValue.AddComponent(new InTeam("PCs"));
+           
             return returnValue;
         }
     }

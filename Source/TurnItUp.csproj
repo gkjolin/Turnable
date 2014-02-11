@@ -59,6 +59,7 @@
     <Compile Include="AI\Tactician\FollowPathGoal.cs" />
     <Compile Include="Characters\CharacterManager.cs" />
     <Compile Include="Characters\CharacterMovedEventArgs.cs" />
+    <Compile Include="Characters\InTeam.cs" />
     <Compile Include="Characters\Npc.cs" />
     <Compile Include="Characters\PC.cs" />
     <Compile Include="Components\OnBoard.cs" />

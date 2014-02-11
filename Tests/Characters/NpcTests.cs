@@ -27,10 +27,12 @@ namespace Tests.Characters
         {
             Entity npc = _world.CreateEntityFromTemplate<Npc>();
 
-            Assert.AreEqual(3, npc.Components.Count);
+            Assert.AreEqual(4, npc.Components.Count);
             Assert.IsTrue(npc.Components.ContainsKey(typeof(Brain)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(OnBoard)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(Position)));
+            Assert.IsTrue(npc.Components.ContainsKey(typeof(InTeam)));
+            Assert.AreEqual("NPCs", npc.GetComponent<InTeam>().Name);
         }
     }
 }

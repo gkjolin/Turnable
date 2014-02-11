@@ -26,35 +26,30 @@ namespace Tests.Skills
         {
             Skill skill = new Skill();
 
-            // Skills can target Any, Self, NotSelf, WalkableLocation, NonWalkableLocation
-            // Skills can have a range of Any, Adjacent, Orthogonal, Diagonal, Circle
-            // Skills have a number of effects
-            Assert.IsTrue((skill.TargetTypes & TargetTypes.NotSelf) == TargetTypes.NotSelf);
+            Assert.IsTrue((skill.TargetTypes & TargetTypes.InAnotherTeam) == TargetTypes.InAnotherTeam);
             Assert.IsTrue((skill.RangeTypes & RangeTypes.Adjacent) == RangeTypes.Adjacent);
+            Assert.AreEqual(1, skill.Range);
         }
 
         // Testing the generation of a skill's Target Map
-        // A Target Map is the set of targets that the user can target from each position on the map
+        // A Target Map is the set of nodes from which an enemy can use the skill on the player
 
-        // TargetTypes.Self
         [TestMethod]
-        public void Skill_AbleToTargetSelf_GeneratesTheCorrectTargetMapAndIgnoresRange()
+        public void 
+
+        [TestMethod]
+        public void Skill_WithARangeOfAdjacentNodes_GeneratesTheCorrectTargetMap()
         {
-            RangeTypes[] rangeTypesChoices = {RangeTypes.Adjacent, RangeTypes.Any, RangeTypes.Circle, RangeTypes.Diagonal, RangeTypes.Orthogonal};
+            Skill skill = new Skill() { RangeTypes = RangeTypes.Adjacent, TargetTypes = TargetTypes.InAnotherTeam };
 
-            foreach (RangeTypes rangeTypesChoice in rangeTypesChoices)
-            {
-                Skill skill = new Skill() { RangeTypes = rangeTypesChoice, TargetTypes = TargetTypes.Self };
+            TargetMap targetMap = skill.CalculateTargetMap(_board);
 
-                TargetMap targetMap = skill.CalculateTargetMap(new Position(0, 0));
+            Assert.AreEqual(1, targetMap.Count);
+            Assert.IsTrue(targetMap.ContainsKey(new Tuple<int, int>(0, 0)));
 
-                Assert.AreEqual(1, targetMap.Count);
-                Assert.IsTrue(targetMap.ContainsKey(new Tuple<int, int>(0, 0)));
-
-                HashSet<Position> possibleTargetPositions = targetMap[new Tuple<int, int>(0, 0)];
-                Assert.AreEqual(1, possibleTargetPositions.Count);
-                Assert.IsTrue(possibleTargetPositions.Contains(new Position(0, 0)));
-            }
+            HashSet<Position> possibleTargetPositions = targetMap[new Tuple<int, int>(0, 0)];
+            Assert.AreEqual(1, possibleTargetPositions.Count);
+            Assert.IsTrue(possibleTargetPositions.Contains(new Position(0, 0)));
         }
 
         // RangeTypes.Any
