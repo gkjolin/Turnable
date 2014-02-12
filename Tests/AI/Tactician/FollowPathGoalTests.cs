@@ -5,6 +5,7 @@ using TurnItUp.Pathfinding;
 using TurnItUp.AI.Tactician;
 using Entropy;
 using Tests.Factories;
+using TurnItUp.Locations;
 
 namespace Tests.AI.Tactician
 {
@@ -13,10 +14,12 @@ namespace Tests.AI.Tactician
     {
         private Entity _entity;
         private List<Node> _path;
+        private Board _board;
 
         [TestInitialize]
         public void Initialize()
         {
+            _board = LocationsFactory.BuildBoard();
             _entity = EntropyFactory.BuildEntity();
             _path = new List<Node>();
         }
@@ -33,8 +36,8 @@ namespace Tests.AI.Tactician
         [TestMethod]
         public void FollowPathGoal_WhenActivated_CreatesAMoveToAtomicGoal()
         {
-            _path.Add(new Node(0, 0));
-            _path.Add(new Node(0, 1));
+            _path.Add(new Node(_board, 0, 0));
+            _path.Add(new Node(_board, 0, 1));
 
             FollowPathGoal goal = new FollowPathGoal(_entity, _path);
 

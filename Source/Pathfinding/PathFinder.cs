@@ -11,9 +11,11 @@ namespace TurnItUp.Pathfinding
     public class PathFinder
     {
         public bool AllowDiagonalMovement { get; private set; }
+        public Board Board { get; private set; }
 
-        public PathFinder(bool allowDiagonalMovement)
+        public PathFinder(Board board, bool allowDiagonalMovement)
         {
+            Board = board;
             AllowDiagonalMovement = allowDiagonalMovement;
         }
 
@@ -68,7 +70,7 @@ namespace TurnItUp.Pathfinding
                     // If it isn’t on the open list, add it to the open list. Make the current square the parent of this square. Record the G and H costs of the square. 
                     if (node == null)
                     {
-                        node = new Node(adjacentNode.Position.X, adjacentNode.Position.Y, currentNode);
+                        node = new Node(Board, adjacentNode.Position.X, adjacentNode.Position.Y, currentNode);
                         node.CalculateH(endingNode.Position.X, endingNode.Position.Y);
                         openNodes.Add(node);
                     }

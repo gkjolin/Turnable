@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TurnItUp.Components;
+using TurnItUp.Locations;
 
 namespace TurnItUp.Skills
 {
@@ -19,7 +20,7 @@ namespace TurnItUp.Skills
             Range = 1;
         }
 
-        public TargetMap CalculateTargetMap(Position skillUserPosition)
+        public TargetMap CalculateTargetMap(Board board)
         {
             return null;
         }

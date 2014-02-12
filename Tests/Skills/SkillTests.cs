@@ -35,21 +35,14 @@ namespace Tests.Skills
         // A Target Map is the set of nodes from which an enemy can use the skill on the player
 
         [TestMethod]
-        public void 
-
-        [TestMethod]
         public void Skill_WithARangeOfAdjacentNodes_GeneratesTheCorrectTargetMap()
         {
             Skill skill = new Skill() { RangeTypes = RangeTypes.Adjacent, TargetTypes = TargetTypes.InAnotherTeam };
 
             TargetMap targetMap = skill.CalculateTargetMap(_board);
 
-            Assert.AreEqual(1, targetMap.Count);
-            Assert.IsTrue(targetMap.ContainsKey(new Tuple<int, int>(0, 0)));
-
-            HashSet<Position> possibleTargetPositions = targetMap[new Tuple<int, int>(0, 0)];
-            Assert.AreEqual(1, possibleTargetPositions.Count);
-            Assert.IsTrue(possibleTargetPositions.Contains(new Position(0, 0)));
+            //Assert.AreEqual(1, targetMap.possibleTargetPositions.Count);
+            //Assert.IsTrue(possibleTargetPositions.Contains(new Position(0, 0)));
         }
 
         // RangeTypes.Any

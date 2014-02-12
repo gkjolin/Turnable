@@ -17,18 +17,21 @@ namespace Tests.AI.Tactician
     {
         private Entity _entity;
         private Mock<Board> _mockBoard;
+        private PathFinder _pathFinder;
         private Entity _player;
         private List<Node> _bestPath;
 
         [TestInitialize]
         public void Initialize()
         {
+            _pathFinder = new PathFinder(_mockBoard.Object, false);
             _bestPath = new List<Node>();
-            _bestPath.Add(new Node(0, 0));
-            _bestPath.Add(new Node(0, 1));
-            _bestPath.Add(new Node(0, 2));
+            _bestPath.Add(new Node(_mockBoard.Object, 0, 0));
+            _bestPath.Add(new Node(_mockBoard.Object, 0, 1));
+            _bestPath.Add(new Node(_mockBoard.Object, 0, 2));
             _mockBoard = new Mock<Board>();
             _mockBoard.Setup(b => b.FindBestPathToMoveAdjacentToPlayer(It.IsAny<Position>())).Returns(_bestPath);
+            _mockBoard.Setup(b => b.PathFinder).Returns(_pathFinder);
             _player = EntropyFactory.BuildEntity();
             _player.AddComponent(new Position(5, 5));
             _entity = EntropyFactory.BuildEntity();

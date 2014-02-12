@@ -24,7 +24,7 @@ namespace Tests.AI.Tactician
             _mockBoard = new Mock<Board>();
             _entity = EntropyFactory.BuildEntity();
             _entity.AddComponent(new OnBoard(_mockBoard.Object));
-            _destination = new Node(0, 0);
+            _destination = new Node(_mockBoard.Object, 0, 0);
         }
 
         [TestMethod]

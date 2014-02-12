@@ -9,13 +9,15 @@ namespace TurnItUp.Pathfinding
 {
     public class Node
     {
+        public Board Board { get; private set; }
         public Position Position { get; private set; }
         public Node Parent { get; set; }
         public int H { get; set; }
         private int _g;
 
-        public Node(int x, int y, Node parent = null)
+        public Node(Board board, int x, int y, Node parent = null)
         {
+            Board = board;
             Position = new Position(x, y);
             Parent = parent;
         }
@@ -102,7 +104,7 @@ namespace TurnItUp.Pathfinding
                 {
                     if (x == Position.X && y == Position.Y) continue;
 
-                    returnValue.Add(new Node(x, y));
+                    returnValue.Add(new Node(board, x, y));
                 }
             }
 

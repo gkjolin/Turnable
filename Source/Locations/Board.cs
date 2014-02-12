@@ -18,7 +18,9 @@ namespace TurnItUp.Locations
 
         public Map Map { get; private set; }
         public ICharacterManager CharacterManager { get; set; }
+        public PathFinder PathFinder { get; private set; }
 
+        // Initialization methods
         public void Initialize(World world, string tmxPath)
         {
             Map = new Map(tmxPath);
@@ -30,14 +32,18 @@ namespace TurnItUp.Locations
             }
         }
 
+        public void InitializePathFinding(bool allowDiagonalMovement = false)
+        {
+            PathFinder = new PathFinder(this, allowDiagonalMovement);
+        }
+
         // TODO: Test this!
         public virtual List<Node> FindBestPathToMoveAdjacentToPlayer(Position position)
         {
-            PathFinder pathFinder = new PathFinder(false);
             Position playerPosition = CharacterManager.Player.GetComponent<Position>();
 
-            Node startingNode = new Node(position.X, position.Y);
-            List<Node> candidateNodes = new Node(playerPosition.X, playerPosition.Y).GetAdjacentNodes(this, false);
+            Node startingNode = new Node(this, position.X, position.Y);
+            List<Node> candidateNodes = new Node(this, playerPosition.X, playerPosition.Y).GetAdjacentNodes(this, false);
 
             //TODO: Test this!
             candidateNodes.RemoveAll(cn => !(cn.IsWalkable(this)));
@@ -47,8 +53,8 @@ namespace TurnItUp.Locations
                 return null;
             }
 
-            Node closestNode = pathFinder.ClosestNode(startingNode, candidateNodes);
-            return pathFinder.SeekPath(startingNode, closestNode, this);
+            Node closestNode = PathFinder.ClosestNode(startingNode, candidateNodes);
+            return PathFinder.SeekPath(startingNode, closestNode, this);
         }
 
         public bool IsObstacle(int x, int y)
@@ -75,6 +81,5 @@ namespace TurnItUp.Locations
         {
             return CharacterManager.MoveCharacterTo(character, destination);
         }
-
     }
 }

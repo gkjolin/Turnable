@@ -43,6 +43,7 @@ namespace Tests.Locations
             _world = new World();
             _board = new Board();
             _board.Initialize(_world, "../../Fixtures/FullExample.tmx");
+            _board.InitializePathFinding();
             _characterManagerMock = new Mock<ICharacterManager>();
         }
 
@@ -59,6 +60,27 @@ namespace Tests.Locations
             Assert.AreEqual(9, board.CharacterManager.Characters.Count);
             Assert.AreEqual(board, board.CharacterManager.Board);
             Assert.AreEqual(9, board.CharacterManager.TurnQueue.Count);
+        }
+
+        [TestMethod]
+        public void Board_InitializingPathfinding_SetsUpAPathFinderThatDisallowsDiagonalMovementByDefault()
+        {
+            Board board = new Board();
+            board.InitializePathFinding();
+
+            Assert.IsNotNull(board.PathFinder);
+            Assert.IsFalse(board.PathFinder.AllowDiagonalMovement);
+            Assert.AreEqual(board, board.PathFinder.Board);
+        }
+
+        [TestMethod]
+        public void Board_InitializingPathfinding_CanSetUpAPathFinderThatAllowsDiagonalMovement()
+        {
+            Board board = new Board();
+            board.InitializePathFinding(true);
+
+            Assert.IsNotNull(board.PathFinder);
+            Assert.IsTrue(board.PathFinder.AllowDiagonalMovement);
         }
 
         [TestMethod]
@@ -79,8 +101,8 @@ namespace Tests.Locations
             List<Node> bestPath = _board.FindBestPathToMoveAdjacentToPlayer(new Position(1, 1));
 
             Assert.AreEqual(19, bestPath.Count);
-            Assert.AreEqual(new Node(1, 1), bestPath[0]);
-            Assert.AreEqual(new Node(_board.CharacterManager.Player.GetComponent<Position>().X, _board.CharacterManager.Player.GetComponent<Position>().Y - 1), bestPath[18]);
+            Assert.AreEqual(new Node(_board, 1, 1), bestPath[0]);
+            Assert.AreEqual(new Node(_board, _board.CharacterManager.Player.GetComponent<Position>().X, _board.CharacterManager.Player.GetComponent<Position>().Y - 1), bestPath[18]);
         }
 
         [TestMethod]

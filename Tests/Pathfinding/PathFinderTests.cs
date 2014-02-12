@@ -38,10 +38,10 @@ namespace Tests.Pathfinding
         [TestInitialize]
         public void Initialize()
         {
-            _node = new Node(0, 0);
+            _node = new Node(_board, 0, 0);
             _board = LocationsFactory.BuildBoard();
-            _pathFinderWithDiagonalMovement = new PathFinder(true);
-            _pathFinderWithoutDiagonalMovement = new PathFinder(false);
+            _pathFinderWithDiagonalMovement = new PathFinder(_board, true);
+            _pathFinderWithoutDiagonalMovement = new PathFinder(_board, false);
         }
 
         // Diagonal movement allowed
@@ -49,99 +49,100 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_Construction_IsSuccessful()
         {
-            PathFinder pathFinder = new PathFinder(true);
+            PathFinder pathFinder = new PathFinder(_board, true);
 
+            Assert.AreEqual(_board, pathFinder.Board);
             Assert.IsTrue(pathFinder.AllowDiagonalMovement);
         }
 
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonalAndNextToEachOther_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(1, 1), new Node(1, 2), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 1, 1), new Node(_board, 1, 2), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(2, path.Count);
-            Assert.AreEqual(new Node(1, 1), path[0]);
-            Assert.AreEqual(new Node(1, 2), path[1]);
+            Assert.AreEqual(new Node(_board, 1, 1), path[0]);
+            Assert.AreEqual(new Node(_board, 1, 2), path[1]);
         }
 
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreDiagonalAndNextToEachOther_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(6, 6), new Node(5, 5), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 6, 6), new Node(_board, 5, 5), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(2, path.Count);
-            Assert.AreEqual(new Node(6, 6), path[0]);
-            Assert.AreEqual(new Node(5, 5), path[1]);
+            Assert.AreEqual(new Node(_board, 6, 6), path[0]);
+            Assert.AreEqual(new Node(_board, 5, 5), path[1]);
         }
 
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveNoObstaclesBetweenThem_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(1, 1), new Node(4, 1), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 1, 1), new Node(_board, 4, 1), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(4, path.Count);
-            Assert.AreEqual(new Node(1, 1), path[0]);
-            Assert.AreEqual(new Node(2, 1), path[1]);
-            Assert.AreEqual(new Node(3, 1), path[2]);
-            Assert.AreEqual(new Node(4, 1), path[3]);
+            Assert.AreEqual(new Node(_board, 1, 1), path[0]);
+            Assert.AreEqual(new Node(_board, 2, 1), path[1]);
+            Assert.AreEqual(new Node(_board, 3, 1), path[2]);
+            Assert.AreEqual(new Node(_board, 4, 1), path[3]);
         }
 
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreDiagonallySeparatedAndHaveNoObstaclesBetweenThem_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(3, 5), new Node(5, 7), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 3, 5), new Node(_board, 5, 7), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(3, path.Count);
-            Assert.AreEqual(new Node(3, 5), path[0]);
-            Assert.AreEqual(new Node(4, 6), path[1]);
-            Assert.AreEqual(new Node(5, 7), path[2]);
+            Assert.AreEqual(new Node(_board, 3, 5), path[0]);
+            Assert.AreEqual(new Node(_board, 4, 6), path[1]);
+            Assert.AreEqual(new Node(_board, 5, 7), path[2]);
         }
 
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneObstacle_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(4, 1), new Node(4, 5), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 4, 5), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(5, path.Count);
-            Assert.AreEqual(new Node(4, 1), path[0]);
-            Assert.AreEqual(new Node(4, 2), path[1]);
-            Assert.AreEqual(new Node(4, 3), path[2]);
-            Assert.AreEqual(new Node(3, 4), path[3]);
-            Assert.AreEqual(new Node(4, 5), path[4]);
+            Assert.AreEqual(new Node(_board, 4, 1), path[0]);
+            Assert.AreEqual(new Node(_board, 4, 2), path[1]);
+            Assert.AreEqual(new Node(_board, 4, 3), path[2]);
+            Assert.AreEqual(new Node(_board, 3, 4), path[3]);
+            Assert.AreEqual(new Node(_board, 4, 5), path[4]);
         }
 
         // Diagonal movement NOT allowed
         [TestMethod]
         public void PathFinder_WhereDiagonalMovementIsNotAllowedAndStartingAndEndingPointsAreDiagonalAndNextToEachOther_CanFindPath()
         {
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(6, 6), new Node(5, 5), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 6, 6), new Node(_board, 5, 5), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(3, path.Count);
-            Assert.AreEqual(new Node(6, 6), path[0]);
-            Assert.AreEqual(new Node(5, 6), path[1]);
-            Assert.AreEqual(new Node(5, 5), path[2]);
+            Assert.AreEqual(new Node(_board, 6, 6), path[0]);
+            Assert.AreEqual(new Node(_board, 5, 6), path[1]);
+            Assert.AreEqual(new Node(_board, 5, 5), path[2]);
         }
 
         [TestMethod]
         public void PathFinder_WhereDiagonalMovementIsNotAllowedAndEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneObstacle_CanFindPath()
         {
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(4, 1), new Node(4, 5), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 4, 5), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(7, path.Count);
-            Assert.AreEqual(new Node(4, 1), path[0]);
-            Assert.AreEqual(new Node(4, 2), path[1]);
-            Assert.AreEqual(new Node(4, 3), path[2]);
-            Assert.AreEqual(new Node(3, 3), path[3]);
-            Assert.AreEqual(new Node(3, 4), path[4]);
-            Assert.AreEqual(new Node(3, 5), path[5]);
-            Assert.AreEqual(new Node(4, 5), path[6]);
+            Assert.AreEqual(new Node(_board, 4, 1), path[0]);
+            Assert.AreEqual(new Node(_board, 4, 2), path[1]);
+            Assert.AreEqual(new Node(_board, 4, 3), path[2]);
+            Assert.AreEqual(new Node(_board, 3, 3), path[3]);
+            Assert.AreEqual(new Node(_board, 3, 4), path[4]);
+            Assert.AreEqual(new Node(_board, 3, 5), path[5]);
+            Assert.AreEqual(new Node(_board, 4, 5), path[6]);
         }
 
         [TestMethod]
@@ -166,28 +167,28 @@ namespace Tests.Pathfinding
             // XXXXXXXXXXXXXXXX
             // X - Obstacles, P - Player, E - Enemies, F - First Node, o - Expected path, 1 - Starting node, 2 - Ending node
 
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(5, 1), new Node(12, 2), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 5, 1), new Node(_board, 12, 2), _board);
 
             Assert.IsNotNull(path);
             Assert.AreEqual(11, path.Count);
-            Assert.AreEqual(new Node(5, 1), path[0]);
-            Assert.AreEqual(new Node(5, 2), path[1]);
-            Assert.AreEqual(new Node(6, 2), path[2]);
-            Assert.AreEqual(new Node(7, 2), path[3]);
-            Assert.AreEqual(new Node(8, 2), path[4]);
-            Assert.AreEqual(new Node(9, 2), path[5]);
-            Assert.AreEqual(new Node(10, 2), path[6]);
-            Assert.AreEqual(new Node(10, 1), path[7]);
-            Assert.AreEqual(new Node(11, 1), path[8]);
-            Assert.AreEqual(new Node(12, 1), path[9]);
-            Assert.AreEqual(new Node(12, 2), path[10]);
+            Assert.AreEqual(new Node(_board, 5, 1), path[0]);
+            Assert.AreEqual(new Node(_board, 5, 2), path[1]);
+            Assert.AreEqual(new Node(_board, 6, 2), path[2]);
+            Assert.AreEqual(new Node(_board, 7, 2), path[3]);
+            Assert.AreEqual(new Node(_board, 8, 2), path[4]);
+            Assert.AreEqual(new Node(_board, 9, 2), path[5]);
+            Assert.AreEqual(new Node(_board, 10, 2), path[6]);
+            Assert.AreEqual(new Node(_board, 10, 1), path[7]);
+            Assert.AreEqual(new Node(_board, 11, 1), path[8]);
+            Assert.AreEqual(new Node(_board, 12, 1), path[9]);
+            Assert.AreEqual(new Node(_board, 12, 2), path[10]);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void PathFinder_WhenEndingNodeIsUnwalkable_ThrowsAnException()
         {
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(4, 1), new Node(5, 1), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 5, 1), _board);
         }
 
         [TestMethod]
@@ -213,7 +214,7 @@ namespace Tests.Pathfinding
             // N - New Obstacle
 
             _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 10), new Tile(1, 11, 10));
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(4, 1), new Node(12, 10), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 12, 10), _board);
 
             Assert.IsNull(path);
         }
@@ -224,26 +225,26 @@ namespace Tests.Pathfinding
             Node startingNode, endingNode;
 
             // Starting and Ending location are the same
-            startingNode = new Node(0, 0);
-            endingNode = new Node(0, 0);
+            startingNode = new Node(_board, 0, 0);
+            endingNode = new Node(_board, 0, 0);
             Assert.AreEqual(0, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
 
             // Starting and Ending location are in the same line vertically or horizontally
-            endingNode = new Node(0, 5);
+            endingNode = new Node(_board, 0, 5);
             Assert.AreEqual(5, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-            endingNode = new Node(3, 0);
+            endingNode = new Node(_board, 3, 0);
             Assert.AreEqual(3, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
 
             // Starting and Ending location are exactly diagonal to each other
-            endingNode = new Node(5, 5);
+            endingNode = new Node(_board, 5, 5);
             Assert.AreEqual(5, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-            endingNode = new Node(3, 3);
+            endingNode = new Node(_board, 3, 3);
             Assert.AreEqual(3, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
 
             // Starting and Ending location are not exactly diagonal or in the same line horizontally or vertically
-            endingNode = new Node(3, 5);
+            endingNode = new Node(_board, 3, 5);
             Assert.AreEqual(5, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-            endingNode = new Node(6, 1);
+            endingNode = new Node(_board, 6, 1);
             Assert.AreEqual(6, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
         }
 
@@ -253,26 +254,26 @@ namespace Tests.Pathfinding
             Node startingNode, endingNode;
 
             // Starting and Ending location are the same
-            startingNode = new Node(0, 0);
-            endingNode = new Node(0, 0);
+            startingNode = new Node(_board, 0, 0);
+            endingNode = new Node(_board, 0, 0);
             Assert.AreEqual(0, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
 
             // Starting and Ending location are in the same line vertically or horizontally
-            endingNode = new Node(0, 5);
+            endingNode = new Node(_board, 0, 5);
             Assert.AreEqual(5, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-            endingNode = new Node(3, 0);
+            endingNode = new Node(_board, 3, 0);
             Assert.AreEqual(3, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
 
             // Starting and Ending location are exactly diagonal to each other
-            endingNode = new Node(5, 5);
+            endingNode = new Node(_board, 5, 5);
             Assert.AreEqual(10, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-            endingNode = new Node(3, 3);
+            endingNode = new Node(_board, 3, 3);
             Assert.AreEqual(6, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
 
             // Starting and Ending location are not exactly diagonal or in the same line horizontally or vertically
-            endingNode = new Node(3, 5);
+            endingNode = new Node(_board, 3, 5);
             Assert.AreEqual(8, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-            endingNode = new Node(6, 1);
+            endingNode = new Node(_board, 6, 1);
             Assert.AreEqual(7, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
         }
 
@@ -297,13 +298,13 @@ namespace Tests.Pathfinding
             // X......P...X...X
             // XXXXXXXXXXXXXXXX
             // X - Obstacles, P - Player, E - Enemies, F - First Node, S - Set of nodes to choose the closest one from
-            Node startingNode = new Node(2, 8);
+            Node startingNode = new Node(_board, 2, 8);
             List<Node> candidateNodes = new List<Node>();
-            candidateNodes.Add(new Node(5, 8));
-            candidateNodes.Add(new Node(6, 7));
-            candidateNodes.Add(new Node(6, 9));
+            candidateNodes.Add(new Node(_board, 5, 8));
+            candidateNodes.Add(new Node(_board, 6, 7));
+            candidateNodes.Add(new Node(_board, 6, 9));
 
-            Assert.AreEqual(new Node(5, 8), _pathFinderWithDiagonalMovement.ClosestNode(startingNode, candidateNodes));
+            Assert.AreEqual(new Node(_board, 5, 8), _pathFinderWithDiagonalMovement.ClosestNode(startingNode, candidateNodes));
         }
 
         [TestMethod]
@@ -327,13 +328,13 @@ namespace Tests.Pathfinding
             // X......P...X...X
             // XXXXXXXXXXXXXXXX
             // X - Obstacles, P - Player, E - Enemies, F - First Node, S - Set of nodes to choose the closest one from
-            Node startingNode = new Node(2, 8);
+            Node startingNode = new Node(_board, 2, 8);
             List<Node> candidateNodes = new List<Node>();
-            candidateNodes.Add(new Node(5, 8));
-            candidateNodes.Add(new Node(6, 7));
-            candidateNodes.Add(new Node(6, 9));
+            candidateNodes.Add(new Node(_board, 5, 8));
+            candidateNodes.Add(new Node(_board, 6, 7));
+            candidateNodes.Add(new Node(_board, 6, 9));
 
-            Assert.AreEqual(new Node(5, 8), _pathFinderWithoutDiagonalMovement.ClosestNode(startingNode, candidateNodes));
+            Assert.AreEqual(new Node(_board, 5, 8), _pathFinderWithoutDiagonalMovement.ClosestNode(startingNode, candidateNodes));
         }
 
             //        [TestMethod]
