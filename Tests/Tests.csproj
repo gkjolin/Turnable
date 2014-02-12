@@ -87,6 +87,7 @@
     <Compile Include="Pathfinding\PathFinderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\AdjacentOriginMapCalcuator.cs" />
+    <Compile Include="Skills\SkillDatabaseTests.cs" />
     <Compile Include="Skills\SkillSetTests.cs" />
     <Compile Include="Skills\SkillTests.cs" />
     <Compile Include="SupportingClasses\AtomicGoalType1.cs" />
