@@ -183,22 +183,22 @@ namespace Tests.Pathfinding
         public void Node_CanDetermineIfItIsWithinBounds()
         {
             _node = new Node(_board, 7, 7);
-            Assert.IsTrue(_node.IsWithinBounds(_board));
+            Assert.IsTrue(_node.IsWithinBounds());
 
             _node = new Node(_board, 0, 0);
-            Assert.IsTrue(_node.IsWithinBounds(_board));
+            Assert.IsTrue(_node.IsWithinBounds());
 
             _node = new Node(_board, 14, 14);
-            Assert.IsTrue(_node.IsWithinBounds(_board));
+            Assert.IsTrue(_node.IsWithinBounds());
 
             _node = new Node(_board, 20, 4);
-            Assert.IsFalse(_node.IsWithinBounds(_board));
+            Assert.IsFalse(_node.IsWithinBounds());
 
             _node = new Node(_board, -1, -1);
-            Assert.IsFalse(_node.IsWithinBounds(_board));
+            Assert.IsFalse(_node.IsWithinBounds());
 
             _node = new Node(_board, 16, 16);
-            Assert.IsFalse(_node.IsWithinBounds(_board));
+            Assert.IsFalse(_node.IsWithinBounds());
         }
 
         [TestMethod]
@@ -206,7 +206,7 @@ namespace Tests.Pathfinding
         {
             _node = new Node(_board, 5, 5);
 
-            List<Node> adjacentNodes = _node.GetAdjacentNodes(_board);
+            List<Node> adjacentNodes = _node.GetAdjacentNodes();
 
             Assert.AreEqual(8, adjacentNodes.Count);
             Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 4, 4)));
@@ -224,7 +224,7 @@ namespace Tests.Pathfinding
         {
             _node = new Node(_board, 5, 5);
 
-            List<Node> adjacentNodes = _node.GetAdjacentNodes(_board, false);
+            List<Node> adjacentNodes = _node.GetAdjacentNodes(false);
 
             Assert.AreEqual(4, adjacentNodes.Count);
             Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 5, 4)));
@@ -238,7 +238,7 @@ namespace Tests.Pathfinding
         {
             _node = new Node(_board, 0, 0);
 
-            List<Node> adjacentNodes = _node.GetAdjacentNodes(_board);
+            List<Node> adjacentNodes = _node.GetAdjacentNodes();
 
             Assert.AreEqual(3, adjacentNodes.Count);
             Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 1, 0)));
@@ -266,23 +266,23 @@ namespace Tests.Pathfinding
         {
             // Anything out of bounds is unwalkable
             _node = new Node(_board, -1, 1);
-            Assert.IsFalse(_node.IsWalkable(_board));
+            Assert.IsFalse(_node.IsWalkable());
 
             // Any obstacle is unwalkable
             _node = new Node(_board, 0, 0);
-            Assert.IsFalse(_node.IsWalkable(_board));
+            Assert.IsFalse(_node.IsWalkable());
             _node = new Node(_board, 0, 1);
-            Assert.IsFalse(_node.IsWalkable(_board));
+            Assert.IsFalse(_node.IsWalkable());
 
             // Any character is unwalkable
             _node = new Node(_board, 5, 1);
-            Assert.IsFalse(_node.IsWalkable(_board));
+            Assert.IsFalse(_node.IsWalkable());
 
             _node = new Node(_board, 5, 10);
-            Assert.IsTrue(_node.IsWalkable(_board));
+            Assert.IsTrue(_node.IsWalkable());
 
             _node = new Node(_board, 1, 1);
-            Assert.IsTrue(_node.IsWalkable(_board));
+            Assert.IsTrue(_node.IsWalkable());
         }
     }
 }

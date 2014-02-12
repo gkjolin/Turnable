@@ -22,7 +22,7 @@ namespace TurnItUp.Pathfinding
         public List<Node> SeekPath(Node startingNode, Node endingNode, Board board)
         {
             // If the endingNode is unwalkable, it's impossible to find a path to this node
-            if (!endingNode.IsWalkable(board))
+            if (!endingNode.IsWalkable())
             {
                 throw new InvalidOperationException("<PathFinder::SeekPath>: ending node is unwalkable. Cannot calculate path to this node.");
             }
@@ -58,10 +58,10 @@ namespace TurnItUp.Pathfinding
                     break;
                 }
 
-                foreach (Node adjacentNode in currentNode.GetAdjacentNodes(board, AllowDiagonalMovement))
+                foreach (Node adjacentNode in currentNode.GetAdjacentNodes(AllowDiagonalMovement))
                 {
                     // If it is not walkable or if it is on the closed list, ignore it.
-                    if (closedNodes.Find(x => x == adjacentNode) != null || !(adjacentNode.IsWalkable(board)))
+                    if (closedNodes.Find(x => x == adjacentNode) != null || !(adjacentNode.IsWalkable()))
                     {
                         continue;
                     }

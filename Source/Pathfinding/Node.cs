@@ -94,7 +94,7 @@ namespace TurnItUp.Pathfinding
             return !(node1 == node2);
         }
 
-        public List<Node> GetAdjacentNodes(Board board, bool allowDiagonalNodes = true)
+        public List<Node> GetAdjacentNodes(bool allowDiagonalNodes = true)
         {
             List<Node> returnValue = new List<Node>();
 
@@ -104,7 +104,7 @@ namespace TurnItUp.Pathfinding
                 {
                     if (x == Position.X && y == Position.Y) continue;
 
-                    returnValue.Add(new Node(board, x, y));
+                    returnValue.Add(new Node(Board, x, y));
                 }
             }
 
@@ -115,18 +115,18 @@ namespace TurnItUp.Pathfinding
                 returnValue = returnValue.FindAll(n => n.IsOrthogonalTo(this));
             }
 
-            return returnValue.FindAll(n => n.IsWithinBounds(board));
+            return returnValue.FindAll(n => n.IsWithinBounds());
         }
 
-        public bool IsWithinBounds(Board board)
+        public bool IsWithinBounds()
         {
-            return (Position.X >= 0 && Position.X <= (board.Map.Width - 1) &&
-                    Position.Y >= 0 && Position.Y <= (board.Map.Height - 1));
+            return (Position.X >= 0 && Position.X <= (Board.Map.Width - 1) &&
+                    Position.Y >= 0 && Position.Y <= (Board.Map.Height - 1));
         }
 
-        public bool IsWalkable(Board board)
+        public bool IsWalkable()
         {
-            return (IsWithinBounds(board) && !board.IsObstacle(Position.X, Position.Y)) && !board.CharacterManager.IsCharacterAt(Position.X, Position.Y);
+            return (IsWithinBounds() && !Board.IsObstacle(Position.X, Position.Y)) && !Board.CharacterManager.IsCharacterAt(Position.X, Position.Y);
         }
 
         public bool IsOrthogonalTo(Node other)

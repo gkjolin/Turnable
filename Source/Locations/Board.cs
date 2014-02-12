@@ -43,10 +43,10 @@ namespace TurnItUp.Locations
             Position playerPosition = CharacterManager.Player.GetComponent<Position>();
 
             Node startingNode = new Node(this, position.X, position.Y);
-            List<Node> candidateNodes = new Node(this, playerPosition.X, playerPosition.Y).GetAdjacentNodes(this, false);
+            List<Node> candidateNodes = new Node(this, playerPosition.X, playerPosition.Y).GetAdjacentNodes(false);
 
             //TODO: Test this!
-            candidateNodes.RemoveAll(cn => !(cn.IsWalkable(this)));
+            candidateNodes.RemoveAll(cn => !(cn.IsWalkable()));
             // If there are no candidate nodes available, there is no path to the player
             if (candidateNodes.Count == 0)
             {
