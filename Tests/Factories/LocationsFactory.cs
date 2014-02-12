@@ -16,6 +16,7 @@ namespace Tests.Factories
             World world = new World();
             Board board = new Board();
             board.Initialize(world, "../../Fixtures/FullExample.tmx");
+            board.InitializePathFinding();
 
             return board;
         }

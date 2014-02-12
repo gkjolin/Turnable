@@ -9,20 +9,32 @@ namespace TurnItUp.Skills
 {
     public class Skill
     {
-        public RangeTypes RangeTypes { get; set; }
-        public TargetTypes TargetTypes { get; set; }
+        public string Name { get; set; }
+        public RangeType RangeType { get; set; }
+        public TargetType TargetType { get; set; }
         public int Range { get; set; }
 
-        public Skill()
+        public Skill(string name) : this(name, RangeType.Adjacent, TargetType.InAnotherTeam, 1)
         {
-            RangeTypes = Skills.RangeTypes.Adjacent;
-            TargetTypes = Skills.TargetTypes.InAnotherTeam;
-            Range = 1;
+        }
+
+        public Skill(string name, RangeType rangeType, TargetType targetType, int range)
+        {
+            Name = name;
+            RangeType = rangeType;
+            TargetType = targetType;
+            Range = range;
         }
 
         public TargetMap CalculateTargetMap(Board board)
         {
-            return null;
+            TargetMap returnValue = new TargetMap();
+
+            Position playerPosition = board.CharacterManager.Player.GetComponent<Position>();
+
+            HashSet<Position> originMap = AdjacentOriginMapCalculator.CalculateOriginMap(board, playerPosition, board.PathFinder.AllowDiagonalMovement);
+            returnValue.Add(new System.Tuples.Tuple<int, int>(playerPosition.X, playerPosition.Y), originMap);
+            return returnValue;
         }
     }
 }

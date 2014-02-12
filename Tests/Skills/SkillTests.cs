@@ -13,6 +13,25 @@ namespace Tests.Skills
     [TestClass]
     public class SkillTests
     {
+        // The sample board:
+        // XXXXXXXXXXXXXXXX
+        // X....EEE.......X
+        // X..........X...X
+        // X.......E......X
+        // X.E.X..........X
+        // X.....E....E...X
+        // X........X.....X
+        // X..........XXXXX
+        // X..........X...X
+        // X..........X...X
+        // X......X.......X
+        // X.X........X...X
+        // X..........X...X
+        // X..........X...X
+        // X......P...X...X
+        // XXXXXXXXXXXXXXXX
+        // X - Obstacles, P - Player, E - Enemies
+
         private Board _board;
 
         [TestInitialize]
@@ -24,11 +43,23 @@ namespace Tests.Skills
         [TestMethod]
         public void Skill_Construction_IsSuccessful()
         {
-            Skill skill = new Skill();
+            Skill skill = new Skill("Melee Attack");
 
-            Assert.IsTrue((skill.TargetTypes & TargetTypes.InAnotherTeam) == TargetTypes.InAnotherTeam);
-            Assert.IsTrue((skill.RangeTypes & RangeTypes.Adjacent) == RangeTypes.Adjacent);
+            Assert.AreEqual("Melee Attack", skill.Name);
+            Assert.AreEqual(TargetType.InAnotherTeam, skill.TargetType);
+            Assert.AreEqual(RangeType.Adjacent, skill.RangeType);
             Assert.AreEqual(1, skill.Range);
+        }
+
+        [TestMethod]
+        public void Skill_ConstructionWithAllValues_IsSuccessful()
+        {
+            Skill skill = new Skill("Melee Attack", RangeType.Orthogonal, TargetType.InAnotherTeam, 5);
+
+            Assert.AreEqual("Melee Attack", skill.Name);
+            Assert.AreEqual(TargetType.InAnotherTeam, skill.TargetType);
+            Assert.AreEqual(RangeType.Orthogonal, skill.RangeType);
+            Assert.AreEqual(5, skill.Range);
         }
 
         // Testing the generation of a skill's Target Map
@@ -37,20 +68,14 @@ namespace Tests.Skills
         [TestMethod]
         public void Skill_WithARangeOfAdjacentNodes_GeneratesTheCorrectTargetMap()
         {
-            Skill skill = new Skill() { RangeTypes = RangeTypes.Adjacent, TargetTypes = TargetTypes.InAnotherTeam };
+            Skill skill = new Skill("Melee Attack") { RangeType = RangeType.Adjacent, TargetType = TargetType.InAnotherTeam };
 
             TargetMap targetMap = skill.CalculateTargetMap(_board);
 
-            //Assert.AreEqual(1, targetMap.possibleTargetPositions.Count);
-            //Assert.IsTrue(possibleTargetPositions.Contains(new Position(0, 0)));
+            Assert.AreEqual(1, targetMap.Count);
+            Assert.IsTrue(targetMap.ContainsKey(new Tuple<int,int>(7, 14)));
+            HashSet<Position> originMap = targetMap[new Tuple<int, int>(7, 14)];
+            Assert.AreEqual(originMap.Count, AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(7, 14)).Count);
         }
-
-        // RangeTypes.Any
-        // TargetTypes.Any
-        // NOT IMPLEMENTED
-
-        // RangeTypes.Any
-        // TargetTypes.NotSelf
-        // NOT IMPLEMENTED
     }
 }

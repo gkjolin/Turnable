@@ -6,7 +6,7 @@ using System.Text;
 namespace TurnItUp.Skills
 {
     [Flags]
-    public enum TargetTypes
+    public enum TargetType
     {
         InAnotherTeam = 0
     }

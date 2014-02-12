@@ -73,9 +73,10 @@
     <Compile Include="Pathfinding\NodeList.cs" />
     <Compile Include="Pathfinding\PathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\AdjacentOriginMapCalculator.cs" />
     <Compile Include="Skills\TargetMap.cs" />
-    <Compile Include="Skills\TargetTypes.cs" />
-    <Compile Include="Skills\RangeTypes.cs" />
+    <Compile Include="Skills\TargetType.cs" />
+    <Compile Include="Skills\RangeType.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Tmx\ReferenceTile.cs" />
     <Compile Include="Tmx\Tile.cs" />

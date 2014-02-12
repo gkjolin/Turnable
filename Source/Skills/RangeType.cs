@@ -6,7 +6,7 @@ using System.Text;
 namespace TurnItUp.Skills
 {
     [Flags]
-    public enum RangeTypes
+    public enum RangeType
     {
         Adjacent = 1,
         Orthogonal = 2
