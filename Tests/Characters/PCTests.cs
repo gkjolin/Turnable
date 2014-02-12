@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TurnItUp.Components;
 using System.Tuples;
 using Entropy;
+using TurnItUp.Skills;
 
 namespace Tests.Characters
 {
@@ -26,11 +27,22 @@ namespace Tests.Characters
         {
             Entity pc = _world.CreateEntityFromTemplate<PC>();
 
-            Assert.AreEqual(3, pc.Components.Count);
+            Assert.AreEqual(4, pc.Components.Count);
             Assert.IsTrue(pc.Components.ContainsKey(typeof(OnBoard)));
             Assert.IsTrue(pc.Components.ContainsKey(typeof(Position)));
             Assert.IsTrue(pc.Components.ContainsKey(typeof(InTeam)));
             Assert.AreEqual("PCs", pc.GetComponent<InTeam>().Name);
+            Assert.IsTrue(pc.Components.ContainsKey(typeof(SkillSet)));
+
+            // Is there a basic melee attack for the PC?
+            SkillSet skillSet = pc.GetComponent<SkillSet>();
+
+            Assert.IsNotNull(skillSet["Melee Attack"]);
+            Skill skill = skillSet["Melee Attack"];
+            Assert.AreEqual("Melee Attack", skill.Name);
+            Assert.AreEqual(TargetType.InAnotherTeam, skill.TargetType);
+            Assert.AreEqual(RangeType.Adjacent, skill.RangeType);
+            Assert.AreEqual(1, skill.Range);
         }
     }
 }
