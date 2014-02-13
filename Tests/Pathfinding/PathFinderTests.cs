@@ -58,7 +58,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonalAndNextToEachOther_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 1, 1), new Node(_board, 1, 2), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 1, 1), new Node(_board, 1, 2));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(2, path.Count);
@@ -69,7 +69,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreDiagonalAndNextToEachOther_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 6, 6), new Node(_board, 5, 5), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 6, 6), new Node(_board, 5, 5));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(2, path.Count);
@@ -80,7 +80,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveNoObstaclesBetweenThem_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 1, 1), new Node(_board, 4, 1), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 1, 1), new Node(_board, 4, 1));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(4, path.Count);
@@ -93,7 +93,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreDiagonallySeparatedAndHaveNoObstaclesBetweenThem_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 3, 5), new Node(_board, 5, 7), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 3, 5), new Node(_board, 5, 7));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(3, path.Count);
@@ -105,7 +105,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneObstacle_CanFindPath()
         {
-            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 4, 5), _board);
+            List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 4, 5));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(5, path.Count);
@@ -120,7 +120,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereDiagonalMovementIsNotAllowedAndStartingAndEndingPointsAreDiagonalAndNextToEachOther_CanFindPath()
         {
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 6, 6), new Node(_board, 5, 5), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 6, 6), new Node(_board, 5, 5));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(3, path.Count);
@@ -132,7 +132,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereDiagonalMovementIsNotAllowedAndEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneObstacle_CanFindPath()
         {
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 4, 5), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 4, 5));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(7, path.Count);
@@ -167,7 +167,7 @@ namespace Tests.Pathfinding
             // XXXXXXXXXXXXXXXX
             // X - Obstacles, P - Player, E - Enemies, F - First Node, o - Expected path, 1 - Starting node, 2 - Ending node
 
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 5, 1), new Node(_board, 12, 2), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 5, 1), new Node(_board, 12, 2));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(11, path.Count);
@@ -188,7 +188,7 @@ namespace Tests.Pathfinding
         [ExpectedException(typeof(InvalidOperationException))]
         public void PathFinder_WhenEndingNodeIsUnwalkable_ThrowsAnException()
         {
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 5, 1), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 5, 1));
         }
 
         [TestMethod]
@@ -214,7 +214,7 @@ namespace Tests.Pathfinding
             // N - New Obstacle
 
             _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 10), new Tile(1, 11, 10));
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 12, 10), _board);
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_board, 4, 1), new Node(_board, 12, 10));
 
             Assert.IsNull(path);
         }

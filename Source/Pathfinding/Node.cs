@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TurnItUp.Components;
+using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 
 namespace TurnItUp.Pathfinding
 {
     public class Node
     {
-        public Board Board { get; private set; }
+        public IBoard Board { get; private set; }
         public Position Position { get; private set; }
         public Node Parent { get; set; }
         public int H { get; set; }
         private int _g;
 
-        public Node(Board board, int x, int y, Node parent = null)
+        public Node(IBoard board, int x, int y, Node parent = null)
         {
             Board = board;
             Position = new Position(x, y);

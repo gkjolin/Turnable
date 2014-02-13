@@ -3,23 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 
 namespace TurnItUp.Pathfinding
 {
     // http://www.policyalmanac.org/games/aStarTutorial.htm
-    public class PathFinder
+    public class PathFinder : IPathFinder
     {
-        public bool AllowDiagonalMovement { get; private set; }
-        public Board Board { get; private set; }
+        public bool AllowDiagonalMovement { get; set; }
+        public IBoard Board { get; set; }
 
-        public PathFinder(Board board, bool allowDiagonalMovement)
+        public PathFinder(IBoard board, bool allowDiagonalMovement)
         {
             Board = board;
             AllowDiagonalMovement = allowDiagonalMovement;
         }
 
-        public List<Node> SeekPath(Node startingNode, Node endingNode, Board board)
+        public List<Node> SeekPath(Node startingNode, Node endingNode)
         {
             // If the endingNode is unwalkable, it's impossible to find a path to this node
             if (!endingNode.IsWalkable())

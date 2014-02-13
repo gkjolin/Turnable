@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TurnItUp.Components;
+using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 
 namespace TurnItUp.Skills
 {
-    public class Skill
+    public class Skill : ISkill
     {
         public string Name { get; set; }
         public RangeType RangeType { get; set; }

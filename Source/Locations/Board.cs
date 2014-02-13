@@ -12,13 +12,13 @@ using TurnItUp.Pathfinding;
 
 namespace TurnItUp.Locations
 {
-    public class Board
+    public class Board : IBoard
     {
         // Facade pattern
 
-        public Map Map { get; private set; }
+        public Map Map { get; set; }
         public ICharacterManager CharacterManager { get; set; }
-        public PathFinder PathFinder { get; private set; }
+        public IPathFinder PathFinder { get; set; }
 
         // Initialization methods
         public void Initialize(World world, string tmxPath)
@@ -35,26 +35,6 @@ namespace TurnItUp.Locations
         public void InitializePathFinding(bool allowDiagonalMovement = false)
         {
             PathFinder = new PathFinder(this, allowDiagonalMovement);
-        }
-
-        // TODO: Test this!
-        public virtual List<Node> FindBestPathToMoveAdjacentToPlayer(Position position)
-        {
-            Position playerPosition = CharacterManager.Player.GetComponent<Position>();
-
-            Node startingNode = new Node(this, position.X, position.Y);
-            List<Node> candidateNodes = new Node(this, playerPosition.X, playerPosition.Y).GetAdjacentNodes(false);
-
-            //TODO: Test this!
-            candidateNodes.RemoveAll(cn => !(cn.IsWalkable()));
-            // If there are no candidate nodes available, there is no path to the player
-            if (candidateNodes.Count == 0)
-            {
-                return null;
-            }
-
-            Node closestNode = PathFinder.ClosestNode(startingNode, candidateNodes);
-            return PathFinder.SeekPath(startingNode, closestNode, this);
         }
 
         public bool IsObstacle(int x, int y)

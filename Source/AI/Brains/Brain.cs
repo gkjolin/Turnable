@@ -23,7 +23,7 @@ namespace TurnItUp.AI.Brains
 
         public void Think()
         {
-            CurrentGoal = new MoveAdjacentToPlayerGoal(Owner);
+            //CurrentGoal = new MoveAdjacentToPlayerGoal(Owner);
         }
     }
 }
