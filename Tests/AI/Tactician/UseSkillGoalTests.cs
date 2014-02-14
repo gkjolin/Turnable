@@ -17,51 +17,57 @@ namespace Tests.AI.Tactician
     [TestClass]
     public class UseSkillGoalTests
     {
-        private Mock<ISkill> _mockSkill;
-        private TargetMap _targetMap;
+        // The sample board:
+        // XXXXXXXXXXXXXXXX
+        // X....EEE.......X
+        // X..........X...X
+        // X.......E......X
+        // X.E.X..........X
+        // X.....S....E...X
+        // X........X.....X
+        // X..........XXXXX
+        // X..........X...X
+        // X..........X...X
+        // X......X.......X
+        // X.X........X...X
+        // X..........X...X
+        // X..........X...X
+        // X......P...X...X
+        // XXXXXXXXXXXXXXXX
+        // X - Obstacles, P - Player, E - Enemies, S - Enemy that is going to use the skill
+        private Board _board;
+        private Skill _skill;
         private Entity _entity;
         private Position _target;
-        private List<Node> _bestPath;
-        private Mock<IPathFinder> _mockPathFinder;
-        private Mock<IBoard> _mockBoard;
 
         [TestInitialize]
         public void Initialize()
         {
-            _mockBoard = new Mock<IBoard>();
-            _bestPath = new List<Node>();
-            _bestPath.Add(new Node(_mockBoard.Object, 0, 0));
-            _bestPath.Add(new Node(_mockBoard.Object, 0, 1));
-            _bestPath.Add(new Node(_mockBoard.Object, 0, 2));
-            _mockPathFinder = new Mock<IPathFinder>();
-            _mockPathFinder.Setup(pf => pf.SeekPath(It.IsAny<Node>(), It.IsAny<Node>())).Returns(_bestPath);
-            _targetMap = new TargetMap();
-            _targetMap.Add(new System.Tuples.Tuple<int,int>(5, 5), new HashSet<Position> { new Position(4, 5), new Position(4, 3), new Position(4, 6) });
-            _mockSkill = new Mock<ISkill>();
-            _mockSkill.Setup(s => s.CalculateTargetMap(It.IsAny<Board>())).Returns(_targetMap);
-            _entity = EntropyFactory.BuildEntity();
-            _target = new Position(0, 0);
+            _board = LocationsFactory.BuildBoard();
+            _entity = _board.World.EntitiesWhere<Position>(p => p.X == 7 && p.Y == 10).Single();
+            _skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
+            _target = _board.CharacterManager.Player.GetComponent<Position>();
         }
 
         [TestMethod]
         public void UseSkillGoal_Construction_IsSuccessful()
         {
-            UseSkillGoal goal = new UseSkillGoal(_entity, _mockSkill.Object, _target);
+            UseSkillGoal goal = new UseSkillGoal(_entity, _skill, _target);
 
             Assert.AreEqual(_entity, goal.Owner);
-            Assert.AreEqual(_mockSkill.Object, goal.Skill);
-            Assert.AreEqual(_target, goal.Target);
+            Assert.AreEqual(_skill, goal.Skill);
+            Assert.AreEqual(_board.CharacterManager.Player.GetComponent<Position>(), goal.Target);
         }
 
         [TestMethod]
         public void UseSkillGoal_WhenActivated_CreatesAFollowPathGoalWithTheBestPathInOrderToApplyASkillToTarget()
         {
-            UseSkillGoal goal = new UseSkillGoal(_entity, _mockSkill.Object, _target);
+            UseSkillGoal goal = new UseSkillGoal(_entity, _skill, _target);
 
             goal.Activate();
 
             Assert.AreEqual(1, goal.Subgoals.Count);
-            Assert.AreEqual(_bestPath.Count, ((FollowPathGoal)goal.Subgoals[0]).Path.Count);
+            Assert.IsInstanceOfType(goal.Subgoals[0], typeof(FollowPathGoal));
         }
 
         //[TestMethod]
@@ -75,20 +81,6 @@ namespace Tests.AI.Tactician
 
         //    Assert.AreEqual(0, goal.Subgoals.Count);
         //    Assert.AreEqual(GoalStatus.Failed, goal.Status);
-        //}
-
-        //[TestMethod]
-        //public void UseSkill_WhenActivated_CreatesAMoveToClosestSkillOriginGoal()
-        //{
-        //    UseSkillGoal goal = new UseSkillGoal(_entity, _skill);
-
-        //    Assert.AreEqual(_entity, goal.Owner);
-        //    Assert.AreEqual(_skill, goal.Skill);
-
-        //    goal.Activate();
-
-        //    Assert.AreEqual(1, goal.Subgoals.Count);
-        //    Assert.IsInstanceOfType(goal.Subgoals[0], typeof(MoveToClosestSkillOriginGoal));
         //}
     }
 }

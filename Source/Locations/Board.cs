@@ -19,10 +19,12 @@ namespace TurnItUp.Locations
         public Map Map { get; set; }
         public ICharacterManager CharacterManager { get; set; }
         public IPathFinder PathFinder { get; set; }
+        public IWorld World { get; set; }
 
         // Initialization methods
-        public void Initialize(World world, string tmxPath)
+        public void Initialize(IWorld world, string tmxPath)
         {
+            World = world;
             Map = new Map(tmxPath);
             Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
 

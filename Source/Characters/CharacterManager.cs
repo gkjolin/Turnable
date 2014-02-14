@@ -15,7 +15,7 @@ namespace TurnItUp.Characters
     {
         public List<Entity> Characters { get; set; }
         public virtual Entity Player { get; set; }
-        public Board Board { get; set; }
+        public IBoard Board { get; set; }
         public List<Entity> TurnQueue { get; set; }
 
         public bool IsCharacterAt(int x, int y)
@@ -27,7 +27,7 @@ namespace TurnItUp.Characters
         {
         }
 
-        public CharacterManager(World world, Board board)
+        public CharacterManager(IWorld world, IBoard board)
         {
             Tileset characterTileset = board.Map.Tilesets["Characters"];
             Layer characterLayer = board.Map.Layers["Characters"];
