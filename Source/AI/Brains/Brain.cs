@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using TurnItUp.AI.Goals;
 using TurnItUp.AI.Tactician;
+using TurnItUp.Components;
+using TurnItUp.Skills;
 
 namespace TurnItUp.AI.Brains
 {
@@ -23,7 +25,8 @@ namespace TurnItUp.AI.Brains
 
         public void Think()
         {
-            //CurrentGoal = new MoveAdjacentToPlayerGoal(Owner);
+            Skill skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
+            CurrentGoal = new UseSkillGoal(Owner, skill, new Position(0, 0));
         }
     }
 }

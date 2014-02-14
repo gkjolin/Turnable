@@ -21,10 +21,20 @@ namespace Tests.AI.Tactician
         private TargetMap _targetMap;
         private Entity _entity;
         private Position _target;
+        private List<Node> _bestPath;
+        private Mock<IPathFinder> _mockPathFinder;
+        private Mock<IBoard> _mockBoard;
 
         [TestInitialize]
         public void Initialize()
         {
+            _mockBoard = new Mock<IBoard>();
+            _bestPath = new List<Node>();
+            _bestPath.Add(new Node(_mockBoard.Object, 0, 0));
+            _bestPath.Add(new Node(_mockBoard.Object, 0, 1));
+            _bestPath.Add(new Node(_mockBoard.Object, 0, 2));
+            _mockPathFinder = new Mock<IPathFinder>();
+            _mockPathFinder.Setup(pf => pf.SeekPath(It.IsAny<Node>(), It.IsAny<Node>())).Returns(_bestPath);
             _targetMap = new TargetMap();
             _targetMap.Add(new System.Tuples.Tuple<int,int>(5, 5), new HashSet<Position> { new Position(4, 5), new Position(4, 3), new Position(4, 6) });
             _mockSkill = new Mock<ISkill>();

@@ -43,8 +43,11 @@ namespace Tests.AI.Brains
         {
             _brain.Think();
 
-            Assert.IsInstanceOfType(_brain.CurrentGoal, typeof(MoveAdjacentToPlayerGoal));
+            Assert.IsInstanceOfType(_brain.CurrentGoal, typeof(UseSkillGoal));
             Assert.AreEqual(_character, _brain.CurrentGoal.Owner);
+            Assert.AreEqual("Melee Attack", ((UseSkillGoal)_brain.CurrentGoal).Skill.Name);
+
+            // TODO: Test that this goal is targeting the player
         }
     }
 }

@@ -10,6 +10,11 @@ namespace TurnItUp.Interfaces
 {
     public interface ISkill
     {
+        string Name { get; set; }
+        RangeType RangeType { get; set; }
+        TargetType TargetType { get; set; }
+        int Range { get; set; }
+
         TargetMap CalculateTargetMap(Board board);
     }
 }
