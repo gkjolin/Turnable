@@ -68,6 +68,7 @@ namespace Tests.AI.Tactician
 
             Assert.AreEqual(1, goal.Subgoals.Count);
             Assert.IsInstanceOfType(goal.Subgoals[0], typeof(FollowPathGoal));
+
         }
 
         //[TestMethod]
