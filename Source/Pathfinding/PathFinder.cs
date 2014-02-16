@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.Components;
 using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 
@@ -153,7 +154,7 @@ namespace TurnItUp.Pathfinding
         //    return returnValue;
         //}
 
-        public Node ClosestNode(Node startingNode, List<Node> candidateNodes)
+        public Node GetClosestNode(Node startingNode, List<Node> candidateNodes)
         {
             Node returnValue = candidateNodes[0];
 
@@ -166,6 +167,13 @@ namespace TurnItUp.Pathfinding
             }
 
             return returnValue;
+        }
+
+        public Node GetClosestNode(Position startingPosition, HashSet<Position> candidatePositions)
+        {
+            List<Node> candidateNodes = candidatePositions.Select<Position, Node>(p => new Node(Board, p.X, p.Y)).ToList<Node>();
+
+            return GetClosestNode(new Node(Board, startingPosition.X, startingPosition.Y), candidateNodes);
         }
     }
 }

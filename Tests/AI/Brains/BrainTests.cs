@@ -4,6 +4,8 @@ using TurnItUp.AI.Brains;
 using Tests.Factories;
 using Entropy;
 using TurnItUp.AI.Tactician;
+using TurnItUp.Interfaces;
+using TurnItUp.Components;
 
 namespace Tests.AI.Brains
 {
@@ -12,12 +14,14 @@ namespace Tests.AI.Brains
     {
         private Brain _brain;
         private Entity _character;
+        private IBoard _board;
 
         [TestInitialize]
         public void Initialize()
         {
             _character = EntropyFactory.BuildEntity();
-            _brain = new Brain(_character);
+            _board = LocationsFactory.BuildBoard();
+            _brain = new Brain(_character, _board);
         }
 
         [TestMethod]
@@ -32,9 +36,10 @@ namespace Tests.AI.Brains
         [TestMethod]
         public void Brain_Construction_IsSuccessful()
         {
-            Brain brain = new Brain(_character);
+            Brain brain = new Brain(_character, _board);
 
             Assert.AreEqual(_character, brain.Owner);
+            Assert.AreEqual(_board, brain.Board);
             Assert.IsNull(brain.CurrentGoal);
         }
 
@@ -45,9 +50,9 @@ namespace Tests.AI.Brains
 
             Assert.IsInstanceOfType(_brain.CurrentGoal, typeof(UseSkillGoal));
             Assert.AreEqual(_character, _brain.CurrentGoal.Owner);
+            Assert.AreEqual(_board, ((UseSkillGoal)_brain.CurrentGoal).Board);
             Assert.AreEqual("Melee Attack", ((UseSkillGoal)_brain.CurrentGoal).Skill.Name);
-
-            // TODO: Test that this goal is targeting the player
+            Assert.AreEqual(_board.CharacterManager.Player.GetComponent<Position>(), ((UseSkillGoal)_brain.CurrentGoal).Target);
         }
     }
 }

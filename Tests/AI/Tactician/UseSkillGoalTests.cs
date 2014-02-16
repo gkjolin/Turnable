@@ -24,17 +24,17 @@ namespace Tests.AI.Tactician
         // X.......E......X
         // X.E.X..........X
         // X.....S....E...X
-        // X........X.....X
-        // X..........XXXXX
-        // X..........X...X
-        // X..........X...X
-        // X......X.......X
-        // X.X........X...X
-        // X..........X...X
-        // X..........X...X
+        // X.....o..X.....X
+        // X.....o....XXXXX
+        // X.....o....X...X
+        // X.....o....X...X
+        // X.....oX.......X
+        // X.X...o....X...X
+        // X.....o....X...X
+        // X.....oo...X...X
         // X......P...X...X
         // XXXXXXXXXXXXXXXX
-        // X - Obstacles, P - Player, E - Enemies, S - Enemy that is going to use the skill
+        // X - Obstacles, P - Player, E - Enemies, S - Enemy that is going to use the skill, o - Expected path
         private Board _board;
         private Skill _skill;
         private Entity _entity;
@@ -44,7 +44,7 @@ namespace Tests.AI.Tactician
         public void Initialize()
         {
             _board = LocationsFactory.BuildBoard();
-            _entity = _board.World.EntitiesWhere<Position>(p => p.X == 7 && p.Y == 10).Single();
+            _entity = _board.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 5).Single();
             _skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
             _target = _board.CharacterManager.Player.GetComponent<Position>();
         }
@@ -52,9 +52,10 @@ namespace Tests.AI.Tactician
         [TestMethod]
         public void UseSkillGoal_Construction_IsSuccessful()
         {
-            UseSkillGoal goal = new UseSkillGoal(_entity, _skill, _target);
+            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, _target);
 
             Assert.AreEqual(_entity, goal.Owner);
+            Assert.AreEqual(_board, goal.Board);
             Assert.AreEqual(_skill, goal.Skill);
             Assert.AreEqual(_board.CharacterManager.Player.GetComponent<Position>(), goal.Target);
         }
@@ -62,13 +63,17 @@ namespace Tests.AI.Tactician
         [TestMethod]
         public void UseSkillGoal_WhenActivated_CreatesAFollowPathGoalWithTheBestPathInOrderToApplyASkillToTarget()
         {
-            UseSkillGoal goal = new UseSkillGoal(_entity, _skill, _target);
+            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, _target);
 
             goal.Activate();
 
             Assert.AreEqual(1, goal.Subgoals.Count);
             Assert.IsInstanceOfType(goal.Subgoals[0], typeof(FollowPathGoal));
 
+            FollowPathGoal followPathGoal = (FollowPathGoal)goal.Subgoals[0];
+            Assert.AreEqual(10, followPathGoal.Path.Count);
+            Assert.AreEqual(new Node(_board, 6, 5), followPathGoal.Path[0]);
+            Assert.AreEqual(new Node(_board, 7, 13), followPathGoal.Path[followPathGoal.Path.Count - 1]);
         }
 
         //[TestMethod]

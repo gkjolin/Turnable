@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TurnItUp.Components;
+using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 using TurnItUp.Pathfinding;
 
@@ -10,7 +11,7 @@ namespace TurnItUp.Skills
 {
     public static class AdjacentOriginMapCalculator
     {
-        public static HashSet<Position> CalculateOriginMap(Board board, Position targetPosition, bool allowDiagonalMovement = false)
+        public static HashSet<Position> CalculateOriginMap(IBoard board, Position targetPosition, bool allowDiagonalMovement = false)
         {
             HashSet<Position> returnValue = new HashSet<Position>();
 
@@ -26,6 +27,12 @@ namespace TurnItUp.Skills
 
             // Remove unwalkable positions
             returnValue.RemoveWhere(p => !(new Node(board, p.X, p.Y)).IsWalkable());
+
+            // Remove non-orthogonal nodes if needed
+            if (!allowDiagonalMovement)
+            {
+                returnValue.RemoveWhere(p => !(p.X == targetPosition.X || p.Y == targetPosition.Y));
+            }
 
             return returnValue;
         }

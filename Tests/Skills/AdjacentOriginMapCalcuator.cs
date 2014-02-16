@@ -66,5 +66,30 @@ namespace Tests.Skills
 
             Assert.AreEqual(5, skillOriginPositions.Count);
         }
+
+        // Disallowing diagonal movement
+        [TestMethod]
+        public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithNoUnwalkablePositionsAdjacentToIt_CalculatesOriginMapCorrectly()
+        {
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(2, 13));
+
+            Assert.AreEqual(4, skillOriginPositions.Count);
+        }
+
+        [TestMethod]
+        public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
+        {
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(12, 14));
+
+            Assert.AreEqual(2, skillOriginPositions.Count);
+        }
+
+        [TestMethod]
+        public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
+        {
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(6, 2));
+
+            Assert.AreEqual(3, skillOriginPositions.Count);
+        }
     }
 }

@@ -15,6 +15,6 @@ namespace TurnItUp.Interfaces
         TargetType TargetType { get; set; }
         int Range { get; set; }
 
-        TargetMap CalculateTargetMap(Board board);
+        TargetMap CalculateTargetMap(IBoard board);
     }
 }

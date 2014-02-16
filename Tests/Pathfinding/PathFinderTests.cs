@@ -5,6 +5,7 @@ using TurnItUp.Pathfinding;
 using TurnItUp.Locations;
 using Tests.Factories;
 using TurnItUp.Tmx;
+using TurnItUp.Components;
 
 namespace Tests.Pathfinding
 {
@@ -304,7 +305,7 @@ namespace Tests.Pathfinding
             candidateNodes.Add(new Node(_board, 6, 7));
             candidateNodes.Add(new Node(_board, 6, 9));
 
-            Assert.AreEqual(new Node(_board, 5, 8), _pathFinderWithDiagonalMovement.ClosestNode(startingNode, candidateNodes));
+            Assert.AreEqual(new Node(_board, 5, 8), _pathFinderWithDiagonalMovement.GetClosestNode(startingNode, candidateNodes));
         }
 
         [TestMethod]
@@ -334,7 +335,37 @@ namespace Tests.Pathfinding
             candidateNodes.Add(new Node(_board, 6, 7));
             candidateNodes.Add(new Node(_board, 6, 9));
 
-            Assert.AreEqual(new Node(_board, 5, 8), _pathFinderWithoutDiagonalMovement.ClosestNode(startingNode, candidateNodes));
+            Assert.AreEqual(new Node(_board, 5, 8), _pathFinderWithoutDiagonalMovement.GetClosestNode(startingNode, candidateNodes));
+        }
+
+        [TestMethod]
+        public void PathFinder_WhenDiagonalMovementIsNotAllowed_CanFindClosestNodeToAnotherPositionFromASetOfPositions()
+        {
+            // The sample board:
+            // XXXXXXXXXXXXXXXX
+            // X....EEE.......X
+            // X..........X...X
+            // X.......E......X
+            // X.E.X..........X
+            // X.....E....E...X
+            // X........X.....X
+            // X.....S....XXXXX
+            // X.F..S.....X...X
+            // X.....S....X...X
+            // X......X.......X
+            // X.X........X...X
+            // X..........X...X
+            // X..........X...X
+            // X......P...X...X
+            // XXXXXXXXXXXXXXXX
+            // X - Obstacles, P - Player, E - Enemies, F - First Node, S - Set of nodes to choose the closest one from
+            Position startingPosition = new Position(2, 8);
+            HashSet<Position> candidatePositions = new HashSet<Position>();
+            candidatePositions.Add(new Position(5, 8));
+            candidatePositions.Add(new Position(6, 7));
+            candidatePositions.Add(new Position(6, 9));
+
+            Assert.AreEqual(new Node(_board, 5, 8), _pathFinderWithoutDiagonalMovement.GetClosestNode(startingPosition, candidatePositions));
         }
 
             //        [TestMethod]

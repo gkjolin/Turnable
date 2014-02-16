@@ -27,7 +27,7 @@ namespace TurnItUp.Skills
             Range = range;
         }
 
-        public TargetMap CalculateTargetMap(Board board)
+        public TargetMap CalculateTargetMap(IBoard board)
         {
             TargetMap returnValue = new TargetMap();
 

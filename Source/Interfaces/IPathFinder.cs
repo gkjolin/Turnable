@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.Components;
 using TurnItUp.Pathfinding;
 
 namespace TurnItUp.Interfaces
@@ -14,6 +15,7 @@ namespace TurnItUp.Interfaces
 
         List<Node> SeekPath(Node startingNode, Node endingNode);
         int MovementPointCost(Node startingNode, Node endingNode);
-        Node ClosestNode(Node startingNode, List<Node> candidateNodes);
+        Node GetClosestNode(Node startingNode, List<Node> candidateNodes);
+        Node GetClosestNode(Position startingPosition, HashSet<Position> candidatePositions);
     }
 }
