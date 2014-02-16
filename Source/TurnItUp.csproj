@@ -55,7 +55,6 @@
     <Compile Include="AI\Goals\GoalStatus.cs" />
     <Compile Include="AI\State Machines\StateMachine.cs" />
     <Compile Include="AI\Tactician\UseSkillGoal.cs" />
-    <Compile Include="AI\Tactician\MoveAdjacentToPlayerGoal.cs" />
     <Compile Include="AI\Tactician\MoveToGoal.cs" />
     <Compile Include="AI\Tactician\FollowPathGoal.cs" />
     <Compile Include="Characters\CharacterManager.cs" />

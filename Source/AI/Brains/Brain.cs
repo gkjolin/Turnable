@@ -14,7 +14,7 @@ namespace TurnItUp.AI.Brains
     public class Brain : CompositeGoal
     {
         public Goal CurrentGoal { get; private set; }
-        public IBoard Board { get; private set; }
+        public IBoard Board { get; set; }
 
         public Brain() : this(null, null)
         {

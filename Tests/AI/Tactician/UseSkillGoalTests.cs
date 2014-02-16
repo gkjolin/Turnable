@@ -11,6 +11,7 @@ using TurnItUp.Components;
 using TurnItUp.AI.Goals;
 using TurnItUp.Skills;
 using TurnItUp.Interfaces;
+using TurnItUp.Tmx;
 
 namespace Tests.AI.Tactician
 {
@@ -76,17 +77,18 @@ namespace Tests.AI.Tactician
             Assert.AreEqual(new Node(_board, 7, 13), followPathGoal.Path[followPathGoal.Path.Count - 1]);
         }
 
-        //[TestMethod]
-        //public void MoveAdjacentToPlayerGoal_WhenActivatedAndThereIsNoViablePathToThePlayer_Fails()
-        //{
-        //    _bestPath = null;
-        //    _mockBoard.Setup(b => b.FindBestPathToMoveAdjacentToPlayer(It.IsAny<Position>())).Returns(_bestPath);
-        //    MoveAdjacentToPlayerGoal goal = new MoveAdjacentToPlayerGoal(_entity);
+        [TestMethod]
+        public void UseSkillGoal_WhenActivatedAndThereIsNoViablePathToThePlayer_Fails()
+        {
+            _board.CharacterManager.Player.GetComponent<Position>().X = 12;
+            _board.CharacterManager.Player.GetComponent<Position>().Y = 10;
+            _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 10), new Tile(1, 11, 10));
+            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, new Position(12, 10));
 
-        //    goal.Activate();
+            goal.Activate();
 
-        //    Assert.AreEqual(0, goal.Subgoals.Count);
-        //    Assert.AreEqual(GoalStatus.Failed, goal.Status);
-        //}
+            Assert.AreEqual(0, goal.Subgoals.Count);
+            Assert.AreEqual(GoalStatus.Failed, goal.Status);
+        }
     }
 }

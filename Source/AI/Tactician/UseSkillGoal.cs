@@ -38,14 +38,14 @@ namespace TurnItUp.AI.Tactician
 
             List<Node> bestPath = Board.PathFinder.SeekPath(startingNode, endingNode);
 
-            //if (bestPath == null)
-            //{
-            //    Status = GoalStatus.Failed;
-            //}
-            //else
-            //{
-            Subgoals.Add(new FollowPathGoal(Owner, bestPath));
-            //}
+            if (bestPath == null)
+            {
+                Status = GoalStatus.Failed;
+            }
+            else
+            {
+                Subgoals.Add(new FollowPathGoal(Owner, bestPath));
+            }
         }
 
         public override void Process()
