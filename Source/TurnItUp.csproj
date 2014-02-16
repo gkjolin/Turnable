@@ -82,6 +82,8 @@
     <Compile Include="Skills\TargetType.cs" />
     <Compile Include="Skills\RangeType.cs" />
     <Compile Include="Skills\Skill.cs" />
+    <Compile Include="Stats\Stat.cs" />
+    <Compile Include="Stats\StatManager.cs" />
     <Compile Include="Tmx\ReferenceTile.cs" />
     <Compile Include="Tmx\Tile.cs" />
     <Compile Include="Tmx\Tileset.cs" />
