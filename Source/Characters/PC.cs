@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using TurnItUp.Components;
 using TurnItUp.Skills;
+using TurnItUp.Stats;
 
 namespace TurnItUp.Characters
 {
@@ -21,7 +22,10 @@ namespace TurnItUp.Characters
 
             Skill skill= new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
             returnValue.GetComponent<SkillSet>().Add(skill);
-           
+
+            returnValue.AddComponent(new StatManager());
+            returnValue.GetComponent<StatManager>().CreateStat("Health", 100);
+
             return returnValue;
         }
     }
