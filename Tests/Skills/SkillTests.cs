@@ -49,6 +49,7 @@ namespace Tests.Skills
             Assert.AreEqual(TargetType.InAnotherTeam, skill.TargetType);
             Assert.AreEqual(RangeType.Adjacent, skill.RangeType);
             Assert.AreEqual(1, skill.Range);
+            Assert.IsNotNull(skill.Effects);
         }
 
         [TestMethod]

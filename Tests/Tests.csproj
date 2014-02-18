@@ -90,6 +90,7 @@
     <Compile Include="Skills\SkillDatabaseTests.cs" />
     <Compile Include="Skills\SkillSetTests.cs" />
     <Compile Include="Skills\SkillTests.cs" />
+    <Compile Include="Skills\StatChangeEffectTests.cs" />
     <Compile Include="Stats\StatManagerTests.cs" />
     <Compile Include="Stats\StatTests.cs" />
     <Compile Include="SupportingClasses\AtomicGoalType1.cs" />

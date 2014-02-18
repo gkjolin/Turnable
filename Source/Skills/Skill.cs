@@ -14,6 +14,7 @@ namespace TurnItUp.Skills
         public RangeType RangeType { get; set; }
         public TargetType TargetType { get; set; }
         public int Range { get; set; }
+        public List<Effect> Effects { get; private set; }
 
         public Skill(string name) : this(name, RangeType.Adjacent, TargetType.InAnotherTeam, 1)
         {
@@ -25,6 +26,7 @@ namespace TurnItUp.Skills
             RangeType = rangeType;
             TargetType = targetType;
             Range = range;
+            Effects = new List<Effect>();
         }
 
         public TargetMap CalculateTargetMap(IBoard board)
