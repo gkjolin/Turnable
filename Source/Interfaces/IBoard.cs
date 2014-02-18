@@ -15,6 +15,7 @@ namespace TurnItUp.Interfaces
         Map Map { get; set; }
         ICharacterManager CharacterManager { get; set; }
         IPathFinder PathFinder { get; set; }
+        IWorld World { get; set; }
 
         // Facade methods
         bool IsObstacle(int x, int y);

@@ -62,7 +62,7 @@ namespace Tests.AI.Tactician
         }
 
         [TestMethod]
-        public void UseSkillGoal_WhenActivated_CreatesAFollowPathGoalWithTheBestPathInOrderToApplyASkillToTarget()
+        public void UseSkillGoal_WhenActivatedAndSkillCannotBeUsedFromOwnersPosition_CreatesAFollowPathGoalWithTheBestPathToApplySkillToTarget()
         {
             UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, _target);
 
@@ -75,6 +75,23 @@ namespace Tests.AI.Tactician
             Assert.AreEqual(10, followPathGoal.Path.Count);
             Assert.AreEqual(new Node(_board, 6, 5), followPathGoal.Path[0]);
             Assert.AreEqual(new Node(_board, 7, 13), followPathGoal.Path[followPathGoal.Path.Count - 1]);
+        }
+
+        [TestMethod]
+        public void UseSkillGoal_WhenActivatedAndSkillCanBeUsedOnTargetFromOwnersPosition_CreatesAnApplySkillGoal()
+        {
+            _entity.GetComponent<Position>().X = 7;
+            _entity.GetComponent<Position>().Y = 13;
+            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, _target);
+
+            goal.Activate();
+
+            Assert.AreEqual(1, goal.Subgoals.Count);
+            Assert.IsInstanceOfType(goal.Subgoals[0], typeof(ApplySkillGoal));
+
+            ApplySkillGoal applySkillGoal = (ApplySkillGoal)goal.Subgoals[0];
+            Assert.AreEqual(_skill, applySkillGoal.Skill);
+            Assert.AreEqual(_board.CharacterManager.Player, applySkillGoal.Target);
         }
 
         [TestMethod]
