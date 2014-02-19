@@ -29,7 +29,7 @@ namespace TurnItUp.AI.Tactician
         {
             base.Activate();
 
-            TargetMap targetMap = Skill.CalculateTargetMap(Board);
+            TargetMap targetMap = Skill.CalculateTargetMap(Board, Owner.GetComponent<Position>());
             HashSet<Position> candidatePositions = targetMap[new System.Tuples.Tuple<int, int>(Target.X, Target.Y)];
             Position startingPosition = Owner.GetComponent<Position>();
 

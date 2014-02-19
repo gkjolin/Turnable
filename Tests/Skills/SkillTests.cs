@@ -71,12 +71,12 @@ namespace Tests.Skills
         {
             Skill skill = new Skill("Melee Attack") { RangeType = RangeType.Adjacent, TargetType = TargetType.InAnotherTeam };
 
-            TargetMap targetMap = skill.CalculateTargetMap(_board);
+            TargetMap targetMap = skill.CalculateTargetMap(_board, new Position(6, 1));
 
             Assert.AreEqual(1, targetMap.Count);
             Assert.IsTrue(targetMap.ContainsKey(new Tuple<int,int>(7, 14)));
             HashSet<Position> originMap = targetMap[new Tuple<int, int>(7, 14)];
-            Assert.AreEqual(originMap.Count, AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(7, 14)).Count);
+            Assert.AreEqual(originMap.Count, AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(6, 1), new Position(7, 14)).Count);
         }
     }
 }

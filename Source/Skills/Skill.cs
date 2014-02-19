@@ -29,13 +29,13 @@ namespace TurnItUp.Skills
             Effects = new List<Effect>();
         }
 
-        public TargetMap CalculateTargetMap(IBoard board)
+        public TargetMap CalculateTargetMap(IBoard board, Position skillUserPosition)
         {
             TargetMap returnValue = new TargetMap();
 
             Position playerPosition = board.CharacterManager.Player.GetComponent<Position>();
 
-            HashSet<Position> originMap = AdjacentOriginMapCalculator.CalculateOriginMap(board, playerPosition, board.PathFinder.AllowDiagonalMovement);
+            HashSet<Position> originMap = AdjacentOriginMapCalculator.CalculateOriginMap(board, skillUserPosition, playerPosition, board.PathFinder.AllowDiagonalMovement);
             returnValue.Add(new System.Tuples.Tuple<int, int>(playerPosition.X, playerPosition.Y), originMap);
             return returnValue;
         }

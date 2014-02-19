@@ -11,7 +11,7 @@ namespace TurnItUp.Skills
 {
     public static class AdjacentOriginMapCalculator
     {
-        public static HashSet<Position> CalculateOriginMap(IBoard board, Position targetPosition, bool allowDiagonalMovement = false)
+        public static HashSet<Position> CalculateOriginMap(IBoard board, Position skillUserPosition, Position targetPosition, bool allowDiagonalMovement = false)
         {
             HashSet<Position> returnValue = new HashSet<Position>();
 
@@ -25,6 +25,13 @@ namespace TurnItUp.Skills
                 }
             }
 
+            // Add back the skillUserPosition, since the skill user can always use the skill from its current position
+            bool addSkillUserPosition = false;
+            if (returnValue.Contains(skillUserPosition))
+            {
+                addSkillUserPosition = true;
+            }
+
             // Remove unwalkable positions
             returnValue.RemoveWhere(p => !(new Node(board, p.X, p.Y)).IsWalkable());
 
@@ -32,6 +39,11 @@ namespace TurnItUp.Skills
             if (!allowDiagonalMovement)
             {
                 returnValue.RemoveWhere(p => !(p.X == targetPosition.X || p.Y == targetPosition.Y));
+            }
+
+            if (addSkillUserPosition)
+            {
+                returnValue.Add(skillUserPosition);
             }
 
             return returnValue;

@@ -46,7 +46,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithNoUnwalkablePositionsAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(2, 13), true);
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(5, 1), new Position(2, 13), true);
 
             Assert.AreEqual(8, skillOriginPositions.Count);
         }
@@ -54,7 +54,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(12, 14), true);
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(5, 1), new Position(12, 14), true);
 
             Assert.AreEqual(3, skillOriginPositions.Count);
         }
@@ -62,16 +62,24 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(6, 2), true);
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(2, 4), new Position(6, 2), true);
 
             Assert.AreEqual(5, skillOriginPositions.Count);
+        }
+
+        [TestMethod]
+        public void AdjacentOriginMapCalculator_ForATargetWithCharactersAndTheSkillUserAdjacentToIt_CalculatesOriginMapCorrectly()
+        {
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(5, 1), new Position(6, 2), true);
+
+            Assert.AreEqual(6, skillOriginPositions.Count);
         }
 
         // Disallowing diagonal movement
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithNoUnwalkablePositionsAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(2, 13));
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(5, 1), new Position(2, 13));
 
             Assert.AreEqual(4, skillOriginPositions.Count);
         }
@@ -79,7 +87,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(12, 14));
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(5, 1), new Position(12, 14));
 
             Assert.AreEqual(2, skillOriginPositions.Count);
         }
@@ -87,9 +95,18 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(6, 2));
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(2, 4), new Position(6, 2));
 
             Assert.AreEqual(3, skillOriginPositions.Count);
         }
+
+        [TestMethod]
+        public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithCharactersAndTheSkillUserAdjacentToIt_CalculatesOriginMapCorrectly()
+        {
+            HashSet<Position> skillOriginPositions = AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(6, 1), new Position(6, 2));
+
+            Assert.AreEqual(4, skillOriginPositions.Count);
+        }
+
     }
 }

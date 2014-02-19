@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.Components;
 using TurnItUp.Locations;
 using TurnItUp.Skills;
 
@@ -15,6 +16,6 @@ namespace TurnItUp.Interfaces
         TargetType TargetType { get; set; }
         int Range { get; set; }
 
-        TargetMap CalculateTargetMap(IBoard board);
+        TargetMap CalculateTargetMap(IBoard board, Position skillUserPosition);
     }
 }
