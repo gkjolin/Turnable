@@ -37,6 +37,7 @@ namespace TurnItUp.AI.Tactician
             if (candidatePositions.Contains(startingPosition))
             {
                 Subgoals.Add(new ApplySkillGoal(Skill, Board.World.EntitiesWhere<Position>(p => p.X == Target.X && p.Y == Target.Y).Single()));
+                return;
             }
 
             Node startingNode = new Node(Board, startingPosition.X, startingPosition.Y);
