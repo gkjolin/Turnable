@@ -17,6 +17,9 @@ namespace TurnItUp.Interfaces
         IPathFinder PathFinder { get; set; }
         IWorld World { get; set; }
 
+        void Initialize(IWorld world, string tmxPath);
+        void InitializePathFinding(bool allowDiagonalMovement = false);
+
         // Facade methods
         bool IsObstacle(int x, int y);
         bool IsCharacterAt(int x, int y);
