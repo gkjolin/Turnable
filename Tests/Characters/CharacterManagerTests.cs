@@ -39,6 +39,15 @@ namespace Tests.Characters
             Assert.IsNotNull(characterManager.Characters);
             Assert.AreEqual(9, characterManager.Characters.Count);
             Assert.IsNotNull(characterManager.Player);
+
+            // Are all Characters set up with an Archetype?
+            foreach (Entity character in characterManager.Characters)
+            {
+                Assert.IsNotNull(character.GetComponent<Archetype>());
+                Assert.AreEqual(?, character.GetComponent<Archetype>().Name);
+            }
+
+            // Is a TurnQueue setup with the Player taking the first turn?
             Assert.IsNotNull(characterManager.TurnQueue);
             Assert.AreEqual(9, characterManager.TurnQueue.Count);
             Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);

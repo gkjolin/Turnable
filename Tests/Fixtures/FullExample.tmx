@@ -8,6 +8,7 @@
   <tile id="0">
    <properties>
     <property name="IsPlayer" value="true"/>
+    <property name="Type" value="Knight M"/>
    </properties>
   </tile>
   <tile id="290">
