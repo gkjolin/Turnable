@@ -63,6 +63,7 @@
     <Compile Include="Characters\InTeam.cs" />
     <Compile Include="Characters\Npc.cs" />
     <Compile Include="Characters\PC.cs" />
+    <Compile Include="Components\Archetype.cs" />
     <Compile Include="Components\OnBoard.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Interfaces\IPathFinder.cs" />

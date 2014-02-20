@@ -38,7 +38,7 @@ namespace Tests.Tmx
 
             // Have the reference tiles been loaded with their properties?
             Assert.AreEqual(4, tileset.ReferenceTiles.Count);
-            Assert.AreEqual(1, tileset.ReferenceTiles[0].Properties.Count);
+            Assert.AreEqual(2, tileset.ReferenceTiles[0].Properties.Count);
         }
 
         [TestMethod]

@@ -37,9 +37,9 @@ namespace TurnItUp.Characters
             foreach (Tile tile in characterLayer.Tiles.Values)
             {
                 Entity character = null;
-                ReferenceTile referenceTile = characterTileset.FindReferenceTileByProperty("IsPlayer", "true");
+                ReferenceTile referenceTile = characterTileset.ReferenceTiles[(int)tile.Gid - characterTileset.FirstGid];
 
-                if (referenceTile != null && referenceTile.Id == ((int)tile.Gid - characterTileset.FirstGid))
+                if (referenceTile != null && referenceTile.Properties.ContainsKey("IsPlayer") && referenceTile.Properties["IsPlayer"] == "true")
                 {
                     character = world.CreateEntityFromTemplate<PC>();
                     Player = character;
@@ -47,6 +47,12 @@ namespace TurnItUp.Characters
                 else
                 {
                     character = world.CreateEntityFromTemplate<Npc>();
+                }
+
+                // Set the model of this character
+                if (referenceTile != null && referenceTile.Properties.ContainsKey("Model"))
+                {
+                    character.AddComponent(new Model(referenceTile.Properties["Model"]));
                 }
 
                 character.GetComponent<OnBoard>().Board = board;

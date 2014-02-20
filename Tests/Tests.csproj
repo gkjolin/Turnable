@@ -76,6 +76,7 @@
     <Compile Include="Characters\InTeamTests.cs" />
     <Compile Include="Characters\NpcTests.cs" />
     <Compile Include="Characters\PCTests.cs" />
+    <Compile Include="Components\ModelTests.cs" />
     <Compile Include="Components\OnBoardTests.cs" />
     <Compile Include="Components\PositionTests.cs" />
     <Compile Include="Factories\EntropyFactory.cs" />

@@ -17,17 +17,5 @@ namespace TurnItUp.Tmx
                 Add((string)xProperty.Attribute("name"), (string)xProperty.Attribute("value"));
             }
         }
-
-        public string this[string key]
-        {
-            get 
-            {
-                return base[key].ToLower();
-            }
-            set
-            {
-                base[key] = value;
-            }
-        }
     }
 }

@@ -107,6 +107,5 @@ namespace Tests.Skills
 
             Assert.AreEqual(4, skillOriginPositions.Count);
         }
-
     }
 }

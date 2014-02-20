@@ -9,6 +9,7 @@ using System.Tuples;
 using Entropy;
 using Moq;
 using TurnItUp.Interfaces;
+using TurnItUp.Tmx;
 
 namespace Tests.Characters
 {
@@ -43,8 +44,9 @@ namespace Tests.Characters
             // Are all Characters set up with an Archetype?
             foreach (Entity character in characterManager.Characters)
             {
-                Assert.IsNotNull(character.GetComponent<Archetype>());
-                Assert.AreEqual(?, character.GetComponent<Archetype>().Name);
+                Assert.IsNotNull(character.GetComponent<Model>());
+                // TODO: Test that the models are set up correctly for each character
+                Assert.IsTrue(new List<String> { "Knight M", "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
             }
 
             // Is a TurnQueue setup with the Player taking the first turn?

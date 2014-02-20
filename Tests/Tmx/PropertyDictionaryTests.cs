@@ -28,12 +28,12 @@ namespace Tests.Tmx
         }
 
         [TestMethod]
-        public void PropertyDictionary_WhenAskedToRetrieveAProperty_ReturnsValueInLowerCase()
+        public void PropertyDictionary_WhenAskedToRetrieveAProperty_ReturnsValue()
         {
             PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
 
             properties["IsCharacters"] = "TRUE";
-            Assert.AreEqual("true", properties["IsCharacters"]);
+            Assert.AreEqual("TRUE", properties["IsCharacters"]);
         }
     }
 }

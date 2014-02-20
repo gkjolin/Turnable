@@ -27,7 +27,7 @@ namespace Tests.Tmx
             Assert.AreEqual(0, referenceTile.Id);
             // Properties have been loaded?
             Assert.IsNotNull(referenceTile.Properties);
-            Assert.AreEqual(1, referenceTile.Properties.Count);
+            Assert.AreEqual(2, referenceTile.Properties.Count);
             Assert.AreEqual("true", referenceTile.Properties["IsPlayer"]);
         }
     }

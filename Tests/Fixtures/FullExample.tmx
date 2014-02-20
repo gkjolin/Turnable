@@ -8,22 +8,22 @@
   <tile id="0">
    <properties>
     <property name="IsPlayer" value="true"/>
-    <property name="Type" value="Knight M"/>
+    <property name="Model" value="Knight M"/>
    </properties>
   </tile>
   <tile id="290">
    <properties>
-    <property name="Type" value="Skeleton"/>
+    <property name="Model" value="Skeleton"/>
    </properties>
   </tile>
   <tile id="291">
    <properties>
-    <property name="Type" value="Skeleton Archer"/>
+    <property name="Model" value="Skeleton Archer"/>
    </properties>
   </tile>
   <tile id="296">
    <properties>
-    <property name="Type" value="Pharaoh"/>
+    <property name="Model" value="Pharaoh"/>
    </properties>
   </tile>
  </tileset>
