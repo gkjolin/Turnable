@@ -10,6 +10,21 @@
     <property name="IsPlayer" value="true"/>
    </properties>
   </tile>
+  <tile id="290">
+   <properties>
+    <property name="Type" value="Skeleton"/>
+   </properties>
+  </tile>
+  <tile id="291">
+   <properties>
+    <property name="Type" value="Skeleton Archer"/>
+   </properties>
+  </tile>
+  <tile id="296">
+   <properties>
+    <property name="Type" value="Pharaoh"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Background" width="16" height="16">
   <data encoding="base64" compression="zlib">

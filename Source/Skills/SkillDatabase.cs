@@ -14,11 +14,8 @@ namespace TurnItUp.Skills
         public SkillSet CreateSkillSet(string[] skillNames)
         {
             SkillSet returnValue = new SkillSet();
-
-            foreach (string skillName in skillNames)
-            {
-                returnValue.Add(this[skillName]);
-            }
+            
+            AddSkillsToSkillSet(returnValue, skillNames);
 
             return returnValue;
         }
@@ -26,6 +23,14 @@ namespace TurnItUp.Skills
         protected override string GetKeyForItem(Skill skill)
         {
             return skill.Name;
+        }
+
+        public void AddSkillsToSkillSet(SkillSet skillSet, string[] skillNames)
+        {
+            foreach (string skillName in skillNames)
+            {
+                skillSet.Add(this[skillName]);
+            }
         }
     }
 }

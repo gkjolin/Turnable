@@ -46,5 +46,21 @@ namespace Tests.Skills
             SkillSet skillSet = _skillDatabase.CreateSkillSet(new string[] {"Melee Attack", "Ranged Attack", "Magic Attack"});
             Assert.AreEqual(3, skillSet.Count);
         }
+
+        [TestMethod]
+        public void SkillDatabase_GivenAnArrayOfSkillNames_CanAddSkillsToASkillSet()
+        {
+            SkillSet skillSet = new SkillSet();
+            Skill skill = new Skill("Melee Attack");
+            Skill skill2 = new Skill("Ranged Attack");
+            Skill skill3 = new Skill("Magic Attack");
+
+            _skillDatabase.Add(skill);
+            _skillDatabase.Add(skill2);
+            _skillDatabase.Add(skill3);
+
+            _skillDatabase.AddSkillsToSkillSet(skillSet, new string[] { "Melee Attack", "Ranged Attack", "Magic Attack" });
+            Assert.AreEqual(3, skillSet.Count);
+        }
     }
 }

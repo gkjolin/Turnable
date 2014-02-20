@@ -18,11 +18,6 @@ namespace TurnItUp.Characters
             returnValue.AddComponent(new OnBoard());
             returnValue.AddComponent(new Position());
             returnValue.AddComponent(new InTeam("PCs"));
-            returnValue.AddComponent(new SkillSet());
-
-            Skill skill= new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
-            returnValue.GetComponent<SkillSet>().Add(skill);
-
             returnValue.AddComponent(new StatManager());
             returnValue.GetComponent<StatManager>().CreateStat("Health", 100);
 
