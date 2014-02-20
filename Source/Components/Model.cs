@@ -16,6 +16,5 @@ namespace TurnItUp.Components
         {
             Name = name;
         }
-
     }
 }
