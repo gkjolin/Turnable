@@ -15,6 +15,7 @@ namespace TurnItUp.Skills
         public TargetType TargetType { get; set; }
         public int Range { get; set; }
         public List<Effect> Effects { get; private set; }
+        public ISkillOriginMapCalculator OriginMapCalculator { get; set; }
 
         public Skill(string name) : this(name, RangeType.Adjacent, TargetType.InAnotherTeam, 1)
         {
@@ -27,6 +28,18 @@ namespace TurnItUp.Skills
             TargetType = targetType;
             Range = range;
             Effects = new List<Effect>();
+
+            switch (rangeType)
+            {
+                case RangeType.Adjacent:
+                    OriginMapCalculator = new AdjacentOriginMapCalculator(this);
+                    break;
+                case RangeType.DirectLine:
+                    OriginMapCalculator = new DirectLineOriginMapCalculator(this);
+                    break;
+                default:
+                    break;
+            }
         }
 
         public TargetMap CalculateTargetMap(IBoard board, Position skillUserPosition)
@@ -35,7 +48,7 @@ namespace TurnItUp.Skills
 
             Position playerPosition = board.CharacterManager.Player.GetComponent<Position>();
 
-            HashSet<Position> originMap = AdjacentOriginMapCalculator.Calculate(board, skillUserPosition, playerPosition, board.PathFinder.AllowDiagonalMovement);
+            HashSet<Position> originMap = OriginMapCalculator.Calculate(board, skillUserPosition, playerPosition, board.PathFinder.AllowDiagonalMovement);
             returnValue.Add(new System.Tuples.Tuple<int, int>(playerPosition.X, playerPosition.Y), originMap);
             return returnValue;
         }

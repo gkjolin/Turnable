@@ -9,11 +9,11 @@ using TurnItUp.Pathfinding;
 
 namespace TurnItUp.Skills
 {
-    public class AdjacentOriginMapCalculator : ISkillOriginMapCalculator
+    public class DirectLineOriginMapCalculator : ISkillOriginMapCalculator
     {
         public ISkill Skill { get; set; }
 
-        public AdjacentOriginMapCalculator(ISkill skill)
+        public DirectLineOriginMapCalculator(ISkill skill)
         {
             Skill = skill;
         }
@@ -22,11 +22,14 @@ namespace TurnItUp.Skills
         {
             HashSet<Position> returnValue = new HashSet<Position>();
 
-            for (int x = targetPosition.X - 1; x <= targetPosition.X + 1; x++)
+            for (int x = targetPosition.X - Skill.Range; x <= targetPosition.X + Skill.Range; x++)
             {
-                for (int y = targetPosition.Y - 1; y <= targetPosition.Y + 1; y++)
+                for (int y = targetPosition.Y - Skill.Range; y <= targetPosition.Y + Skill.Range; y++)
                 {
                     if (x == targetPosition.X && y == targetPosition.Y) continue;
+
+                    // For a DirectLine RangeType, the candidate position has to be either orthogonal or diagonal to the targetPosition
+                    if (!(x == targetPosition.X || y == targetPosition.Y) && !(Math.Abs(x - targetPosition.X) == Math.Abs(y - targetPosition.Y))) continue;
 
                     returnValue.Add(new Position(x, y));
                 }

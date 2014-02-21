@@ -15,6 +15,7 @@ namespace TurnItUp.Interfaces
         RangeType RangeType { get; set; }
         TargetType TargetType { get; set; }
         int Range { get; set; }
+        ISkillOriginMapCalculator OriginMapCalculator { get; set; }
 
         TargetMap CalculateTargetMap(IBoard board, Position skillUserPosition);
     }

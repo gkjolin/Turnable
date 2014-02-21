@@ -58,14 +58,14 @@ namespace Tests.Skills
             Skill skill = new Skill("Melee Attack", RangeType.DirectLine, TargetType.InAnotherTeam, 5);
 
             Assert.IsNotNull(skill.OriginMapCalculator);
+            Assert.AreEqual(skill, skill.OriginMapCalculator.Skill);
             Assert.IsInstanceOfType(skill.OriginMapCalculator, typeof(DirectLineOriginMapCalculator));
-            Assert.AreEqual(5, skill.OriginMapCalculator.SkillRange);
 
             skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
 
             Assert.IsNotNull(skill.OriginMapCalculator);
+            Assert.AreEqual(skill, skill.OriginMapCalculator.Skill);
             Assert.IsInstanceOfType(skill.OriginMapCalculator, typeof(AdjacentOriginMapCalculator));
-            Assert.AreEqual(1, skill.OriginMapCalculator.SkillRange);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace Tests.Skills
             Assert.AreEqual(1, targetMap.Count);
             Assert.IsTrue(targetMap.ContainsKey(new Tuple<int,int>(7, 14)));
             HashSet<Position> originMap = targetMap[new Tuple<int, int>(7, 14)];
-            //Assert.AreEqual(originMap.Count, AdjacentOriginMapCalculator.CalculateOriginMap(_board, new Position(6, 1), new Position(7, 14)).Count);
+            Assert.AreEqual(originMap.Count, skill.OriginMapCalculator.Calculate(_board, new Position(6, 1), new Position(7, 14)).Count);
         }
     }
 }
