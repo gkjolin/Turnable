@@ -80,11 +80,11 @@ namespace Tests.Skills
             Assert.AreEqual(10, skillOriginPositions.Count);
         }
 
-        //// Disallowing diagonal movement
-        //[TestMethod]
+        // Disallowing diagonal movement
+        [TestMethod]
         public void DirectLineOriginMapCalculator_WithoutDiagonalMovementForATargetWithNoUnwalkablePositionsAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(2, 13));
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(3, 12));
 
             Assert.AreEqual(8, skillOriginPositions.Count);
         }
