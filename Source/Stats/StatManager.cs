@@ -19,7 +19,7 @@ namespace TurnItUp.Stats
 
         public Stat CreateStat(string name, int initialValue, int minimumValue = 0, int maximumValue = 100)
         {
-            if (Stats.FindAll(a => a.Name.ToLower() == name.ToLower()).Count != 0) throw new ArgumentException(string.Format("<StatManager::CreateStat>: {0} stat already exists.", name));
+            if (Stats.FindAll(a => a.Name.ToLower() == name.ToLower()).Count != 0) throw new ArgumentException(string.Format("<StatManager::CreateStat> : {0} stat already exists.", name));
             Stat stat = new Stat(name, initialValue, minimumValue, maximumValue);
             Stats.Add(stat);
             return stat;

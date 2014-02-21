@@ -38,29 +38,5 @@ namespace TurnItUp.Tmx
                 Properties = new PropertyDictionary(xProperties);
             }
         }
-
-        //public void MoveTile(int oldX, int oldY, int newX, int newY)
-        //{
-        //    if (!Tiles.ContainsKey(new System.Tuples.Tuple<int, int>(oldX, oldY)))
-        //    {
-        //        throw new InvalidOperationException(String.Format("A tile that does not exist at: {0}, {1}", oldX.ToString(), oldY.ToString()));
-        //    }
-
-        //    if (Tiles.ContainsKey(new System.Tuples.Tuple<int, int>(newX, newY)))
-        //    {
-        //        throw new InvalidOperationException(String.Format("A tile already exists at: {0}, {1}", newX.ToString(), newY.ToString()));
-        //    }
-
-        //    Tiles[new Tuple<int, int>(newX, newY)] = new Tile(Tiles[new Tuple<int, int>(oldX, oldY)].Gid, newX, newY);
-        //    UnsetTile(oldX, oldY);
-        //}
-
-        //public void UnsetTile(int x, int y)
-        //{
-        //    if (Tiles.ContainsKey(new System.Tuples.Tuple<int,int>(x, y)))
-        //    {
-        //        Tiles.Remove(new System.Tuples.Tuple<int,int>(x, y));
-        //    }
-        //}
     }
 }

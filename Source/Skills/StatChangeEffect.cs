@@ -18,7 +18,7 @@ namespace TurnItUp.Skills
 
         public void AddStatChange(string name, string change)
         {
-            if (StatChanges.ContainsKey(name)) throw new InvalidOperationException(String.Format("<StatChangeEffect::AddStatChange>: you added a change for {0} when it already exists.", name));
+            if (StatChanges.ContainsKey(name)) throw new InvalidOperationException(String.Format("<StatChangeEffect::AddStatChange> : you added a change for {0} when it already exists.", name));
             StatChanges[name] = change;
         }
 

@@ -22,7 +22,7 @@ namespace TurnItUp.Pathfinding
 
         public void Insert(int index, Node item)
         {
-            throw new NotImplementedException("Cannot insert at index; must preserve order.");
+            throw new NotImplementedException("<NodeList::Insert> : cannot insert at index; must preserve order.");
         }
 
         public void RemoveAt(int index)

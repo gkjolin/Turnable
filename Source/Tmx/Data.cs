@@ -17,7 +17,7 @@ namespace TurnItUp.Tmx
             var encoding = (string)xData.Attribute("encoding");
             if (encoding != "base64")
             {
-                throw new NotSupportedException("Encodings other than Base64 are not supported for parsing .tmx files.");
+                throw new NotSupportedException("<Data::Data> : encodings other than Base64 are not supported for parsing .tmx files.");
             }
 
             // Decode the contents of xData
