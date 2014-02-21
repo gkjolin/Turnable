@@ -8,7 +8,9 @@ namespace TurnItUp.Skills
     [Flags]
     public enum RangeType
     {
-        Adjacent = 1,
-        Orthogonal = 2
+        Adjacent = 0,
+        DirectLine = 1,
+        Circle = 2
+
     }
 }

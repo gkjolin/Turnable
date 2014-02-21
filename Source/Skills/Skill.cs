@@ -35,7 +35,7 @@ namespace TurnItUp.Skills
 
             Position playerPosition = board.CharacterManager.Player.GetComponent<Position>();
 
-            HashSet<Position> originMap = AdjacentOriginMapCalculator.CalculateOriginMap(board, skillUserPosition, playerPosition, board.PathFinder.AllowDiagonalMovement);
+            HashSet<Position> originMap = AdjacentOriginMapCalculator.Calculate(board, skillUserPosition, playerPosition, board.PathFinder.AllowDiagonalMovement);
             returnValue.Add(new System.Tuples.Tuple<int, int>(playerPosition.X, playerPosition.Y), originMap);
             return returnValue;
         }

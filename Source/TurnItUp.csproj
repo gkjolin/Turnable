@@ -63,13 +63,14 @@
     <Compile Include="Characters\InTeam.cs" />
     <Compile Include="Characters\Npc.cs" />
     <Compile Include="Characters\PC.cs" />
-    <Compile Include="Components\Archetype.cs" />
+    <Compile Include="Components\Model.cs" />
     <Compile Include="Components\OnBoard.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Interfaces\IPathFinder.cs" />
     <Compile Include="Interfaces\IBoard.cs" />
     <Compile Include="Interfaces\ISkill.cs" />
     <Compile Include="Interfaces\ICharacterManager.cs" />
+    <Compile Include="Interfaces\ISkillOriginMapCalculator.cs" />
     <Compile Include="Interfaces\IState.cs" />
     <Compile Include="Locations\Board.cs" />
     <Compile Include="Locations\MoveResult.cs" />

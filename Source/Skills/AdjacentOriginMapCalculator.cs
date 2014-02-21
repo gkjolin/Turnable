@@ -9,9 +9,9 @@ using TurnItUp.Pathfinding;
 
 namespace TurnItUp.Skills
 {
-    public static class AdjacentOriginMapCalculator
+    public class AdjacentOriginMapCalculator : ISkillOriginMapCalculator
     {
-        public static HashSet<Position> CalculateOriginMap(IBoard board, Position skillUserPosition, Position targetPosition, bool allowDiagonalMovement = false)
+        public HashSet<Position> Calculate(IBoard board, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false, bool lineOfSightRequired = true)
         {
             HashSet<Position> returnValue = new HashSet<Position>();
 
