@@ -90,6 +90,7 @@ namespace Tests.AI.Tactician
             Assert.IsInstanceOfType(goal.Subgoals[0], typeof(ApplySkillGoal));
 
             ApplySkillGoal applySkillGoal = (ApplySkillGoal)goal.Subgoals[0];
+            Assert.AreEqual(_entity, applySkillGoal.Owner);
             Assert.AreEqual(_skill, applySkillGoal.Skill);
             Assert.AreEqual(_board.CharacterManager.Player, applySkillGoal.Target);
         }

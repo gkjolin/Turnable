@@ -7,6 +7,9 @@ using TurnItUp.Pathfinding;
 using TurnItUp.Locations;
 using Tests.Factories;
 using TurnItUp.Components;
+using Moq;
+using TurnItUp.Interfaces;
+using Entropy;
 
 namespace Tests.Skills
 {
@@ -33,11 +36,16 @@ namespace Tests.Skills
         // X - Obstacles, P - Player, E - Enemies
 
         private Board _board;
+        private Entity _skillUser;
+        private Entity _target;
 
         [TestInitialize]
         public void Initialize()
         {
+            World world = new World();
             _board = LocationsFactory.BuildBoard();
+            _skillUser = world.CreateEntity();
+            _target = world.CreateEntity();
         }
 
         [TestMethod]
@@ -81,7 +89,6 @@ namespace Tests.Skills
 
         // Testing the generation of a skill's Target Map
         // A Target Map is the set of nodes from which an enemy can use the skill on the player
-
         [TestMethod]
         public void Skill_WithARangeOfAdjacentNodes_GeneratesTheCorrectTargetMap()
         {
@@ -93,6 +100,25 @@ namespace Tests.Skills
             Assert.IsTrue(targetMap.ContainsKey(new Tuple<int,int>(7, 14)));
             HashSet<Position> originMap = targetMap[new Tuple<int, int>(7, 14)];
             Assert.AreEqual(originMap.Count, skill.OriginMapCalculator.Calculate(_board, new Position(6, 1), new Position(7, 14)).Count);
+        }
+
+        [TestMethod]
+        public void Skill_Applying_AppliesAllEffectsToTheTarget()
+        {
+            Mock<IEffect> effect1 = new Mock<IEffect>();
+            Mock<IEffect> effect2 = new Mock<IEffect>();
+            Mock<IEffect> effect3 = new Mock<IEffect>();
+            Skill skill = new Skill("Melee Attack");
+
+            skill.Effects.Add(effect1.Object);
+            skill.Effects.Add(effect2.Object);
+            skill.Effects.Add(effect3.Object);
+
+            skill.Apply(_skillUser, _target);
+
+            effect1.Verify(e => e.Apply(_skillUser, _target));
+            effect2.Verify(e => e.Apply(_skillUser, _target));
+            effect3.Verify(e => e.Apply(_skillUser, _target));
         }
     }
 }

@@ -37,7 +37,13 @@ namespace TurnItUp.Characters
             foreach (Tile tile in characterLayer.Tiles.Values)
             {
                 Entity character = null;
-                ReferenceTile referenceTile = characterTileset.ReferenceTiles[(int)tile.Gid - characterTileset.FirstGid];
+                ReferenceTile referenceTile = null;
+
+                // Is there a reference tile for this character?
+                if (characterTileset.ReferenceTiles.ContainsKey((int)tile.Gid - characterTileset.FirstGid))
+                {
+                    referenceTile = characterTileset.ReferenceTiles[(int)tile.Gid - characterTileset.FirstGid];
+                }
 
                 if (referenceTile != null && referenceTile.Properties.ContainsKey("IsPlayer") && referenceTile.Properties["IsPlayer"] == "true")
                 {

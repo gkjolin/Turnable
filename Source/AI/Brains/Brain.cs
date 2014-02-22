@@ -28,8 +28,7 @@ namespace TurnItUp.AI.Brains
 
         public void Think()
         {
-            Skill skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
-            CurrentGoal = new UseSkillGoal(Owner, Board, skill, Board.CharacterManager.Player.GetComponent<Position>());
+            CurrentGoal = new ChooseSkillAndTargetGoal(Owner, Board);
         }
     }
 }

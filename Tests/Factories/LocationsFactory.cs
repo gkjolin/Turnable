@@ -11,11 +11,11 @@ namespace Tests.Factories
 {
     public static class LocationsFactory
     {
-        public static Board BuildBoard()
+        public static Board BuildBoard(string tmxPath = "../../Fixtures/FullExample.tmx")
         {
             World world = new World();
             Board board = new Board();
-            board.Initialize(world, "../../Fixtures/FullExample.tmx");
+            board.Initialize(world, tmxPath);
             board.InitializePathFinding();
 
             return board;

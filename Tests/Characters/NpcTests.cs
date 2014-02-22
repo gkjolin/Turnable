@@ -29,7 +29,7 @@ namespace Tests.Characters
         {
             Entity npc = _world.CreateEntityFromTemplate<Npc>();
 
-            Assert.AreEqual(5, npc.Components.Count);
+            Assert.AreEqual(6, npc.Components.Count);
             Assert.IsTrue(npc.Components.ContainsKey(typeof(Brain)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(OnBoard)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(Position)));
@@ -43,6 +43,10 @@ namespace Tests.Characters
             Assert.AreEqual(100, stat.Value);
             Assert.AreEqual(0, stat.MinimumValue);
             Assert.AreEqual(100, stat.MaximumValue);
+
+            // Is there an empty SkillSet?
+            Assert.IsTrue(npc.Components.ContainsKey(typeof(SkillSet)));
+            Assert.AreEqual(0, npc.GetComponent<SkillSet>().Count);
         }
     }
 }

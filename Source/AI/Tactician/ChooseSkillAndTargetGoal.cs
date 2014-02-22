@@ -11,29 +11,26 @@ using TurnItUp.Skills;
 
 namespace TurnItUp.AI.Tactician
 {
-    // TODO: Unit test this!
-    public class ApplySkillGoal : AtomicGoal
+    public class ChooseSkillAndTargetGoal : CompositeGoal
     {
-        public ISkill Skill { get; private set; }
-        public Entity Target { get; private set; }
+        public IBoard Board { get; private set; }
 
-        public ApplySkillGoal(Entity character, ISkill skill, Entity target)
+        public ChooseSkillAndTargetGoal(Entity character, IBoard board)
         {
             Owner = character;
-            Skill = skill;
-            Target = target;
+            Board = board;
         }
 
         public override void Activate()
         {
             base.Activate();
+
+            Subgoals.Add(new UseSkillGoal(Owner, Board, Owner.GetComponent<SkillSet>()[0], Board.CharacterManager.Player.GetComponent<Position>()));
         }
 
         public override void Process()
         {
             base.Process();
-
-            Skill.Apply(Owner, Target);
         }
     }
 }

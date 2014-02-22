@@ -36,7 +36,7 @@ namespace TurnItUp.AI.Tactician
             // If the skill user is already in a position to the skill, simply apply the skill
             if (candidatePositions.Contains(startingPosition))
             {
-                Subgoals.Add(new ApplySkillGoal(Skill, Board.World.EntitiesWhere<Position>(p => p.X == Target.X && p.Y == Target.Y).Single()));
+                Subgoals.Add(new ApplySkillGoal(Owner, Skill, Board.World.EntitiesWhere<Position>(p => p.X == Target.X && p.Y == Target.Y).Single()));
                 return;
             }
 

@@ -41,7 +41,7 @@ namespace Tests.Characters
             Assert.AreEqual(9, characterManager.Characters.Count);
             Assert.IsNotNull(characterManager.Player);
 
-            // Are all Characters set up with an Archetype?
+            // Are all Characters set up with a Model?
             foreach (Entity character in characterManager.Characters)
             {
                 Assert.IsNotNull(character.GetComponent<Model>());
@@ -57,6 +57,29 @@ namespace Tests.Characters
             foreach (Entity character in characterManager.Characters)
             {
                 Assert.AreEqual(_board, character.GetComponent<OnBoard>().Board);
+            }
+        }
+
+        [TestMethod]
+        public void CharacterManager_ConstructionWhenModelPropertyIsUnsetForACharacter_IgnoresSettingUpTheModelWhenNeeded()
+        {
+            _board = LocationsFactory.BuildBoard("../../Fixtures/FullExampleWithUnsetModelForSomeCharacters.tmx");
+
+            CharacterManager characterManager = new CharacterManager(_world, _board);
+
+            Assert.AreEqual(characterManager.Board, _board);
+            Assert.IsNotNull(characterManager.Characters);
+            Assert.AreEqual(9, characterManager.Characters.Count);
+            Assert.IsNotNull(characterManager.Player);
+
+            // Are all Characters set up with a Model IF they had a model property in the reference tile?
+            foreach (Entity character in characterManager.Characters)
+            {
+                if (character.GetComponent<Model>() != null)
+                {
+                    // TODO: Test that the models are set up correctly for each character
+                    Assert.IsTrue(new List<String> { "Knight M", "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
+                }
             }
         }
 

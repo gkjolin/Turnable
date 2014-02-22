@@ -55,6 +55,7 @@
     <Compile Include="AI\Goals\GoalStatus.cs" />
     <Compile Include="AI\State Machines\StateMachine.cs" />
     <Compile Include="AI\Tactician\ApplySkillGoal.cs" />
+    <Compile Include="AI\Tactician\ChooseSkillAndTargetGoal.cs" />
     <Compile Include="AI\Tactician\UseSkillGoal.cs" />
     <Compile Include="AI\Tactician\MoveToGoal.cs" />
     <Compile Include="AI\Tactician\FollowPathGoal.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Components\Model.cs" />
     <Compile Include="Components\OnBoard.cs" />
     <Compile Include="Components\Position.cs" />
+    <Compile Include="Interfaces\IEffect.cs" />
     <Compile Include="Interfaces\IPathFinder.cs" />
     <Compile Include="Interfaces\IBoard.cs" />
     <Compile Include="Interfaces\ISkill.cs" />
@@ -83,7 +85,6 @@
     <Compile Include="Skills\DirectLineOriginMapCalculator.cs" />
     <Compile Include="Skills\SkillDatabase.cs" />
     <Compile Include="Skills\StatChangeEffect.cs" />
-    <Compile Include="Skills\Effect.cs" />
     <Compile Include="Skills\SkillSet.cs" />
     <Compile Include="Skills\TargetMap.cs" />
     <Compile Include="Skills\TargetType.cs" />

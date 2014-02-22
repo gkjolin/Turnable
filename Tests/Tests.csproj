@@ -69,6 +69,8 @@
     <Compile Include="AI\Goals\AtomicGoalTests.cs" />
     <Compile Include="AI\State Machines\StateMachineTests.cs" />
     <Compile Include="AI\State Machines\StateTests.cs" />
+    <Compile Include="AI\Tactician\ApplySkillGoalTests.cs" />
+    <Compile Include="AI\Tactician\ChooseSkillAndTargetGoalTests.cs" />
     <Compile Include="AI\Tactician\UseSkillGoalTests.cs" />
     <Compile Include="AI\Tactician\MoveToGoalTests.cs" />
     <Compile Include="AI\Tactician\FollowPathGoalTests.cs" />
@@ -115,6 +117,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fixtures\FullExampleWithUnsetModelForSomeCharacters.tmx" />
     <None Include="Fixtures\FullExample.tmx" />
     <None Include="Fixtures\MinimalBase64Gzip.tmx" />
     <None Include="Fixtures\MinimalBase64Zlib.tmx" />

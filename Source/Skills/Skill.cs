@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entropy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace TurnItUp.Skills
         public RangeType RangeType { get; set; }
         public TargetType TargetType { get; set; }
         public int Range { get; set; }
-        public List<Effect> Effects { get; private set; }
+        public List<IEffect> Effects { get; private set; }
         public ISkillOriginMapCalculator OriginMapCalculator { get; set; }
 
         public Skill(string name) : this(name, RangeType.Adjacent, TargetType.InAnotherTeam, 1)
@@ -27,7 +28,7 @@ namespace TurnItUp.Skills
             RangeType = rangeType;
             TargetType = targetType;
             Range = range;
-            Effects = new List<Effect>();
+            Effects = new List<IEffect>();
 
             switch (rangeType)
             {
@@ -51,6 +52,14 @@ namespace TurnItUp.Skills
             HashSet<Position> originMap = OriginMapCalculator.Calculate(board, skillUserPosition, playerPosition, board.PathFinder.AllowDiagonalMovement);
             returnValue.Add(new System.Tuples.Tuple<int, int>(playerPosition.X, playerPosition.Y), originMap);
             return returnValue;
+        }
+
+        public void Apply(Entity user, Entity target)
+        {
+            foreach (IEffect effect in Effects)
+            {
+                effect.Apply(user, target);
+            }
         }
     }
 }

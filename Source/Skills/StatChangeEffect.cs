@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Entropy;
 using TurnItUp.Stats;
+using TurnItUp.Interfaces;
 
 namespace TurnItUp.Skills
 {
-    public class StatChangeEffect : Effect
+    public class StatChangeEffect : IEffect
     {
         public Dictionary<string, string> StatChanges { get; private set; }
 
@@ -22,7 +23,7 @@ namespace TurnItUp.Skills
             StatChanges[name] = change;
         }
 
-        public override void Apply(Entity executor, Entity target)
+        public void Apply(Entity executor, Entity target)
         {
             foreach (string name in StatChanges.Keys)
             {

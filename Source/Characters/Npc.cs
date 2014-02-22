@@ -22,6 +22,7 @@ namespace TurnItUp.Characters
             returnValue.AddComponent(new InTeam("NPCs"));
             returnValue.AddComponent(new StatManager());
             returnValue.GetComponent<StatManager>().CreateStat("Health", 100);
+            returnValue.AddComponent(new SkillSet());
 
             return returnValue;
         }

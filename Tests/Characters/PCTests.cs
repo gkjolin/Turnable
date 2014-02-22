@@ -28,7 +28,7 @@ namespace Tests.Characters
         {
             Entity pc = _world.CreateEntityFromTemplate<PC>();
 
-            Assert.AreEqual(4, pc.Components.Count);
+            Assert.AreEqual(5, pc.Components.Count);
             Assert.IsTrue(pc.Components.ContainsKey(typeof(OnBoard)));
             Assert.IsTrue(pc.Components.ContainsKey(typeof(Position)));
             Assert.IsTrue(pc.Components.ContainsKey(typeof(InTeam)));
@@ -41,6 +41,10 @@ namespace Tests.Characters
             Assert.AreEqual(100, stat.Value);
             Assert.AreEqual(0, stat.MinimumValue);
             Assert.AreEqual(100, stat.MaximumValue);
+
+            // Is there an empty SkillSet?
+            Assert.IsTrue(pc.Components.ContainsKey(typeof(SkillSet)));
+            Assert.AreEqual(0, pc.GetComponent<SkillSet>().Count);
         }
     }
 }

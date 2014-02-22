@@ -48,11 +48,10 @@ namespace Tests.AI.Brains
         {
             _brain.Think();
 
-            Assert.IsInstanceOfType(_brain.CurrentGoal, typeof(UseSkillGoal));
+            Assert.IsInstanceOfType(_brain.CurrentGoal, typeof(ChooseSkillAndTargetGoal));
             Assert.AreEqual(_character, _brain.CurrentGoal.Owner);
-            Assert.AreEqual(_board, ((UseSkillGoal)_brain.CurrentGoal).Board);
-            Assert.AreEqual("Melee Attack", ((UseSkillGoal)_brain.CurrentGoal).Skill.Name);
-            Assert.AreEqual(_board.CharacterManager.Player.GetComponent<Position>(), ((UseSkillGoal)_brain.CurrentGoal).Target);
+            ChooseSkillAndTargetGoal goal = (ChooseSkillAndTargetGoal)_brain.CurrentGoal;
+            Assert.AreEqual(_board, goal.Board);
         }
     }
 }
