@@ -10,11 +10,17 @@ namespace Tests
     public class StatManagerTests
     {
         private StatManager _statManager;
+        private bool _eventTriggeredFlag;
+        private StatChangedEventArgs _eventArgs;
+        private Entity _entity;
 
         [TestInitialize]
         public void Initialize()
         {
+            World world = new World();
+            _entity = world.CreateEntity();
             _statManager = new StatManager();
+            _eventTriggeredFlag = false;
         }
 
         [TestMethod]
@@ -75,6 +81,29 @@ namespace Tests
 
             Stat stat = _statManager.GetStat("Adrenaline");
             Assert.IsNull(stat);
+        }
+
+        [TestMethod]
+        public void StatManager_WhenAStatIsChanged_RaisesAnEvent()
+        {
+            _entity.AddComponent(_statManager);
+            _statManager.CreateStat("Health", 100);
+            _statManager.CreateStat("Mana", 50);
+
+            Stat stat = _statManager.GetStat("Health");
+             _statManager.StatChanged += this.SetEventTriggeredFlag;
+            stat.Value += 10;
+
+            // TODO: How do I check that the StatChangedEventArgs are correctly set?
+            Assert.IsTrue(_eventTriggeredFlag);
+            Assert.AreEqual(stat, _eventArgs.Stat);
+            Assert.AreEqual(_entity, _eventArgs.Entity);
+        }
+
+        private void SetEventTriggeredFlag(object sender, EventArgs e)
+        {
+            _eventTriggeredFlag = true;
+            _eventArgs = (StatChangedEventArgs)e;
         }
     }
 }

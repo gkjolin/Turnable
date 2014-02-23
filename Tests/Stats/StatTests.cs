@@ -11,12 +11,15 @@ namespace Tests.Stats
     {
         private StatManager _statManager;
         private Stat _stat;
+        private bool _eventTriggeredFlag;
+        private EventArgs _eventArgs;
 
         [TestInitialize]
         public void Initialize()
         {
             _statManager = new StatManager();
             _stat = _statManager.CreateStat("Health", 100);
+            _eventTriggeredFlag = false;
         }
 
         [TestMethod]
@@ -71,6 +74,49 @@ namespace Tests.Stats
             _stat.Value -= 3;
             _stat.Reset();
             Assert.AreEqual(100, _stat.Value);
+        }
+
+        [TestMethod]
+        public void Stat_WhenChanged_RaisesAChangedEvent()
+        {
+            _stat.Changed += this.SetEventTriggeredFlag;
+            _stat.Value -= 10;
+
+            Assert.IsTrue(_eventTriggeredFlag);
+
+            StatChangedEventArgs e = (StatChangedEventArgs)_eventArgs;
+            Assert.AreEqual(_stat, e.Stat);
+        }
+
+        [TestMethod]
+        public void Stat_WhenChangedAndClampedToMaximumValue_RaisesAChangedEvent()
+        {
+            _stat.Changed += this.SetEventTriggeredFlag;
+            _stat.Value += 10;
+
+            Assert.IsTrue(_eventTriggeredFlag);
+
+            StatChangedEventArgs e = (StatChangedEventArgs)_eventArgs;
+            Assert.AreEqual(_stat, e.Stat);
+        }
+
+        [TestMethod]
+        public void Stat_WhenChangedAndClampedToMinimumValue_RaisesAChangedEvent()
+        {
+            _stat.Changed += this.SetEventTriggeredFlag;
+            _stat.Value -= 250;
+
+            Assert.IsTrue(_eventTriggeredFlag);
+
+            StatChangedEventArgs e = (StatChangedEventArgs)_eventArgs;
+            Assert.AreEqual(_stat, e.Stat);
+        }
+
+
+        private void SetEventTriggeredFlag(object sender, EventArgs e)
+        {
+            _eventTriggeredFlag = true;
+            _eventArgs = e;
         }
     }
 }

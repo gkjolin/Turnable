@@ -25,15 +25,18 @@ namespace TurnItUp.Stats
                 if (value < MinimumValue)
                 {
                     _value = MinimumValue;
+                    OnChanged(new StatChangedEventArgs(null, this));
                     return;
                 }
                 if (value > MaximumValue)
                 {
                     _value = MaximumValue;
+                    OnChanged(new StatChangedEventArgs(null, this));
                     return;
                 }
 
                 _value = value;
+                OnChanged(new StatChangedEventArgs(null, this));
             }
         }
 
@@ -49,6 +52,16 @@ namespace TurnItUp.Stats
         public void Reset()
         {
             Value = _initialValue;
+        }
+
+        public virtual event EventHandler<StatChangedEventArgs> Changed;
+
+        protected virtual void OnChanged(StatChangedEventArgs e)
+        {
+            if (Changed != null)
+            {
+                Changed(this, e);
+            }
         }
     }
 }

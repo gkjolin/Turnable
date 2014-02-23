@@ -22,6 +22,7 @@ namespace TurnItUp.Stats
             if (Stats.FindAll(a => a.Name.ToLower() == name.ToLower()).Count != 0) throw new ArgumentException(string.Format("<StatManager::CreateStat> : {0} stat already exists.", name));
             Stat stat = new Stat(name, initialValue, minimumValue, maximumValue);
             Stats.Add(stat);
+            stat.Changed += OnStatChanged;
             return stat;
         }
 
@@ -30,6 +31,16 @@ namespace TurnItUp.Stats
             List<Stat> results = Stats.FindAll(a => a.Name == name);
             if (results.Count == 0) return null;
             return results[0];
+        }
+
+        public virtual event EventHandler<StatChangedEventArgs> StatChanged;
+
+        protected virtual void OnStatChanged(object sender, StatChangedEventArgs e)
+        {
+            if (StatChanged != null)
+            {
+                StatChanged(this, new StatChangedEventArgs(Owner, e.Stat));
+            }
         }
 
         //private string ToCanonicalName(string name)
