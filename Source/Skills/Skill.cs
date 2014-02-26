@@ -60,6 +60,18 @@ namespace TurnItUp.Skills
             {
                 effect.Apply(user, target);
             }
+
+            OnApplied(this, new SkillAppliedEventArgs(user, this, target));
         }
+
+        protected virtual void OnApplied(object sender, SkillAppliedEventArgs e)
+        {
+            if (Applied != null)
+            {
+                Applied(this, e);
+            }
+        }
+
+        public virtual event EventHandler<SkillAppliedEventArgs> Applied;
     }
 }

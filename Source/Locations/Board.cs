@@ -54,12 +54,12 @@ namespace TurnItUp.Locations
             return CharacterManager.IsCharacterAt(x, y);
         }
 
-        public virtual Tuple<MoveResult, List<Position>> MovePlayer(Direction direction)
+        public virtual MoveResult MovePlayer(Direction direction)
         {
             return CharacterManager.MovePlayer(direction);
         }
 
-        public virtual Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination)
+        public virtual MoveResult MoveCharacterTo(Entity character, Position destination)
         {
             return CharacterManager.MoveCharacterTo(character, destination);
         }

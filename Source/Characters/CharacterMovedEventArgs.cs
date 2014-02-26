@@ -14,9 +14,9 @@ namespace TurnItUp.Characters
     // TODO: Test this class
     public class CharacterMovedEventArgs : EntityEventArgs
     {
-        public Tuple<MoveResult, List<Position>> MoveResult { get; private set; }
+        public MoveResult MoveResult { get; private set; }
 
-        public CharacterMovedEventArgs(Entity character, Tuple<MoveResult, List<Position>> moveResult) : base(character)
+        public CharacterMovedEventArgs(Entity character, MoveResult moveResult) : base(character)
         {
             MoveResult = moveResult;
         }

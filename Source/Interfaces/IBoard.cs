@@ -23,7 +23,7 @@ namespace TurnItUp.Interfaces
         // Facade methods
         bool IsObstacle(int x, int y);
         bool IsCharacterAt(int x, int y);
-        Tuple<MoveResult, List<Position>> MovePlayer(Direction direction);
-        Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination);
+        MoveResult MovePlayer(Direction direction);
+        MoveResult MoveCharacterTo(Entity character, Position destination);
     }
 }

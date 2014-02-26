@@ -38,6 +38,9 @@ namespace Tests.Skills
         private Board _board;
         private Entity _skillUser;
         private Entity _target;
+        private Skill _skill;
+        private bool _eventTriggeredFlag;
+        private SkillAppliedEventArgs _eventArgs;
 
         [TestInitialize]
         public void Initialize()
@@ -46,6 +49,8 @@ namespace Tests.Skills
             _board = LocationsFactory.BuildBoard();
             _skillUser = world.CreateEntity();
             _target = world.CreateEntity();
+            _eventTriggeredFlag = false;
+            _skill = new Skill("Melee Attack");
         }
 
         [TestMethod]
@@ -108,17 +113,34 @@ namespace Tests.Skills
             Mock<IEffect> effect1 = new Mock<IEffect>();
             Mock<IEffect> effect2 = new Mock<IEffect>();
             Mock<IEffect> effect3 = new Mock<IEffect>();
-            Skill skill = new Skill("Melee Attack");
 
-            skill.Effects.Add(effect1.Object);
-            skill.Effects.Add(effect2.Object);
-            skill.Effects.Add(effect3.Object);
+            _skill.Effects.Add(effect1.Object);
+            _skill.Effects.Add(effect2.Object);
+            _skill.Effects.Add(effect3.Object);
 
-            skill.Apply(_skillUser, _target);
+            _skill.Apply(_skillUser, _target);
 
             effect1.Verify(e => e.Apply(_skillUser, _target));
             effect2.Verify(e => e.Apply(_skillUser, _target));
             effect3.Verify(e => e.Apply(_skillUser, _target));
+        }
+
+        [TestMethod]
+        public void Skill_Applying_RaisesAnAppliedEvent()
+        {
+            _skill.Applied += SetEventTriggeredFlag;
+            _skill.Apply(_skillUser, _target);
+
+            Assert.IsTrue(_eventTriggeredFlag);
+            Assert.AreEqual(_skillUser, _eventArgs.Entity);
+            Assert.AreEqual(_skill, _eventArgs.Skill);
+            Assert.AreEqual(_target, _eventArgs.Target);
+        }
+
+        private void SetEventTriggeredFlag(object sender, EventArgs e)
+        {
+            _eventTriggeredFlag = true;
+            _eventArgs = (SkillAppliedEventArgs)e;
         }
     }
 }

@@ -22,17 +22,24 @@ namespace TurnItUp.Skills
         {
             HashSet<Position> returnValue = new HashSet<Position>();
 
-            for (int x = targetPosition.X - Skill.Range; x <= targetPosition.X + Skill.Range; x++)
+            // Up
+            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 0, -1, Skill.Range);
+            // Down
+            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 0, 1, Skill.Range);
+            // Left
+            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, 0, Skill.Range);
+            // Right
+            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, 0, Skill.Range);
+            if (allowDiagonalMovement)
             {
-                for (int y = targetPosition.Y - Skill.Range; y <= targetPosition.Y + Skill.Range; y++)
-                {
-                    if (x == targetPosition.X && y == targetPosition.Y) continue;
-
-                    // For a DirectLine RangeType, the candidate position has to be either orthogonal or diagonal to the targetPosition
-                    if (!(x == targetPosition.X || y == targetPosition.Y) && !(Math.Abs(x - targetPosition.X) == Math.Abs(y - targetPosition.Y))) continue;
-
-                    returnValue.Add(new Position(x, y));
-                }
+                // UpLeft
+                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, -1, Skill.Range);
+                // UpRight
+                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, -1, Skill.Range);
+                // DownRight
+                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, 1, Skill.Range);
+                // DownLeft
+                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, 1, Skill.Range);
             }
 
             // Add back the skillUserPosition, since the skill user can always use the skill from its current position
@@ -42,21 +49,32 @@ namespace TurnItUp.Skills
                 addSkillUserPosition = true;
             }
 
-            // Remove unwalkable positions
-            returnValue.RemoveWhere(p => !(new Node(board, p.X, p.Y)).IsWalkable());
-
-            // Remove non-orthogonal nodes if needed
-            if (!allowDiagonalMovement)
-            {
-                returnValue.RemoveWhere(p => !(p.X == targetPosition.X || p.Y == targetPosition.Y));
-            }
-
             if (addSkillUserPosition)
             {
                 returnValue.Add(skillUserPosition);
             }
 
             return returnValue;
+        }
+
+        private void AddPositionsInDirectLine(IBoard board, HashSet<Position> positions, Position skillUserPosition, Position startingPosition, int deltaX, int deltaY, int range)
+        {
+            Position testingPosition;
+
+            for (int i = 1; i <= range; i++)
+            {
+                testingPosition = new Position(startingPosition.X + i * deltaX, startingPosition.Y + i * deltaY);
+
+                // If position is unwalkable, immediately return
+                if (new Node(board, testingPosition.X, testingPosition.Y).IsWalkable() || testingPosition == skillUserPosition) 
+                {
+                    positions.Add(testingPosition);
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
     }
 }

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.Components;
 
 namespace TurnItUp.Locations
 {
-    public enum MoveResult
+    // TODO: Test this class
+    public class MoveResult
     {
-        Success,
-        HitObstacle,
-        HitCharacter
+        public MoveResultStatus Status { get; set; }
+        public List<Position> Path { get; set; }
     }
 }

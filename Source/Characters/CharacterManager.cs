@@ -79,41 +79,41 @@ namespace TurnItUp.Characters
             Board = board;
         }
 
-        public virtual Tuple<MoveResult, List<Position>> MovePlayer(Direction direction)
+        public virtual MoveResult MovePlayer(Direction direction)
         {
             return MoveCharacter(Player, direction);
         }
 
-        public virtual Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination)
+        public virtual MoveResult MoveCharacterTo(Entity character, Position destination)
         {
-            Tuple<MoveResult, List<Position>> returnValue = new Tuple<MoveResult, List<Position>>();
+            MoveResult returnValue = new MoveResult();
             List<Position> positionChanges = new List<Position>();
             Position currentPosition = character.GetComponent<Position>().DeepClone();
             positionChanges.Add(currentPosition);
 
             if (Board.IsObstacle(destination.X, destination.Y))
             {
-                returnValue.Element1 = MoveResult.HitObstacle;
+                returnValue.Status = MoveResultStatus.HitObstacle;
             }
             else if (Board.IsCharacterAt(destination.X, destination.Y))
             {
-                returnValue.Element1 = MoveResult.HitCharacter;
+                returnValue.Status = MoveResultStatus.HitCharacter;
             }
             else
             {
                 character.GetComponent<Position>().X = destination.X;
                 character.GetComponent<Position>().Y = destination.Y;
-                returnValue.Element1 = MoveResult.Success;
+                returnValue.Status = MoveResultStatus.Success;
             }
 
             positionChanges.Add(destination);
-            returnValue.Element2 = positionChanges;
+            returnValue.Path = positionChanges;
 
             OnCharacterMoved(new CharacterMovedEventArgs(character, returnValue));
             return returnValue;
         }
 
-        public virtual Tuple<MoveResult, List<Position>> MoveCharacter(Entity character, Direction direction)
+        public virtual MoveResult MoveCharacter(Entity character, Direction direction)
         {
             Position newPosition = new Position();
 

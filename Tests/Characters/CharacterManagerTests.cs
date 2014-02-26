@@ -90,13 +90,13 @@ namespace Tests.Characters
             Position currentPosition = character.GetComponent<Position>().DeepClone();
             Position newPosition = new Position(currentPosition.X - 1, currentPosition.Y);
 
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacterTo(character, newPosition);
+            MoveResult moveResult = _characterManager.MoveCharacterTo(character, newPosition);
 
-            Assert.AreEqual(MoveResult.Success, moveResult.Element1);
+            Assert.AreEqual(MoveResultStatus.Success, moveResult.Status);
             Assert.AreEqual(newPosition, character.GetComponent<Position>());
-            Assert.AreEqual(2, moveResult.Element2.Count);
-            Assert.AreEqual(currentPosition, moveResult.Element2[0]);
-            Assert.AreEqual(newPosition, moveResult.Element2[1]);
+            Assert.AreEqual(2, moveResult.Path.Count);
+            Assert.AreEqual(currentPosition, moveResult.Path[0]);
+            Assert.AreEqual(newPosition, moveResult.Path[1]);
         }
 
         [TestMethod]
@@ -106,14 +106,14 @@ namespace Tests.Characters
             Position currentPosition = character.GetComponent<Position>().DeepClone();
             Position newPosition = new Position(currentPosition.X - 1, currentPosition.Y - 1);
 
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacterTo(character, newPosition);
+            MoveResult moveResult = _characterManager.MoveCharacterTo(character, newPosition);
 
             // Make sure that character was NOT moved
-            Assert.AreEqual(MoveResult.HitObstacle, moveResult.Element1);
+            Assert.AreEqual(MoveResultStatus.HitObstacle, moveResult.Status);
             Assert.AreEqual(currentPosition, character.GetComponent<Position>());
-            Assert.AreEqual(2, moveResult.Element2.Count);
-            Assert.AreEqual(currentPosition, moveResult.Element2[0]);
-            Assert.AreEqual(new Position(4, 0), moveResult.Element2[1]);
+            Assert.AreEqual(2, moveResult.Path.Count);
+            Assert.AreEqual(currentPosition, moveResult.Path[0]);
+            Assert.AreEqual(new Position(4, 0), moveResult.Path[1]);
         }
 
         [TestMethod]
@@ -123,14 +123,14 @@ namespace Tests.Characters
             Position currentPosition = character.GetComponent<Position>().DeepClone();
             Position newPosition = new Position(currentPosition.X + 1, currentPosition.Y);
 
-            Tuple<MoveResult, List<Position>> moveResult = _characterManager.MoveCharacterTo(character, newPosition);
+            MoveResult moveResult = _characterManager.MoveCharacterTo(character, newPosition);
 
             // Make sure that character was NOT moved
-            Assert.AreEqual(MoveResult.HitCharacter, moveResult.Element1);
+            Assert.AreEqual(MoveResultStatus.HitCharacter, moveResult.Status);
             Assert.AreEqual(currentPosition, character.GetComponent<Position>());
-            Assert.AreEqual(2, moveResult.Element2.Count);
-            Assert.AreEqual(currentPosition, moveResult.Element2[0]);
-            Assert.AreEqual(new Position(6, 1), moveResult.Element2[1]);
+            Assert.AreEqual(2, moveResult.Path.Count);
+            Assert.AreEqual(currentPosition, moveResult.Path[0]);
+            Assert.AreEqual(new Position(6, 1), moveResult.Path[1]);
         }
 
         [TestMethod]

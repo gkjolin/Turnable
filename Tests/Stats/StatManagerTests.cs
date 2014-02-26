@@ -91,10 +91,9 @@ namespace Tests
             _statManager.CreateStat("Mana", 50);
 
             Stat stat = _statManager.GetStat("Health");
-             _statManager.StatChanged += this.SetEventTriggeredFlag;
+             _statManager.StatChanged += SetEventTriggeredFlag;
             stat.Value += 10;
 
-            // TODO: How do I check that the StatChangedEventArgs are correctly set?
             Assert.IsTrue(_eventTriggeredFlag);
             Assert.AreEqual(stat, _eventArgs.Stat);
             Assert.AreEqual(_entity, _eventArgs.Entity);

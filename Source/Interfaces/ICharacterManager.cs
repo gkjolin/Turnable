@@ -18,9 +18,9 @@ namespace TurnItUp.Interfaces
         Entity Player { get; set; }
 
         bool IsCharacterAt(int x, int y);
-        Tuple<MoveResult, List<Position>> MovePlayer(Direction direction);
-        Tuple<MoveResult, List<Position>> MoveCharacter(Entity character, Direction direction);
-        Tuple<MoveResult, List<Position>> MoveCharacterTo(Entity character, Position destination);
+        MoveResult MovePlayer(Direction direction);
+        MoveResult MoveCharacter(Entity character, Direction direction);
+        MoveResult MoveCharacterTo(Entity character, Position destination);
         void EndTurn();
 
         event EventHandler<EntityEventArgs> TurnEnded;

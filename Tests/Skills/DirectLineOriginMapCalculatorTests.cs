@@ -47,7 +47,7 @@ namespace Tests.Skills
         // An origin map is the Set of ALL Positions where a skill can be used from in order to target a certain position
         // TODO: Only testing the number of positions returned, check the actual positions themselves as well
 
-        // Allowing diagonal movement
+        // Allowing diagonal movement + must have line of sight
         [TestMethod]
         public void DirectLineOriginMapCalculator_ForATargetWithNoUnwalkablePositionsOrthogonalToIt_CalculatesOriginMapCorrectly()
         {
@@ -61,7 +61,7 @@ namespace Tests.Skills
         {
             HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14), true);
 
-            Assert.AreEqual(8, skillOriginPositions.Count);
+            Assert.AreEqual(6, skillOriginPositions.Count);
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@ namespace Tests.Skills
         {
             HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14));
 
-            Assert.AreEqual(5, skillOriginPositions.Count);
+            Assert.AreEqual(4, skillOriginPositions.Count);
         }
 
         [TestMethod]

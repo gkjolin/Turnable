@@ -21,5 +21,21 @@ namespace TurnItUp.Skills
         {
             return skill.Name;
         }
+
+        public new void Add(Skill item)
+        {
+            base.Add(item);
+            item.Applied += OnSkillApplied;
+        }
+
+        protected virtual void OnSkillApplied(object sender, SkillAppliedEventArgs e)
+        {
+            if (SkillApplied != null)
+            {
+                SkillApplied(this, e);
+            }
+        }
+
+        public event EventHandler<SkillAppliedEventArgs> SkillApplied;
     }
 }
