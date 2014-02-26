@@ -207,5 +207,17 @@ namespace Tests.Characters
             _characterManager.MoveCharacterTo(_characterManager.Characters[0], new Position(1, 1));
             Assert.IsTrue(_eventTriggeredFlag);
         }
+
+        [TestMethod]
+        public void CharacterManager_DestroyingACharacter_RemovesItFromCharactersAndTheTurnQueue()
+        {
+            Entity characterToDestroy = _characterManager.Characters[0];
+
+            _characterManager.Destroy(characterToDestroy);
+
+            Assert.AreEqual(8, _characterManager.Characters.Count);
+            Assert.IsFalse(_characterManager.Characters.Contains(characterToDestroy));
+            Assert.IsFalse(_characterManager.TurnQueue.Contains(characterToDestroy));
+        }
     }
 }

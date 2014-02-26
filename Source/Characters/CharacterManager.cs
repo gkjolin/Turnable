@@ -166,5 +166,11 @@ namespace TurnItUp.Characters
                 CharacterMoved(this, e);
             }
         }
+
+        public void Destroy(Entity characterToDestroy)
+        {
+            Characters.Remove(characterToDestroy);
+            TurnQueue.Remove(characterToDestroy);
+        }
     }
 }
