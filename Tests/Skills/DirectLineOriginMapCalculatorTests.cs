@@ -41,7 +41,7 @@ namespace Tests.Skills
         {
             _board = LocationsFactory.BuildBoard();
             _skill = new Skill("Ranged Attack", RangeType.DirectLine, TargetType.InAnotherTeam, 2);
-            _directLineOriginMapCalculator = new DirectLineOriginMapCalculator(_skill);
+            _directLineOriginMapCalculator = new DirectLineOriginMapCalculator();
         }
 
         // An origin map is the Set of ALL Positions where a skill can be used from in order to target a certain position
@@ -51,7 +51,7 @@ namespace Tests.Skills
         [TestMethod]
         public void DirectLineOriginMapCalculator_ForATargetWithNoUnwalkablePositionsOrthogonalToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(3, 8), true);
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(3, 8), 2, true);
 
             Assert.AreEqual(16, skillOriginPositions.Count);
         }
@@ -59,7 +59,7 @@ namespace Tests.Skills
         [TestMethod]
         public void DirectLineOriginMapCalculator_ForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14), true);
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14), 2, true);
 
             Assert.AreEqual(6, skillOriginPositions.Count);
         }
@@ -67,7 +67,7 @@ namespace Tests.Skills
         [TestMethod]
         public void DirectLineOriginMapCalculator_ForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(2, 4), new Position(6, 2), true);
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(2, 4), new Position(6, 2), 2, true);
 
             Assert.AreEqual(9, skillOriginPositions.Count);
         }
@@ -75,7 +75,7 @@ namespace Tests.Skills
         [TestMethod]
         public void DirectLineOriginMapCalculator_ForATargetWithCharactersAndTheSkillUserAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(6, 2), true);
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(6, 2), 2, true);
 
             Assert.AreEqual(10, skillOriginPositions.Count);
         }
@@ -84,7 +84,7 @@ namespace Tests.Skills
         [TestMethod]
         public void DirectLineOriginMapCalculator_WithoutDiagonalMovementForATargetWithNoUnwalkablePositionsAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(3, 12));
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(3, 12), 2);
 
             Assert.AreEqual(8, skillOriginPositions.Count);
         }
@@ -92,7 +92,7 @@ namespace Tests.Skills
         [TestMethod]
         public void DirectLineOriginMapCalculator_WithoutDiagonalMovementForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14));
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14), 2);
 
             Assert.AreEqual(4, skillOriginPositions.Count);
         }
@@ -100,7 +100,7 @@ namespace Tests.Skills
         [TestMethod]
         public void DirectLineOriginMapCalculator_WithoutDiagonalMovementForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(2, 4), new Position(6, 2));
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(2, 4), new Position(6, 2), 2);
 
             Assert.AreEqual(6, skillOriginPositions.Count);
         }
@@ -108,7 +108,7 @@ namespace Tests.Skills
         [TestMethod]
         public void DirectLineOriginMapCalculator_WithoutDiagonalMovementForATargetWithCharactersAndTheSkillUserAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(6, 1), new Position(6, 2));
+            HashSet<Position> skillOriginPositions = _directLineOriginMapCalculator.Calculate(_board, new Position(6, 1), new Position(6, 2), 2);
 
             Assert.AreEqual(7, skillOriginPositions.Count);
         }

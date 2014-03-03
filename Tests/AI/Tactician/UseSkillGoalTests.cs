@@ -74,7 +74,7 @@ namespace Tests.AI.Tactician
             FollowPathGoal followPathGoal = (FollowPathGoal)goal.Subgoals[0];
             Assert.AreEqual(10, followPathGoal.Path.Count);
             Assert.AreEqual(new Node(_board, 6, 5), followPathGoal.Path[0]);
-            Assert.AreEqual(new Node(_board, 7, 13), followPathGoal.Path[followPathGoal.Path.Count - 1]);
+            Assert.AreEqual(new Node(_board, 6, 14), followPathGoal.Path[followPathGoal.Path.Count - 1]);
         }
 
         [TestMethod]

@@ -11,35 +11,32 @@ namespace TurnItUp.Skills
 {
     public class DirectLineOriginMapCalculator : ISkillOriginMapCalculator
     {
-        public ISkill Skill { get; set; }
-
-        public DirectLineOriginMapCalculator(ISkill skill)
+        public DirectLineOriginMapCalculator()
         {
-            Skill = skill;
         }
 
-        public HashSet<Position> Calculate(IBoard board, Position skillUserPosition, Position targetPosition, bool allowDiagonalMovement = false)
+        public HashSet<Position> Calculate(IBoard board, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false)
         {
             HashSet<Position> returnValue = new HashSet<Position>();
 
             // Up
-            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 0, -1, Skill.Range);
+            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 0, -1, range);
             // Down
-            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 0, 1, Skill.Range);
+            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 0, 1, range);
             // Left
-            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, 0, Skill.Range);
+            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, 0, range);
             // Right
-            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, 0, Skill.Range);
+            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, 0, range);
             if (allowDiagonalMovement)
             {
                 // UpLeft
-                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, -1, Skill.Range);
+                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, -1, range);
                 // UpRight
-                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, -1, Skill.Range);
+                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, -1, range);
                 // DownRight
-                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, 1, Skill.Range);
+                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, 1, range);
                 // DownLeft
-                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, 1, Skill.Range);
+                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, 1, range);
             }
 
             // Add back the skillUserPosition, since the skill user can always use the skill from its current position

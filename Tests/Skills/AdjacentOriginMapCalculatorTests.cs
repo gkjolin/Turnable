@@ -41,7 +41,7 @@ namespace Tests.Skills
         {
             _board = LocationsFactory.BuildBoard();
             _skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
-            _adjacentOriginMapCalculator = new AdjacentOriginMapCalculator(_skill);
+            _adjacentOriginMapCalculator = new AdjacentOriginMapCalculator();
         }
 
         // An origin map is the Set of ALL Positions where a skill can be used from in order to target a certain position
@@ -51,7 +51,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithNoUnwalkablePositionsAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(2, 13), true);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(2, 13), 1, true);
 
             Assert.AreEqual(8, skillOriginPositions.Count);
         }
@@ -59,7 +59,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14), true);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14), 1, true);
 
             Assert.AreEqual(3, skillOriginPositions.Count);
         }
@@ -67,7 +67,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(2, 4), new Position(6, 2), true);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(2, 4), new Position(6, 2), 1, true);
 
             Assert.AreEqual(5, skillOriginPositions.Count);
         }
@@ -75,7 +75,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithCharactersAndTheSkillUserAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(6, 2), true);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(6, 2), 1, true);
 
             Assert.AreEqual(6, skillOriginPositions.Count);
         }
@@ -84,7 +84,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithNoUnwalkablePositionsAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(2, 13));
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(2, 13), 1);
 
             Assert.AreEqual(4, skillOriginPositions.Count);
         }
@@ -92,7 +92,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14));
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(5, 1), new Position(12, 14), 1);
 
             Assert.AreEqual(2, skillOriginPositions.Count);
         }
@@ -100,7 +100,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(2, 4), new Position(6, 2));
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(2, 4), new Position(6, 2), 1);
 
             Assert.AreEqual(3, skillOriginPositions.Count);
         }
@@ -108,7 +108,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithCharactersAndTheSkillUserAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(6, 1), new Position(6, 2));
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_board, new Position(6, 1), new Position(6, 2), 1);
 
             Assert.AreEqual(4, skillOriginPositions.Count);
         }

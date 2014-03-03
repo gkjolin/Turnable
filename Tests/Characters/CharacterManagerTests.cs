@@ -16,7 +16,7 @@ namespace Tests.Characters
     [TestClass]
     public class CharacterManagerTests
     {
-        private World _world;
+        private IWorld _world;
         private Board _board;
         private CharacterManager _characterManager;
         private bool _eventTriggeredFlag;
@@ -25,8 +25,8 @@ namespace Tests.Characters
         public void Initialize()
         {
             _eventTriggeredFlag = false;
-            _world = new World();
             _board = LocationsFactory.BuildBoard();
+            _world = _board.World;
             _characterManager = (CharacterManager)_board.CharacterManager;
         }
 
@@ -191,10 +191,10 @@ namespace Tests.Characters
         }
 
         [TestMethod]
-        public void CharacterManager_EndingTurn_RaisesATurnEndedEvent()
+        public void CharacterManager_EndingTurn_RaisesACharacterTurnEndedEvent()
         {
             // TODO: How do I check that the EntityEventArgs are correctly set?
-            _characterManager.TurnEnded += this.SetEventTriggeredFlag;
+            _characterManager.CharacterTurnEnded += this.SetEventTriggeredFlag;
             _characterManager.EndTurn();
             Assert.IsTrue(_eventTriggeredFlag);
         }
@@ -209,6 +209,15 @@ namespace Tests.Characters
         }
 
         [TestMethod]
+        public void CharacterManager_DestroyingACharacter_RaisesACharacterDestroyedEvent()
+        {
+            // TODO: How do I check that the EntityEventArgs are correctly set?
+            _characterManager.CharacterDestroyed += this.SetEventTriggeredFlag;
+            _characterManager.Destroy(_characterManager.Characters[0]);
+            Assert.IsTrue(_eventTriggeredFlag);
+        }
+
+        [TestMethod]
         public void CharacterManager_DestroyingACharacter_RemovesItFromCharactersAndTheTurnQueue()
         {
             Entity characterToDestroy = _characterManager.Characters[0];
@@ -218,6 +227,7 @@ namespace Tests.Characters
             Assert.AreEqual(8, _characterManager.Characters.Count);
             Assert.IsFalse(_characterManager.Characters.Contains(characterToDestroy));
             Assert.IsFalse(_characterManager.TurnQueue.Contains(characterToDestroy));
+            Assert.IsFalse(_world.EntityManager.Entities.Contains(characterToDestroy));
         }
     }
 }

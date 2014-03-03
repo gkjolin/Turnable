@@ -33,10 +33,10 @@ namespace TurnItUp.Skills
             switch (rangeType)
             {
                 case RangeType.Adjacent:
-                    OriginMapCalculator = new AdjacentOriginMapCalculator(this);
+                    OriginMapCalculator = new AdjacentOriginMapCalculator();
                     break;
                 case RangeType.DirectLine:
-                    OriginMapCalculator = new DirectLineOriginMapCalculator(this);
+                    OriginMapCalculator = new DirectLineOriginMapCalculator();
                     break;
                 default:
                     break;
@@ -49,7 +49,7 @@ namespace TurnItUp.Skills
 
             Position playerPosition = board.CharacterManager.Player.GetComponent<Position>();
 
-            HashSet<Position> originMap = OriginMapCalculator.Calculate(board, skillUserPosition, playerPosition, board.PathFinder.AllowDiagonalMovement);
+            HashSet<Position> originMap = OriginMapCalculator.Calculate(board, skillUserPosition, playerPosition, Range, board.PathFinder.AllowDiagonalMovement);
             returnValue.Add(new System.Tuples.Tuple<int, int>(playerPosition.X, playerPosition.Y), originMap);
             return returnValue;
         }

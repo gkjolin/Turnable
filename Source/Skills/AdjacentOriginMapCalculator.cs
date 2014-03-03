@@ -11,49 +11,46 @@ namespace TurnItUp.Skills
 {
     public class AdjacentOriginMapCalculator : ISkillOriginMapCalculator
     {
-        public ISkill Skill { get; set; }
-
-        public AdjacentOriginMapCalculator(ISkill skill)
+        public HashSet<Position> Calculate(IBoard board, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false)
         {
-            Skill = skill;
-        }
+            DirectLineOriginMapCalculator directLineOriginMapCalculator = new DirectLineOriginMapCalculator();
 
-        public HashSet<Position> Calculate(IBoard board, Position skillUserPosition, Position targetPosition, bool allowDiagonalMovement = false)
-        {
-            HashSet<Position> returnValue = new HashSet<Position>();
+            return directLineOriginMapCalculator.Calculate(board, skillUserPosition, targetPosition, range, allowDiagonalMovement);
 
-            for (int x = targetPosition.X - 1; x <= targetPosition.X + 1; x++)
-            {
-                for (int y = targetPosition.Y - 1; y <= targetPosition.Y + 1; y++)
-                {
-                    if (x == targetPosition.X && y == targetPosition.Y) continue;
+            //HashSet < Position > returnValue = new HashSet<Position>();
 
-                    returnValue.Add(new Position(x, y));
-                }
-            }
+            //for (int x = targetPosition.X - 1; x <= targetPosition.X + 1; x++)
+            //{
+            //    for (int y = targetPosition.Y - 1; y <= targetPosition.Y + 1; y++)
+            //    {
+            //        if (x == targetPosition.X && y == targetPosition.Y) continue;
 
-            // Add back the skillUserPosition, since the skill user can always use the skill from its current position
-            bool addSkillUserPosition = false;
-            if (returnValue.Contains(skillUserPosition))
-            {
-                addSkillUserPosition = true;
-            }
+            //        returnValue.Add(new Position(x, y));
+            //    }
+            //}
 
-            // Remove unwalkable positions
-            returnValue.RemoveWhere(p => !(new Node(board, p.X, p.Y)).IsWalkable());
+            //// Add back the skillUserPosition, since the skill user can always use the skill from its current position
+            //bool addSkillUserPosition = false;
+            //if (returnValue.Contains(skillUserPosition))
+            //{
+            //    addSkillUserPosition = true;
+            //}
 
-            // Remove non-orthogonal nodes if needed
-            if (!allowDiagonalMovement)
-            {
-                returnValue.RemoveWhere(p => !(p.X == targetPosition.X || p.Y == targetPosition.Y));
-            }
+            //// Remove unwalkable positions
+            //returnValue.RemoveWhere(p => !(new Node(board, p.X, p.Y)).IsWalkable());
 
-            if (addSkillUserPosition)
-            {
-                returnValue.Add(skillUserPosition);
-            }
+            //// Remove non-orthogonal nodes if needed
+            //if (!allowDiagonalMovement)
+            //{
+            //    returnValue.RemoveWhere(p => !(p.X == targetPosition.X || p.Y == targetPosition.Y));
+            //}
 
-            return returnValue;
+            //if (addSkillUserPosition)
+            //{
+            //    returnValue.Add(skillUserPosition);
+            //}
+
+            //return returnValue;
         }
     }
 }

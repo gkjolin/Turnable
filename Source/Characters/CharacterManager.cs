@@ -145,17 +145,26 @@ namespace TurnItUp.Characters
             TurnQueue.Remove(currentCharacter);
             TurnQueue.Add(currentCharacter);
 
-            OnTurnEnded(new EntityEventArgs(currentCharacter));
+            OnCharacterTurnEnded(new EntityEventArgs(currentCharacter));
         }
 
-        public virtual event EventHandler<EntityEventArgs> TurnEnded;
+        public virtual event EventHandler<EntityEventArgs> CharacterTurnEnded;
         public virtual event EventHandler<CharacterMovedEventArgs> CharacterMoved;
+        public virtual event EventHandler<EntityEventArgs> CharacterDestroyed;
 
-        protected virtual void OnTurnEnded(EntityEventArgs e)
+        protected virtual void OnCharacterDestroyed(EntityEventArgs e)
         {
-            if (TurnEnded != null)
+            if (CharacterDestroyed != null)
             {
-                TurnEnded(this, e);
+                CharacterDestroyed(this, e);
+            }
+        }
+
+        protected virtual void OnCharacterTurnEnded(EntityEventArgs e)
+        {
+            if (CharacterTurnEnded != null)
+            {
+                CharacterTurnEnded(this, e);
             }
         }
 
@@ -171,6 +180,8 @@ namespace TurnItUp.Characters
         {
             Characters.Remove(characterToDestroy);
             TurnQueue.Remove(characterToDestroy);
+            Board.World.DestroyEntity(characterToDestroy);
+            OnCharacterDestroyed(new EntityEventArgs(characterToDestroy));
         }
     }
 }
