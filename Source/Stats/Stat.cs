@@ -12,6 +12,7 @@ namespace TurnItUp.Stats
         public int MinimumValue { get; set; }
         public int MaximumValue { get; set; }
         public string Name { get; set; }
+        public bool IsHealth { get; set; }
 
         public int Value
         {
@@ -40,13 +41,14 @@ namespace TurnItUp.Stats
             }
         }
 
-        internal Stat(string name, int startingValue, int minimumValue = 0, int maximumValue = 100)
+        internal Stat(string name, int startingValue, int minimumValue = 0, int maximumValue = 100, bool isHealth = false)
         {
             MinimumValue = minimumValue;
             MaximumValue = maximumValue;
             Name = name;
             Value = startingValue;
             _initialValue = startingValue;
+            IsHealth = isHealth;
         }
 
         public void Reset()

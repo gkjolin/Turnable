@@ -17,10 +17,10 @@ namespace TurnItUp.Stats
             Stats = new List<Stat>();
         }
 
-        public Stat CreateStat(string name, int initialValue, int minimumValue = 0, int maximumValue = 100)
+        public Stat CreateStat(string name, int initialValue, int minimumValue = 0, int maximumValue = 100, bool isHealth = false)
         {
             if (Stats.FindAll(a => a.Name.ToLower() == name.ToLower()).Count != 0) throw new ArgumentException(string.Format("<StatManager::CreateStat> : {0} stat already exists.", name));
-            Stat stat = new Stat(name, initialValue, minimumValue, maximumValue);
+            Stat stat = new Stat(name, initialValue, minimumValue, maximumValue, isHealth);
             Stats.Add(stat);
             stat.Changed += OnStatChanged;
             return stat;
@@ -40,6 +40,12 @@ namespace TurnItUp.Stats
             if (StatChanged != null)
             {
                 StatChanged(this, new StatChangedEventArgs(Owner, e.Stat));
+            }
+
+            // Destroy any entity whose health stat drops to the minimum value (0 in most cases)
+            if (e.Stat.IsHealth && e.Stat.Value == e.Stat.MinimumValue)
+            {
+                Owner.Manager.DestroyEntity(Owner);
             }
         }
 

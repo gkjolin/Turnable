@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Entropy;
 using TurnItUp.Stats;
+using Moq;
 
 namespace Tests
 {
@@ -103,6 +104,22 @@ namespace Tests
         {
             _eventTriggeredFlag = true;
             _eventArgs = (StatChangedEventArgs)e;
+        }
+
+        [TestMethod]
+        public void StatManager_WhenAHealthStatIsReducedToZero_AsksForTheCharacterToBeDestroyed()
+        {
+            Mock<IEntityManager>  entityManagerMock = new Mock<IEntityManager>();
+
+            _entity.AddComponent(_statManager);
+            _entity.Manager = entityManagerMock.Object;
+            _statManager.CreateStat("Health", 100, 0, 100, true);
+            _statManager.CreateStat("Mana", 50);
+
+            Stat stat = _statManager.GetStat("Health");
+            stat.Value -= 100;
+
+            entityManagerMock.Verify(em => em.DestroyEntity(_entity));
         }
     }
 }
