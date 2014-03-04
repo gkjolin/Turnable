@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using Entropy;
 using TurnItUp.Stats;
 using Moq;
+using Tests.Factories;
+using TurnItUp.Locations;
+using TurnItUp.Interfaces;
+using TurnItUp.Components;
 
 namespace Tests
 {
@@ -110,15 +114,17 @@ namespace Tests
         public void StatManager_WhenAHealthStatIsReducedToZero_AsksForTheCharacterToBeDestroyed()
         {
             // TODO: Test this!
-            //Mock<IEntityManager>  entityManagerMock = new Mock<IEntityManager>();
 
-            //_entity.AddComponent(_statManager);
-            //_entity.Manager = entityManagerMock.Object;
-            //_statManager.CreateStat("Health", 100, 0, 100, true);
-            //_statManager.CreateStat("Mana", 50);
+            //Board board = LocationsFactory.BuildBoard();
+            //_entity = board.CharacterManager.Characters[0];
 
-            //Stat stat = _statManager.GetStat("Health");
+            //Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
+            //board.CharacterManager = characterManagerMock.Object;
+
+            //Stat stat = _entity.GetComponent<StatManager>().GetStat("Health");
             //stat.Value -= 100;
+
+            //characterManagerMock.Verify(cm => cm.DestroyCharacter(_entity));
         }
     }
 }
