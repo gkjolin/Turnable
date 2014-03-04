@@ -22,7 +22,7 @@ namespace TurnItUp.Interfaces
         MoveResult MoveCharacter(Entity character, Direction direction);
         MoveResult MoveCharacterTo(Entity character, Position destination);
         void EndTurn();
-        void Destroy(Entity character);
+        void DestroyCharacter(Entity character);
 
         event EventHandler<EntityEventArgs> CharacterTurnEnded;
         event EventHandler<CharacterMovedEventArgs> CharacterMoved;

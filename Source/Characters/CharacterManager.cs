@@ -176,12 +176,12 @@ namespace TurnItUp.Characters
             }
         }
 
-        public void Destroy(Entity characterToDestroy)
+        public void DestroyCharacter(Entity character)
         {
-            Characters.Remove(characterToDestroy);
-            TurnQueue.Remove(characterToDestroy);
-            Board.World.DestroyEntity(characterToDestroy);
-            OnCharacterDestroyed(new EntityEventArgs(characterToDestroy));
+            Characters.Remove(character);
+            TurnQueue.Remove(character);
+            Board.World.DestroyEntity(character);
+            OnCharacterDestroyed(new EntityEventArgs(character));
         }
     }
 }

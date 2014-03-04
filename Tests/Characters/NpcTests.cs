@@ -43,6 +43,7 @@ namespace Tests.Characters
             Assert.AreEqual(100, stat.Value);
             Assert.AreEqual(0, stat.MinimumValue);
             Assert.AreEqual(100, stat.MaximumValue);
+            Assert.IsTrue(stat.IsHealth);
 
             // Is there an empty SkillSet?
             Assert.IsTrue(npc.Components.ContainsKey(typeof(SkillSet)));

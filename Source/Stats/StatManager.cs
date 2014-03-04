@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Entropy;
 using System.Text.RegularExpressions;
+using TurnItUp.Components;
 
 namespace TurnItUp.Stats
 {
@@ -45,7 +46,8 @@ namespace TurnItUp.Stats
             // Destroy any entity whose health stat drops to the minimum value (0 in most cases)
             if (e.Stat.IsHealth && e.Stat.Value == e.Stat.MinimumValue)
             {
-                Owner.Manager.DestroyEntity(Owner);
+                // TODO: Unit test this!
+                Owner.GetComponent<OnBoard>().Board.CharacterManager.DestroyCharacter(e.Entity);
             }
         }
 

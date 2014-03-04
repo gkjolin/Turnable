@@ -20,6 +20,7 @@ namespace Tests.Characters
         private Board _board;
         private CharacterManager _characterManager;
         private bool _eventTriggeredFlag;
+        private EventArgs _eventArgs;
 
         [TestInitialize]
         public void Initialize()
@@ -188,6 +189,7 @@ namespace Tests.Characters
         private void SetEventTriggeredFlag(object sender, EventArgs e)
         {
             _eventTriggeredFlag = true;
+            _eventArgs = e;
         }
 
         [TestMethod]
@@ -211,10 +213,13 @@ namespace Tests.Characters
         [TestMethod]
         public void CharacterManager_DestroyingACharacter_RaisesACharacterDestroyedEvent()
         {
+            Entity characterToDestroy = _characterManager.Characters[0];
+
             // TODO: How do I check that the EntityEventArgs are correctly set?
             _characterManager.CharacterDestroyed += this.SetEventTriggeredFlag;
-            _characterManager.Destroy(_characterManager.Characters[0]);
+            _characterManager.DestroyCharacter(characterToDestroy);
             Assert.IsTrue(_eventTriggeredFlag);
+            Assert.AreEqual(characterToDestroy, ((EntityEventArgs)_eventArgs).Entity);
         }
 
         [TestMethod]
@@ -222,7 +227,7 @@ namespace Tests.Characters
         {
             Entity characterToDestroy = _characterManager.Characters[0];
 
-            _characterManager.Destroy(characterToDestroy);
+            _characterManager.DestroyCharacter(characterToDestroy);
 
             Assert.AreEqual(8, _characterManager.Characters.Count);
             Assert.IsFalse(_characterManager.Characters.Contains(characterToDestroy));
