@@ -21,8 +21,11 @@ namespace TurnItUp.Locations
         public IPathFinder PathFinder { get; set; }
         public IWorld World { get; set; }
 
-        // Initialization methods
-        public void Initialize(IWorld world, string tmxPath)
+        public Board()
+        {
+        }
+
+        public Board(IWorld world, string tmxPath, bool allowDiagonalMovement = false)
         {
             World = world;
             Map = new Map(tmxPath);
@@ -32,12 +35,27 @@ namespace TurnItUp.Locations
             {
                 CharacterManager = new CharacterManager(world, this);
             }
-        }
 
-        public void InitializePathFinding(bool allowDiagonalMovement = false)
-        {
             PathFinder = new PathFinder(this, allowDiagonalMovement);
         }
+
+        //// Initialization methods
+        //public void Initialize(IWorld world, string tmxPath)
+        //{
+        //    World = world;
+        //    Map = new Map(tmxPath);
+        //    Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
+
+        //    if (charactersLayer != null)
+        //    {
+        //        CharacterManager = new CharacterManager(world, this);
+        //    }
+        //}
+
+        //public void InitializePathFinding(bool allowDiagonalMovement = false)
+        //{
+        //    PathFinder = new PathFinder(this, allowDiagonalMovement);
+        //}
 
         public bool IsObstacle(int x, int y)
         {

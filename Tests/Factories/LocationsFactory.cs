@@ -14,9 +14,7 @@ namespace Tests.Factories
         public static Board BuildBoard(string tmxPath = "../../Fixtures/FullExample.tmx")
         {
             World world = new World();
-            Board board = new Board();
-            board.Initialize(world, tmxPath);
-            board.InitializePathFinding();
+            Board board = new Board(world, tmxPath);
 
             return board;
         }

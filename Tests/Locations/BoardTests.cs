@@ -41,17 +41,14 @@ namespace Tests.Locations
         public void Initialize()
         {
             _world = new World();
-            _board = new Board();
-            _board.Initialize(_world, "../../Fixtures/FullExample.tmx");
-            _board.InitializePathFinding();
+            _board = new Board(_world, "../../Fixtures/FullExample.tmx");
             _characterManagerMock = new Mock<ICharacterManager>();
         }
 
         [TestMethod]
-        public void Board_Initialization_LoadsMapAndSetsParentReferences()
+        public void Board_Construction_IsSuccessful()
         {
-            Board board = new Board();
-            board.Initialize(_world, "../../Fixtures/FullExample.tmx");
+            Board board = new Board(_world, "../../Fixtures/FullExample.tmx");
 
             Assert.IsNotNull(board.Map);
 
@@ -61,27 +58,27 @@ namespace Tests.Locations
             Assert.AreEqual(9, board.CharacterManager.Characters.Count);
             Assert.AreEqual(board, board.CharacterManager.Board);
             Assert.AreEqual(9, board.CharacterManager.TurnQueue.Count);
-        }
-
-        [TestMethod]
-        public void Board_InitializingPathfinding_SetsUpAPathFinderThatDisallowsDiagonalMovementByDefault()
-        {
-            Board board = new Board();
-            board.InitializePathFinding();
-
             Assert.IsNotNull(board.PathFinder);
             Assert.IsFalse(board.PathFinder.AllowDiagonalMovement);
             Assert.AreEqual(board, board.PathFinder.Board);
         }
 
         [TestMethod]
-        public void Board_InitializingPathfinding_CanSetUpAPathFinderThatAllowsDiagonalMovement()
+        public void Board_ConstructionWithAPathFinderThatAllowsDiagonalMovement_IsSuccessful()
         {
-            Board board = new Board();
-            board.InitializePathFinding(true);
+            Board board = new Board(_world, "../../Fixtures/FullExample.tmx", true);
 
+            Assert.IsNotNull(board.Map);
+
+            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
+            Assert.AreEqual(_world, _board.World);
+            Assert.IsNotNull(board.CharacterManager);
+            Assert.AreEqual(9, board.CharacterManager.Characters.Count);
+            Assert.AreEqual(board, board.CharacterManager.Board);
+            Assert.AreEqual(9, board.CharacterManager.TurnQueue.Count);
             Assert.IsNotNull(board.PathFinder);
             Assert.IsTrue(board.PathFinder.AllowDiagonalMovement);
+            Assert.AreEqual(board, board.PathFinder.Board);
         }
 
         [TestMethod]
