@@ -16,7 +16,7 @@ namespace Tests
     {
         private StatManager _statManager;
         private bool _eventTriggeredFlag;
-        private StatChangedEventArgs _eventArgs;
+        private EntityEventArgs _eventArgs;
         private Entity _entity;
 
         [TestInitialize]
@@ -100,14 +100,14 @@ namespace Tests
             stat.Value += 10;
 
             Assert.IsTrue(_eventTriggeredFlag);
-            Assert.AreEqual(stat, _eventArgs.Stat);
+            Assert.AreEqual(stat, ((StatChangedEventArgs)_eventArgs).Stat);
             Assert.AreEqual(_entity, _eventArgs.Entity);
         }
 
         private void SetEventTriggeredFlag(object sender, EventArgs e)
         {
             _eventTriggeredFlag = true;
-            _eventArgs = (StatChangedEventArgs)e;
+            _eventArgs = (EntityEventArgs)e;
         }
 
         [TestMethod]

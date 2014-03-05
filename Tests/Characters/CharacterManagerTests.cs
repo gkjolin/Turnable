@@ -10,6 +10,7 @@ using Entropy;
 using Moq;
 using TurnItUp.Interfaces;
 using TurnItUp.Tmx;
+using TurnItUp.Stats;
 
 namespace Tests.Characters
 {
@@ -20,7 +21,7 @@ namespace Tests.Characters
         private Board _board;
         private CharacterManager _characterManager;
         private bool _eventTriggeredFlag;
-        private EventArgs _eventArgs;
+        private EntityEventArgs _eventArgs;
 
         [TestInitialize]
         public void Initialize()
@@ -189,7 +190,7 @@ namespace Tests.Characters
         private void SetEventTriggeredFlag(object sender, EventArgs e)
         {
             _eventTriggeredFlag = true;
-            _eventArgs = e;
+            _eventArgs = (EntityEventArgs)e;
         }
 
         [TestMethod]
@@ -234,5 +235,20 @@ namespace Tests.Characters
             Assert.IsFalse(_characterManager.TurnQueue.Contains(characterToDestroy));
             Assert.IsFalse(_world.EntityManager.Entities.Contains(characterToDestroy));
         }
+
+        [TestMethod]
+        public void CharacterManager_WhenAHealthStatIsReducedToZero_RaisesTheCharacterDestroyedEventCorrectly()
+        {
+            Entity entityToDestroy = _board.CharacterManager.Characters[0];
+
+            _board.CharacterManager.CharacterDestroyed += this.SetEventTriggeredFlag;
+
+            Stat stat = entityToDestroy.GetComponent<StatManager>().GetStat("Health");
+            stat.Value -= 100;
+
+            Assert.IsTrue(_eventTriggeredFlag);
+            Assert.AreEqual(entityToDestroy, ((EntityEventArgs)_eventArgs).Entity);
+        }
+
     }
 }
