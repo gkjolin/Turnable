@@ -113,18 +113,16 @@ namespace Tests
         [TestMethod]
         public void StatManager_WhenAHealthStatIsReducedToZero_AsksForTheCharacterToBeDestroyed()
         {
-            // TODO: Test this!
+            Board board = LocationsFactory.BuildBoard();
+            _entity = board.CharacterManager.Characters[0];
 
-            //Board board = LocationsFactory.BuildBoard();
-            //_entity = board.CharacterManager.Characters[0];
+            Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
+            board.CharacterManager = characterManagerMock.Object;
 
-            //Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
-            //board.CharacterManager = characterManagerMock.Object;
+            Stat stat = _entity.GetComponent<StatManager>().GetStat("Health");
+            stat.Value -= 100;
 
-            //Stat stat = _entity.GetComponent<StatManager>().GetStat("Health");
-            //stat.Value -= 100;
-
-            //characterManagerMock.Verify(cm => cm.DestroyCharacter(_entity));
+            characterManagerMock.Verify(cm => cm.DestroyCharacter(_entity));
         }
     }
 }

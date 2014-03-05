@@ -112,12 +112,15 @@ namespace Tests.AI.Tactician
         [TestMethod]
         public void UseSkillGoal_WhenActivatedAndThereAreNoFreeOriginPositionsWhereTheSkillCanBeUsed_Fails()
         {
-            Mock<ISkillOriginMapCalculator> skillOriginMapCalculatorMock = new Mock<ISkillOriginMapCalculator>();
+            TargetMap targetMap = new TargetMap();
+            Mock<ISkill> skill = new Mock<ISkill>();
             HashSet<Position> skillOrigins = new HashSet<Position>();
 
-            skillOriginMapCalculatorMock.Setup(somc => somc.Calculate(It.IsAny<IBoard>(), It.IsAny<Position>(), It.IsAny<Position>(), It.IsAny<int>(), It.IsAny<bool>())).Returns(skillOrigins);
+            targetMap[new System.Tuples.Tuple<int, int>(12, 10)] = skillOrigins;
 
-            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, new Position(12, 10));
+            skill.Setup(s => s.CalculateTargetMap(It.IsAny<IBoard>(), It.IsAny<Position>())).Returns(targetMap);
+
+            UseSkillGoal goal = new UseSkillGoal(_entity, _board, skill.Object, new Position(12, 10));
 
             goal.Activate();
 

@@ -33,6 +33,7 @@ namespace TurnItUp.AI.Tactician
             HashSet<Position> candidatePositions = targetMap[new System.Tuples.Tuple<int, int>(Target.X, Target.Y)];
             Position startingPosition = Owner.GetComponent<Position>();
 
+
             // If the skill user is already in a position to the skill, simply apply the skill
             if (candidatePositions.Contains(startingPosition))
             {
@@ -40,19 +41,27 @@ namespace TurnItUp.AI.Tactician
                 return;
             }
 
-            Node startingNode = new Node(Board, startingPosition.X, startingPosition.Y);
-            Node endingNode = Board.PathFinder.GetClosestNode(Owner.GetComponent<Position>(), candidatePositions);
-
-            List<Node> bestPath = Board.PathFinder.SeekPath(startingNode, endingNode);
-
-            // Fail the goal if there is no path to the target
-            if (bestPath == null)
+            // If there are no candidate positions where the skill can be used, fail the goal
+            if (candidatePositions.Count == 0)
             {
                 Status = GoalStatus.Failed;
             }
             else
             {
-                Subgoals.Add(new FollowPathGoal(Owner, bestPath));
+                Node startingNode = new Node(Board, startingPosition.X, startingPosition.Y);
+                Node endingNode = Board.PathFinder.GetClosestNode(Owner.GetComponent<Position>(), candidatePositions);
+
+                List<Node> bestPath = Board.PathFinder.SeekPath(startingNode, endingNode);
+
+                // Fail the goal if there is no path to the target
+                if (bestPath == null)
+                {
+                    Status = GoalStatus.Failed;
+                }
+                else
+                {
+                    Subgoals.Add(new FollowPathGoal(Owner, bestPath));
+                }
             }
         }
 
