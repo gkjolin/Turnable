@@ -71,6 +71,7 @@
     <Compile Include="AI\State Machines\StateTests.cs" />
     <Compile Include="AI\Tactician\ApplySkillGoalTests.cs" />
     <Compile Include="AI\Tactician\ChooseSkillAndTargetGoalTests.cs" />
+    <Compile Include="AI\Tactician\DoNothingGoalTests.cs" />
     <Compile Include="AI\Tactician\UseSkillGoalTests.cs" />
     <Compile Include="AI\Tactician\MoveToGoalTests.cs" />
     <Compile Include="AI\Tactician\FollowPathGoalTests.cs" />

@@ -33,7 +33,6 @@ namespace TurnItUp.AI.Tactician
             HashSet<Position> candidatePositions = targetMap[new System.Tuples.Tuple<int, int>(Target.X, Target.Y)];
             Position startingPosition = Owner.GetComponent<Position>();
 
-
             // If the skill user is already in a position to the skill, simply apply the skill
             if (candidatePositions.Contains(startingPosition))
             {

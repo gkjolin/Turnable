@@ -56,6 +56,7 @@
     <Compile Include="AI\State Machines\StateMachine.cs" />
     <Compile Include="AI\Tactician\ApplySkillGoal.cs" />
     <Compile Include="AI\Tactician\ChooseSkillAndTargetGoal.cs" />
+    <Compile Include="AI\Tactician\DoNothingGoal.cs" />
     <Compile Include="AI\Tactician\UseSkillGoal.cs" />
     <Compile Include="AI\Tactician\MoveToGoal.cs" />
     <Compile Include="AI\Tactician\FollowPathGoal.cs" />
