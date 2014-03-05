@@ -16,41 +16,6 @@ namespace TurnItUp.Skills
             DirectLineOriginMapCalculator directLineOriginMapCalculator = new DirectLineOriginMapCalculator();
 
             return directLineOriginMapCalculator.Calculate(board, skillUserPosition, targetPosition, range, allowDiagonalMovement);
-
-            //HashSet < Position > returnValue = new HashSet<Position>();
-
-            //for (int x = targetPosition.X - 1; x <= targetPosition.X + 1; x++)
-            //{
-            //    for (int y = targetPosition.Y - 1; y <= targetPosition.Y + 1; y++)
-            //    {
-            //        if (x == targetPosition.X && y == targetPosition.Y) continue;
-
-            //        returnValue.Add(new Position(x, y));
-            //    }
-            //}
-
-            //// Add back the skillUserPosition, since the skill user can always use the skill from its current position
-            //bool addSkillUserPosition = false;
-            //if (returnValue.Contains(skillUserPosition))
-            //{
-            //    addSkillUserPosition = true;
-            //}
-
-            //// Remove unwalkable positions
-            //returnValue.RemoveWhere(p => !(new Node(board, p.X, p.Y)).IsWalkable());
-
-            //// Remove non-orthogonal nodes if needed
-            //if (!allowDiagonalMovement)
-            //{
-            //    returnValue.RemoveWhere(p => !(p.X == targetPosition.X || p.Y == targetPosition.Y));
-            //}
-
-            //if (addSkillUserPosition)
-            //{
-            //    returnValue.Add(skillUserPosition);
-            //}
-
-            //return returnValue;
         }
     }
 }

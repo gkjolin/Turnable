@@ -108,5 +108,21 @@ namespace Tests.AI.Tactician
             Assert.AreEqual(0, goal.Subgoals.Count);
             Assert.AreEqual(GoalStatus.Failed, goal.Status);
         }
+
+        [TestMethod]
+        public void UseSkillGoal_WhenActivatedAndThereAreNoFreeOriginPositionsWhereTheSkillCanBeUsed_Fails()
+        {
+            Mock<ISkillOriginMapCalculator> skillOriginMapCalculatorMock = new Mock<ISkillOriginMapCalculator>();
+            HashSet<Position> skillOrigins = new HashSet<Position>();
+
+            skillOriginMapCalculatorMock.Setup(somc => somc.Calculate(It.IsAny<IBoard>(), It.IsAny<Position>(), It.IsAny<Position>(), It.IsAny<int>(), It.IsAny<bool>())).Returns(skillOrigins);
+
+            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, new Position(12, 10));
+
+            goal.Activate();
+
+            Assert.AreEqual(0, goal.Subgoals.Count);
+            Assert.AreEqual(GoalStatus.Failed, goal.Status);
+        }
     }
 }
