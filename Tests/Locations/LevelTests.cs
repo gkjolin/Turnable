@@ -64,6 +64,25 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void Level_Initialization_IsSuccessful()
+        {
+            Level level = new Level();
+            level.Initialize(_world, "../../Fixtures/FullExample.tmx");
+
+            Assert.IsNotNull(level.Map);
+
+            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
+            Assert.AreEqual(_world, _level.World);
+            Assert.IsNotNull(level.CharacterManager);
+            Assert.AreEqual(9, level.CharacterManager.Characters.Count);
+            Assert.AreEqual(level, level.CharacterManager.Level);
+            Assert.AreEqual(9, level.CharacterManager.TurnQueue.Count);
+            Assert.IsNotNull(level.PathFinder);
+            Assert.IsFalse(level.PathFinder.AllowDiagonalMovement);
+            Assert.AreEqual(level, level.PathFinder.Level);
+        }
+
+        [TestMethod]
         public void Level_ConstructionWithAPathFinderThatAllowsDiagonalMovement_IsSuccessful()
         {
             Level level = new Level(_world, "../../Fixtures/FullExample.tmx", true);

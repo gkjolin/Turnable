@@ -27,35 +27,8 @@ namespace TurnItUp.Locations
 
         public Level(IWorld world, string tmxPath, bool allowDiagonalMovement = false)
         {
-            World = world;
-            Map = new Map(tmxPath);
-            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
-
-            if (charactersLayer != null)
-            {
-                CharacterManager = new CharacterManager(world, this);
-            }
-
-            PathFinder = new PathFinder(this, allowDiagonalMovement);
+            Initialize(world, tmxPath, allowDiagonalMovement);
         }
-
-        //// Initialization methods
-        //public void Initialize(IWorld world, string tmxPath)
-        //{
-        //    World = world;
-        //    Map = new Map(tmxPath);
-        //    Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
-
-        //    if (charactersLayer != null)
-        //    {
-        //        CharacterManager = new CharacterManager(world, this);
-        //    }
-        //}
-
-        //public void InitializePathFinding(bool allowDiagonalMovement = false)
-        //{
-        //    PathFinder = new PathFinder(this, allowDiagonalMovement);
-        //}
 
         public bool IsObstacle(int x, int y)
         {
@@ -80,6 +53,20 @@ namespace TurnItUp.Locations
         public virtual MoveResult MoveCharacterTo(Entity character, Position destination)
         {
             return CharacterManager.MoveCharacterTo(character, destination);
+        }
+
+        public void Initialize(IWorld world, string tmxPath, bool allowDiagonalMovement = false)
+        {
+            World = world;
+            Map = new Map(tmxPath);
+            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
+
+            if (charactersLayer != null)
+            {
+                CharacterManager = new CharacterManager(world, this);
+            }
+
+            PathFinder = new PathFinder(this, allowDiagonalMovement);
         }
     }
 }
