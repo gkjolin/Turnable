@@ -23,7 +23,7 @@ namespace TurnItUp.AI.Tactician
         {
             base.Process();
 
-            Owner.GetComponent<OnBoard>().Board.MoveCharacterTo(Owner, Destination.Position);
+            Owner.GetComponent<OnLevel>().Level.MoveCharacterTo(Owner, Destination.Position);
         }
     }
 }

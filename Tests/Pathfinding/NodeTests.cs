@@ -11,21 +11,21 @@ namespace Tests.Pathfinding
     public class NodeTests
     {
         private Node _node;
-        private Board _board;
+        private Level _level;
 
         [TestInitialize]
         public void Initialize()
         {
-            _board = LocationsFactory.BuildBoard();
-            _node = new Node(_board, 0, 0);
+            _level = LocationsFactory.BuildLevel();
+            _node = new Node(_level, 0, 0);
         }
 
         [TestMethod]
         public void Node_WithoutParentNode_CanBeConstructed()
         {
-            Node node = new Node(_board, 0, 0);
+            Node node = new Node(_level, 0, 0);
 
-            Assert.AreEqual(_board, node.Board);
+            Assert.AreEqual(_level, node.Level);
             Assert.AreEqual(0, node.Position.X);
             Assert.AreEqual(0, node.Position.Y);
             Assert.IsNull(node.Parent);
@@ -34,9 +34,9 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void Node_WithParentNode_CanBeConstructed()
         {
-            Node parentNode = new Node(_board, 0, 0);
+            Node parentNode = new Node(_level, 0, 0);
 
-            Node node = new Node(_board, 0, 0, parentNode);
+            Node node = new Node(_level, 0, 0, parentNode);
 
             Assert.AreEqual(0, node.Position.X);
             Assert.AreEqual(0, node.Position.Y);
@@ -68,8 +68,8 @@ namespace Tests.Pathfinding
         public void Node_WithOrthogonalParentNode_CanCalculateG()
         {
             // Parent directly above child
-            Node parent = new Node(_board, 5, 4);
-            _node = new Node(_board, 5, 5, parent);
+            Node parent = new Node(_level, 5, 4);
+            _node = new Node(_level, 5, 5, parent);
             parent.G = 10;
 
             Assert.AreEqual(parent.G + 10, _node.G);
@@ -95,8 +95,8 @@ namespace Tests.Pathfinding
         public void Node_WithDiagonalParentNode_CanCalculateG()
         {
             // Parent directly above and left of child
-            Node parent = new Node(_board, 4, 4);
-            _node = new Node(_board, 5, 5, parent);
+            Node parent = new Node(_level, 4, 4);
+            _node = new Node(_level, 5, 5, parent);
             parent.G = 10;
 
             Assert.AreEqual(parent.G + 14, _node.G);
@@ -121,7 +121,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void Node_CanCalculateH()
         {
-            _node = new Node(_board, 5, 5, null);
+            _node = new Node(_level, 5, 5, null);
 
             _node.CalculateH(4, 4);
             Assert.AreEqual(20, _node.H);
@@ -136,20 +136,20 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void Node_ImplementsEquals()
         {
-            Node node = new Node(_board, 1, 2);
-            Node node2 = new Node(_board, 1, 2);
+            Node node = new Node(_level, 1, 2);
+            Node node2 = new Node(_level, 1, 2);
 
             Assert.AreEqual(node, node2);
 
-            node = new Node(_board, 2, 3);
+            node = new Node(_level, 2, 3);
             Assert.AreNotEqual(node, node2);
         }
 
         [TestMethod]
         public void Node_ImplementsEqualityOperator()
         {
-            Node node = new Node(_board, 1, 2);
-            Node node2 = new Node(_board, 1, 2);
+            Node node = new Node(_level, 1, 2);
+            Node node2 = new Node(_level, 1, 2);
 
             Assert.IsTrue(node == node2);
         }
@@ -157,8 +157,8 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void Node_ImplementsInequalityOperator()
         {
-            Node node = new Node(_board, 1, 2);
-            Node node2 = new Node(_board, 1, 3);
+            Node node = new Node(_level, 1, 2);
+            Node node2 = new Node(_level, 1, 3);
 
             Assert.IsTrue(node != node2);
         }
@@ -174,7 +174,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void Node_WhenUsingInequalityOperator_CanBeComparedToNull()
         {
-            Node node = new Node(_board, 1, 2);
+            Node node = new Node(_level, 1, 2);
 
             Assert.IsTrue(node != null);
         }
@@ -182,82 +182,82 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void Node_CanDetermineIfItIsWithinBounds()
         {
-            _node = new Node(_board, 7, 7);
+            _node = new Node(_level, 7, 7);
             Assert.IsTrue(_node.IsWithinBounds());
 
-            _node = new Node(_board, 0, 0);
+            _node = new Node(_level, 0, 0);
             Assert.IsTrue(_node.IsWithinBounds());
 
-            _node = new Node(_board, 14, 14);
+            _node = new Node(_level, 14, 14);
             Assert.IsTrue(_node.IsWithinBounds());
 
-            _node = new Node(_board, 20, 4);
+            _node = new Node(_level, 20, 4);
             Assert.IsFalse(_node.IsWithinBounds());
 
-            _node = new Node(_board, -1, -1);
+            _node = new Node(_level, -1, -1);
             Assert.IsFalse(_node.IsWithinBounds());
 
-            _node = new Node(_board, 16, 16);
+            _node = new Node(_level, 16, 16);
             Assert.IsFalse(_node.IsWithinBounds());
         }
 
         [TestMethod]
         public void Node_CanFindAdjacentNodes()
         {
-            _node = new Node(_board, 5, 5);
+            _node = new Node(_level, 5, 5);
 
             List<Node> adjacentNodes = _node.GetAdjacentNodes();
 
             Assert.AreEqual(8, adjacentNodes.Count);
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 4, 4)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 5, 4)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 6, 4)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 4, 5)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 6, 5)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 4, 6)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 5, 6)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 6, 6)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 6)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 6)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 6)));
         }
 
         [TestMethod]
         public void Node_CanFindOnlyOrthogonallyAdjacentNodes()
         {
-            _node = new Node(_board, 5, 5);
+            _node = new Node(_level, 5, 5);
 
             List<Node> adjacentNodes = _node.GetAdjacentNodes(false);
 
             Assert.AreEqual(4, adjacentNodes.Count);
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 5, 4)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 4, 5)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 6, 5)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 5, 6)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 6)));
         }
 
         [TestMethod]
         public void Node_CanFindAdjacentNodes_AndDisregardsNodesThatAreOutOfBounds()
         {
-            _node = new Node(_board, 0, 0);
+            _node = new Node(_level, 0, 0);
 
             List<Node> adjacentNodes = _node.GetAdjacentNodes();
 
             Assert.AreEqual(3, adjacentNodes.Count);
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 1, 0)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 0, 1)));
-            Assert.IsTrue(adjacentNodes.Contains(new Node(_board, 1, 1)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 0)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 0, 1)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 1)));
         }
 
         [TestMethod]
         public void Node_CanDetermineIfItIsOrthogonalToAnotherNode()
         {
-            _node = new Node(_board, 5, 5);
+            _node = new Node(_level, 5, 5);
 
-            Node node2 = new Node(_board, 5, 6);
+            Node node2 = new Node(_level, 5, 6);
             Assert.IsTrue(_node.IsOrthogonalTo(node2));
 
-            node2 = new Node(_board, 4, 5);
+            node2 = new Node(_level, 4, 5);
             Assert.IsTrue(_node.IsOrthogonalTo(node2));
 
-            node2 = new Node(_board, 6, 6);
+            node2 = new Node(_level, 6, 6);
             Assert.IsFalse(_node.IsOrthogonalTo(node2));
         }
 
@@ -265,23 +265,23 @@ namespace Tests.Pathfinding
         public void Node_CanDetermineIfItIsWalkable()
         {
             // Anything out of bounds is unwalkable
-            _node = new Node(_board, -1, 1);
+            _node = new Node(_level, -1, 1);
             Assert.IsFalse(_node.IsWalkable());
 
             // Any obstacle is unwalkable
-            _node = new Node(_board, 0, 0);
+            _node = new Node(_level, 0, 0);
             Assert.IsFalse(_node.IsWalkable());
-            _node = new Node(_board, 0, 1);
+            _node = new Node(_level, 0, 1);
             Assert.IsFalse(_node.IsWalkable());
 
             // Any character is unwalkable
-            _node = new Node(_board, 5, 1);
+            _node = new Node(_level, 5, 1);
             Assert.IsFalse(_node.IsWalkable());
 
-            _node = new Node(_board, 5, 10);
+            _node = new Node(_level, 5, 10);
             Assert.IsTrue(_node.IsWalkable());
 
-            _node = new Node(_board, 1, 1);
+            _node = new Node(_level, 1, 1);
             Assert.IsTrue(_node.IsWalkable());
         }
     }

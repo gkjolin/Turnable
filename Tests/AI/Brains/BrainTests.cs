@@ -14,14 +14,14 @@ namespace Tests.AI.Brains
     {
         private Brain _brain;
         private Entity _character;
-        private IBoard _board;
+        private ILevel _level;
 
         [TestInitialize]
         public void Initialize()
         {
             _character = EntropyFactory.BuildEntity();
-            _board = LocationsFactory.BuildBoard();
-            _brain = new Brain(_character, _board);
+            _level = LocationsFactory.BuildLevel();
+            _brain = new Brain(_character, _level);
         }
 
         [TestMethod]
@@ -36,10 +36,10 @@ namespace Tests.AI.Brains
         [TestMethod]
         public void Brain_Construction_IsSuccessful()
         {
-            Brain brain = new Brain(_character, _board);
+            Brain brain = new Brain(_character, _level);
 
             Assert.AreEqual(_character, brain.Owner);
-            Assert.AreEqual(_board, brain.Board);
+            Assert.AreEqual(_level, brain.Level);
             Assert.IsNull(brain.CurrentGoal);
         }
 
@@ -51,7 +51,7 @@ namespace Tests.AI.Brains
             Assert.IsInstanceOfType(_brain.CurrentGoal, typeof(ChooseSkillAndTargetGoal));
             Assert.AreEqual(_character, _brain.CurrentGoal.Owner);
             ChooseSkillAndTargetGoal goal = (ChooseSkillAndTargetGoal)_brain.CurrentGoal;
-            Assert.AreEqual(_board, goal.Board);
+            Assert.AreEqual(_level, goal.Level);
         }
     }
 }

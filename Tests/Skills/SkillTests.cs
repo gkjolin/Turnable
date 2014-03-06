@@ -16,7 +16,7 @@ namespace Tests.Skills
     [TestClass]
     public class SkillTests
     {
-        // The sample board:
+        // The sample level:
         // XXXXXXXXXXXXXXXX
         // X....EEE.......X
         // X..........X...X
@@ -35,7 +35,7 @@ namespace Tests.Skills
         // XXXXXXXXXXXXXXXX
         // X - Obstacles, P - Player, E - Enemies
 
-        private Board _board;
+        private Level _level;
         private Entity _skillUser;
         private Entity _target;
         private Skill _skill;
@@ -46,7 +46,7 @@ namespace Tests.Skills
         public void Initialize()
         {
             World world = new World();
-            _board = LocationsFactory.BuildBoard();
+            _level = LocationsFactory.BuildLevel();
             _skillUser = world.CreateEntity();
             _target = world.CreateEntity();
             _eventTriggeredFlag = false;
@@ -97,12 +97,12 @@ namespace Tests.Skills
         {
             Skill skill = new Skill("Melee Attack") { RangeType = RangeType.Adjacent, TargetType = TargetType.InAnotherTeam };
 
-            TargetMap targetMap = skill.CalculateTargetMap(_board, new Position(6, 1));
+            TargetMap targetMap = skill.CalculateTargetMap(_level, new Position(6, 1));
 
             Assert.AreEqual(1, targetMap.Count);
             Assert.IsTrue(targetMap.ContainsKey(new Tuple<int,int>(7, 14)));
             HashSet<Position> originMap = targetMap[new Tuple<int, int>(7, 14)];
-            Assert.AreEqual(originMap.Count, skill.OriginMapCalculator.Calculate(_board, new Position(6, 1), new Position(7, 14), skill.Range).Count);
+            Assert.AreEqual(originMap.Count, skill.OriginMapCalculator.Calculate(_level, new Position(6, 1), new Position(7, 14), skill.Range).Count);
         }
 
         [TestMethod]

@@ -16,15 +16,15 @@ namespace Tests.AI.Tactician
     {
         private Entity _entity;
         private Node _destination;
-        private Mock<Board> _mockBoard;
+        private Mock<Level> _mockLevel;
 
         [TestInitialize]
         public void Initialize()
         {
-            _mockBoard = new Mock<Board>();
+            _mockLevel = new Mock<Level>();
             _entity = EntropyFactory.BuildEntity();
-            _entity.AddComponent(new OnBoard(_mockBoard.Object));
-            _destination = new Node(_mockBoard.Object, 0, 0);
+            _entity.AddComponent(new OnLevel(_mockLevel.Object));
+            _destination = new Node(_mockLevel.Object, 0, 0);
         }
 
         [TestMethod]
@@ -42,7 +42,7 @@ namespace Tests.AI.Tactician
             MoveToGoal goal = new MoveToGoal(_entity, _destination);
 
             goal.Process();
-            _mockBoard.Verify(b => b.MoveCharacterTo(_entity, new Position(_destination.Position.X, _destination.Position.Y)));
+            _mockLevel.Verify(b => b.MoveCharacterTo(_entity, new Position(_destination.Position.X, _destination.Position.Y)));
         }
     }
 }

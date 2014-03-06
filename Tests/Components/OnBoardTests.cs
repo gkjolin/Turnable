@@ -8,38 +8,38 @@ using Tests.Factories;
 namespace Tests.Components
 {
     [TestClass]
-    public class OnBoardTests
+    public class OnLevelTests
     {
-        private Board _board;
+        private Level _level;
 
         [TestInitialize]
         public void Initialize()
         {
-            _board = LocationsFactory.BuildBoard();
+            _level = LocationsFactory.BuildLevel();
         }
 
         [TestMethod]
-        public void OnBoard_IsAnEntropyComponent()
+        public void OnLevel_IsAnEntropyComponent()
         {
-            OnBoard onBoard = new OnBoard(_board);
+            OnLevel onLevel = new OnLevel(_level);
 
-            Assert.IsInstanceOfType(onBoard, typeof(IComponent));
+            Assert.IsInstanceOfType(onLevel, typeof(IComponent));
         }
 
         [TestMethod]
-        public void OnBoard_HasADefaultConstructor()
+        public void OnLevel_HasADefaultConstructor()
         {
-            OnBoard onBoard = new OnBoard();
+            OnLevel onLevel = new OnLevel();
 
-            Assert.IsNull(onBoard.Board);
+            Assert.IsNull(onLevel.Level);
         }
 
         [TestMethod]
-        public void OnBoard_Construction_IsSuccessful()
+        public void OnLevel_Construction_IsSuccessful()
         {
-            OnBoard onBoard = new OnBoard(_board);
+            OnLevel onLevel = new OnLevel(_level);
 
-            Assert.AreEqual(_board, onBoard.Board);
+            Assert.AreEqual(_level, onLevel.Level);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace TurnItUp.Characters
             Entity returnValue = world.CreateEntity();
 
             returnValue.AddComponent(new Brain());
-            returnValue.AddComponent(new OnBoard());
+            returnValue.AddComponent(new OnLevel());
             returnValue.AddComponent(new Position());
             returnValue.AddComponent(new InTeam("NPCs"));
             returnValue.AddComponent(new StatManager());

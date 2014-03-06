@@ -8,18 +8,18 @@ using TurnItUp.Locations;
 
 namespace TurnItUp.Components
 {
-    public class OnBoard : IComponent
+    public class OnLevel : IComponent
     {
         public Entity Owner { get; set; }
-        public IBoard Board { get; set; }
+        public ILevel Level { get; set; }
 
-        public OnBoard() : this(null)
+        public OnLevel() : this(null)
         {
         }
 
-        public OnBoard(IBoard board)
+        public OnLevel(ILevel level)
         {
-            Board = board;
+            Level = level;
         }
     }
 }

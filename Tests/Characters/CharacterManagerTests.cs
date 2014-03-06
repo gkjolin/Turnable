@@ -18,7 +18,7 @@ namespace Tests.Characters
     public class CharacterManagerTests
     {
         private IWorld _world;
-        private Board _board;
+        private Level _level;
         private CharacterManager _characterManager;
         private bool _eventTriggeredFlag;
         private EntityEventArgs _eventArgs;
@@ -27,18 +27,18 @@ namespace Tests.Characters
         public void Initialize()
         {
             _eventTriggeredFlag = false;
-            _board = LocationsFactory.BuildBoard();
-            _world = _board.World;
-            _characterManager = (CharacterManager)_board.CharacterManager;
+            _level = LocationsFactory.BuildLevel();
+            _world = _level.World;
+            _characterManager = (CharacterManager)_level.CharacterManager;
         }
 
         [TestMethod]
         public void CharacterManager_Construction_IsSuccessful()
         {
             // TODO: Check that the position of the characters is set correctly
-            CharacterManager characterManager = new CharacterManager(_world, _board);
+            CharacterManager characterManager = new CharacterManager(_world, _level);
 
-            Assert.AreEqual(characterManager.Board, _board);
+            Assert.AreEqual(characterManager.Level, _level);
             Assert.IsNotNull(characterManager.Characters);
             Assert.AreEqual(9, characterManager.Characters.Count);
             Assert.IsNotNull(characterManager.Player);
@@ -58,18 +58,18 @@ namespace Tests.Characters
 
             foreach (Entity character in characterManager.Characters)
             {
-                Assert.AreEqual(_board, character.GetComponent<OnBoard>().Board);
+                Assert.AreEqual(_level, character.GetComponent<OnLevel>().Level);
             }
         }
 
         [TestMethod]
         public void CharacterManager_ConstructionWhenModelPropertyIsUnsetForACharacter_IgnoresSettingUpTheModelWhenNeeded()
         {
-            _board = LocationsFactory.BuildBoard("../../Fixtures/FullExampleWithUnsetModelForSomeCharacters.tmx");
+            _level = LocationsFactory.BuildLevel("../../Fixtures/FullExampleWithUnsetModelForSomeCharacters.tmx");
 
-            CharacterManager characterManager = new CharacterManager(_world, _board);
+            CharacterManager characterManager = new CharacterManager(_world, _level);
 
-            Assert.AreEqual(characterManager.Board, _board);
+            Assert.AreEqual(characterManager.Level, _level);
             Assert.IsNotNull(characterManager.Characters);
             Assert.AreEqual(9, characterManager.Characters.Count);
             Assert.IsNotNull(characterManager.Player);
@@ -239,9 +239,9 @@ namespace Tests.Characters
         [TestMethod]
         public void CharacterManager_WhenAHealthStatIsReducedToZero_RaisesTheCharacterDestroyedEventCorrectly()
         {
-            Entity entityToDestroy = _board.CharacterManager.Characters[0];
+            Entity entityToDestroy = _level.CharacterManager.Characters[0];
 
-            _board.CharacterManager.CharacterDestroyed += this.SetEventTriggeredFlag;
+            _level.CharacterManager.CharacterDestroyed += this.SetEventTriggeredFlag;
 
             Stat stat = entityToDestroy.GetComponent<StatManager>().GetStat("Health");
             stat.Value -= 100;

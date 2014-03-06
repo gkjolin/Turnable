@@ -18,15 +18,15 @@ namespace Tests.AI.Tactician
     [TestClass]
     public class ChooseSkillAndTargetGoalTests
     {
-        private Board _board;
+        private Level _level;
         private Skill _skill;
         private Entity _entity;
 
         [TestInitialize]
         public void Initialize()
         {
-            _board = LocationsFactory.BuildBoard();
-            _entity = _board.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 5).Single();
+            _level = LocationsFactory.BuildLevel();
+            _entity = _level.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 5).Single();
             _skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
             _entity.GetComponent<SkillSet>().Add(_skill);
         }
@@ -34,16 +34,16 @@ namespace Tests.AI.Tactician
         [TestMethod]
         public void ChooseSkillAndTargetGoal_Construction_IsSuccessful()
         {
-            ChooseSkillAndTargetGoal goal = new ChooseSkillAndTargetGoal(_entity, _board);
+            ChooseSkillAndTargetGoal goal = new ChooseSkillAndTargetGoal(_entity, _level);
 
             Assert.AreEqual(_entity, goal.Owner);
-            Assert.AreEqual(_board, goal.Board);
+            Assert.AreEqual(_level, goal.Level);
         }
 
         [TestMethod]
         public void ChooseSkillAndTargetGoal_WhenActivated_CreatesAUseSkillGoalWithTheBestSkillAndTarget()
         {
-            ChooseSkillAndTargetGoal goal = new ChooseSkillAndTargetGoal(_entity, _board);
+            ChooseSkillAndTargetGoal goal = new ChooseSkillAndTargetGoal(_entity, _level);
 
             goal.Activate();
 
@@ -51,7 +51,7 @@ namespace Tests.AI.Tactician
             Assert.IsInstanceOfType(goal.Subgoals[0], typeof(UseSkillGoal));
 
             UseSkillGoal useSkillGoal = (UseSkillGoal)goal.Subgoals[0];
-            Assert.AreEqual(_board.CharacterManager.Player.GetComponent<Position>(), useSkillGoal.Target);
+            Assert.AreEqual(_level.CharacterManager.Player.GetComponent<Position>(), useSkillGoal.Target);
             Assert.AreEqual(_skill, useSkillGoal.Skill);
         }
     }

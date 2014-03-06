@@ -13,11 +13,11 @@ namespace TurnItUp.Pathfinding
     public class PathFinder : IPathFinder
     {
         public bool AllowDiagonalMovement { get; set; }
-        public IBoard Board { get; set; }
+        public ILevel Level { get; set; }
 
-        public PathFinder(IBoard board, bool allowDiagonalMovement)
+        public PathFinder(ILevel level, bool allowDiagonalMovement)
         {
-            Board = board;
+            Level = level;
             AllowDiagonalMovement = allowDiagonalMovement;
         }
 
@@ -72,7 +72,7 @@ namespace TurnItUp.Pathfinding
                     // If it isn’t on the open list, add it to the open list. Make the current square the parent of this square. Record the G and H costs of the square. 
                     if (node == null)
                     {
-                        node = new Node(Board, adjacentNode.Position.X, adjacentNode.Position.Y, currentNode);
+                        node = new Node(Level, adjacentNode.Position.X, adjacentNode.Position.Y, currentNode);
                         node.CalculateH(endingNode.Position.X, endingNode.Position.Y);
                         openNodes.Add(node);
                     }
@@ -138,7 +138,7 @@ namespace TurnItUp.Pathfinding
         //{
         //    HashSet<Node> returnValue = new HashSet<Node>();
 
-        //    // TODO: Implement an iterator in Board for each coordinate in a certain layer
+        //    // TODO: Implement an iterator in Level for each coordinate in a certain layer
         //    for (int col = 0; col <= mapData.GetUpperBound(0); col++)
         //    {
         //        for (int row = 0; row <= mapData.GetUpperBound(1); row++)
@@ -171,35 +171,35 @@ namespace TurnItUp.Pathfinding
 
         public Node GetClosestNode(Position startingPosition, HashSet<Position> candidatePositions)
         {
-            List<Node> candidateNodes = candidatePositions.Select<Position, Node>(p => new Node(Board, p.X, p.Y)).ToList<Node>();
+            List<Node> candidateNodes = candidatePositions.Select<Position, Node>(p => new Node(Level, p.X, p.Y)).ToList<Node>();
 
-            return GetClosestNode(new Node(Board, startingPosition.X, startingPosition.Y), candidateNodes);
+            return GetClosestNode(new Node(Level, startingPosition.X, startingPosition.Y), candidateNodes);
         }
     }
 }
 
 //public static class PathFinder
-//    public static HashSet<BoardCoordinate> SLOWGetPossibleMoveLocations(BoardCoordinate startingLocation, Board board, int movementPoints)
+//    public static HashSet<LevelCoordinate> SLOWGetPossibleMoveLocations(LevelCoordinate startingLocation, Level level, int movementPoints)
 //    {
-//        HashSet<BoardCoordinate> returnValue = new HashSet<BoardCoordinate>();
-//        returnValue = SLOWRecursivelyGetPossibleMoveLocations(startingLocation, board, movementPoints);
+//        HashSet<LevelCoordinate> returnValue = new HashSet<LevelCoordinate>();
+//        returnValue = SLOWRecursivelyGetPossibleMoveLocations(startingLocation, level, movementPoints);
 //        returnValue.Remove(startingLocation);
-//        returnValue.RemoveWhere(l => !board.IsWalkable(l));
+//        returnValue.RemoveWhere(l => !level.IsWalkable(l));
 
 //        return returnValue;
 //    }
 
-//    private static HashSet<BoardCoordinate> SLOWRecursivelyGetPossibleMoveLocations(BoardCoordinate startingLocation, Board board, int movementPoints)
+//    private static HashSet<LevelCoordinate> SLOWRecursivelyGetPossibleMoveLocations(LevelCoordinate startingLocation, Level level, int movementPoints)
 //    {
-//        HashSet<BoardCoordinate> returnValue = new HashSet<BoardCoordinate>();
+//        HashSet<LevelCoordinate> returnValue = new HashSet<LevelCoordinate>();
 
 //        if (movementPoints == 1)
 //        {
-//            returnValue.UnionWith(board.AdjacentCoordinates(startingLocation));
+//            returnValue.UnionWith(level.AdjacentCoordinates(startingLocation));
 //        }
 //        else
 //        {
-//            board.AdjacentCoordinates(startingLocation).ForEach(b => returnValue.UnionWith(SLOWRecursivelyGetPossibleMoveLocations(b, board, movementPoints - 1)));
+//            level.AdjacentCoordinates(startingLocation).ForEach(b => returnValue.UnionWith(SLOWRecursivelyGetPossibleMoveLocations(b, level, movementPoints - 1)));
 //        }
 
 //        return returnValue;

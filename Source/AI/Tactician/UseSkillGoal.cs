@@ -15,12 +15,12 @@ namespace TurnItUp.AI.Tactician
     {
         public ISkill Skill { get; private set; }
         public Position Target { get; private set; }
-        public IBoard Board { get; private set; }
+        public ILevel Level { get; private set; }
 
-        public UseSkillGoal(Entity character, IBoard board, ISkill skill, Position target)
+        public UseSkillGoal(Entity character, ILevel level, ISkill skill, Position target)
         {
             Owner = character;
-            Board = board;
+            Level = level;
             Skill = skill;
             Target = target;
         }
@@ -29,14 +29,14 @@ namespace TurnItUp.AI.Tactician
         {
             base.Activate();
 
-            TargetMap targetMap = Skill.CalculateTargetMap(Board, Owner.GetComponent<Position>());
+            TargetMap targetMap = Skill.CalculateTargetMap(Level, Owner.GetComponent<Position>());
             HashSet<Position> candidatePositions = targetMap[new System.Tuples.Tuple<int, int>(Target.X, Target.Y)];
             Position startingPosition = Owner.GetComponent<Position>();
 
             // If the skill user is already in a position to the skill, simply apply the skill
             if (candidatePositions.Contains(startingPosition))
             {
-                Subgoals.Add(new ApplySkillGoal(Owner, Skill, Board.World.EntitiesWhere<Position>(p => p.X == Target.X && p.Y == Target.Y).Single()));
+                Subgoals.Add(new ApplySkillGoal(Owner, Skill, Level.World.EntitiesWhere<Position>(p => p.X == Target.X && p.Y == Target.Y).Single()));
                 return;
             }
 
@@ -47,10 +47,10 @@ namespace TurnItUp.AI.Tactician
             }
             else
             {
-                Node startingNode = new Node(Board, startingPosition.X, startingPosition.Y);
-                Node endingNode = Board.PathFinder.GetClosestNode(Owner.GetComponent<Position>(), candidatePositions);
+                Node startingNode = new Node(Level, startingPosition.X, startingPosition.Y);
+                Node endingNode = Level.PathFinder.GetClosestNode(Owner.GetComponent<Position>(), candidatePositions);
 
-                List<Node> bestPath = Board.PathFinder.SeekPath(startingNode, endingNode);
+                List<Node> bestPath = Level.PathFinder.SeekPath(startingNode, endingNode);
 
                 // Fail the goal if there is no path to the target
                 if (bestPath == null)

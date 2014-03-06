@@ -14,7 +14,7 @@ namespace TurnItUp.Interfaces
     {
         List<Entity> Characters { get; set; }
         List<Entity> TurnQueue { get; set; }
-        IBoard Board { get; set; }
+        ILevel Level { get; set; }
         Entity Player { get; set; }
 
         bool IsCharacterAt(int x, int y);

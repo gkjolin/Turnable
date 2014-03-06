@@ -43,13 +43,13 @@ namespace TurnItUp.Skills
             }
         }
 
-        public TargetMap CalculateTargetMap(IBoard board, Position skillUserPosition)
+        public TargetMap CalculateTargetMap(ILevel level, Position skillUserPosition)
         {
             TargetMap returnValue = new TargetMap();
 
-            Position playerPosition = board.CharacterManager.Player.GetComponent<Position>();
+            Position playerPosition = level.CharacterManager.Player.GetComponent<Position>();
 
-            HashSet<Position> originMap = OriginMapCalculator.Calculate(board, skillUserPosition, playerPosition, Range, board.PathFinder.AllowDiagonalMovement);
+            HashSet<Position> originMap = OriginMapCalculator.Calculate(level, skillUserPosition, playerPosition, Range, level.PathFinder.AllowDiagonalMovement);
             returnValue.Add(new System.Tuples.Tuple<int, int>(playerPosition.X, playerPosition.Y), originMap);
             return returnValue;
         }

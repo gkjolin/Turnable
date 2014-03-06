@@ -15,28 +15,28 @@ namespace TurnItUp.Skills
         {
         }
 
-        public HashSet<Position> Calculate(IBoard board, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false)
+        public HashSet<Position> Calculate(ILevel level, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false)
         {
             HashSet<Position> returnValue = new HashSet<Position>();
 
             // Up
-            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 0, -1, range);
+            AddPositionsInDirectLine(level, returnValue, skillUserPosition, targetPosition, 0, -1, range);
             // Down
-            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 0, 1, range);
+            AddPositionsInDirectLine(level, returnValue, skillUserPosition, targetPosition, 0, 1, range);
             // Left
-            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, 0, range);
+            AddPositionsInDirectLine(level, returnValue, skillUserPosition, targetPosition, -1, 0, range);
             // Right
-            AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, 0, range);
+            AddPositionsInDirectLine(level, returnValue, skillUserPosition, targetPosition, 1, 0, range);
             if (allowDiagonalMovement)
             {
                 // UpLeft
-                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, -1, range);
+                AddPositionsInDirectLine(level, returnValue, skillUserPosition, targetPosition, -1, -1, range);
                 // UpRight
-                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, -1, range);
+                AddPositionsInDirectLine(level, returnValue, skillUserPosition, targetPosition, 1, -1, range);
                 // DownRight
-                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, 1, 1, range);
+                AddPositionsInDirectLine(level, returnValue, skillUserPosition, targetPosition, 1, 1, range);
                 // DownLeft
-                AddPositionsInDirectLine(board, returnValue, skillUserPosition, targetPosition, -1, 1, range);
+                AddPositionsInDirectLine(level, returnValue, skillUserPosition, targetPosition, -1, 1, range);
             }
 
             // Add back the skillUserPosition, since the skill user can always use the skill from its current position
@@ -54,7 +54,7 @@ namespace TurnItUp.Skills
             return returnValue;
         }
 
-        private void AddPositionsInDirectLine(IBoard board, HashSet<Position> positions, Position skillUserPosition, Position startingPosition, int deltaX, int deltaY, int range)
+        private void AddPositionsInDirectLine(ILevel level, HashSet<Position> positions, Position skillUserPosition, Position startingPosition, int deltaX, int deltaY, int range)
         {
             Position testingPosition;
 
@@ -63,7 +63,7 @@ namespace TurnItUp.Skills
                 testingPosition = new Position(startingPosition.X + i * deltaX, startingPosition.Y + i * deltaY);
 
                 // If position is unwalkable, immediately return
-                if (new Node(board, testingPosition.X, testingPosition.Y).IsWalkable() || testingPosition == skillUserPosition) 
+                if (new Node(level, testingPosition.X, testingPosition.Y).IsWalkable() || testingPosition == skillUserPosition) 
                 {
                     positions.Add(testingPosition);
                 }

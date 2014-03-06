@@ -18,7 +18,7 @@ namespace Tests.AI.Tactician
     [TestClass]
     public class UseSkillGoalTests
     {
-        // The sample board:
+        // The sample level:
         // XXXXXXXXXXXXXXXX
         // X....EEE.......X
         // X..........X...X
@@ -36,7 +36,7 @@ namespace Tests.AI.Tactician
         // X......P...X...X
         // XXXXXXXXXXXXXXXX
         // X - Obstacles, P - Player, E - Enemies, S - Enemy that is going to use the skill, o - Expected path
-        private Board _board;
+        private Level _level;
         private Skill _skill;
         private Entity _entity;
         private Position _target;
@@ -44,27 +44,27 @@ namespace Tests.AI.Tactician
         [TestInitialize]
         public void Initialize()
         {
-            _board = LocationsFactory.BuildBoard();
-            _entity = _board.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 5).Single();
+            _level = LocationsFactory.BuildLevel();
+            _entity = _level.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 5).Single();
             _skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
-            _target = _board.CharacterManager.Player.GetComponent<Position>();
+            _target = _level.CharacterManager.Player.GetComponent<Position>();
         }
 
         [TestMethod]
         public void UseSkillGoal_Construction_IsSuccessful()
         {
-            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, _target);
+            UseSkillGoal goal = new UseSkillGoal(_entity, _level, _skill, _target);
 
             Assert.AreEqual(_entity, goal.Owner);
-            Assert.AreEqual(_board, goal.Board);
+            Assert.AreEqual(_level, goal.Level);
             Assert.AreEqual(_skill, goal.Skill);
-            Assert.AreEqual(_board.CharacterManager.Player.GetComponent<Position>(), goal.Target);
+            Assert.AreEqual(_level.CharacterManager.Player.GetComponent<Position>(), goal.Target);
         }
 
         [TestMethod]
         public void UseSkillGoal_WhenActivatedAndSkillCannotBeUsedFromOwnersPosition_CreatesAFollowPathGoalWithTheBestPathToApplySkillToTarget()
         {
-            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, _target);
+            UseSkillGoal goal = new UseSkillGoal(_entity, _level, _skill, _target);
 
             goal.Activate();
 
@@ -73,8 +73,8 @@ namespace Tests.AI.Tactician
 
             FollowPathGoal followPathGoal = (FollowPathGoal)goal.Subgoals[0];
             Assert.AreEqual(10, followPathGoal.Path.Count);
-            Assert.AreEqual(new Node(_board, 6, 5), followPathGoal.Path[0]);
-            Assert.AreEqual(new Node(_board, 6, 14), followPathGoal.Path[followPathGoal.Path.Count - 1]);
+            Assert.AreEqual(new Node(_level, 6, 5), followPathGoal.Path[0]);
+            Assert.AreEqual(new Node(_level, 6, 14), followPathGoal.Path[followPathGoal.Path.Count - 1]);
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Tests.AI.Tactician
         {
             _entity.GetComponent<Position>().X = 7;
             _entity.GetComponent<Position>().Y = 13;
-            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, _target);
+            UseSkillGoal goal = new UseSkillGoal(_entity, _level, _skill, _target);
 
             goal.Activate();
 
@@ -92,16 +92,16 @@ namespace Tests.AI.Tactician
             ApplySkillGoal applySkillGoal = (ApplySkillGoal)goal.Subgoals[0];
             Assert.AreEqual(_entity, applySkillGoal.Owner);
             Assert.AreEqual(_skill, applySkillGoal.Skill);
-            Assert.AreEqual(_board.CharacterManager.Player, applySkillGoal.Target);
+            Assert.AreEqual(_level.CharacterManager.Player, applySkillGoal.Target);
         }
 
         [TestMethod]
         public void UseSkillGoal_WhenActivatedAndThereIsNoViablePathToThePlayer_Fails()
         {
-            _board.CharacterManager.Player.GetComponent<Position>().X = 12;
-            _board.CharacterManager.Player.GetComponent<Position>().Y = 10;
-            _board.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 10), new Tile(1, 11, 10));
-            UseSkillGoal goal = new UseSkillGoal(_entity, _board, _skill, new Position(12, 10));
+            _level.CharacterManager.Player.GetComponent<Position>().X = 12;
+            _level.CharacterManager.Player.GetComponent<Position>().Y = 10;
+            _level.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 10), new Tile(1, 11, 10));
+            UseSkillGoal goal = new UseSkillGoal(_entity, _level, _skill, new Position(12, 10));
 
             goal.Activate();
 
@@ -118,9 +118,9 @@ namespace Tests.AI.Tactician
 
             targetMap[new System.Tuples.Tuple<int, int>(12, 10)] = skillOrigins;
 
-            skill.Setup(s => s.CalculateTargetMap(It.IsAny<IBoard>(), It.IsAny<Position>())).Returns(targetMap);
+            skill.Setup(s => s.CalculateTargetMap(It.IsAny<ILevel>(), It.IsAny<Position>())).Returns(targetMap);
 
-            UseSkillGoal goal = new UseSkillGoal(_entity, _board, skill.Object, new Position(12, 10));
+            UseSkillGoal goal = new UseSkillGoal(_entity, _level, skill.Object, new Position(12, 10));
 
             goal.Activate();
 

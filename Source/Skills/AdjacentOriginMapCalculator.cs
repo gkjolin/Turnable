@@ -11,11 +11,11 @@ namespace TurnItUp.Skills
 {
     public class AdjacentOriginMapCalculator : ISkillOriginMapCalculator
     {
-        public HashSet<Position> Calculate(IBoard board, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false)
+        public HashSet<Position> Calculate(ILevel level, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false)
         {
             DirectLineOriginMapCalculator directLineOriginMapCalculator = new DirectLineOriginMapCalculator();
 
-            return directLineOriginMapCalculator.Calculate(board, skillUserPosition, targetPosition, range, allowDiagonalMovement);
+            return directLineOriginMapCalculator.Calculate(level, skillUserPosition, targetPosition, range, allowDiagonalMovement);
         }
     }
 }

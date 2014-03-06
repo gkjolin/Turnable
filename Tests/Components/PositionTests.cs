@@ -10,12 +10,12 @@ namespace Tests.Components
     [TestClass]
     public class PositionTests
     {
-        private Board _board;
+        private Level _level;
 
         [TestInitialize]
         public void Initialize()
         {
-            _board = LocationsFactory.BuildBoard();
+            _level = LocationsFactory.BuildLevel();
         }
 
         [TestMethod]

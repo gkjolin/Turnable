@@ -11,12 +11,12 @@ namespace Tests.Factories
 {
     public static class LocationsFactory
     {
-        public static Board BuildBoard(string tmxPath = "../../Fixtures/FullExample.tmx")
+        public static Level BuildLevel(string tmxPath = "../../Fixtures/FullExample.tmx")
         {
             World world = new World();
-            Board board = new Board(world, tmxPath);
+            Level level = new Level(world, tmxPath);
 
-            return board;
+            return level;
         }
     }
 }

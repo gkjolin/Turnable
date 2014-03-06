@@ -31,7 +31,7 @@ namespace Tests.Characters
 
             Assert.AreEqual(6, npc.Components.Count);
             Assert.IsTrue(npc.Components.ContainsKey(typeof(Brain)));
-            Assert.IsTrue(npc.Components.ContainsKey(typeof(OnBoard)));
+            Assert.IsTrue(npc.Components.ContainsKey(typeof(OnLevel)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(Position)));
             Assert.IsTrue(npc.Components.ContainsKey(typeof(InTeam)));
             Assert.AreEqual("NPCs", npc.GetComponent<InTeam>().Name);

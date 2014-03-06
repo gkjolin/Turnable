@@ -47,7 +47,7 @@ namespace TurnItUp.Stats
             if (e.Stat.IsHealth && e.Stat.Value == e.Stat.MinimumValue)
             {
                 // TODO: Unit test this!
-                Owner.GetComponent<OnBoard>().Board.CharacterManager.DestroyCharacter(Owner);
+                Owner.GetComponent<OnLevel>().Level.CharacterManager.DestroyCharacter(Owner);
             }
         }
 

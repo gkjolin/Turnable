@@ -14,12 +14,12 @@ namespace Tests.AI.Tactician
     {
         private Entity _entity;
         private List<Node> _path;
-        private Board _board;
+        private Level _level;
 
         [TestInitialize]
         public void Initialize()
         {
-            _board = LocationsFactory.BuildBoard();
+            _level = LocationsFactory.BuildLevel();
             _entity = EntropyFactory.BuildEntity();
             _path = new List<Node>();
         }
@@ -36,8 +36,8 @@ namespace Tests.AI.Tactician
         [TestMethod]
         public void FollowPathGoal_WhenActivated_CreatesAMoveToAtomicGoal()
         {
-            _path.Add(new Node(_board, 0, 0));
-            _path.Add(new Node(_board, 0, 1));
+            _path.Add(new Node(_level, 0, 0));
+            _path.Add(new Node(_level, 0, 1));
 
             FollowPathGoal goal = new FollowPathGoal(_entity, _path);
 

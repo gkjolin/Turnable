@@ -12,7 +12,7 @@ using TurnItUp.Pathfinding;
 
 namespace TurnItUp.Locations
 {
-    public class Board : IBoard
+    public class Level : ILevel
     {
         // Facade pattern
 
@@ -21,11 +21,11 @@ namespace TurnItUp.Locations
         public IPathFinder PathFinder { get; set; }
         public IWorld World { get; set; }
 
-        public Board()
+        public Level()
         {
         }
 
-        public Board(IWorld world, string tmxPath, bool allowDiagonalMovement = false)
+        public Level(IWorld world, string tmxPath, bool allowDiagonalMovement = false)
         {
             World = world;
             Map = new Map(tmxPath);

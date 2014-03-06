@@ -113,11 +113,11 @@ namespace Tests
         [TestMethod]
         public void StatManager_WhenAHealthStatIsReducedToZero_AsksForTheCharacterToBeDestroyed()
         {
-            Board board = LocationsFactory.BuildBoard();
-            _entity = board.CharacterManager.Characters[0];
+            Level level = LocationsFactory.BuildLevel();
+            _entity = level.CharacterManager.Characters[0];
 
             Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
-            board.CharacterManager = characterManagerMock.Object;
+            level.CharacterManager = characterManagerMock.Object;
 
             Stat stat = _entity.GetComponent<StatManager>().GetStat("Health");
             stat.Value -= 100;

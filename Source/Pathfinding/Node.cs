@@ -10,15 +10,15 @@ namespace TurnItUp.Pathfinding
 {
     public class Node
     {
-        public IBoard Board { get; private set; }
+        public ILevel Level { get; private set; }
         public Position Position { get; private set; }
         public Node Parent { get; set; }
         public int H { get; set; }
         private int _g;
 
-        public Node(IBoard board, int x, int y, Node parent = null)
+        public Node(ILevel level, int x, int y, Node parent = null)
         {
-            Board = board;
+            Level = level;
             Position = new Position(x, y);
             Parent = parent;
         }
@@ -105,7 +105,7 @@ namespace TurnItUp.Pathfinding
                 {
                     if (x == Position.X && y == Position.Y) continue;
 
-                    returnValue.Add(new Node(Board, x, y));
+                    returnValue.Add(new Node(Level, x, y));
                 }
             }
 
@@ -121,13 +121,13 @@ namespace TurnItUp.Pathfinding
 
         public bool IsWithinBounds()
         {
-            return (Position.X >= 0 && Position.X <= (Board.Map.Width - 1) &&
-                    Position.Y >= 0 && Position.Y <= (Board.Map.Height - 1));
+            return (Position.X >= 0 && Position.X <= (Level.Map.Width - 1) &&
+                    Position.Y >= 0 && Position.Y <= (Level.Map.Height - 1));
         }
 
         public bool IsWalkable()
         {
-            return (IsWithinBounds() && !Board.IsObstacle(Position.X, Position.Y)) && !Board.CharacterManager.IsCharacterAt(Position.X, Position.Y);
+            return (IsWithinBounds() && !Level.IsObstacle(Position.X, Position.Y)) && !Level.CharacterManager.IsCharacterAt(Position.X, Position.Y);
         }
 
         public bool IsOrthogonalTo(Node other)

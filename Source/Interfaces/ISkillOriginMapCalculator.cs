@@ -8,6 +8,6 @@ namespace TurnItUp.Interfaces
 {
     public interface ISkillOriginMapCalculator
     {
-        HashSet<Position> Calculate(IBoard board, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false);
+        HashSet<Position> Calculate(ILevel level, Position skillUserPosition, Position targetPosition, int range, bool allowDiagonalMovement = false);
     }
 }

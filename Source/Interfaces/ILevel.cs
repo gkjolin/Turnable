@@ -10,7 +10,7 @@ using TurnItUp.Tmx;
 
 namespace TurnItUp.Interfaces
 {
-    public interface IBoard
+    public interface ILevel
     {
         Map Map { get; set; }
         ICharacterManager CharacterManager { get; set; }

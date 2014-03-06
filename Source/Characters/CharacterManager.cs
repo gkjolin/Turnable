@@ -15,7 +15,7 @@ namespace TurnItUp.Characters
     {
         public List<Entity> Characters { get; set; }
         public virtual Entity Player { get; set; }
-        public IBoard Board { get; set; }
+        public ILevel Level { get; set; }
         public List<Entity> TurnQueue { get; set; }
 
         public bool IsCharacterAt(int x, int y)
@@ -27,10 +27,10 @@ namespace TurnItUp.Characters
         {
         }
 
-        public CharacterManager(IWorld world, IBoard board)
+        public CharacterManager(IWorld world, ILevel level)
         {
-            Tileset characterTileset = board.Map.Tilesets["Characters"];
-            Layer characterLayer = board.Map.Layers["Characters"];
+            Tileset characterTileset = level.Map.Tilesets["Characters"];
+            Layer characterLayer = level.Map.Layers["Characters"];
             Characters = new List<Entity>();
             TurnQueue = new List<Entity>();
 
@@ -61,7 +61,7 @@ namespace TurnItUp.Characters
                     character.AddComponent(new Model(referenceTile.Properties["Model"]));
                 }
 
-                character.GetComponent<OnBoard>().Board = board;
+                character.GetComponent<OnLevel>().Level = level;
                 character.GetComponent<Position>().X = tile.X;
                 character.GetComponent<Position>().Y = tile.Y;
 
@@ -76,7 +76,7 @@ namespace TurnItUp.Characters
             TurnQueue.Remove(Player);
             TurnQueue.Insert(0, Player);
 
-            Board = board;
+            Level = level;
         }
 
         public virtual MoveResult MovePlayer(Direction direction)
@@ -91,11 +91,11 @@ namespace TurnItUp.Characters
             Position currentPosition = character.GetComponent<Position>().DeepClone();
             positionChanges.Add(currentPosition);
 
-            if (Board.IsObstacle(destination.X, destination.Y))
+            if (Level.IsObstacle(destination.X, destination.Y))
             {
                 returnValue.Status = MoveResultStatus.HitObstacle;
             }
-            else if (Board.IsCharacterAt(destination.X, destination.Y))
+            else if (Level.IsCharacterAt(destination.X, destination.Y))
             {
                 returnValue.Status = MoveResultStatus.HitCharacter;
             }
@@ -180,7 +180,7 @@ namespace TurnItUp.Characters
         {
             Characters.Remove(character);
             TurnQueue.Remove(character);
-            Board.World.DestroyEntity(character);
+            Level.World.DestroyEntity(character);
             OnCharacterDestroyed(new EntityEventArgs(character));
         }
     }

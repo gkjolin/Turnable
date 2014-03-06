@@ -17,7 +17,7 @@ namespace TurnItUp.Interfaces
         int Range { get; set; }
         ISkillOriginMapCalculator OriginMapCalculator { get; set; }
 
-        TargetMap CalculateTargetMap(IBoard board, Position skillUserPosition);
+        TargetMap CalculateTargetMap(ILevel level, Position skillUserPosition);
         void Apply(Entity user, Entity target);
     }
 }

@@ -13,19 +13,19 @@ namespace TurnItUp.AI.Tactician
 {
     public class ChooseSkillAndTargetGoal : CompositeGoal
     {
-        public IBoard Board { get; private set; }
+        public ILevel Level { get; private set; }
 
-        public ChooseSkillAndTargetGoal(Entity character, IBoard board)
+        public ChooseSkillAndTargetGoal(Entity character, ILevel level)
         {
             Owner = character;
-            Board = board;
+            Level = level;
         }
 
         public override void Activate()
         {
             base.Activate();
 
-            Subgoals.Add(new UseSkillGoal(Owner, Board, Owner.GetComponent<SkillSet>()[0], Board.CharacterManager.Player.GetComponent<Position>()));
+            Subgoals.Add(new UseSkillGoal(Owner, Level, Owner.GetComponent<SkillSet>()[0], Level.CharacterManager.Player.GetComponent<Position>()));
         }
 
         public override void Process()

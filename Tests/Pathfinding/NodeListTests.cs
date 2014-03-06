@@ -12,13 +12,13 @@ namespace Tests.Pathfinding
     {
         private Node _node;
         private NodeList _nodeList;
-        private Board _board;
+        private Level _level;
 
         [TestInitialize]
         public void Initialize()
         {
-            _board = LocationsFactory.BuildBoard();
-            _node = new Node(_board, 0, 0);
+            _level = LocationsFactory.BuildLevel();
+            _node = new Node(_level, 0, 0);
             _nodeList = new NodeList();
         }
 
@@ -41,8 +41,8 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void NodeList_WhenAddingNodes_AddsThemSortedByF()
         {
-            Node node2 = new Node(_board, 5, 5);
-            Node node3 = new Node(_board, 5, 5);
+            Node node2 = new Node(_level, 5, 5);
+            Node node3 = new Node(_level, 5, 5);
 
             _node.G = 10;
             _node.H = 10;
@@ -63,8 +63,8 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void NodeList_WhenAddingNodesWithSameF_AddsThemSuccessfully()
         {
-            Node node2 = new Node(_board, 5, 5);
-            Node node3 = new Node(_board, 5, 5);
+            Node node2 = new Node(_level, 5, 5);
+            Node node3 = new Node(_level, 5, 5);
 
             _node.G = 5;
             _node.H = 5;

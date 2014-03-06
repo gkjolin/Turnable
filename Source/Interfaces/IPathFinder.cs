@@ -11,7 +11,7 @@ namespace TurnItUp.Interfaces
     public interface IPathFinder
     {
         bool AllowDiagonalMovement { get; set; }
-        IBoard Board { get; set; }
+        ILevel Level { get; set; }
 
         List<Node> SeekPath(Node startingNode, Node endingNode);
         int MovementPointCost(Node startingNode, Node endingNode);

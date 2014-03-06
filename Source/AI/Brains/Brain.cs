@@ -14,21 +14,21 @@ namespace TurnItUp.AI.Brains
     public class Brain : CompositeGoal
     {
         public Goal CurrentGoal { get; private set; }
-        public IBoard Board { get; set; }
+        public ILevel Level { get; set; }
 
         public Brain() : this(null, null)
         {
         }
 
-        public Brain(Entity character, IBoard board)
+        public Brain(Entity character, ILevel level)
         {
             Owner = character;
-            Board = board;
+            Level = level;
         }
 
         public void Think()
         {
-            CurrentGoal = new ChooseSkillAndTargetGoal(Owner, Board);
+            CurrentGoal = new ChooseSkillAndTargetGoal(Owner, Level);
         }
     }
 }
