@@ -29,6 +29,11 @@ namespace Tests.Factories
             return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").First<XElement>());
         }
 
+        public static XElement BuildExternalTilesetXElement()
+        {
+            return (XDocument.Load("../../Fixtures/FullExampleWithExternalTilesetReference.tmx").Element("map").Elements("tileset").Last<XElement>());
+        }
+
         public static XElement BuildTilesetXElementWithReferenceTiles()
         {
             return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>());

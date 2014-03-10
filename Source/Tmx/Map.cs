@@ -17,9 +17,9 @@ namespace TurnItUp.Tmx
         public ElementList<Layer> Layers { get; private set; }
         public ElementList<Tileset> Tilesets { get; private set; }
 
-        public Map(string tmxPath)
+        public Map(string tmxFilePath)
         {
-            XDocument xDocument = XDocument.Load(tmxPath);
+            XDocument xDocument = XDocument.Load(tmxFilePath);
             XElement xMap = xDocument.Element("map");
 
             Version = (string)xMap.Attribute("version");
@@ -38,7 +38,7 @@ namespace TurnItUp.Tmx
             Tilesets = new ElementList<Tileset>();
             foreach (XElement xTileset in xMap.Elements("tileset"))
             {
-                Tilesets.Add(new Tileset(xTileset));
+                Tilesets.Add(new Tileset(xTileset, tmxFilePath));
             }
         }
 

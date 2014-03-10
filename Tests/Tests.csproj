@@ -118,6 +118,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fixtures\Characters.tsx" />
+    <None Include="Fixtures\FullExampleWithExternalTilesetReference.tmx" />
     <None Include="Fixtures\FullExampleWithUnsetModelForSomeCharacters.tmx" />
     <None Include="Fixtures\FullExample.tmx" />
     <None Include="Fixtures\MinimalBase64Gzip.tmx" />

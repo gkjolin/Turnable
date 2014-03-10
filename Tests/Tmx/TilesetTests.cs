@@ -25,6 +25,27 @@ namespace Tests.Tmx
         }
 
         [TestMethod]
+        public void Tileset_ExternalTilesetConstruction_IsSuccessful()
+        {
+            Tileset tileset = new Tileset(TmxFactory.BuildExternalTilesetXElement(), "../../Fixtures/FullExample.tmx");
+
+            Assert.AreEqual(2107, tileset.FirstGid);
+            Assert.AreEqual("Characters", tileset.Name);
+            Assert.AreEqual(24, tileset.TileWidth);
+            Assert.AreEqual(24, tileset.TileHeight);
+            Assert.AreEqual(0, tileset.Spacing);
+            Assert.AreEqual(0, tileset.Margin);
+            Assert.IsNotNull(tileset.ReferenceTiles);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Tileset_ExternalTilesetConstructionWhenTheTmxFilePathIsNotPassedIn_ThrowsAnException()
+        {
+            Tileset tileset = new Tileset(TmxFactory.BuildExternalTilesetXElement());
+        }
+
+        [TestMethod]
         public void Tileset_ConstructionUsingTilesetDataWithReferenceTiles_IsSuccessful()
         {
             Tileset tileset = new Tileset(TmxFactory.BuildTilesetXElementWithReferenceTiles());

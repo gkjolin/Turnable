@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -17,10 +18,25 @@ namespace TurnItUp.Tmx
         // TODO: Use a KeyedCollection here, it's more efficient
         public Dictionary<int, ReferenceTile> ReferenceTiles { get; private set; }
 
-        public Tileset(XElement xTileset)
+        public Tileset(XElement xTileset, string tmxFilePath = null)
         {
-            Name = (string)xTileset.Attribute("name");
+            // .tmx files have the concept of an external tileset which can be shared among various maps
             FirstGid = (int)xTileset.Attribute("firstgid");
+
+            // If there is a attribute called source, the value indicates the file location of the external tileset
+            if ((string)xTileset.Attribute("source") != null)
+            {
+                if (tmxFilePath == null)
+                {
+                    throw new ArgumentNullException("<Tileset::Tileset> : tmxFilePath must be set when an external tileset is referenced by the .tmx file.");
+                }
+
+                string tilesetFilePath = Path.Combine(Path.GetDirectoryName(tmxFilePath), (string)xTileset.Attribute("source"));
+                XDocument xDocument = XDocument.Load(tilesetFilePath);
+                xTileset = xDocument.Element("tileset");
+            }
+
+            Name = (string)xTileset.Attribute("name");
             TileWidth = (int)xTileset.Attribute("tilewidth");
             TileHeight = (int)xTileset.Attribute("tileheight");
             Spacing = (int?)xTileset.Attribute("spacing") ?? 0;
