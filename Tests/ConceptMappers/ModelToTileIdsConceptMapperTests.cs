@@ -1,24 +1,25 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests.Factories;
+using TurnItUp.Locations;
 
 namespace Tests.ConceptMappers
 {
     [TestClass]
     public class ModelToTileIdsConceptMapperTests
     {
-        private Board _board;
+        private Level _level;
 
         [TestInitialize]
         public void Initialize()
         {
-            _board = LocationsFactory.BuildBoard();
+            _level = LocationsFactory.BuildLevel();
         }
 
         [TestMethod]
         public void ModelToTileIdsConceptMapper_CreatingAModelToTileIdsMapping_IsSuccessful()
         {
-            ModelToTileIdsConceptMapper mapper = new ModelToTileIdsConceptMapper();
+            ModelToTileIdsConceptMapper mapper = new ModelToTileIdsConceptMapper(_level);
         }
     }
 }
