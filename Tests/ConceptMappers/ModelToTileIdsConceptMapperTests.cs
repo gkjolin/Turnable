@@ -15,7 +15,7 @@ namespace Tests.ConceptMappers
         [TestInitialize]
         public void Initialize()
         {
-            _level = LocationsFactory.BuildLevel();
+            _level = LocationsFactory.BuildLevel("../../Fixtures/FullExampleWithExternalTilesetReference.tmx");
         }
 
         [TestMethod]
@@ -33,7 +33,13 @@ namespace Tests.ConceptMappers
 
             Dictionary<string, List<int>> mapping = mapper.BuildMapping();
 
-            Assert.AreEqual(378, mapping.Count);
+            Assert.AreEqual(156, mapping.Count);
+
+            // Some models have a whole list of tiles that can represent them. Check to see if a couple of these have been mapped correctly.
+            Assert.AreEqual(3, mapping["Bandit"].Count);
+            Assert.IsTrue(mapping["Bandit"].Contains(36));
+            Assert.IsTrue(mapping["Bandit"].Contains(72));
+            Assert.IsTrue(mapping["Bandit"].Contains(109));
         }
     }
 }
