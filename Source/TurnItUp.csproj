@@ -68,6 +68,8 @@
     <Compile Include="Components\Model.cs" />
     <Compile Include="Components\OnLevel.cs" />
     <Compile Include="Components\Position.cs" />
+    <Compile Include="ConceptMappers\ModelToTileIdsConceptMapper.cs" />
+    <Compile Include="Interfaces\IConceptMapper.cs" />
     <Compile Include="Interfaces\IEffect.cs" />
     <Compile Include="Interfaces\IPathFinder.cs" />
     <Compile Include="Interfaces\ILevel.cs" />

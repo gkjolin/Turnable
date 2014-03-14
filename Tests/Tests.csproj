@@ -82,7 +82,6 @@
     <Compile Include="Components\ModelTests.cs" />
     <Compile Include="Components\OnBoardTests.cs" />
     <Compile Include="Components\PositionTests.cs" />
-    <Compile Include="ConceptMappers\Board.cs" />
     <Compile Include="ConceptMappers\ModelToTileIdsConceptMapperTests.cs" />
     <Compile Include="Factories\EntropyFactory.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
