@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TurnItUp.Locations;
+using TurnItUp.Tmx;
 
 namespace TurnItUp.Randomization
 {
@@ -13,6 +14,11 @@ namespace TurnItUp.Randomization
         public LevelRandomizer(Level level)
         {
             Level = level;
+        }
+
+        public TileList BuildRandomTileList(Layer targetLayer, int countOfRandomTiles)
+        {
+            TileList returnValue = new TileList(
         }
     }
 }
