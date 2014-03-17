@@ -25,7 +25,7 @@ namespace TurnItUp.Randomization
         {
             int randomIndex = Prng.Next(0, dictionary.Count);
 
-            return Next<TReturn>(dictionary[dictionary.Keys.ElementAt<TKey>(randomIndex)]);
+            return Next<TReturn>((IList<TReturn>)dictionary[dictionary.Keys.ElementAt<TKey>(randomIndex)]);
         }
 
     }

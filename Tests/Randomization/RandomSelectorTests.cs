@@ -53,8 +53,9 @@ namespace Tests.Randomization
             dictionary.Add("Key3", list);
             dictionary.Add("Key4", list);
 
-            string randomItemFromDictionary = RandomSelector.Next<string, List<int>, int>(dictionary);
+            int randomItemFromDictionary = RandomSelector.Next<string, List<int>, int>(dictionary);
 
+            Assert.IsTrue(list.Contains(randomItemFromDictionary));
         }
     }
 }
