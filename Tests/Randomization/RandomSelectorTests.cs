@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using TurnItUp.Randomization;
+using System.Linq;
 
 namespace Tests.Randomization
 {
@@ -21,6 +22,28 @@ namespace Tests.Randomization
             int randomItemFromList = RandomSelector.Next<int>(list);
 
             Assert.IsTrue(list.Contains(randomItemFromList));
+        }
+
+        [TestMethod]
+        public void RandomSelector_RandomlySelectingASubsetOfItemsFromAList_IsSuccessful()
+        {
+            List<int> list = new List<int>();
+
+            list.Add(10);
+            list.Add(5);
+            list.Add(24);
+            list.Add(57);
+            list.Add(19);
+            list.Add(1010);
+
+            List<int> randomSubsetFromList = RandomSelector.Next<int>(list, 3);
+
+            Assert.AreEqual(3, randomSubsetFromList.Count);
+            foreach (int item in randomSubsetFromList)
+            {
+                Assert.IsTrue(list.Contains(item));
+            }
+            Assert.IsTrue(randomSubsetFromList.Distinct().Count() == randomSubsetFromList.Count());
         }
 
         [TestMethod]

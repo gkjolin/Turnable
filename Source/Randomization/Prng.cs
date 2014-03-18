@@ -19,5 +19,10 @@ namespace TurnItUp.Randomization
         {
             return _random.Next(inclusiveMinimumValue, exclusiveMaximumValue);
         }
+
+        public static double NextDouble()
+        {
+            return _random.NextDouble();
+        }
     }
 }
