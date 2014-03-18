@@ -116,9 +116,14 @@ namespace Tests.Locations
         [TestMethod]
         public void Level_CalculatingAllWalkablePositions_ReturnsAListOfAllWalkablePositionsInTheLevel()
         {
-            List<Tuple<int, int>> allWalkablePositions = _level.CalculateWalkablePositions();
+            List<Position> allWalkablePositions = _level.CalculateWalkablePositions();
 
-            Assert.AreEqual(171, allWalkablePositions.Count);
+            Assert.AreEqual(172, allWalkablePositions.Count);
+
+            foreach (Position position in allWalkablePositions)
+            {
+                Assert.IsTrue(new Node(_level, position.X, position.Y).IsWalkable());
+            }
         }
 
         // Facade implementation tests

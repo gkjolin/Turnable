@@ -38,7 +38,13 @@ namespace Tests.Randomization
 
             foreach (Tuple<int, int> position in randomCharacters.Keys)
             {
+                Tile tile = randomCharacters[position];
 
+                Assert.AreEqual(position.Element1, tile.X);
+                Assert.AreEqual(position.Element2, tile.Y);
+
+                // .tmx tiles always have a minimum value of 1
+                Assert.IsTrue(tile.Gid > 0);
             }
         }
     }
