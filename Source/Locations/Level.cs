@@ -68,5 +68,23 @@ namespace TurnItUp.Locations
 
             PathFinder = new PathFinder(this, allowDiagonalMovement);
         }
+
+        public List<Tuple<int, int>> CalculateWalkablePositions()
+        {
+            List<Tuple<int, int>> returnValue = new List<Tuple<int, int>>();
+
+            for (int row = 0; row < Map.Height; row++)
+            {
+                for (int col = 0; row < Map.Width; col++)
+                {
+                    if (new Node(this, col, row).IsWalkable())
+                    {
+                        returnValue.Add(new Tuple<int, int>(row, col));
+                    }
+                }
+            }
+
+            return returnValue;
+        }
     }
 }

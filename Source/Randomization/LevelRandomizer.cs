@@ -18,7 +18,12 @@ namespace TurnItUp.Randomization
 
         public TileList BuildRandomTileList(Layer targetLayer, int countOfRandomTiles)
         {
-            TileList returnValue = new TileList(
+            for (int i = 0; i < countOfRandomTiles; i++)
+            {
+
+            }
+
+            return null;
         }
     }
 }

@@ -13,6 +13,10 @@ namespace TurnItUp.Tmx
     {
         // Layers in a TileMap tend to be sparse arrays. A dictionary is a much better data store than a 2-dimensional array.
 
+        public TileList()
+        {
+        }
+
         public TileList(Data data, int width, int height)
         {
             uint tileGid = 0;

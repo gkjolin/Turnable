@@ -29,5 +29,13 @@ namespace Tests.Tmx
             Assert.AreEqual(4, tileList[new Tuple<int, int>(4, 5)].X);
             Assert.AreEqual(5, tileList[new Tuple<int, int>(4, 5)].Y);
         }
+
+        [TestMethod]
+        public void TileList_ConstructionOfAnEmptyTileList_IsSuccessful()
+        {
+            TileList tileList = new TileList();
+
+            Assert.AreEqual(0, tileList.Count);
+        }
     }
 }

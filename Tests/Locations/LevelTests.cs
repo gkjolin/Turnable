@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Entropy;
 using TurnItUp.Pathfinding;
 using TurnItUp.Tmx;
+using System.Tuples;
 
 namespace Tests.Locations
 {
@@ -110,6 +111,14 @@ namespace Tests.Locations
             Assert.IsTrue(_level.IsObstacle(2, 0));
 
             Assert.IsFalse(_level.IsObstacle(1, 1));
+        }
+
+        [TestMethod]
+        public void Level_CalculatingAllWalkablePositions_ReturnsAListOfAllWalkablePositionsInTheLevel()
+        {
+            List<Tuple<int, int>> allWalkablePositions = _level.CalculateWalkablePositions();
+
+            Assert.AreEqual(171, allWalkablePositions.Count);
         }
 
         // Facade implementation tests
