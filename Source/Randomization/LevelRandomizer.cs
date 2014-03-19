@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Tuples;
+using TurnItUp.Components;
 using TurnItUp.ConceptMappers;
 using TurnItUp.Locations;
 using TurnItUp.Tmx;
@@ -17,16 +19,21 @@ namespace TurnItUp.Randomization
             Level = level;
         }
 
-        public TileList BuildRandomTileList(Layer targetLayer, int countOfRandomTiles)
+        public TileList BuildRandomTileList(Layer targetLayer, int count)
         {
+            TileList returnValue = new TileList();
+
             ModelToTileIdsConceptMapper mapper = new ModelToTileIdsConceptMapper(Level);
             Dictionary<string, List<int>> map = mapper.BuildMapping();
+            List<Position> randomSubsetOfWalkablePositions = RandomSelector.Next<Position>(Level.CalculateWalkablePositions(), count);
 
-            for (int i = 0; i < countOfRandomTiles; i++)
+            foreach (Position position in randomSubsetOfWalkablePositions)
             {
+                int randomCharacterTileId = RandomSelector.Next<string, List<int>, int>(map);
+                returnValue.Add(new Tuple<int,int>(position.X, position.Y), new Tile((uint)Level.Map.Tilesets["Characters"].FirstGid + (uint)randomCharacterTileId, position.X, position.Y));
             }
 
-            return null;
+            return returnValue;
         }
     }
 }

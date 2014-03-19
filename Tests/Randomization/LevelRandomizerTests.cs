@@ -43,8 +43,7 @@ namespace Tests.Randomization
                 Assert.AreEqual(position.Element1, tile.X);
                 Assert.AreEqual(position.Element2, tile.Y);
 
-                // .tmx tiles always have a minimum value of 1
-                Assert.IsTrue(tile.Gid > 0);
+                Assert.IsTrue(tile.Gid >= _level.Map.Tilesets["Characters"].FirstGid);
             }
         }
     }
