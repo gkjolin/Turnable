@@ -38,5 +38,11 @@ namespace TurnItUp.Tmx
                 }
             }
         }
+
+        public void Merge(TileList tileList)
+        {
+            // http://stackoverflow.com/questions/294138/merging-dictionaries-in-c-sharp
+            tileList.ToList().ForEach(x => this.Add(x.Key, x.Value));
+        }
     }
 }
