@@ -84,6 +84,29 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void Level_InitializationAndRandomizationWhileInitializing_IsSuccessful()
+        {
+            Level level = new Level();
+            level.Initialize(_world, "../../Fixtures/FullExample.tmx", false, true);
+
+            Assert.IsNotNull(level.Map);
+
+            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
+            Assert.AreEqual(_world, _level.World);
+            Assert.IsNotNull(level.CharacterManager);
+            Assert.AreEqual(level, level.CharacterManager.Level);
+            Assert.IsNotNull(level.PathFinder);
+            Assert.IsFalse(level.PathFinder.AllowDiagonalMovement);
+            Assert.AreEqual(level, level.PathFinder.Level);
+
+            // Check to see if the characters in the level have been randomized. Right now randomization adds anywhere from 1 to 10 random characters to the level.
+            Assert.IsTrue(level.CharacterManager.Characters.Count > 9);
+            Assert.IsTrue(level.CharacterManager.TurnQueue.Count > 9);
+            Assert.IsTrue(level.CharacterManager.Characters.Count <= 19);
+            Assert.IsTrue(level.CharacterManager.TurnQueue.Count <= 19);
+        }
+
+        [TestMethod]
         public void Level_ConstructionWithAPathFinderThatAllowsDiagonalMovement_IsSuccessful()
         {
             Level level = new Level(_world, "../../Fixtures/FullExample.tmx", true);

@@ -9,6 +9,7 @@ using TurnItUp.Components;
 using TurnItUp.Interfaces;
 using Entropy;
 using TurnItUp.Pathfinding;
+using TurnItUp.Randomization;
 
 namespace TurnItUp.Locations
 {
@@ -55,14 +56,26 @@ namespace TurnItUp.Locations
             return CharacterManager.MoveCharacterTo(character, destination);
         }
 
-        public void Initialize(IWorld world, string tmxPath, bool allowDiagonalMovement = false)
+        public void Initialize(IWorld world, string tmxPath, bool allowDiagonalMovement = false, bool shouldRandomize = false)
         {
             World = world;
             Map = new Map(tmxPath);
-            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
 
+            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
             if (charactersLayer != null)
             {
+                CharacterManager = new CharacterManager(world, this);
+            }
+
+            // Randomize
+            if (shouldRandomize)
+            {
+                TileList randomCharactersTileList = new LevelRandomizer(this).BuildRandomTileList(this.Map.Layers["Characters"], Prng.Next(1, 11));
+
+                this.Map.Layers["Characters"].Tiles.Merge(randomCharactersTileList);
+
+                // TODO: This code is not optimal at all. I am creating a CharacterManager to load up pre-defined characters.
+                // Then if the level is being randomized, I am re-creating the CharacterManager from scratch once again!
                 CharacterManager = new CharacterManager(world, this);
             }
 
