@@ -47,6 +47,43 @@ namespace Tests.Randomization
         }
 
         [TestMethod]
+        public void RandomSelector_RandomlySelectingASubsetOfItemsFromAList_DoesNotSelectAllConsecutiveElements()
+        {
+            List<int> list = new List<int>();
+
+            list.Add(10);
+            list.Add(5);
+            list.Add(24);
+            list.Add(57);
+            list.Add(19);
+            list.Add(1010);
+            list.Add(1011);
+            list.Add(1015);
+            list.Add(1016);
+            list.Add(1017);
+            list.Add(1018);
+            list.Add(1019);
+            list.Add(1020);
+            list.Add(1021);
+            list.Add(1022);
+            list.Add(1024);
+            list.Add(1025);
+            list.Add(1026);
+            list.Add(1028);
+            list.Add(1030);
+            list.Add(1031);
+            list.Add(1034);
+            list.Add(1037);
+            list.Add(1040);
+            list.Add(1041);
+
+            List<int> randomSubsetFromList = RandomSelector.Next<int>(list, 5);
+
+            Assert.IsFalse(randomSubsetFromList[0] == 10 && randomSubsetFromList[1] == 5 && randomSubsetFromList[2] == 24 &&
+                randomSubsetFromList[3] == 57 && randomSubsetFromList[4] == 19);
+        }
+
+        [TestMethod]
         public void RandomSelector_RandomlySelectingFromADictionary_IsSuccessful()
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();

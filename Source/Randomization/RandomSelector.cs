@@ -14,22 +14,27 @@ namespace TurnItUp.Randomization
             return list[randomIndex];
         }
 
-        public static List<T> Next<T>(IList<T> list, int count)
+        public static List<T> Next<T>(IList<T> list, int neededCount)
         {
-
             // http://stackoverflow.com/questions/48087/select-a-random-n-elements-from-listt-in-c-sharp
             List<T> returnValue = new List<T>();
 
+            int index = 0;
+
             foreach (T item in list)
             {
-                if (Prng.NextDouble() <= ((double)count / (double)returnValue.Count))
+                if (returnValue.Count == neededCount)
+                {
+                    return returnValue;
+                }
+
+                double selectionProbablity = (double)(neededCount - returnValue.Count) / (double)(list.Count - index);
+                if (Prng.NextDouble() < selectionProbablity)
                 {
                     returnValue.Add(item);
-                    if (returnValue.Count == count)
-                    {
-                        return returnValue;
-                    } 
                 }
+
+                index++;
             }
 
             return returnValue;
