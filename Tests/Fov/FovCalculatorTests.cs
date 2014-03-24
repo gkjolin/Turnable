@@ -5,6 +5,7 @@ using TurnItUp.Locations;
 using TurnItUp.Fov;
 using TurnItUp.Pathfinding;
 using System.Collections.Generic;
+using TurnItUp.Components;
 
 namespace Tests.Fov
 {
@@ -30,44 +31,32 @@ namespace Tests.Fov
         }
 
         [TestMethod]
-        public void FovCalculator_WhenCalculatingASlopeBetweenTwoNodes_IsCorrect()
+        public void FovCalculator_WhenCalculatingASlope_IsCorrect()
         {
-            Node node1 = new Node(_level, 0, 0);
-            Node node2 = new Node(_level, 1, 1);
-            double slope = _fovCalculator.CalculateSlope(node1, node2);
+            double slope = _fovCalculator.CalculateSlope(0, 0, 1, 1);
             Assert.AreEqual(1.0, slope);
 
-            node1 = new Node(_level, 4, 2);
-            node2 = new Node(_level, 3, 4);
-            slope = _fovCalculator.CalculateSlope(node1, node2);
+            slope = _fovCalculator.CalculateSlope(4, 2, 3, 4);
             Assert.AreEqual(-0.5, slope);
         }
 
         [TestMethod]
         public void FovCalculator_WhenCalculatingInverseSlope_IsCorrect()
         {
-            Node node1 = new Node(_level, 0, 0);
-            Node node2 = new Node(_level, 1, 1);
-            double slope = _fovCalculator.CalculateSlope(node1, node2, true);
+            double slope = _fovCalculator.CalculateSlope(0, 0, 1, 1, true);
             Assert.AreEqual(1.0, slope);
 
-            node1 = new Node(_level, 4, 2);
-            node2 = new Node(_level, 3, 4);
-            slope = _fovCalculator.CalculateSlope(node1, node2, true);
+            slope = _fovCalculator.CalculateSlope(4, 2, 3, 4, true);
             Assert.AreEqual(-2.0, slope);
         }
 
         [TestMethod]
-        public void FovCalculator_WhenCalculatingTheVisibleDistanceBetweenTwoNodes_CorrectlyUsesSquaredDistanceSpace()
+        public void FovCalculator_WhenCalculatingTheVisibleDistance_CorrectlyCalculatesTheSquaredDistance()
         {
-            Node node1 = new Node(_level, 0, 0);
-            Node node2 = new Node(_level, 1, 1);
-            int visibleDistance = _fovCalculator.CalculateVisibleDistance(node1, node2);
+            int visibleDistance = _fovCalculator.CalculateVisibleDistance(0, 0, 1, 1);
             Assert.AreEqual(2, visibleDistance);
 
-            node1 = new Node(_level, 4, 2);
-            node2 = new Node(_level, 3, 4);
-            visibleDistance = _fovCalculator.CalculateVisibleDistance(node1, node2);
+            visibleDistance = _fovCalculator.CalculateVisibleDistance(4, 2, 3, 4);
             Assert.AreEqual(5, visibleDistance);
         }
 
@@ -91,9 +80,20 @@ namespace Tests.Fov
         // X - Obstacles, P - Player, E - Enemies
 
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf0_ReturnsOnlyTheStartLocationAsAVisiblePoint()
+        public void FovCalculator_ForAVisualRangeOf0_ReturnsOnlyTheOriginPositionAsAVisiblePosition()
         {
-            List<Node> visibleNodes = _fovCalculator.CalculateVisibleNodes(0, 7, 14);
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(0, 7, 14);
+
+            Assert.AreEqual(1, visiblePositions.Count);
+            Assert.AreEqual(new Position(7, 14), visiblePositions[0]);
+        }
+
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf1AndNoObstacles_ReturnsAllPositionsAdjacentToTheOriginPosition()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(1, 7, 12);
+
+            Assert.AreEqual(9, visiblePositions.Count);
         }
     }
 }
