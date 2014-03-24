@@ -10,7 +10,16 @@ namespace TurnItUp.Fov
 {
     public class FovCalculator
     {
+        // http://www.roguebasin.com/index.php?title=Ruby_shadowcasting_implementation
+
         public Level Level { get; set; }
+        private int[,] multipliers = 
+        {
+            {1,  0,  0, -1, -1,  0,  0,  1},
+            {0,  1, -1,  0,  0, -1,  1,  0},    
+            {0,  1,  1,  0,  0, -1, -1,  0},
+            {1,  0,  0,  1, -1,  0,  0, -1},
+        };
 
         public FovCalculator(Level level)
         {
@@ -34,361 +43,101 @@ namespace TurnItUp.Fov
             return ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2));
         }
 
-        public List<Position> CalculateVisiblePositions(int visualRange, int originX, int originY)
+        public List<Position> CalculateVisiblePositions(int startX, int startY, int visualRange)
         {
             var returnValue = new List<Position>();
 
-            if (visualRange == 0)
-            {
-                returnValue.Add(new Position(originX, originY));
-            }
+            returnValue.Add(new Position(startX, startY));
 
-            List<int> visibleOctants = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
+            List<int> octantIndices = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
 
-            foreach (int octantIndex in visibleOctants)
+            foreach (int octantIndex in octantIndices)
             {
-                returnValue.AddRange(CalculateVisiblePositionsInOctant(visualRange, originX, originY, 1, octantIndex, 1.0, 0.0));
+                returnValue.AddRange(CastLight(startX, startY, 1, 1.0, 0.0, visualRange, multipliers[0, octantIndex - 1], multipliers[1, octantIndex - 1], multipliers[2, octantIndex - 1], multipliers[3, octantIndex - 1], 0));
             }
 
             return returnValue;
         }
 
-        protected List<Position> CalculateVisiblePositionsInOctant(int visualRange, int originX, int originY, int scanDepth, int octantIndex, double startSlope, double endSlope)
+        private List<Position> CastLight(int startX, int startY, int row, double startSlope, double endSlope, int visualRange, int xx, int xy, int yx, int yy, int id)
         {
             List<Position> returnValue = new List<Position>();
 
+            if (startSlope < endSlope)
+            {
+                return returnValue;
+            }
+
             int visualRangeSquared = visualRange * visualRange;
-            int x = 0;
-            int y = 0;
 
-            switch (octantIndex)
+            for (int j = row; j <= visualRange; j++)
             {
-                case 1: //nnw
-                    y = originY - scanDepth;
-                    x = originX - Convert.ToInt32((startSlope * Convert.ToDouble(scanDepth)));
+                int dx = -j - 1;
+                int dy = -j;
+                bool blocked = false;
 
-                    if (y < 0) y = 0;
-                    if (x < 0) x = 0;
+                while (dx <= 0)
+                {
+                    dx++;
 
-                    while (CalculateSlope(x, y, originX, originY, false) >= endSlope)
+                    // Translate the dx, dy co-ordinates into map co-ordinates
+                    int mx = startX + dx * xx + dy * xy;
+                    int my = startY + dx * yx + dy * yy;
+
+                    // leftSlope and rightSlope store the slopes of the left and right of the square we're considering:
+                    double leftSlope = CalculateSlope((double)dx, (double)dy, 0.5, -0.5);
+                    double rightSlope = CalculateSlope((double)dx, (double)dy, -0.5, 0.5);
+                    double newStartSlope = 0.0;
+
+                    if (startSlope < rightSlope)
                     {
-                        if (CalculateVisibleDistance(x, y, originX, originY) <= visualRangeSquared)
+                        continue;
+                    }
+                    else if (endSlope > leftSlope)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        // Our light beam is touching this square; light it
+                        if (CalculateVisibleDistance(dx, dy, 0, 0) <= visualRangeSquared)
                         {
-                            if (Level.IsObstacle(x, y)) //cell blocked
+                            returnValue.Add(new Position(dx, dy));
+                        }
+
+                        if (blocked)
+                        {
+                            if (Level.IsObstacle(mx, my))
                             {
-                                if (    //if prior cell open AND within range
-                                        x - 1 >= 0
-                                        && CalculateVisibleDistance(x - 1, y, originX, originY) <= visualRangeSquared
-                                        && !(Level.IsObstacle(x -1 , y))
-                                   )
-                                    CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x - 0.5, y + 0.5, originX, originY, false));
+                                newStartSlope = rightSlope;
+                                continue;
                             }
                             else
                             {
-
-                                if (    //if prior open AND within range
-                                        x - 1 >= 0
-                                        && CalculateVisibleDistance(x - 1, y, originX, originY) <= visualRangeSquared
-                                        && Level.IsObstacle(x -1, y))
-                                    startSlope = CalculateSlope(x - 0.5, y - 0.5, originX, originY, false);
-
+                                blocked = false;
+                                startSlope = newStartSlope;
                             }
-                            returnValue.Add(new Position(x, y));
                         }
-                        x++;
-                    }
-                    x--;
-                    break;
-
-                case 2: //nne
-
-                    y = originY - scanDepth;
-                    x = originX + Convert.ToInt32((startSlope * Convert.ToDouble(scanDepth)));
-
-                    if (x >= map.GetLength(0)) x = map.GetLength(0) - 1;
-                    if (y < 0) y = 0;
-
-                    while (CalculateSlope(x, y, originX, originY, false) <= endSlope)
-                    {
-                        if (CalculateVisibleDistance(x, y, originX, originY) <= visualRangeSquared)
+                        else
                         {
-                            if (map[x, y] == 1)
+                            if (Level.IsObstacle(mx, my) && j < visualRange)
                             {
-                                if (x + 1 < map.GetLength(0)
-                                        && CalculateVisibleDistance(x + 1, y, originX, originY) <= visualRangeSquared
-                                        && map[x + 1, y] == 0
-                                    )
-                                    CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x + 0.5, y + 0.5, originX, originY, false));
+                                // This is a blocking square, start a child scan
+                                blocked = true;
+                                CastLight(startX, startY, j + 1, startSlope, leftSlope, visualRange, xx, xy, yx, yy, id + 1);
+                                newStartSlope = rightSlope;
                             }
-                            else
-                            {
-                                if (
-                                        x + 1 < map.GetLength(0)
-                                        && CalculateVisibleDistance(x + 1, y, originX, originY) <= visualRangeSquared
-                                        && map[x + 1, y] == 1
-                                    )
-                                    startSlope = -CalculateSlope(x + 0.5, y - 0.5, originX, originY, false);
-
-
-                            }
-                            returnValue.Add(new Position(x, y));
                         }
-                        x--;
                     }
-                    x++;
-                    break;
 
-                case 3:
-
-                    x = originX + scanDepth;
-                    y = originY - Convert.ToInt32((startSlope * Convert.ToDouble(scanDepth)));
-
-                    if (x >= map.GetLength(0)) x = map.GetLength(0) - 1;
-                    if (y < 0) y = 0;
-
-                    while (CalculateSlope(x, y, originX, originY, true) <= endSlope)
+                    if (blocked)
                     {
-
-                        if (CalculateVisibleDistance(x, y, originX, originY) <= visualRangeSquared)
-                        {
-
-                            if (map[x, y] == 1)
-                            {
-                                if (y - 1 >= 0
-                                        && CalculateVisibleDistance(x, y - 1, originX, originY) <= visualRangeSquared
-                                        && map[x, y - 1] == 0
-                                    )
-                                    CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x - 0.5, y - 0.5, originX, originY, true));
-                            }
-                            else
-                            {
-                                if (y - 1 >= 0
-                                       && CalculateVisibleDistance(x, y - 1, originX, originY) <= visualRangeSquared
-                                       && map[x, y - 1] == 1
-                                   )
-                                    startSlope = -CalculateSlope(x + 0.5, y - 0.5, originX, originY, true);
-
-
-                            }
-                            returnValue.Add(new Position(x, y));
-
-                        }
-                        y++;
+                        break;
                     }
-                    y--;
-                    break;
-
-                case 4:
-
-                    x = originX + scanDepth;
-                    y = originY + Convert.ToInt32((startSlope * Convert.ToDouble(scanDepth)));
-
-
-                    if (x >= map.GetLength(0)) x = map.GetLength(0) - 1;
-                    if (y >= map.GetLength(1)) y = map.GetLength(1) - 1;
-
-                    while (CalculateSlope(x, y, originX, originY, false) >= endSlope)
-                    {
-
-                        if (CalculateVisibleDistance(x, y, originX, originY) <= visualRangeSquared)
-                        {
-
-                            if (map[x, y] == 1)
-                            {
-                                if (y + 1 < map.GetLength(1)
-                                        && CalculateVisibleDistance(x, y + 1, originX, originY) <= visualRangeSquared
-                                        && map[x, y + 1] == 0)
-                                    CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x - 0.5, y + 0.5, originX, originY, true));
-                            }
-                            else
-                            {
-                                if (y + 1 < map.GetLength(1)
-                                        && CalculateVisibleDistance(x, y + 1, originX, originY) <= visualRangeSquared
-                                        && map[x, y + 1] == 1
-                                    )
-                                    startSlope = CalculateSlope(x + 0.5, y + 0.5, originX, originY, true);
-
-
-                            }
-                            returnValue.Add(new Position(x, y));
-
-                        }
-                        y--;
-                    }
-                    y++;
-                    break;
-
-                case 5:
-
-                    y = originY + scanDepth;
-                    x = originX + Convert.ToInt32((startSlope * Convert.ToDouble(scanDepth)));
-
-                    if (x >= map.GetLength(0)) x = map.GetLength(0) - 1;
-                    if (y >= map.GetLength(1)) y = map.GetLength(1) - 1;
-
-                    while (CalculateSlope(x, y, originX, originY, false) >= endSlope)
-                    {
-                        if (CalculateVisibleDistance(x, y, originX, originY) <= VisualRange * VisualRange)
-                        {
-
-                            if (map[x, y] == 1)
-                            {
-                                if (x + 1 < map.GetLength(1)
-                                        && CalculateVisibleDistance(x + 1, y, originX, originY) <= visualRangeSquared
-                                        && map[x + 1, y] == 0)
-                                    CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x + 0.5, y - 0.5, originX, originY, false));
-
-                            }
-                            else
-                            {
-                                if (x + 1 < map.GetLength(1)
-                                        && CalculateVisibleDistance(x + 1, y, originX, originY) <= visualRangeSquared
-                                        && map[x + 1, y] == 1)
-                                    startSlope = CalculateSlope(x + 0.5, y + 0.5, originX, originY, false);
-
-                                returnValue.Add(new Position(x, y));
-                            }
-
-                        }
-                        x--;
-                    }
-                    x++;
-                    break;
-
-                case 6:
-
-                    y = originY + scanDepth;
-                    x = originX - Convert.ToInt32((startSlope * Convert.ToDouble(scanDepth)));
-
-                    if (x < 0) x = 0;
-                    if (y >= map.GetLength(1)) y = map.GetLength(1) - 1;
-
-                    while (CalculateSlope(x, y, originX, originY, false) <= endSlope)
-                    {
-                        if (CalculateVisibleDistance(x, y, originX, originY) <= visualRangeSquared)
-                        {
-
-                            if (map[x, y] == 1)
-                            {
-                                if (x - 1 >= 0
-                                        && CalculateVisibleDistance(x - 1, y, originX, originY) <= visualRangeSquared
-                                        && map[x - 1, y] == 0)
-                                    CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x - 0.5, y - 0.5, originX, originY, false));
-                            }
-                            else
-                            {
-                                if (x - 1 >= 0
-                                        && CalculateVisibleDistance(x - 1, y, originX, originY) <= visualRangeSquared
-                                        && map[x - 1, y] == 1)
-                                    startSlope = -CalculateSlope(x - 0.5, y + 0.5, originX, originY, false);
-
-                                returnValue.Add(new Position(x, y));
-                            }
-
-                        }
-                        x++;
-                    }
-                    x--;
-                    break;
-
-                case 7:
-
-                    x = originX - scanDepth;
-                    y = originY + Convert.ToInt32((startSlope * Convert.ToDouble(scanDepth)));
-
-                    if (x < 0) x = 0;
-                    if (y >= map.GetLength(1)) y = map.GetLength(1) - 1;
-
-                    while (CalculateSlope(x, y, originX, originY, true) <= endSlope)
-                    {
-
-                        if (CalculateVisibleDistance(x, y, originX, originY) <= visualRangeSquared)
-                        {
-
-                            if (map[x, y] == 1)
-                            {
-                                if (y + 1 < map.GetLength(1)
-                                        && CalculateVisibleDistance(x, y + 1, originX, originY) <= visualRangeSquared
-                                        && map[x, y + 1] == 0)
-                                    CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x + 0.5, y + 0.5, originX, originY, true));
-                            }
-                            else
-                            {
-                                if (y + 1 < map.GetLength(1)
-                                        && CalculateVisibleDistance(x, y + 1, originX, originY) <= visualRangeSquared
-                                        && map[x, y + 1] == 1)
-                                    startSlope = -CalculateSlope(x - 0.5, y + 0.5, originX, originY, true);
-
-                                returnValue.Add(new Position(x, y));
-                            }
-
-                        }
-                        y--;
-                    }
-                    y++;
-                    break;
-
-                case 8: //wnw
-
-                    x = originX - scanDepth;
-                    y = originY - Convert.ToInt32((startSlope * Convert.ToDouble(scanDepth)));
-
-                    if (x < 0) x = 0;
-                    if (y < 0) y = 0;
-
-                    while (CalculateSlope(x, y, originX, originY, true) >= endSlope)
-                    {
-
-                        if (CalculateVisibleDistance(x, y, originX, originY) <= visualRangeSquared)
-                        {
-
-                            if (map[x, y] == 1)
-                            {
-                                if (y - 1 >= 0
-                                        && CalculateVisibleDistance(x, y - 1, originX, originY) <= visualRangeSquared
-                                        && map[x, y - 1] == 0)
-                                    CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x + 0.5, y - 0.5, originX, originY, true));
-
-                            }
-                            else
-                            {
-                                if (y - 1 >= 0
-                                        && CalculateVisibleDistance(x, y - 1, originX, originY) <= visualRangeSquared
-                                        && map[x, y - 1] == 1)
-                                    startSlope = CalculateSlope(x - 0.5, y - 0.5, originX, originY, true);
-
-                                returnValue.Add(new Position(x, y));
-                            }
-
-                        }
-                        y++;
-                    }
-                    y--;
-                    break;
+                }
             }
 
-            if (x < 0)
-            {
-                x = 0;
-            }
-            else if (x >= map.GetLength(0))
-            {
-                x = map.GetLength(0) - 1;
-            }
-
-            if (y < 0)
-            {
-                y = 0;
-            }
-            else if (y >= map.GetLength(1))
-            {
-                y = map.GetLength(1) - 1;
-            }
-
-            if (scanDepth < visualRange & map[x, y] == 0)
-            {
-                CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, endSlope);
-            }
+            return returnValue;
         }
     }
 }

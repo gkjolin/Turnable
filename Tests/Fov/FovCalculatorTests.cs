@@ -80,18 +80,18 @@ namespace Tests.Fov
         // X - Obstacles, P - Player, E - Enemies
 
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf0_ReturnsOnlyTheOriginPositionAsAVisiblePosition()
+        public void FovCalculator_ForAVisualRangeOf0_ReturnsOnlyTheStartingPositionAsAVisiblePosition()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(0, 7, 14);
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 14, 0);
 
             Assert.AreEqual(1, visiblePositions.Count);
             Assert.AreEqual(new Position(7, 14), visiblePositions[0]);
         }
 
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf1AndNoObstacles_ReturnsAllPositionsAdjacentToTheOriginPosition()
+        public void FovCalculator_ForAVisualRangeOf1AndNoObstacles_ReturnsAllPositionsAdjacentToTheStartingPosition()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(1, 7, 12);
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 12, 1);
 
             Assert.AreEqual(9, visiblePositions.Count);
         }
