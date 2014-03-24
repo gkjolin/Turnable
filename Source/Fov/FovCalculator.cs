@@ -74,12 +74,12 @@ namespace TurnItUp.Fov
                     {
                         if (CalculateVisibleDistance(x, y, originX, originY) <= visualRangeSquared)
                         {
-                            if (map[x, y] == 1) //cell blocked
+                            if (Level.IsObstacle(x, y)) //cell blocked
                             {
                                 if (    //if prior cell open AND within range
                                         x - 1 >= 0
                                         && CalculateVisibleDistance(x - 1, y, originX, originY) <= visualRangeSquared
-                                        && map[x - 1, y] == 0
+                                        && !(Level.IsObstacle(x -1 , y))
                                    )
                                     CalculateVisiblePositionsInOctant(visualRange, originX, originY, scanDepth + 1, octantIndex, startSlope, CalculateSlope(x - 0.5, y + 0.5, originX, originY, false));
                             }
@@ -89,7 +89,7 @@ namespace TurnItUp.Fov
                                 if (    //if prior open AND within range
                                         x - 1 >= 0
                                         && CalculateVisibleDistance(x - 1, y, originX, originY) <= visualRangeSquared
-                                        && map[x - 1, y] == 1)
+                                        && Level.IsObstacle(x -1, y))
                                     startSlope = CalculateSlope(x - 0.5, y - 0.5, originX, originY, false);
 
                             }
