@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TurnItUp.Components;
+using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 using TurnItUp.Pathfinding;
 
@@ -12,7 +13,7 @@ namespace TurnItUp.Fov
     {
         // http://www.roguebasin.com/index.php?title=Ruby_shadowcasting_implementation
 
-        public Level Level { get; set; }
+        public ILevel Level { get; set; }
         private int[,] multipliers = 
         {
             {1,  0,  0, -1, -1,  0,  0,  1},
@@ -21,7 +22,7 @@ namespace TurnItUp.Fov
             {1,  0,  0,  1, -1,  0,  0, -1},
         };
 
-        public FovCalculator(Level level)
+        public FovCalculator(ILevel level)
         {
             Level = level;
         }
@@ -100,9 +101,9 @@ namespace TurnItUp.Fov
                     else
                     {
                         // Our light beam is touching this square; light it
-                        if (CalculateVisibleDistance(dx, dy, 0, 0) <= visualRangeSquared)
+                        if (CalculateVisibleDistance(dx, dy, 0, 0) < visualRangeSquared)
                         {
-                            returnValue.Add(new Position(dx, dy));
+                            returnValue.Add(new Position(mx, my));
                         }
 
                         if (blocked)
