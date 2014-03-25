@@ -17,22 +17,25 @@ namespace TurnItUp.Tmx
         {
         }
 
-        public TileList(Data data, int width, int height)
+        public TileList(Layer layer, Data data)
         {
             uint tileGid = 0;
 
             using (BinaryReader reader = new BinaryReader(data.Contents))
             {
-                for (int row = 0; row < height; row++)
+                for (int row = 0; row < layer.Height; row++)
                 {
-                    for (int col = 0; col < width; col++) 
+                    for (int col = 0; col < layer.Width; col++) 
                     {
                         tileGid = reader.ReadUInt32();
 
                         // The .tmx format uses 0 to indicate a tile that hasn't been set in the editor
                         if (tileGid != 0)
                         {
-                            Add(new Tuple<int, int>(col, row), new Tile(tileGid, col, row));
+                            // The .tmx format uses an origin that starts at the top left with Y increasing going South
+                            // However most libraries use an origin that starts at the bottom left with Y increasing going North
+                            // So Y is "flipped" using (height - row - 1)
+                            Add(new Tuple<int, int>(col, (layer.Height - row - 1)), new Tile(tileGid, col, (layer.Height - row - 1)));
                         }
                     }
                 }

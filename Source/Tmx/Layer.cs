@@ -29,7 +29,7 @@ namespace TurnItUp.Tmx
 
             // Load up the Tiles in this layer
             Data data = new Data(xLayer.Element("data"));
-            Tiles = new TileList(data, height, width);
+            Tiles = new TileList(this, data);
 
             // Load up the Properties for this layer, IF it exists
             if (xLayer.Element("properties") != null)

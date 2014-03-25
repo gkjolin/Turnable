@@ -61,7 +61,7 @@ namespace Tests.Factories
 
         public static Data BuildDataWithTiles()
         {
-            return (new Data(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>().Element("data")));
+            return (new Data(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>().Element("data")));
         }
 
         public static XElement BuildReferenceTileXElementWithProperties()
