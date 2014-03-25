@@ -275,13 +275,13 @@ namespace Tests.Pathfinding
             Assert.IsFalse(_node.IsWalkable());
 
             // Any character is unwalkable
-            _node = new Node(_level, 5, 1);
+            _node = new Node(_level, 5, 14);
             Assert.IsFalse(_node.IsWalkable());
 
-            _node = new Node(_level, 5, 10);
+            _node = new Node(_level, 5, 5);
             Assert.IsTrue(_node.IsWalkable());
 
-            _node = new Node(_level, 1, 1);
+            _node = new Node(_level, 1, 14);
             Assert.IsTrue(_node.IsWalkable());
         }
     }

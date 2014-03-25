@@ -133,7 +133,7 @@ namespace Tests.Pathfinding
         [TestMethod]
         public void PathFinder_WhereDiagonalMovementIsNotAllowedAndEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneObstacle_CanFindPath()
         {
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 1), new Node(_level, 4, 5));
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 14), new Node(_level, 4, 10));
 
             Assert.IsNotNull(path);
             Assert.AreEqual(7, path.Count);
@@ -189,7 +189,7 @@ namespace Tests.Pathfinding
         [ExpectedException(typeof(InvalidOperationException))]
         public void PathFinder_WhenEndingNodeIsUnwalkable_ThrowsAnException()
         {
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 1), new Node(_level, 5, 1));
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 14), new Node(_level, 5, 14));
         }
 
         [TestMethod]
@@ -214,8 +214,8 @@ namespace Tests.Pathfinding
             // XXXXXXXXXXXXXXXX
             // N - New Obstacle
 
-            _level.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 10), new Tile(1, 11, 10));
-            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 1), new Node(_level, 12, 10));
+            _level.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 5), new Tile(1, 11, 5));
+            List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 14), new Node(_level, 12, 5));
 
             Assert.IsNull(path);
         }

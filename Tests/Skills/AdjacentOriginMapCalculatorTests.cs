@@ -59,7 +59,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(5, 1), new Position(12, 14), 1, true);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(5, 14), new Position(12, 1), 1, true);
 
             Assert.AreEqual(3, skillOriginPositions.Count);
         }
@@ -67,7 +67,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(2, 4), new Position(6, 2), 1, true);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(2, 11), new Position(6, 13), 1, true);
 
             Assert.AreEqual(5, skillOriginPositions.Count);
         }
@@ -92,7 +92,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithObstaclesAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(5, 1), new Position(12, 14), 1);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(5, 14), new Position(12, 1), 1);
 
             Assert.AreEqual(2, skillOriginPositions.Count);
         }
@@ -100,7 +100,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_WithoutDiagonalMovementForATargetWithCharactersAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(2, 4), new Position(6, 2), 1);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(2, 11), new Position(6, 13), 1);
 
             Assert.AreEqual(3, skillOriginPositions.Count);
         }
