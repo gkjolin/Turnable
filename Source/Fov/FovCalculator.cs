@@ -101,7 +101,7 @@ namespace TurnItUp.Fov
                     else
                     {
                         // Our light beam is touching this square; light it
-                        if (CalculateVisibleDistance(dx, dy, 0, 0) < visualRangeSquared)
+                        if (CalculateVisibleDistance(dx, dy, 0, 0) <= visualRangeSquared)
                         {
                             returnValue.Add(new Position(mx, my));
                         }
