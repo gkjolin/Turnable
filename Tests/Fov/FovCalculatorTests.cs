@@ -132,20 +132,25 @@ namespace Tests.Fov
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
             Assert.AreEqual(5, distinctVisiblePositions.Count<Position>());
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 10)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 11)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 9)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(3, 10)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(1, 10)));
         }
 
-        //// Testing each octant in the FOV
-        //// Obstacle to the N
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorth_CorrectlyCalculatesTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 11, 2);
+        // Testing each octant in the FOV with a VisualRange = 2
+        // Obstacle to the N
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorth_CorrectlyCalculatesTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 11, 2);
 
-        //    Assert.AreEqual(25, visiblePositions.Count);
+            Assert.AreEqual(25, visiblePositions.Count);
 
-        //    // There should be only one invisible position
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(7, 9)));
-        //}
+            // There should be only one invisible position
+            Assert.IsFalse(visiblePositions.Contains(new Position(7, 13)));
+        }
 
         //// Obstacle to the NE
         //[TestMethod]
