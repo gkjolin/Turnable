@@ -106,7 +106,7 @@ namespace Tests.Characters
         {
             Entity character = _characterManager.Characters[0];
             Position currentPosition = character.GetComponent<Position>().DeepClone();
-            Position newPosition = new Position(currentPosition.X - 1, currentPosition.Y - 1);
+            Position newPosition = new Position(currentPosition.X - 1, currentPosition.Y + 1);
 
             MoveResult moveResult = _characterManager.MoveCharacterTo(character, newPosition);
 
@@ -115,7 +115,7 @@ namespace Tests.Characters
             Assert.AreEqual(currentPosition, character.GetComponent<Position>());
             Assert.AreEqual(2, moveResult.Path.Count);
             Assert.AreEqual(currentPosition, moveResult.Path[0]);
-            Assert.AreEqual(new Position(4, 0), moveResult.Path[1]);
+            Assert.AreEqual(new Position(4, 15), moveResult.Path[1]);
         }
 
         [TestMethod]
@@ -132,7 +132,7 @@ namespace Tests.Characters
             Assert.AreEqual(currentPosition, character.GetComponent<Position>());
             Assert.AreEqual(2, moveResult.Path.Count);
             Assert.AreEqual(currentPosition, moveResult.Path[0]);
-            Assert.AreEqual(new Position(6, 1), moveResult.Path[1]);
+            Assert.AreEqual(new Position(6, 14), moveResult.Path[1]);
         }
 
         [TestMethod]
@@ -143,17 +143,29 @@ namespace Tests.Characters
             Mock<CharacterManager> characterManagerMock = new Mock<CharacterManager>() { CallBase = true };
             characterManagerMock.Setup(cm => cm.MoveCharacterTo(It.IsAny<Entity>(), It.IsAny<Position>()));
 
-            characterManagerMock.Object.MoveCharacter(character, Direction.Left);
+            characterManagerMock.Object.MoveCharacter(character, Direction.West);
             characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X - 1, currentPosition.Y)));
 
-            characterManagerMock.Object.MoveCharacter(character, Direction.Right);
+            characterManagerMock.Object.MoveCharacter(character, Direction.East);
             characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X + 1, currentPosition.Y)));
 
-            characterManagerMock.Object.MoveCharacter(character, Direction.Up);
-            characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X, currentPosition.Y  - 1)));
+            characterManagerMock.Object.MoveCharacter(character, Direction.North);
+            characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X, currentPosition.Y - 1)));
 
-            characterManagerMock.Object.MoveCharacter(character, Direction.Down);
+            characterManagerMock.Object.MoveCharacter(character, Direction.South);
             characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X, currentPosition.Y + 1)));
+
+            characterManagerMock.Object.MoveCharacter(character, Direction.NorthWest);
+            characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X - 1, currentPosition.Y - 1)));
+
+            characterManagerMock.Object.MoveCharacter(character, Direction.NorthEast);
+            characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X + 1, currentPosition.Y - 1)));
+
+            characterManagerMock.Object.MoveCharacter(character, Direction.SouthWest);
+            characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X - 1, currentPosition.Y + 1)));
+
+            characterManagerMock.Object.MoveCharacter(character, Direction.SouthEast);
+            characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X + 1, currentPosition.Y + 1)));
         }
 
         [TestMethod]
@@ -164,9 +176,9 @@ namespace Tests.Characters
             characterManagerMock.Setup(cm => cm.Player).Returns(player);
             characterManagerMock.Setup(cm => cm.MoveCharacter(It.IsAny<Entity>(), It.IsAny<Direction>()));
 
-            characterManagerMock.Object.MovePlayer(Direction.Down);
+            characterManagerMock.Object.MovePlayer(Direction.South);
 
-            characterManagerMock.Verify(cm => cm.MoveCharacter(player, Direction.Down));
+            characterManagerMock.Verify(cm => cm.MoveCharacter(player, Direction.South));
         }
 
         [TestMethod]

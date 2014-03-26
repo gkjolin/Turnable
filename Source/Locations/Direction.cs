@@ -7,9 +7,13 @@ namespace TurnItUp.Locations
 {
     public enum Direction
     {
-        Up,
-        Down,
-        Left,
-        Right
+        North,
+        NorthEast,
+        East,
+        SouthEast,
+        South,
+        SouthWest,
+        West,
+        NorthWest
     }
 }

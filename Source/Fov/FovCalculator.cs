@@ -13,6 +13,7 @@ namespace TurnItUp.Fov
     {
         // http://www.roguebasin.com/index.php?title=Ruby_shadowcasting_implementation
 
+        private List<Position> _visiblePositions;
         public ILevel Level { get; set; }
         private int[,] multipliers = 
         {
@@ -46,27 +47,25 @@ namespace TurnItUp.Fov
 
         public List<Position> CalculateVisiblePositions(int startX, int startY, int visualRange)
         {
-            var returnValue = new List<Position>();
+            _visiblePositions = new List<Position>();
 
-            returnValue.Add(new Position(startX, startY));
+            _visiblePositions.Add(new Position(startX, startY));
 
-            List<int> octantIndices = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
+            List<int> octantIndices = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7 };
 
             foreach (int octantIndex in octantIndices)
             {
-                returnValue.AddRange(CastLight(startX, startY, 1, 1.0, 0.0, visualRange, multipliers[0, octantIndex - 1], multipliers[1, octantIndex - 1], multipliers[2, octantIndex - 1], multipliers[3, octantIndex - 1], 0));
+                CastLight(startX, startY, 1, 1.0, 0.0, visualRange, multipliers[0, octantIndex], multipliers[1, octantIndex], multipliers[2, octantIndex], multipliers[3, octantIndex], 0);
             }
 
-            return returnValue;
+            return _visiblePositions;
         }
 
-        private List<Position> CastLight(int startX, int startY, int row, double startSlope, double endSlope, int visualRange, int xx, int xy, int yx, int yy, int id)
+        private void CastLight(int startX, int startY, int row, double startSlope, double endSlope, int visualRange, int xx, int xy, int yx, int yy, int id)
         {
-            List<Position> returnValue = new List<Position>();
-
             if (startSlope < endSlope)
             {
-                return returnValue;
+                return;
             }
 
             int visualRangeSquared = visualRange * visualRange;
@@ -90,11 +89,11 @@ namespace TurnItUp.Fov
                     double rightSlope = CalculateSlope((double)dx, (double)dy, -0.5, 0.5);
                     double newStartSlope = 0.0;
 
-                    if (startSlope < rightSlope)
+                    if (startSlope <= rightSlope)
                     {
                         continue;
                     }
-                    else if (endSlope > leftSlope)
+                    else if (endSlope >= leftSlope)
                     {
                         break;
                     }
@@ -103,7 +102,7 @@ namespace TurnItUp.Fov
                         // Our light beam is touching this square; light it
                         if (CalculateVisibleDistance(dx, dy, 0, 0) <= visualRangeSquared)
                         {
-                            returnValue.Add(new Position(mx, my));
+                            _visiblePositions.Add(new Position(mx, my));
                         }
 
                         if (blocked)
@@ -138,7 +137,7 @@ namespace TurnItUp.Fov
                 }
             }
 
-            return returnValue;
+            return;
         }
     }
 }

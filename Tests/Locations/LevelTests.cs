@@ -164,8 +164,8 @@ namespace Tests.Locations
         {
             _level.CharacterManager = _characterManagerMock.Object;
 
-            _level.MovePlayer(Direction.Down);
-            _characterManagerMock.Verify(cm => cm.MovePlayer(Direction.Down));
+            _level.MovePlayer(Direction.South);
+            _characterManagerMock.Verify(cm => cm.MovePlayer(Direction.South));
         }
 
         [TestMethod]

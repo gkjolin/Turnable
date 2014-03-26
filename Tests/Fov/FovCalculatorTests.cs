@@ -6,6 +6,7 @@ using TurnItUp.Fov;
 using TurnItUp.Pathfinding;
 using System.Collections.Generic;
 using TurnItUp.Components;
+using System.Linq;
 
 namespace Tests.Fov
 {
@@ -95,34 +96,43 @@ namespace Tests.Fov
         [TestMethod]
         public void FovCalculator_ForAVisualRangeOf1AndNoObstacles_ReturnsAllPositionsAdjacentToTheStartingPosition()
         {
+            // The FOV algorithm creates a cross for a VisualRange of 1
             List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 3, 1);
 
-            Assert.AreEqual(9, visiblePositions.Count);
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 4)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 4)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(8, 4)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 3)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(8, 3)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 2)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 2)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(8, 2)));
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
+
+            Assert.AreEqual(5, distinctVisiblePositions.Count<Position>());
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(7, 3)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(7, 2)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(7, 4)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(6, 3)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(8, 3)));
         }
 
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf1_IncludesObstaclesInTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 11, 1);
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf1_IncludesObstaclesInTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 4, 1);
 
-        //    Assert.AreEqual(9, visiblePositions.Count);
-        //}
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf1_IncludesCharactersInTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(2, 5, 1);
+            Assert.AreEqual(5, distinctVisiblePositions.Count<Position>());
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(7, 4)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(7, 5)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(7, 3)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(6, 4)));
+            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(8, 4)));
+        }
 
-        //    Assert.AreEqual(9, visiblePositions.Count);
-        //}
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf1_IncludesCharactersInTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(2, 10, 1);
+
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
+
+            Assert.AreEqual(5, distinctVisiblePositions.Count<Position>());
+        }
 
         //// Testing each octant in the FOV
         //// Obstacle to the N

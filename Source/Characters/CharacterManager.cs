@@ -119,17 +119,29 @@ namespace TurnItUp.Characters
 
             switch (direction)
             {
-                case Direction.Up:
+                case Direction.North:
                     newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y - 1);
                     break;
-                case Direction.Down:
+                case Direction.South:
                     newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y + 1);
                     break;
-                case Direction.Left:
+                case Direction.West:
                     newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y);
                     break;
-                case Direction.Right:
+                case Direction.East:
                     newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y);
+                    break;
+                case Direction.NorthEast:
+                    newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y - 1);
+                    break;
+                case Direction.NorthWest:
+                    newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y - 1);
+                    break;
+                case Direction.SouthEast:
+                    newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y + 1);
+                    break;
+                case Direction.SouthWest:
+                    newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y + 1);
                     break;
                 default:
                     return null;

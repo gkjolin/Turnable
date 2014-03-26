@@ -45,7 +45,7 @@ namespace Tests.AI.Tactician
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
-            _entity = _level.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 5).Single();
+            _entity = _level.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 10).Single();
             _skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
             _target = _level.CharacterManager.Player.GetComponent<Position>();
         }
@@ -73,15 +73,15 @@ namespace Tests.AI.Tactician
 
             FollowPathGoal followPathGoal = (FollowPathGoal)goal.Subgoals[0];
             Assert.AreEqual(10, followPathGoal.Path.Count);
-            Assert.AreEqual(new Node(_level, 6, 5), followPathGoal.Path[0]);
-            Assert.AreEqual(new Node(_level, 6, 14), followPathGoal.Path[followPathGoal.Path.Count - 1]);
+            Assert.AreEqual(new Node(_level, 6, 10), followPathGoal.Path[0]);
+            Assert.AreEqual(new Node(_level, 6, 1), followPathGoal.Path[followPathGoal.Path.Count - 1]);
         }
 
         [TestMethod]
         public void UseSkillGoal_WhenActivatedAndSkillCanBeUsedOnTargetFromOwnersPosition_CreatesAnApplySkillGoal()
         {
             _entity.GetComponent<Position>().X = 7;
-            _entity.GetComponent<Position>().Y = 13;
+            _entity.GetComponent<Position>().Y = 2;
             UseSkillGoal goal = new UseSkillGoal(_entity, _level, _skill, _target);
 
             goal.Activate();
@@ -99,9 +99,9 @@ namespace Tests.AI.Tactician
         public void UseSkillGoal_WhenActivatedAndThereIsNoViablePathToThePlayer_Fails()
         {
             _level.CharacterManager.Player.GetComponent<Position>().X = 12;
-            _level.CharacterManager.Player.GetComponent<Position>().Y = 10;
-            _level.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 10), new Tile(1, 11, 10));
-            UseSkillGoal goal = new UseSkillGoal(_entity, _level, _skill, new Position(12, 10));
+            _level.CharacterManager.Player.GetComponent<Position>().Y = 5;
+            _level.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 5), new Tile(1, 11, 5));
+            UseSkillGoal goal = new UseSkillGoal(_entity, _level, _skill, new Position(12, 5));
 
             goal.Activate();
 
