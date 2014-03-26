@@ -144,12 +144,12 @@ namespace Tests.Fov
         [TestMethod]
         public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorth_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 11, 2);
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 4, 2);
 
             Assert.AreEqual(25, visiblePositions.Count);
 
             // There should be only one invisible position
-            Assert.IsFalse(visiblePositions.Contains(new Position(7, 13)));
+            Assert.IsFalse(visiblePositions.Contains(new Position(7, 6)));
         }
 
         //// Obstacle to the NE
