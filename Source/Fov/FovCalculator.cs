@@ -11,7 +11,7 @@ namespace TurnItUp.Fov
 {
     public class FovCalculator
     {
-        // http://www.roguebasin.com/index.php?title=Ruby_shadowcasting_implementation
+        // http://www.roguebasin.com/index.php?title=Improved_Shadowcasting_in_Java
 
         private List<Position> _visiblePositions;
         public ILevel Level { get; set; }
@@ -55,84 +55,74 @@ namespace TurnItUp.Fov
 
             foreach (int octantIndex in octantIndices)
             {
-                CastLight(startX, startY, 1, 1.0, 0.0, visualRange, multipliers[0, octantIndex], multipliers[1, octantIndex], multipliers[2, octantIndex], multipliers[3, octantIndex], 0);
+                CastLight(startX, startY, 1, 1.0, 0.0, visualRange, multipliers[0, octantIndex], multipliers[1, octantIndex], multipliers[2, octantIndex], multipliers[3, octantIndex]);
             }
 
             return _visiblePositions;
         }
 
-        private void CastLight(int startX, int startY, int row, double startSlope, double endSlope, int visualRange, int xx, int xy, int yx, int yy, int id)
+        private void CastLight(int startX, int startY, int row, double startSlope, double endSlope, int visualRange, int xx, int xy, int yx, int yy)
         {
+            double newStartSlope = 0.0;
+
             if (startSlope < endSlope)
             {
                 return;
             }
 
+            bool blocked = false;
             int visualRangeSquared = visualRange * visualRange;
 
-            for (int j = row; j <= visualRange; j++)
+            for (int distance = row; distance <= visualRange && !blocked; distance++)
             {
-                int dx = -j - 1;
-                int dy = -j;
-                bool blocked = false;
+                int deltaY = -distance;
 
-                while (dx <= 0)
+                for (int deltaX = -distance; deltaX <= 0; deltaX++)
                 {
-                    dx++;
+                    int currentX = startX + deltaX * xx + deltaY * xy;
+                    int currentY = startY + deltaX * yx + deltaY * yy;
+                    float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
+                    float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
 
-                    // Translate the dx, dy co-ordinates into map co-ordinates
-                    int mx = startX + dx * xx + dy * xy;
-                    int my = startY + dx * yx + dy * yy;
-
-                    // leftSlope and rightSlope store the slopes of the left and right of the square we're considering:
-                    double leftSlope = CalculateSlope((double)dx, (double)dy, 0.5, -0.5);
-                    double rightSlope = CalculateSlope((double)dx, (double)dy, -0.5, 0.5);
-                    double newStartSlope = 0.0;
-
-                    if (startSlope <= rightSlope)
+                    if (!(currentX >= 0 && currentY >= 0 && currentX < Level.Map.Width && currentY < Level.Map.Height) || startSlope < rightSlope)
                     {
                         continue;
                     }
-                    else if (endSlope >= leftSlope)
+                    else if (endSlope > leftSlope)
                     {
                         break;
                     }
-                    else
-                    {
-                        // Our light beam is touching this square; light it
-                        if (CalculateVisibleDistance(dx, dy, 0, 0) <= visualRangeSquared)
-                        {
-                            _visiblePositions.Add(new Position(mx, my));
-                        }
 
-                        if (blocked)
-                        {
-                            if (Level.IsObstacle(mx, my))
-                            {
-                                newStartSlope = rightSlope;
-                                continue;
-                            }
-                            else
-                            {
-                                blocked = false;
-                                startSlope = newStartSlope;
-                            }
+                    // Check if it's within the lightable area and light if needed
+                    if ((deltaX * deltaX + deltaY * deltaY) <= visualRangeSquared)
+                    {
+                        _visiblePositions.Add(new Position(currentX, currentY));
+                    }
+
+                    // Previous cell was a blocking one
+                    if (blocked)
+                    { 
+                        if (Level.IsObstacle(currentX, currentY))
+                        // Hit a wall
+                        { 
+                            newStartSlope = rightSlope;
+                            continue;
                         }
                         else
                         {
-                            if (Level.IsObstacle(mx, my) && j < visualRange)
-                            {
-                                // This is a blocking square, start a child scan
-                                blocked = true;
-                                CastLight(startX, startY, j + 1, startSlope, leftSlope, visualRange, xx, xy, yx, yy, id + 1);
-                                newStartSlope = rightSlope;
-                            }
+                            blocked = false;
+                            startSlope = newStartSlope;
                         }
                     }
-
-                    if (blocked)
+                    else
                     {
-                        break;
+                        if (Level.IsObstacle(currentX, currentY) && distance < visualRange)
+                        // Hit a wall within sight line
+                        {
+                            blocked = true;
+                            CastLight(startX, startY, distance + 1, startSlope, leftSlope, visualRange, xx, xy, yx, yy);
+                            newStartSlope = rightSlope;
+                        }
                     }
                 }
             }

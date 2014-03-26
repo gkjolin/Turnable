@@ -146,95 +146,91 @@ namespace Tests.Fov
         {
             List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 4, 2);
 
-            Assert.AreEqual(25, visiblePositions.Count);
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-            // There should be only one invisible position
+            Assert.AreEqual(12, distinctVisiblePositions.Count<Position>());
+
+            //The obstacle itself should be visible
+            Assert.IsTrue(visiblePositions.Contains(new Position(7, 5)));
+            // The tile immediately after the obstacle to the north should be invisible
             Assert.IsFalse(visiblePositions.Contains(new Position(7, 6)));
         }
 
-        //// Obstacle to the NE
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorthEast_CorrectlyCalculatesTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 11, 2);
+        // Obstacle to the NE
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorthEast_CorrectlyCalculatesTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 11, 2);
 
-        //    Assert.AreEqual(23, visiblePositions.Count);
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(8, 9)));
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(7, 9)));
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(8, 10)));
-        //}
+            Assert.AreEqual(12, visiblePositions.Count);
+        }
 
-        //// Obstacle to the E
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheEast_CorrectlyCalculatesTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 10, 2);
+        // Obstacle to the E
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheEast_CorrectlyCalculatesTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 10, 2);
 
-        //    Assert.AreEqual(25, visiblePositions.Count);
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(8, 10)));
-        //}
+            Assert.AreEqual(12, visiblePositions.Count);
+        }
 
-        //// Obstacle to the SE
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouthEast_CorrectlyCalculatesTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 9, 2);
+        // Obstacle to the SE
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouthEast_CorrectlyCalculatesTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 9, 2);
 
-        //    Assert.AreEqual(23, visiblePositions.Count);
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(8, 10)));
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(8, 11)));
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(7, 10)));
-        //}
+            Assert.AreEqual(12, visiblePositions.Count);
+        }
 
-        //// Obstacle to the S
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouth_CorrectlyCalculatesTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 9, 2);
+        // Obstacle to the S
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouth_CorrectlyCalculatesTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 9, 2);
 
-        //    Assert.AreEqual(25, visiblePositions.Count);
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(9, 9)));
-        //}
+            Assert.AreEqual(12, visiblePositions.Count);
+        }
 
-        //// Obstacle to the SW
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouthWest_CorrectlyCalculatesTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 9, 2);
+        // Obstacle to the SW
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouthWest_CorrectlyCalculatesTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 9, 2);
 
-        //    Assert.AreEqual(23, visiblePositions.Count);
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(7, 11)));
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(6, 11)));
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(6, 10)));
-        //}
+            Assert.AreEqual(12, visiblePositions.Count);
+        }
 
-        //// Obstacle to the W
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheWest_CorrectlyCalculatesTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 10, 2);
+        // Obstacle to the W
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheWest_CorrectlyCalculatesTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 10, 2);
 
-        //    Assert.AreEqual(25, visiblePositions.Count);
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(6, 10)));
-        //}
+            Assert.AreEqual(12, visiblePositions.Count);
+        }
 
-        //// Obstacle to the NW
-        //[TestMethod]
-        //public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorthWest_CorrectlyCalculatesTheVisiblePositions()
-        //{
-        //    List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 11, 2);
+        // Obstacle to the NW
+        [TestMethod]
+        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorthWest_CorrectlyCalculatesTheVisiblePositions()
+        {
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 11, 2);
 
-        //    Assert.AreEqual(23, visiblePositions.Count);
+            IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(6, 10)));
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(6, 9)));
-        //    Assert.IsFalse(visiblePositions.Contains(new Position(7, 9)));
-        //}
+            Assert.AreEqual(12, visiblePositions.Count);
+        }
     }
 }
