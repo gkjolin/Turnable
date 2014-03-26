@@ -284,5 +284,12 @@ namespace Tests.Pathfinding
             _node = new Node(_level, 1, 14);
             Assert.IsTrue(_node.IsWalkable());
         }
+
+        [TestMethod]
+        public void Node_ToString_DisplaysItsPosition()
+        {
+            _node = new Node(_level, 4, 5);
+            Assert.AreEqual("(4, 5)", _node.ToString());
+        }
     }
 }

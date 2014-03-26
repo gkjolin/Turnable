@@ -26,7 +26,7 @@ namespace Tests.AI.Tactician
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
-            _entity = _level.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 5).Single();
+            _entity = _level.World.EntitiesWhere<Position>(p => p.X == 6 && p.Y == 10).Single();
             _skill = new Skill("Melee Attack", RangeType.Adjacent, TargetType.InAnotherTeam, 1);
             _entity.GetComponent<SkillSet>().Add(_skill);
         }

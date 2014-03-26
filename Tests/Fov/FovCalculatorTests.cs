@@ -95,17 +95,17 @@ namespace Tests.Fov
         [TestMethod]
         public void FovCalculator_ForAVisualRangeOf1AndNoObstacles_ReturnsAllPositionsAdjacentToTheStartingPosition()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 12, 1);
+            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 3, 1);
 
             Assert.AreEqual(9, visiblePositions.Count);
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 11)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 11)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(8, 11)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 12)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(8, 12)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 13)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 13)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(8, 13)));
+            Assert.IsTrue(visiblePositions.Contains(new Position(6, 4)));
+            Assert.IsTrue(visiblePositions.Contains(new Position(7, 4)));
+            Assert.IsTrue(visiblePositions.Contains(new Position(8, 4)));
+            Assert.IsTrue(visiblePositions.Contains(new Position(6, 3)));
+            Assert.IsTrue(visiblePositions.Contains(new Position(8, 3)));
+            Assert.IsTrue(visiblePositions.Contains(new Position(6, 2)));
+            Assert.IsTrue(visiblePositions.Contains(new Position(7, 2)));
+            Assert.IsTrue(visiblePositions.Contains(new Position(8, 2)));
         }
 
         //[TestMethod]

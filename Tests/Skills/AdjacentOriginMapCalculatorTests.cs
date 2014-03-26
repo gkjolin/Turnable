@@ -75,7 +75,7 @@ namespace Tests.Skills
         [TestMethod]
         public void AdjacentOriginMapCalculator_ForATargetWithCharactersAndTheSkillUserAdjacentToIt_CalculatesOriginMapCorrectly()
         {
-            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(5, 1), new Position(6, 2), 1, true);
+            HashSet<Position> skillOriginPositions = _adjacentOriginMapCalculator.Calculate(_level, new Position(5, 14), new Position(6, 13), 1, true);
 
             Assert.AreEqual(6, skillOriginPositions.Count);
         }

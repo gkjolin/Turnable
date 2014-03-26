@@ -134,5 +134,10 @@ namespace TurnItUp.Pathfinding
         {
             return (Position.X == other.Position.X || Position.Y == other.Position.Y);
         }
+
+        public string ToString()
+        {
+            return String.Format("({0}, {1})", Position.X.ToString(), Position.Y.ToString());
+        }
     }
 }
