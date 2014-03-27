@@ -120,10 +120,10 @@ namespace TurnItUp.Characters
             switch (direction)
             {
                 case Direction.North:
-                    newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y - 1);
+                    newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y + 1);
                     break;
                 case Direction.South:
-                    newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y + 1);
+                    newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y - 1);
                     break;
                 case Direction.West:
                     newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y);
@@ -132,16 +132,16 @@ namespace TurnItUp.Characters
                     newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y);
                     break;
                 case Direction.NorthEast:
-                    newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y - 1);
-                    break;
-                case Direction.NorthWest:
-                    newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y - 1);
-                    break;
-                case Direction.SouthEast:
                     newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y + 1);
                     break;
-                case Direction.SouthWest:
+                case Direction.NorthWest:
                     newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y + 1);
+                    break;
+                case Direction.SouthEast:
+                    newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y - 1);
+                    break;
+                case Direction.SouthWest:
+                    newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y - 1);
                     break;
                 default:
                     return null;
