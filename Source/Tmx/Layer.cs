@@ -52,7 +52,9 @@ namespace TurnItUp.Tmx
                 throw new InvalidOperationException(String.Format("<Layer::MoveTile> : cannot move tile from {0} to {1} which is already occupied.", currentPosition.ToString(), newPosition.ToString()));
             }
 
-            Tiles[new Tuple<int, int>(newPosition.X, newPosition.Y)] = Tiles[new Tuple<int, int>(currentPosition.X, currentPosition.Y)];
+            Tile oldTile = Tiles[new Tuple<int, int>(currentPosition.X, currentPosition.Y)];
+            Tile newTile = new Tile(oldTile.Gid, newPosition.X, newPosition.Y);
+            Tiles[new Tuple<int, int>(newPosition.X, newPosition.Y)] = newTile;
             Tiles.Remove(new Tuple<int, int>(currentPosition.X, currentPosition.Y));
         }
     }
