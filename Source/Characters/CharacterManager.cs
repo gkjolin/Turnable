@@ -110,6 +110,13 @@ namespace TurnItUp.Characters
             returnValue.Path = positionChanges;
 
             OnCharacterMoved(new CharacterMovedEventArgs(character, returnValue));
+
+            // Change the location of the character tiles in the map
+            if (returnValue.Status == MoveResultStatus.Success)
+            {
+                Level.Map.Layers["Characters"].MoveTile(currentPosition, destination);
+            }
+
             return returnValue;
         }
 

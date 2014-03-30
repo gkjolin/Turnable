@@ -99,6 +99,10 @@ namespace Tests.Characters
             Assert.AreEqual(2, moveResult.Path.Count);
             Assert.AreEqual(currentPosition, moveResult.Path[0]);
             Assert.AreEqual(newPosition, moveResult.Path[1]);
+
+            // Check to see if the tile in the map was moved as well
+            Assert.IsFalse(_level.Map.Layers["Characters"].Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)));
+            Assert.IsTrue(_level.Map.Layers["Characters"].Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)));
         }
 
         [TestMethod]
@@ -116,6 +120,10 @@ namespace Tests.Characters
             Assert.AreEqual(2, moveResult.Path.Count);
             Assert.AreEqual(currentPosition, moveResult.Path[0]);
             Assert.AreEqual(new Position(4, 15), moveResult.Path[1]);
+
+            // Check to see if the tile in the map was NOT moved
+            Assert.IsTrue(_level.Map.Layers["Characters"].Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)));
+            Assert.IsFalse(_level.Map.Layers["Characters"].Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)));
         }
 
         [TestMethod]
@@ -133,6 +141,9 @@ namespace Tests.Characters
             Assert.AreEqual(2, moveResult.Path.Count);
             Assert.AreEqual(currentPosition, moveResult.Path[0]);
             Assert.AreEqual(new Position(6, 14), moveResult.Path[1]);
+
+            // Check to see if the tile in the map was NOT moved
+            Assert.IsTrue(_level.Map.Layers["Characters"].Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)));
         }
 
         [TestMethod]
