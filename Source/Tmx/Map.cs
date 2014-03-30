@@ -32,7 +32,7 @@ namespace TurnItUp.Tmx
             Layers = new ElementList<Layer>();
             foreach (XElement xLayer in xMap.Elements("layer"))
             {
-                Layers.Add(new Layer(xLayer, Width, Height));
+                Layers.Add(new Layer(xLayer));
             }
 
             Tilesets = new ElementList<Tileset>();

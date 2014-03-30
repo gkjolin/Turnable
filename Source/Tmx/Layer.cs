@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Tuples;
 using System.Xml.Linq;
+using TurnItUp.Components;
 
 namespace TurnItUp.Tmx
 {
@@ -19,13 +20,13 @@ namespace TurnItUp.Tmx
         public int Height { get; private set; }
         public PropertyDictionary Properties { get; private set; }
 
-        public Layer(XElement xLayer, int width, int height)
+        public Layer(XElement xLayer)
         {
             Name = (string)xLayer.Attribute("name");
             Opacity = (double?)xLayer.Attribute("opacity") ?? 1.0;
             IsVisible = (bool?)xLayer.Attribute("visible") ?? true;
-            Height = height;
-            Width = width;
+            Height = (int)xLayer.Attribute("height");
+            Width = (int)xLayer.Attribute("width");
 
             // Load up the Tiles in this layer
             Data data = new Data(xLayer.Element("data"));
@@ -37,6 +38,22 @@ namespace TurnItUp.Tmx
                 IEnumerable<XElement> xProperties = xLayer.Element("properties").Elements("property");
                 Properties = new PropertyDictionary(xProperties);
             }
+        }
+
+        public void MoveTile(Position currentPosition, Position newPosition)
+        {
+            if (!Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)))
+            {
+                throw new InvalidOperationException(String.Format("<Layer::MoveTile> : there is no tile at {0}.", currentPosition.ToString()));
+            }
+
+            if (Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)))
+            {
+                throw new InvalidOperationException(String.Format("<Layer::MoveTile> : cannot move tile from {0} to {1} which is already occupied.", currentPosition.ToString(), newPosition.ToString()));
+            }
+
+            Tiles[new Tuple<int, int>(newPosition.X, newPosition.Y)] = Tiles[new Tuple<int, int>(currentPosition.X, currentPosition.Y)];
+            Tiles.Remove(new Tuple<int, int>(currentPosition.X, currentPosition.Y));
         }
     }
 }
