@@ -87,6 +87,7 @@
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TmxFactory.cs" />
     <Compile Include="Fov\FovCalculatorTests.cs" />
+    <Compile Include="Locations\AreaTests.cs" />
     <Compile Include="Locations\LevelTests.cs" />
     <Compile Include="Pathfinding\NodeListTests.cs" />
     <Compile Include="Pathfinding\NodeTests.cs" />
