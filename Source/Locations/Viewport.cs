@@ -21,10 +21,10 @@ namespace TurnItUp.Locations
         public int Height { get; private set; }
         public List<Position> AnchorPoints { get; private set; }
 
-        public Viewport(Level level, int originX, int originY, int width, int height)
+        public Viewport(Level level, int mapOriginX, int mapOriginY, int width, int height)
         {
             Level = level;
-            MapOrigin = new Position(originX, originY);
+            MapOrigin = new Position(mapOriginX, mapOriginY);
             Width = width;
             Height = height;
             AnchorPoints = new List<Position>();
@@ -35,28 +35,28 @@ namespace TurnItUp.Locations
         {
             if (Width % 2 == 1 && Height % 2 == 1)
             {
-                AnchorPoints.Add(new Position(Width / 2, Height / 2));
+                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
             }
 
             if (Width % 2 == 0 && Height % 2 == 0)
             {
-                AnchorPoints.Add(new Position((Width / 2) - 1, Height / 2));
-                AnchorPoints.Add(new Position((Width / 2) - 1, (Height / 2) - 1));
-                AnchorPoints.Add(new Position(Width / 2, (Height / 2) - 1));
-                AnchorPoints.Add(new Position(Width / 2, Height / 2));
+                AnchorPoints.Add(new Position(MapOrigin.X + (Width / 2) - 1, MapOrigin.Y + Height / 2));
+                AnchorPoints.Add(new Position(MapOrigin.X + (Width / 2) - 1, MapOrigin.Y + (Height / 2) - 1));
+                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + (Height / 2) - 1));
+                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
                 return;
             }
 
             if (Width % 2 == 0)
             {
-                AnchorPoints.Add(new Position((Width / 2) - 1, Height / 2));
-                AnchorPoints.Add(new Position(Width / 2, Height / 2));
+                AnchorPoints.Add(new Position(MapOrigin.X + (Width / 2) - 1, MapOrigin.Y + Height / 2));
+                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
             }
 
             if (Height % 2 == 0)
             {
-                AnchorPoints.Add(new Position(Width / 2, (Height / 2) - 1));
-                AnchorPoints.Add(new Position(Width / 2, Height / 2));
+                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + (Height / 2) - 1));
+                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
             }
         }
     }

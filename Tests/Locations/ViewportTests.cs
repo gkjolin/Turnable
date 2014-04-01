@@ -17,11 +17,13 @@ namespace Tests.Locations
     public class ViewportTests
     {
         private Level _level;
+        private Viewport _viewport;
 
         [TestInitialize]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
+            _viewport = new Viewport(_level, 8, 8, 4, 4);
         }
            
         [TestMethod]
@@ -40,7 +42,7 @@ namespace Tests.Locations
             Assert.AreNotEqual(0, viewport.AnchorPoints.Count);
         }
 
-        // Calculating anchor points (the LOCAL position at which the viewport "locks" onto the player)
+        // Testing the calculation of anchor points (the Global (Map) position at which the viewport "locks" onto the player)
         // Once locked, movements by the player cause the level to scroll
         // Since a viewport can have an even width or even height (even widths and heights don't have an exact middle),
         // the anchor point can be 1, 2 or 4 positions
@@ -50,7 +52,7 @@ namespace Tests.Locations
             Viewport viewport = new Viewport(_level, 54, 53, 15, 15);
 
             Assert.AreEqual(1, viewport.AnchorPoints.Count);
-            Assert.AreEqual(new Position(7, 7), viewport.AnchorPoints[0]);
+            Assert.AreEqual(new Position(54 + 7, 53 + 7), viewport.AnchorPoints[0]);
         }
 
         [TestMethod]
@@ -59,8 +61,8 @@ namespace Tests.Locations
             Viewport viewport = new Viewport(_level, 54, 53, 16, 15);
 
             Assert.AreEqual(2, viewport.AnchorPoints.Count);
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(7, 7)));
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8, 7)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 7, 53 + 7)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 8, 53 + 7)));
         }
 
         [TestMethod]
@@ -69,8 +71,8 @@ namespace Tests.Locations
             Viewport viewport = new Viewport(_level, 54, 53, 15, 16);
 
             Assert.AreEqual(2, viewport.AnchorPoints.Count);
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(7, 7)));
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(7, 8)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 7, 53 + 7)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 7, 53 + 8)));
         }
 
         [TestMethod]
@@ -79,10 +81,16 @@ namespace Tests.Locations
             Viewport viewport = new Viewport(_level, 54, 53, 16, 16);
 
             Assert.AreEqual(4, viewport.AnchorPoints.Count);
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(7, 7)));
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(7, 8)));
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8, 7)));
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8, 8)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 7, 53 + 7)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 7, 53 + 8)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 8, 53 + 7)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 8, 53 + 8)));
         }
+
+        // Testing the automatic movement of MapOrigin when the player moves
+        // Player is at an anchor point
+        // Enough space on all sides to allow movement of MapOrigin
+
+        
     }
 }
