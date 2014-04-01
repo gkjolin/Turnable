@@ -21,6 +21,7 @@ namespace TurnItUp.Locations
         public ICharacterManager CharacterManager { get; set; }
         public IPathFinder PathFinder { get; set; }
         public IWorld World { get; set; }
+        public Viewport Viewport { get; private set; }
 
         public Level()
         {
@@ -98,6 +99,11 @@ namespace TurnItUp.Locations
             }
 
             return returnValue;
+        }
+
+        public void SetupViewport(int mapOriginX, int mapOriginY, int width, int height)
+        {
+            Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);
         }
     }
 }

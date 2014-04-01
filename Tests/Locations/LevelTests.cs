@@ -125,6 +125,19 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void Level_SettingUpAViewport_IsSuccessful()
+        {
+            _level.SetupViewport(8, 8, 5, 5);
+
+            Assert.IsNotNull(_level.Viewport);
+            Assert.AreEqual(_level, _level.Viewport.Level);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.Y);
+            Assert.AreEqual(5, _level.Viewport.Width);
+            Assert.AreEqual(5, _level.Viewport.Height);
+        }
+
+        [TestMethod]
         public void Level_DeterminingObstacles_TakesIntoAccountLayerHavingTrueForIsCollisionProperty()
         {
             // The example level has a "wall" around the entire 15x15 level
