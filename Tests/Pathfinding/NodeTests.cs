@@ -286,10 +286,10 @@ namespace Tests.Pathfinding
         }
 
         [TestMethod]
-        public void Node_ToString_DisplaysItsPosition()
+        public void Node_ToString_DisplaysPositionToString()
         {
             _node = new Node(_level, 4, 5);
-            Assert.AreEqual("(4, 5)", _node.ToString());
+            Assert.AreEqual(_node.Position.ToString(), _node.ToString());
         }
     }
 }

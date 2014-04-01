@@ -59,5 +59,10 @@ namespace TurnItUp.Components
         {
             return !(position1 == position2);
         }
+
+        public override string ToString()
+        {
+            return String.Format("({0}, {1})", X.ToString(), Y.ToString());
+        }
     }
 }

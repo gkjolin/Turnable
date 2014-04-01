@@ -137,7 +137,7 @@ namespace TurnItUp.Pathfinding
 
         public string ToString()
         {
-            return String.Format("({0}, {1})", Position.X.ToString(), Position.Y.ToString());
+            return Position.ToString();
         }
     }
 }

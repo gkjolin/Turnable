@@ -79,6 +79,7 @@
     <Compile Include="Interfaces\ISkillOriginMapCalculator.cs" />
     <Compile Include="Interfaces\IState.cs" />
     <Compile Include="Locations\Area.cs" />
+    <Compile Include="Locations\Viewport.cs" />
     <Compile Include="Locations\Level.cs" />
     <Compile Include="Locations\MoveResult.cs" />
     <Compile Include="Locations\MoveResultStatus.cs" />

@@ -89,6 +89,7 @@
     <Compile Include="Fov\FovCalculatorTests.cs" />
     <Compile Include="Locations\AreaTests.cs" />
     <Compile Include="Locations\LevelTests.cs" />
+    <Compile Include="Locations\ViewportTests.cs" />
     <Compile Include="Pathfinding\NodeListTests.cs" />
     <Compile Include="Pathfinding\NodeTests.cs" />
     <Compile Include="Pathfinding\PathFinderTests.cs" />

@@ -103,5 +103,12 @@ namespace Tests.Components
 
             Assert.IsTrue(position != null);
         }
+
+        [TestMethod]
+        public void Position_ToString_DisplaysItselfInAHumanReadableFormat()
+        {
+            Position position = new Position(4, 5);
+            Assert.AreEqual("(4, 5)", position.ToString());
+        }
     }
 }
