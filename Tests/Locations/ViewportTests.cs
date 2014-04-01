@@ -23,7 +23,7 @@ namespace Tests.Locations
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
-            _viewport = new Viewport(_level, 8, 8, 4, 4);
+            _viewport = new Viewport(_level, 8, 8, 5, 5);
         }
            
         [TestMethod]
@@ -87,10 +87,46 @@ namespace Tests.Locations
             Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 8, 53 + 8)));
         }
 
-        // Testing the automatic movement of MapOrigin when the player moves
-        // Player is at an anchor point
-        // Enough space on all sides to allow movement of MapOrigin
+        // Moving the viewport (Changing the MapOrigin)
+        [TestMethod]
+        public void Viewport_MovingViewportInADirection_MovesTheMapOriginInThatDirection()
+        {
+            _viewport.Move(Direction.North);
+            Assert.AreEqual(new Position(8, 9), _viewport.MapOrigin);
+            _viewport.Move(Direction.South);
+            Assert.AreEqual(new Position(8, 8), _viewport.MapOrigin);
+            _viewport.Move(Direction.East);
+            Assert.AreEqual(new Position(9, 8), _viewport.MapOrigin);
+            _viewport.Move(Direction.West);
+            Assert.AreEqual(new Position(8, 8), _viewport.MapOrigin);
+            _viewport.Move(Direction.NorthWest);
+            Assert.AreEqual(new Position(7, 9), _viewport.MapOrigin);
+            _viewport.Move(Direction.NorthEast);
+            Assert.AreEqual(new Position(8, 10), _viewport.MapOrigin);
+            _viewport.Move(Direction.SouthWest);
+            Assert.AreEqual(new Position(7, 9), _viewport.MapOrigin);
+            _viewport.Move(Direction.SouthEast);
+            Assert.AreEqual(new Position(8, 9), _viewport.MapOrigin);
+        }
 
-        
+        // Testing the automatic movement of MapOrigin when the player moves
+        // Player is at the anchor point (Viewport has an odd width and height so that there is only one central anchor point)
+        // Enough space on all sides to allow movement of MapOrigin
+        [TestMethod]
+        public void Viewport_MovingPlayerInADirection_MovesTheMapOriginOfViewportInThatSameDirection()
+        {
+            _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(10, 10));
+
+            Assert.AreEqual(new Position(10, 10), _viewport.AnchorPoints[0]);
+
+            _level.MovePlayer(Direction.North);
+            Assert.AreEqual(new Position(8, 9), _viewport.MapOrigin);
+            _level.MovePlayer(Direction.South);
+            Assert.AreEqual(new Position(8, 8), _viewport.MapOrigin);
+            _level.MovePlayer(Direction.East);
+            Assert.AreEqual(new Position(9, 8), _viewport.MapOrigin);
+            _level.MovePlayer(Direction.West);
+            Assert.AreEqual(new Position(8, 8), _viewport.MapOrigin);
+        }
     }
 }

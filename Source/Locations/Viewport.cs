@@ -59,5 +59,40 @@ namespace TurnItUp.Locations
                 AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
             }
         }
+
+        public void Move(Direction direction)
+        {
+            Position newPosition;
+
+            switch (direction)
+            {
+                case Direction.North:
+                    MapOrigin = new Position(MapOrigin.X, MapOrigin.Y + 1);
+                    break;
+                case Direction.South:
+                    MapOrigin = new Position(MapOrigin.X, MapOrigin.Y - 1);
+                    break;
+                case Direction.West:
+                    MapOrigin = new Position(MapOrigin.X - 1, MapOrigin.Y);
+                    break;
+                case Direction.East:
+                    MapOrigin = new Position(MapOrigin.X + 1, MapOrigin.Y);
+                    break;
+                case Direction.NorthEast:
+                    MapOrigin = new Position(MapOrigin.X + 1, MapOrigin.Y + 1);
+                    break;
+                case Direction.NorthWest:
+                    MapOrigin = new Position(MapOrigin.X - 1, MapOrigin.Y + 1);
+                    break;
+                case Direction.SouthEast:
+                    MapOrigin = new Position(MapOrigin.X + 1, MapOrigin.Y - 1);
+                    break;
+                case Direction.SouthWest:
+                    MapOrigin = new Position(MapOrigin.X - 1, MapOrigin.Y - 1);
+                    break;
+                default:
+                    return;
+            }
+        }
     }
 }
