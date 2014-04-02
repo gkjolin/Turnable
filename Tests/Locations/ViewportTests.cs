@@ -93,10 +93,10 @@ namespace Tests.Locations
         {
             Viewport viewport = new Viewport(_level, 8, 8, 5, 5);
 
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8 + 3, 8 + 3)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8 + 2, 8 + 2)));
 
             viewport.Move(Direction.North);
-            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8 + 3, 9 + 3)));
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8 + 2, 9 + 2)));
         }
 
         // Testing to see if a viewport's MapOrigin is valid
