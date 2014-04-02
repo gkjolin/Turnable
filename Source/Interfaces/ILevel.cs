@@ -16,6 +16,7 @@ namespace TurnItUp.Interfaces
         ICharacterManager CharacterManager { get; set; }
         IPathFinder PathFinder { get; set; }
         IWorld World { get; set; }
+        IViewport Viewport { get; set; }
 
         void Initialize(IWorld world, string tmxPath, bool allowDiagonalMovement = false, bool shouldRandomize = false);
 

@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using TurnItUp.Components;
+using TurnItUp.Locations;
+
+namespace TurnItUp.Interfaces
+{
+    public interface IViewport
+    {
+        Level Level { get; set; }
+        Position MapOrigin { get; set; }
+        int Width { get; set; }
+        int Height { get; set; }
+        List<Position> AnchorPoints { get; set; }
+
+        void Move(Direction direction);
+    }
+}

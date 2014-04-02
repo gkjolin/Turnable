@@ -21,7 +21,7 @@ namespace TurnItUp.Locations
         public ICharacterManager CharacterManager { get; set; }
         public IPathFinder PathFinder { get; set; }
         public IWorld World { get; set; }
-        public Viewport Viewport { get; private set; }
+        public IViewport Viewport { get; set; }
 
         public Level()
         {
@@ -49,6 +49,11 @@ namespace TurnItUp.Locations
 
         public virtual MoveResult MovePlayer(Direction direction)
         {
+            if (Viewport != null)
+            {
+                Viewport.Move(direction);
+            }
+
             return CharacterManager.MovePlayer(direction);
         }
 
