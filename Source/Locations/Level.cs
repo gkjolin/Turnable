@@ -49,7 +49,8 @@ namespace TurnItUp.Locations
 
         public virtual MoveResult MovePlayer(Direction direction)
         {
-            if (Viewport != null)
+            // Is there a viewport in this level AND is the player on one of the anchor points of the viewport?
+            if (Viewport != null && Viewport.AnchorPoints.Contains(CharacterManager.Player.GetComponent<Position>()))
             {
                 Viewport.Move(direction);
             }

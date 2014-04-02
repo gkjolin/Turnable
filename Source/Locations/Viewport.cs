@@ -62,35 +62,54 @@ namespace TurnItUp.Locations
 
         public void Move(Direction direction)
         {
+            Position oldMapOrigin = MapOrigin.DeepClone();
+
             switch (direction)
             {
                 case Direction.North:
-                    MapOrigin = new Position(MapOrigin.X, MapOrigin.Y + 1);
+                    MapOrigin.Y++;
                     break;
                 case Direction.South:
-                    MapOrigin = new Position(MapOrigin.X, MapOrigin.Y - 1);
+                    MapOrigin.Y--;
                     break;
                 case Direction.West:
-                    MapOrigin = new Position(MapOrigin.X - 1, MapOrigin.Y);
+                    MapOrigin.X--;
                     break;
                 case Direction.East:
-                    MapOrigin = new Position(MapOrigin.X + 1, MapOrigin.Y);
+                    MapOrigin.X++;
                     break;
                 case Direction.NorthEast:
-                    MapOrigin = new Position(MapOrigin.X + 1, MapOrigin.Y + 1);
+                    MapOrigin.X++;
+                    MapOrigin.Y++;
                     break;
                 case Direction.NorthWest:
-                    MapOrigin = new Position(MapOrigin.X - 1, MapOrigin.Y + 1);
+                    MapOrigin.X--;
+                    MapOrigin.Y++;
                     break;
                 case Direction.SouthEast:
-                    MapOrigin = new Position(MapOrigin.X + 1, MapOrigin.Y - 1);
+                    MapOrigin.X++;
+                    MapOrigin.Y--;
                     break;
                 case Direction.SouthWest:
-                    MapOrigin = new Position(MapOrigin.X - 1, MapOrigin.Y - 1);
+                    MapOrigin.X--;
+                    MapOrigin.Y--;
                     break;
                 default:
                     return;
             }
+
+            if (!IsMapOriginValid())
+            {
+                MapOrigin.X = oldMapOrigin.X;
+                MapOrigin.Y = oldMapOrigin.Y;
+            }
+
+            CalculateAnchorPoints();
+        }
+
+        public bool IsMapOriginValid()
+        {
+            return !(MapOrigin.X < 0 || MapOrigin.Y < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1) || (MapOrigin.Y + Height) > (Level.Map.Height - 1));
         }
     }
 }

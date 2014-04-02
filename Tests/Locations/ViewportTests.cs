@@ -88,6 +88,57 @@ namespace Tests.Locations
             Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(54 + 8, 53 + 8)));
         }
 
+        [TestMethod]
+        public void Viewport_WhenMoved_RecalculatesTheAnchorPoints()
+        {
+            Viewport viewport = new Viewport(_level, 8, 8, 5, 5);
+
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8 + 3, 8 + 3)));
+
+            viewport.Move(Direction.North);
+            Assert.IsTrue(viewport.AnchorPoints.Contains(new Position(8 + 3, 9 + 3)));
+        }
+
+        // Testing to see if a viewport's MapOrigin is valid
+        [TestMethod]
+        public void Viewport_MapOriginOutOfBounds_IsInvalid()
+        {
+            // Viewport's bottom left corner out of bounds
+            _viewport.MapOrigin.X = -1;
+            _viewport.MapOrigin.Y = 0;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+            _viewport.MapOrigin.X = 0;
+            _viewport.MapOrigin.Y = -1;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+            _viewport.MapOrigin.X = -1;
+            _viewport.MapOrigin.Y = -1;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+
+            // Viewport out of bounds on its bottom right corner
+            _viewport.MapOrigin.X = 11;
+            _viewport.MapOrigin.Y = 0;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+            _viewport.MapOrigin.X = 10;
+            _viewport.MapOrigin.Y = -1;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+
+            // Viewport out of bounds on its top right side
+            _viewport.MapOrigin.X = 10;
+            _viewport.MapOrigin.Y = 11;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+            _viewport.MapOrigin.X = 11;
+            _viewport.MapOrigin.Y = 10;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+
+            // Viewport out of bounds on its top left side
+            _viewport.MapOrigin.X = -1;
+            _viewport.MapOrigin.Y = 11;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+            _viewport.MapOrigin.X = 0;
+            _viewport.MapOrigin.Y = 11;
+            Assert.IsFalse(_viewport.IsMapOriginValid());
+        }
+
         // Moving the viewport (Changing the MapOrigin)
         [TestMethod]
         public void Viewport_MovingViewportInADirection_MovesTheMapOriginInThatDirection()
@@ -110,33 +161,135 @@ namespace Tests.Locations
             Assert.AreEqual(new Position(8, 8), _viewport.MapOrigin);
         }
 
+        [TestMethod]
+        public void Viewport_MovingTheMapOriginOutOfBounds_FailsQuietly()
+        {
+            _viewport.MapOrigin.X = 0;
+            _viewport.MapOrigin.Y = 0;
+
+            // Viewport at lower left of the Map
+            _viewport.Move(Direction.West);
+            Assert.AreEqual(0, _viewport.MapOrigin.X);
+            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.NorthWest);
+            Assert.AreEqual(0, _viewport.MapOrigin.X);
+            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.SouthWest);
+            Assert.AreEqual(0, _viewport.MapOrigin.X);
+            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.South);
+            Assert.AreEqual(0, _viewport.MapOrigin.X);
+            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+
+            // Viewport at bottom right of the Map
+            _viewport.MapOrigin.X = 10;
+            _viewport.MapOrigin.Y = 0;
+            _viewport.Move(Direction.East);
+            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.NorthEast);
+            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.SouthEast);
+            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.South);
+            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+
+            // Viewport at top right of the Map
+            _viewport.MapOrigin.X = 10;
+            _viewport.MapOrigin.Y = 10;
+            _viewport.Move(Direction.East);
+            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.NorthEast);
+            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.SouthEast);
+            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.North);
+            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+
+            // Viewport at top left of the Map
+            _viewport.MapOrigin.X = 0;
+            _viewport.MapOrigin.Y = 10;
+            _viewport.Move(Direction.West);
+            Assert.AreEqual(0, _viewport.MapOrigin.X);
+            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.NorthWest);
+            Assert.AreEqual(0, _viewport.MapOrigin.X);
+            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.SouthWest);
+            Assert.AreEqual(0, _viewport.MapOrigin.X);
+            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.North);
+            Assert.AreEqual(0, _viewport.MapOrigin.X);
+            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+        }
+
         // Testing the automatic movement of MapOrigin when the player moves
-        // Player is at the anchor point (Viewport has an odd width and height so that there is only one central anchor point)
         // Enough space on all sides to allow movement of MapOrigin
         [TestMethod]
-        public void Viewport_MovingPlayerInADirection_MovesTheMapOriginOfViewportInThatSameDirection()
+        public void Viewport_MovingPlayerLocateadAtTheOnlyViewportAnchorPoint_MovesTheMapOriginOfViewportInThatSameDirection()
         {
             Mock<IViewport> viewportMock = new Mock<IViewport>();
+            List<Position> anchorPoints = new List<Position>();
+            anchorPoints.Add(new Position(10, 10));
+            viewportMock.SetupGet<List<Position>>(v => v.AnchorPoints).Returns(anchorPoints);
 
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(10, 10));
             _level.Viewport = viewportMock.Object;
 
-            _level.MovePlayer(Direction.North);
-            viewportMock.Verify(v => v.Move(Direction.North));
-            _level.MovePlayer(Direction.South);
-            viewportMock.Verify(v => v.Move(Direction.South));
-            _level.MovePlayer(Direction.East);
-            viewportMock.Verify(v => v.Move(Direction.East));
-            _level.MovePlayer(Direction.West);
-            viewportMock.Verify(v => v.Move(Direction.West));
-            _level.MovePlayer(Direction.NorthWest);
-            viewportMock.Verify(v => v.Move(Direction.NorthWest));
-            _level.MovePlayer(Direction.NorthEast);
-            viewportMock.Verify(v => v.Move(Direction.NorthEast));
-            _level.MovePlayer(Direction.SouthWest);
-            viewportMock.Verify(v => v.Move(Direction.SouthWest));
-            _level.MovePlayer(Direction.SouthEast);
-            viewportMock.Verify(v => v.Move(Direction.SouthEast));
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                _level.MovePlayer(direction);
+                viewportMock.Verify(v => v.Move(direction));
+            }
+        }
+
+        [TestMethod]
+        public void Viewport_MovingPlayerLocateadAtAnyOfTheViewportsAnchorPoints_MovesTheMapOriginOfViewportInThatSameDirection()
+        {
+            Mock<IViewport> viewportMock = new Mock<IViewport>();
+            List<Position> anchorPoints = new List<Position>();
+            anchorPoints.Add(new Position(9, 10));
+            anchorPoints.Add(new Position(10, 10));
+            anchorPoints.Add(new Position(9, 11));
+            anchorPoints.Add(new Position(10, 11));
+            viewportMock.SetupGet<List<Position>>(v => v.AnchorPoints).Returns(anchorPoints);
+
+            _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(10, 11));
+            _level.Viewport = viewportMock.Object;
+
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                _level.MovePlayer(direction);
+                viewportMock.Verify(v => v.Move(direction));
+            }
+        }
+
+        [TestMethod]
+        public void Viewport_MovingPlayerNotLocateadAtAnyOfTheViewportsAnchorPoints_DoesNotMoveTheMapOriginOfViewport()
+        {
+            Mock<IViewport> viewportMock = new Mock<IViewport>();
+            List<Position> anchorPoints = new List<Position>();
+            anchorPoints.Add(new Position(9, 10));
+            anchorPoints.Add(new Position(10, 10));
+            anchorPoints.Add(new Position(9, 11));
+            anchorPoints.Add(new Position(10, 11));
+            viewportMock.SetupGet<List<Position>>(v => v.AnchorPoints).Returns(anchorPoints);
+
+            _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(3, 3));
+            _level.Viewport = viewportMock.Object;
+
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                _level.MovePlayer(direction);
+                viewportMock.Verify(v => v.Move(direction), Times.Never());
+            }
         }
     }
 }
