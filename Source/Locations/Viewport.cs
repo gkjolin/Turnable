@@ -66,9 +66,17 @@ namespace TurnItUp.Locations
                     return;
             }
 
-            if (!IsMapOriginValid())
+            // The code below will allow a MapOrigin to "slide" and move as much as possible. 
+            // For example let's say the left edge of a Viewport is flush against the left edge of the Map.
+            // Trying to move the Viewport NW should still move the Viewport North
+            // If MapOrigin.X is invalid, reset it
+            if (MapOrigin.X < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1))
             {
                 MapOrigin.X = oldMapOrigin.X;
+            }
+            // If MapOrigin.Y is invalid, reset it
+            if (MapOrigin.Y < 0 || (MapOrigin.Y + Height) > (Level.Map.Height - 1))
+            {
                 MapOrigin.Y = oldMapOrigin.Y;
             }
         }

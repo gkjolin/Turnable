@@ -49,12 +49,13 @@ namespace TurnItUp.Locations
 
         public virtual MoveResult MovePlayer(Direction direction)
         {
-            // Is there a viewport in this level?
-            if (Viewport != null)
-            {
-                Position playerPosition = CharacterManager.Player.GetComponent<Position>();
+            Position currentPlayerPosition = CharacterManager.Player.GetComponent<Position>().DeepClone();
+            MoveResult returnValue = CharacterManager.MovePlayer(direction);
 
-                if (playerPosition.X == Viewport.MapOrigin.X + Viewport.Width / 2)
+            // Is there a viewport in this level?
+            if (Viewport != null && returnValue.Status == MoveResultStatus.Success)
+            {
+                if (currentPlayerPosition.X == Viewport.MapOrigin.X + Viewport.Width / 2)
                 {
                     int oldViewportMapOriginY = Viewport.MapOrigin.Y;
 
@@ -62,7 +63,7 @@ namespace TurnItUp.Locations
                     Viewport.MapOrigin.Y = oldViewportMapOriginY;
                 }
 
-                if (playerPosition.Y == Viewport.MapOrigin.Y + Viewport.Height / 2)
+                if (currentPlayerPosition.Y == Viewport.MapOrigin.Y + Viewport.Height / 2)
                 {
                     int oldViewportMapOriginX = Viewport.MapOrigin.X;
 
@@ -71,7 +72,7 @@ namespace TurnItUp.Locations
                 }
             }
 
-            return CharacterManager.MovePlayer(direction);
+            return returnValue;
         }
 
         public virtual MoveResult MoveCharacterTo(Entity character, Position destination)
