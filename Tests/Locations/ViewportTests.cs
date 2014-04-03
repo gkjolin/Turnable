@@ -235,61 +235,34 @@ namespace Tests.Locations
         [TestMethod]
         public void Viewport_MovingPlayerLocateadAtTheOnlyViewportAnchorPoint_MovesTheMapOriginOfViewportInThatSameDirection()
         {
-            Mock<IViewport> viewportMock = new Mock<IViewport>();
-            List<Position> anchorPoints = new List<Position>();
-            anchorPoints.Add(new Position(10, 10));
-            viewportMock.SetupGet<List<Position>>(v => v.AnchorPoints).Returns(anchorPoints);
-
+            _level.SetupViewport(8, 8, 5, 5);
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(10, 10));
-            _level.Viewport = viewportMock.Object;
 
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            {
-                _level.MovePlayer(direction);
-                viewportMock.Verify(v => v.Move(direction));
-            }
+            _level.MovePlayer(Direction.North);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(9, _level.Viewport.MapOrigin.Y);
         }
 
         [TestMethod]
         public void Viewport_MovingPlayerLocateadAtAnyOfTheViewportsAnchorPoints_MovesTheMapOriginOfViewportInThatSameDirection()
         {
-            Mock<IViewport> viewportMock = new Mock<IViewport>();
-            List<Position> anchorPoints = new List<Position>();
-            anchorPoints.Add(new Position(9, 10));
-            anchorPoints.Add(new Position(10, 10));
-            anchorPoints.Add(new Position(9, 11));
-            anchorPoints.Add(new Position(10, 11));
-            viewportMock.SetupGet<List<Position>>(v => v.AnchorPoints).Returns(anchorPoints);
-
+            _level.SetupViewport(8, 8, 6, 6);
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(10, 11));
-            _level.Viewport = viewportMock.Object;
 
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            {
-                _level.MovePlayer(direction);
-                viewportMock.Verify(v => v.Move(direction));
-            }
+            _level.MovePlayer(Direction.North);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(9, _level.Viewport.MapOrigin.Y);
         }
 
         [TestMethod]
         public void Viewport_MovingPlayerNotLocateadAtAnyOfTheViewportsAnchorPoints_DoesNotMoveTheMapOriginOfViewport()
         {
-            Mock<IViewport> viewportMock = new Mock<IViewport>();
-            List<Position> anchorPoints = new List<Position>();
-            anchorPoints.Add(new Position(9, 10));
-            anchorPoints.Add(new Position(10, 10));
-            anchorPoints.Add(new Position(9, 11));
-            anchorPoints.Add(new Position(10, 11));
-            viewportMock.SetupGet<List<Position>>(v => v.AnchorPoints).Returns(anchorPoints);
-
+            _level.SetupViewport(8, 8, 6, 6);
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(3, 3));
-            _level.Viewport = viewportMock.Object;
 
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            {
-                _level.MovePlayer(direction);
-                viewportMock.Verify(v => v.Move(direction), Times.Never());
-            }
+            _level.MovePlayer(Direction.North);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.Y);
         }
     }
 }

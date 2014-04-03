@@ -19,6 +19,7 @@ namespace TurnItUp.Interfaces
         IViewport Viewport { get; set; }
 
         void Initialize(IWorld world, string tmxPath, bool allowDiagonalMovement = false, bool shouldRandomize = false);
+        void SetupViewport(int mapOriginX, int mapOriginY, int width, int height);
 
         // Facade methods
         bool IsObstacle(int x, int y);
