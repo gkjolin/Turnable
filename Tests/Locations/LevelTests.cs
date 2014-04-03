@@ -9,6 +9,7 @@ using Entropy;
 using TurnItUp.Pathfinding;
 using TurnItUp.Tmx;
 using System.Tuples;
+using Tests.Factories;
 
 namespace Tests.Locations
 {
@@ -35,7 +36,7 @@ namespace Tests.Locations
         // X - Obstacles, P - Player, E - Enemies
 
         private Level _level;
-        private Mock<ICharacterManager> _characterManagerMock;
+        private Mock<ICharacterManager> _mockCharacterManager;
         private World _world;
 
         [TestInitialize]
@@ -43,7 +44,7 @@ namespace Tests.Locations
         {
             _world = new World();
             _level = new Level(_world, "../../Fixtures/FullExample.tmx");
-            _characterManagerMock = new Mock<ICharacterManager>();
+            _mockCharacterManager = new Mock<ICharacterManager>();
         }
 
         [TestMethod]
@@ -166,28 +167,32 @@ namespace Tests.Locations
         [TestMethod]
         public void Level_DeterminingIfCharacterIsAtAPosition_DelegatesToCharacterManager()
         {
-            _level.CharacterManager = _characterManagerMock.Object;
+            _level.CharacterManager = _mockCharacterManager.Object;
 
             _level.IsCharacterAt(0, 0);
-            _characterManagerMock.Verify(cm => cm.IsCharacterAt(0, 0));
+            _mockCharacterManager.Verify(cm => cm.IsCharacterAt(0, 0));
         }
 
         [TestMethod]
         public void Level_MovingAPlayer_DelegatesToCharacterManager()
         {
-            _level.CharacterManager = _characterManagerMock.Object;
+            Entity player = _world.CreateEntity();
+            player.AddComponent(new Position(0, 0));
+            _mockCharacterManager.SetupGet<Entity>(cm => cm.Player).Returns(player);
+
+            _level.CharacterManager = _mockCharacterManager.Object;
 
             _level.MovePlayer(Direction.South);
-            _characterManagerMock.Verify(cm => cm.MovePlayer(Direction.South));
+            _mockCharacterManager.Verify(cm => cm.MovePlayer(Direction.South));
         }
 
         [TestMethod]
         public void Level_MovingACharacterToAPosition_DelegatesToCharacterManager()
         {
-            _level.CharacterManager = _characterManagerMock.Object;
+            _level.CharacterManager = _mockCharacterManager.Object;
 
             _level.MoveCharacterTo(null, new Position(0, 0));
-            _characterManagerMock.Verify(cm => cm.MoveCharacterTo(null, new Position(0, 0)));
+            _mockCharacterManager.Verify(cm => cm.MoveCharacterTo(null, new Position(0, 0)));
         }
     }
 }

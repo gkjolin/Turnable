@@ -292,8 +292,5 @@ namespace Tests.Locations
             Assert.AreEqual(4, _level.Viewport.MapOrigin.X);
             Assert.AreEqual(1, _level.Viewport.MapOrigin.Y);
         }
-
-
-        // Test Viewport that is flush against the edge of the map does move in the free edge
     }
 }
