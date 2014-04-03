@@ -121,7 +121,7 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Viewport_MovingTheMapOriginOutOfBounds_FailsQuietly()
+        public void Viewport_MovingTheMapOriginOutOfBounds_MovesAsMuchAsPossible()
         {
             _viewport.MapOrigin.X = 0;
             _viewport.MapOrigin.Y = 0;
@@ -132,7 +132,7 @@ namespace Tests.Locations
             Assert.AreEqual(0, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.NorthWest);
             Assert.AreEqual(0, _viewport.MapOrigin.X);
-            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            Assert.AreEqual(1, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.SouthWest);
             Assert.AreEqual(0, _viewport.MapOrigin.X);
             Assert.AreEqual(0, _viewport.MapOrigin.Y);
@@ -148,7 +148,7 @@ namespace Tests.Locations
             Assert.AreEqual(0, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.NorthEast);
             Assert.AreEqual(10, _viewport.MapOrigin.X);
-            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            Assert.AreEqual(1, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.SouthEast);
             Assert.AreEqual(10, _viewport.MapOrigin.X);
             Assert.AreEqual(0, _viewport.MapOrigin.Y);
@@ -163,11 +163,11 @@ namespace Tests.Locations
             Assert.AreEqual(10, _viewport.MapOrigin.X);
             Assert.AreEqual(10, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.NorthEast);
-            Assert.AreEqual(10, _viewport.MapOrigin.X);
+            Assert.AreEqual(9, _viewport.MapOrigin.X);
             Assert.AreEqual(10, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.SouthEast);
             Assert.AreEqual(10, _viewport.MapOrigin.X);
-            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            Assert.AreEqual(9, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.North);
             Assert.AreEqual(10, _viewport.MapOrigin.X);
             Assert.AreEqual(10, _viewport.MapOrigin.Y);
@@ -183,7 +183,7 @@ namespace Tests.Locations
             Assert.AreEqual(10, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.SouthWest);
             Assert.AreEqual(0, _viewport.MapOrigin.X);
-            Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            Assert.AreEqual(9, _viewport.MapOrigin.Y);
             _viewport.Move(Direction.North);
             Assert.AreEqual(0, _viewport.MapOrigin.X);
             Assert.AreEqual(10, _viewport.MapOrigin.Y);
@@ -261,23 +261,9 @@ namespace Tests.Locations
 
         // Enough space on all sides to allow movement of MapOrigin
         // Viewport with even height and width
-        [TestMethod]
-        public void Viewport_MovingPlayerLocateadAtAnyOfTheCentralPointsOfTheViewport_MovesTheMapOriginOfViewportInThatSameDirection()
-        {
-            _level.SetupViewport(5, 1, 6, 6);
-            _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 3));
 
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            {
-                _level.MovePlayer(direction);
-                Assert.AreEqual(2, Math.Abs(_level.Viewport.MapOrigin.X - _level.CharacterManager.Player.GetComponent<Position>().X));
-                Assert.AreEqual(2, Math.Abs(_level.Viewport.MapOrigin.Y - _level.CharacterManager.Player.GetComponent<Position>().Y));
-
-                // Reset viewport and player's position
-                _level.Viewport.MapOrigin.X = 5;
-                _level.Viewport.MapOrigin.Y = 1;
-                _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 3));
-            }
-        }
+        // Test Viewport with even height and width
+        // Test Viewport does not move when player hits obstacle or player hits character
+        // Test Viewport that is flush against the edge of the map does move in the free edge
     }
 }
