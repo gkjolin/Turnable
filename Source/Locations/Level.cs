@@ -49,10 +49,26 @@ namespace TurnItUp.Locations
 
         public virtual MoveResult MovePlayer(Direction direction)
         {
-            // Is there a viewport in this level AND is the player on one of the anchor points of the viewport?
-            if (Viewport != null && Viewport.AnchorPoints.Contains(CharacterManager.Player.GetComponent<Position>()))
+            // Is there a viewport in this level?
+            if (Viewport != null)
             {
-                Viewport.Move(direction);
+                Position playerPosition = CharacterManager.Player.GetComponent<Position>();
+
+                if (playerPosition.X == Viewport.MapOrigin.X + Viewport.Width / 2)
+                {
+                    int oldViewportMapOriginY = Viewport.MapOrigin.Y;
+
+                    Viewport.Move(direction);
+                    Viewport.MapOrigin.Y = oldViewportMapOriginY;
+                }
+
+                if (playerPosition.Y == Viewport.MapOrigin.Y + Viewport.Height / 2)
+                {
+                    int oldViewportMapOriginX = Viewport.MapOrigin.X;
+
+                    Viewport.Move(direction);
+                    Viewport.MapOrigin.X = oldViewportMapOriginX;
+                }
             }
 
             return CharacterManager.MovePlayer(direction);

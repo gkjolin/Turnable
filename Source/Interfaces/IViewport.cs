@@ -13,7 +13,6 @@ namespace TurnItUp.Interfaces
         Position MapOrigin { get; set; }
         int Width { get; set; }
         int Height { get; set; }
-        List<Position> AnchorPoints { get; set; }
 
         void Move(Direction direction);
     }

@@ -19,7 +19,6 @@ namespace TurnItUp.Locations
         public Position MapOrigin { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public List<Position> AnchorPoints { get; set; }
 
         public Viewport(Level level, int mapOriginX, int mapOriginY, int width, int height)
         {
@@ -27,37 +26,6 @@ namespace TurnItUp.Locations
             MapOrigin = new Position(mapOriginX, mapOriginY);
             Width = width;
             Height = height;
-            AnchorPoints = new List<Position>();
-            CalculateAnchorPoints();
-        }
-
-        private void CalculateAnchorPoints()
-        {
-            if (Width % 2 == 1 && Height % 2 == 1)
-            {
-                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
-            }
-
-            if (Width % 2 == 0 && Height % 2 == 0)
-            {
-                AnchorPoints.Add(new Position(MapOrigin.X + (Width / 2) - 1, MapOrigin.Y + Height / 2));
-                AnchorPoints.Add(new Position(MapOrigin.X + (Width / 2) - 1, MapOrigin.Y + (Height / 2) - 1));
-                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + (Height / 2) - 1));
-                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
-                return;
-            }
-
-            if (Width % 2 == 0)
-            {
-                AnchorPoints.Add(new Position(MapOrigin.X + (Width / 2) - 1, MapOrigin.Y + Height / 2));
-                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
-            }
-
-            if (Height % 2 == 0)
-            {
-                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + (Height / 2) - 1));
-                AnchorPoints.Add(new Position(MapOrigin.X + Width / 2, MapOrigin.Y + Height / 2));
-            }
         }
 
         public void Move(Direction direction)
@@ -103,8 +71,6 @@ namespace TurnItUp.Locations
                 MapOrigin.X = oldMapOrigin.X;
                 MapOrigin.Y = oldMapOrigin.Y;
             }
-
-            CalculateAnchorPoints();
         }
 
         public bool IsMapOriginValid()
