@@ -147,6 +147,26 @@ namespace Tests.Characters
         }
 
         [TestMethod]
+        public void CharacterManager_MovingCharacterToAPositionOutOfBoundsOfTheMap_ReturnsOutOfBoundsMoveResultAndPositionOfOutOfBoundsLocationToIndicateFailure()
+        {
+            Entity character = _characterManager.Characters[0];
+            Position currentPosition = character.GetComponent<Position>().DeepClone();
+            Position newPosition = new Position(-1, -1);
+
+            MoveResult moveResult = _characterManager.MoveCharacterTo(character, newPosition);
+
+            // Make sure that character was NOT moved
+            Assert.AreEqual(MoveResultStatus.OutOfBounds, moveResult.Status);
+            Assert.AreEqual(currentPosition, character.GetComponent<Position>());
+            Assert.AreEqual(2, moveResult.Path.Count);
+            Assert.AreEqual(currentPosition, moveResult.Path[0]);
+            Assert.AreEqual(new Position(-1, -1), moveResult.Path[1]);
+
+            // Check to see if the tile in the map was NOT moved
+            Assert.IsTrue(_level.Map.Layers["Characters"].Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)));
+        }
+
+        [TestMethod]
         public void CharacterManager_MovingCharacterByDirection_DelegatesToMoveCharacterTo()
         {
             Entity character = _characterManager.Characters[0];

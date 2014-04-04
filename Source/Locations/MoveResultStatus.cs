@@ -9,6 +9,7 @@ namespace TurnItUp.Locations
     {
         Success,
         HitObstacle,
-        HitCharacter
+        HitCharacter,
+        OutOfBounds
     }
 }
