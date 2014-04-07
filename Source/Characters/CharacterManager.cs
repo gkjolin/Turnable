@@ -7,6 +7,7 @@ using System.Tuples;
 using TurnItUp.Components;
 using TurnItUp.Interfaces;
 using TurnItUp.Locations;
+using TurnItUp.Pathfinding;
 using TurnItUp.Tmx;
 
 namespace TurnItUp.Characters
@@ -91,7 +92,11 @@ namespace TurnItUp.Characters
             Position currentPosition = character.GetComponent<Position>().DeepClone();
             positionChanges.Add(currentPosition);
 
-            if (Level.IsObstacle(destination.X, destination.Y))
+            if (!(new Node(Level, destination.X, destination.Y).IsWithinBounds()))
+            {
+                returnValue.Status = MoveResultStatus.OutOfBounds;
+            }
+            else if (Level.IsObstacle(destination.X, destination.Y))
             {
                 returnValue.Status = MoveResultStatus.HitObstacle;
             }
@@ -121,39 +126,7 @@ namespace TurnItUp.Characters
 
         public virtual MoveResult MoveCharacter(Entity character, Direction direction)
         {
-            Position newPosition = new Position();
-
-            switch (direction)
-            {
-                case Direction.North:
-                    newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y + 1);
-                    break;
-                case Direction.South:
-                    newPosition = new Position(character.GetComponent<Position>().X, character.GetComponent<Position>().Y - 1);
-                    break;
-                case Direction.West:
-                    newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y);
-                    break;
-                case Direction.East:
-                    newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y);
-                    break;
-                case Direction.NorthEast:
-                    newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y + 1);
-                    break;
-                case Direction.NorthWest:
-                    newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y + 1);
-                    break;
-                case Direction.SouthEast:
-                    newPosition = new Position(character.GetComponent<Position>().X + 1, character.GetComponent<Position>().Y - 1);
-                    break;
-                case Direction.SouthWest:
-                    newPosition = new Position(character.GetComponent<Position>().X - 1, character.GetComponent<Position>().Y - 1);
-                    break;
-                default:
-                    return null;
-            }
-
-            return MoveCharacterTo(character, newPosition);
+            return MoveCharacterTo(character, character.GetComponent<Position>().InDirection(direction));
         }
 
         public void EndTurn()

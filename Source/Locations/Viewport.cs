@@ -32,39 +32,7 @@ namespace TurnItUp.Locations
         {
             Position oldMapOrigin = MapOrigin.DeepClone();
 
-            switch (direction)
-            {
-                case Direction.North:
-                    MapOrigin.Y++;
-                    break;
-                case Direction.South:
-                    MapOrigin.Y--;
-                    break;
-                case Direction.West:
-                    MapOrigin.X--;
-                    break;
-                case Direction.East:
-                    MapOrigin.X++;
-                    break;
-                case Direction.NorthEast:
-                    MapOrigin.X++;
-                    MapOrigin.Y++;
-                    break;
-                case Direction.NorthWest:
-                    MapOrigin.X--;
-                    MapOrigin.Y++;
-                    break;
-                case Direction.SouthEast:
-                    MapOrigin.X++;
-                    MapOrigin.Y--;
-                    break;
-                case Direction.SouthWest:
-                    MapOrigin.X--;
-                    MapOrigin.Y--;
-                    break;
-                default:
-                    return;
-            }
+            MapOrigin = MapOrigin.InDirection(direction);
 
             // The code below will allow a MapOrigin to "slide" and move as much as possible. 
             // For example let's say the left edge of a Viewport is flush against the left edge of the Map.

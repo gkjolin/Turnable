@@ -110,5 +110,37 @@ namespace Tests.Components
             Position position = new Position(4, 5);
             Assert.AreEqual("(4, 5)", position.ToString());
         }
+
+        [TestMethod]
+        public void Position_ReturningAPositionInACertainDirection_ReturnsANewPosition()
+        {
+            Position position = new Position(4, 5);
+
+            Position newPosition = position.InDirection(Direction.North);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(4, 6), newPosition);
+            newPosition = position.InDirection(Direction.NorthEast);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(5, 6), newPosition);
+            newPosition = position.InDirection(Direction.East);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(5, 5), newPosition);
+            newPosition = position.InDirection(Direction.SouthEast);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(5, 4), newPosition);
+            newPosition = position.InDirection(Direction.South);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(4, 4), newPosition);
+            newPosition = position.InDirection(Direction.SouthWest);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(3, 4), newPosition);
+            newPosition = position.InDirection(Direction.West);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(3, 5), newPosition);
+            newPosition = position.InDirection(Direction.North);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(4, 6), newPosition);
+        }
+
     }
 }
