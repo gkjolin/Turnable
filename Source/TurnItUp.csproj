@@ -93,6 +93,7 @@
     <Compile Include="Randomization\RandomSelector.cs" />
     <Compile Include="Randomization\Prng.cs" />
     <Compile Include="Skills\AdjacentOriginMapCalculator.cs" />
+    <Compile Include="Skills\SkillTree.cs" />
     <Compile Include="Skills\DirectLineOriginMapCalculator.cs" />
     <Compile Include="Skills\SkillAppliedEventArgs.cs" />
     <Compile Include="Skills\SkillDatabase.cs" />

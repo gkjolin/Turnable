@@ -16,6 +16,7 @@ namespace TurnItUp.Skills
         public TargetType TargetType { get; set; }
         public int Range { get; set; }
         public List<IEffect> Effects { get; private set; }
+        public int Points { get; set; }
         public ISkillOriginMapCalculator OriginMapCalculator { get; set; }
 
         public Skill(string name) : this(name, RangeType.Adjacent, TargetType.InAnotherTeam, 1)

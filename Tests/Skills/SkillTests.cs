@@ -63,6 +63,7 @@ namespace Tests.Skills
             Assert.AreEqual(RangeType.Adjacent, skill.RangeType);
             Assert.AreEqual(1, skill.Range);
             Assert.IsNotNull(skill.Effects);
+            Assert.AreEqual(0, skill.Points);
         }
 
         [TestMethod]
