@@ -11,12 +11,21 @@ namespace Tests.Tmx
     [TestClass]
     public class ReferenceTileTests
     {
+        private Tileset _tileset;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _tileset = TmxFactory.BuildTileset();
+        }
+
         [TestMethod]
         public void ReferenceTile_Construction_IsSuccessful()
         {
-            ReferenceTile referenceTile = new ReferenceTile(1);
+            ReferenceTile referenceTile = new ReferenceTile(_tileset, 1);
 
             Assert.AreEqual(1, referenceTile.Id);
+            Assert.AreEqual(_tileset, referenceTile.Tileset);
         }
 
         [TestMethod]
@@ -29,6 +38,14 @@ namespace Tests.Tmx
             Assert.IsNotNull(referenceTile.Properties);
             Assert.AreEqual(2, referenceTile.Properties.Count);
             Assert.AreEqual("true", referenceTile.Properties["IsPlayer"]);
+        }
+
+        [TestMethod]
+        public void ReferenceTile_ConvertingIdToGid_IsSuccessful()
+        {
+            ReferenceTile referenceTile = new ReferenceTile(_tileset, 1);
+
+            Assert.AreEqual(1 + _tileset.FirstGid, referenceTile.Gid);
         }
     }
 }

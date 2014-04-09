@@ -11,11 +11,13 @@ namespace TurnItUp.Tmx
     public class ReferenceTile
     {
         public int Id { get; private set; }
+        public Tileset Tileset { get; private set; }
         public PropertyDictionary Properties { get; private set; }
 
-        public ReferenceTile(int id)
+        public ReferenceTile(Tileset tileset, int id)
         {
             Id = id;
+            Tileset = tileset;
         }
 
         public ReferenceTile(XElement xReferenceTile)
@@ -30,5 +32,12 @@ namespace TurnItUp.Tmx
             }
         }
 
+        public int Gid
+        {
+            get
+            {
+                return Id + Tileset.FirstGid;
+            }
+        }
     }
 }

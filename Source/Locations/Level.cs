@@ -80,8 +80,29 @@ namespace TurnItUp.Locations
             return CharacterManager.MoveCharacterTo(character, destination);
         }
 
+        public virtual event EventHandler<EventArgs> BeforeInitialization;
+        public virtual event EventHandler<EventArgs> AfterInitialization;
+        
+        protected virtual void OnBeforeInitialization(EventArgs e)
+        {
+            if (BeforeInitialization != null)
+            {
+                BeforeInitialization(this, e);
+            }
+        }
+
+        protected virtual void OnAfterInitialization(EventArgs e)
+        {
+            if (AfterInitialization != null)
+            {
+                AfterInitialization(this, e);
+            }
+        }
+
         public void Initialize(IWorld world, string tmxPath, bool allowDiagonalMovement = false, bool shouldRandomize = false)
         {
+            OnBeforeInitialization(EventArgs.Empty);
+
             World = world;
             Map = new Map(tmxPath);
 
@@ -104,6 +125,8 @@ namespace TurnItUp.Locations
             }
 
             PathFinder = new PathFinder(this, allowDiagonalMovement);
+
+            OnAfterInitialization(EventArgs.Empty);
         }
 
         public List<Position> CalculateWalkablePositions()

@@ -40,27 +40,33 @@ namespace TurnItUp.Characters
                 Entity character = null;
                 ReferenceTile referenceTile = null;
 
-                // TODO: Simplify this code and put this logic in the tileset where it belongs!
                 // Is there a reference tile for this character?
-                if (characterTileset.ReferenceTiles.ContainsKey((int)tile.Gid - characterTileset.FirstGid))
-                {
-                    referenceTile = characterTileset.ReferenceTiles[(int)tile.Gid - characterTileset.FirstGid];
-                }
+                referenceTile = characterTileset.FindReferenceTileByTile(tile);
 
-                if (referenceTile != null && referenceTile.Properties.ContainsKey("IsPlayer") && referenceTile.Properties["IsPlayer"] == "true")
+                if (referenceTile != null)
                 {
-                    character = world.CreateEntityFromTemplate<PC>();
-                    Player = character;
+                    string propertyValue;
+                    bool isPlayerTile = referenceTile.Properties.TryGetValue("IsPlayer", out propertyValue);
+
+                    if (propertyValue == "true")
+                    {
+                        character = world.CreateEntityFromTemplate<PC>();
+                        Player = character;
+                    }
+                    else
+                    {
+                        character = world.CreateEntityFromTemplate<Npc>();
+                    }
+
+                    // Set the model of this character
+                    if (referenceTile.Properties.ContainsKey("Model"))
+                    {
+                        character.AddComponent(new Model(referenceTile.Properties["Model"]));
+                    }
                 }
                 else
                 {
                     character = world.CreateEntityFromTemplate<Npc>();
-                }
-
-                // Set the model of this character
-                if (referenceTile != null && referenceTile.Properties.ContainsKey("Model"))
-                {
-                    character.AddComponent(new Model(referenceTile.Properties["Model"]));
                 }
 
                 character.GetComponent<OnLevel>().Level = level;

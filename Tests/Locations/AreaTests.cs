@@ -41,6 +41,12 @@ namespace Tests.Locations
             _area.SetHubLevel(_level);
 
             Assert.AreEqual(4, _area.Connections.Count);
+
+            foreach (Connection connection in _area.Connections)
+            {
+                Assert.AreEqual(_level, connection.StartNode.Level);
+                Assert.IsNull(connection.EndNode);
+            }
         }
     }
 }

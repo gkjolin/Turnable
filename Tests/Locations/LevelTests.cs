@@ -38,10 +38,14 @@ namespace Tests.Locations
         private Level _level;
         private Mock<ICharacterManager> _mockCharacterManager;
         private World _world;
+        private bool _eventTriggeredFlag;
+        private EventArgs _eventArgs;
+        //private AfterLevelInitializedEventArgs _eventArgs;
 
         [TestInitialize]
         public void Initialize()
         {
+            _eventTriggeredFlag = false;
             _world = new World();
             _level = new Level(_world, "../../Fixtures/FullExample.tmx");
             _mockCharacterManager = new Mock<ICharacterManager>();
@@ -193,6 +197,32 @@ namespace Tests.Locations
 
             _level.MoveCharacterTo(null, new Position(0, 0));
             _mockCharacterManager.Verify(cm => cm.MoveCharacterTo(null, new Position(0, 0)));
+        }
+
+        private void SetEventTriggeredFlag(object sender, EventArgs e)
+        {
+            _eventTriggeredFlag = true;
+            _eventArgs = e;
+        }
+
+        [TestMethod]
+        public void Level_WhenInitializing_RaisesABeforeInitializationEventBeforeInitialization()
+        {
+            _level.BeforeInitialization += SetEventTriggeredFlag;
+            _level.Initialize(_world, "../../Fixtures/FullExample.tmx");
+
+            Assert.IsTrue(_eventTriggeredFlag);
+            // TODO: Test this event is triggered BEFORE initialization
+        }
+
+        [TestMethod]
+        public void Level_WhenInitializing_RaisesAnAfterInitializationEventAfterInitialization()
+        {
+            _level.AfterInitialization += SetEventTriggeredFlag;
+            _level.Initialize(_world, "../../Fixtures/FullExample.tmx");
+
+            Assert.IsTrue(_eventTriggeredFlag);
+            // TODO: Test this event is triggered AFTER initialization
         }
     }
 }

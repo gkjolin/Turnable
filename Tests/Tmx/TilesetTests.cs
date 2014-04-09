@@ -82,5 +82,17 @@ namespace Tests.Tmx
 
             Assert.IsNull(referenceTile);
         }
+
+        [TestMethod]
+        public void Tileset_GivenATile_CanFindTheReferenceTile()
+        {
+            Tileset tileset = TmxFactory.BuildTileset();
+            Tile tile = new Tile(2107, 0, 0);
+
+            ReferenceTile referenceTile = tileset.FindReferenceTileByTile(tile);
+
+            Assert.IsNotNull(referenceTile);
+            Assert.AreEqual(referenceTile.Id, tile.Gid - tileset.FirstGid);
+        }
     }
 }

@@ -23,5 +23,26 @@ namespace TurnItUp.Locations
             Levels = new List<Level>();
             Connections = new List<Connection>();
         }
+
+        public void SetHubLevel(Level level)
+        {
+            foreach (Layer layer in level.Map.Layers)
+            {
+                foreach (Tile tile in layer.Tiles.Values)
+                {
+                    foreach (Tileset tileset in level.Map.Tilesets)
+                    {
+                        ReferenceTile transitionReferenceTile = tileset.FindReferenceTileByProperty("IsTransition", "true");
+                        if (transitionReferenceTile != null)
+                        {
+                            if ((tile.Gid - tileset.FirstGid) == transitionReferenceTile.Id)
+                            {
+                                Connections.Add(new Connection(new Node(level, tile.X, tile.Y), null));
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

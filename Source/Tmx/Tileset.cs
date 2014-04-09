@@ -63,5 +63,17 @@ namespace TurnItUp.Tmx
 
             return null;
         }
+
+        public ReferenceTile FindReferenceTileByTile(Tile tile)
+        {
+            int referenceTileId = (int)tile.Gid - FirstGid;
+
+            if (ReferenceTiles.ContainsKey(referenceTileId))
+            {
+                return ReferenceTiles[referenceTileId];
+            }
+
+            return null;
+        }
     }
 }
