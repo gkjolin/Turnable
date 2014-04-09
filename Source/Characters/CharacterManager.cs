@@ -40,6 +40,7 @@ namespace TurnItUp.Characters
                 Entity character = null;
                 ReferenceTile referenceTile = null;
 
+                // TODO: Simplify this code and put this logic in the tileset where it belongs!
                 // Is there a reference tile for this character?
                 if (characterTileset.ReferenceTiles.ContainsKey((int)tile.Gid - characterTileset.FirstGid))
                 {

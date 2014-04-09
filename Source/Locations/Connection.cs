@@ -13,15 +13,15 @@ using TurnItUp.Randomization;
 
 namespace TurnItUp.Locations
 {
-    public class Area
+    public class Connection
     {
-        public List<Level> Levels { get; private set; }
-        public List<Connection> Connections { get; private set; }
+        public Node StartNode { get; private set; }
+        public Node EndNode { get; private set; }
 
-        public Area()
+        public Connection(Node startNode, Node endNode)
         {
-            Levels = new List<Level>();
-            Connections = new List<Connection>();
+            StartNode = startNode;
+            EndNode = endNode;
         }
     }
 }
