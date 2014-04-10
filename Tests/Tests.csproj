@@ -89,6 +89,7 @@
     <Compile Include="Fov\FovCalculatorTests.cs" />
     <Compile Include="Locations\AreaTests.cs" />
     <Compile Include="Locations\ConnectionTests.cs" />
+    <Compile Include="Locations\TransitionPointManagerTests.cs" />
     <Compile Include="Locations\LevelTests.cs" />
     <Compile Include="Locations\ViewportTests.cs" />
     <Compile Include="Pathfinding\NodeListTests.cs" />
@@ -131,6 +132,7 @@
     <None Include="Fixtures\FullExampleWithExternalTilesetReference.tmx" />
     <None Include="Fixtures\FullExampleWithUnsetModelForSomeCharacters.tmx" />
     <None Include="Fixtures\FullExample.tmx" />
+    <None Include="Fixtures\HubExample.tmx" />
     <None Include="Fixtures\MinimalBase64Gzip.tmx" />
     <None Include="Fixtures\MinimalBase64Zlib.tmx" />
   </ItemGroup>

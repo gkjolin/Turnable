@@ -57,16 +57,18 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Area_TransitioningToANewLevelViaAConnection_InitializesTheNewLevelAndSetsUpTheReverseConnectionAsWell()
+        public void Area_EnteringANewLevelViaAConnection_InitializesTheNewLevelAndCompletesAnIncompleteConnection()
         {
+            _area.Initialize(_world, "../../Fixtures/HubExample.tmx");
             Level currentLevel = _area.CurrentLevel;
 
-            _area.Transition("../../Fixtures/HubExample.tmx");
+            _area.Enter("../../Fixtures/HubExample.tmx", _area.Connections[0]);
 
             Assert.AreNotEqual(currentLevel, _area.CurrentLevel);
             Assert.AreEqual(2, _area.Levels.Count);
 
             Assert.AreEqual(4, _area.Connections.Count);
+            Assert.AreEqual(_area.CurrentLevel, _area.Connections[0].EndNode.Level);
 
             foreach (Connection connection in _area.Connections)
             {

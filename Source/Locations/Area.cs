@@ -35,10 +35,10 @@ namespace TurnItUp.Locations
                 {
                     foreach (Tileset tileset in level.Map.Tilesets)
                     {
-                        ReferenceTile transitionReferenceTile = tileset.FindReferenceTileByProperty("IsTransition", "true");
-                        if (transitionReferenceTile != null)
+                        ReferenceTile entranceReferenceTile = tileset.FindReferenceTileByProperty("IsEntrance", "true");
+                        if (entranceReferenceTile != null)
                         {
-                            if ((tile.Gid - tileset.FirstGid) == transitionReferenceTile.Id)
+                            if ((tile.Gid - tileset.FirstGid) == entranceReferenceTile.Id)
                             {
                                 Connections.Add(new Connection(new Node(level, tile.X, tile.Y), null));
                             }
@@ -56,7 +56,7 @@ namespace TurnItUp.Locations
             SetupConnections(CurrentLevel);
         }
 
-        public void Transition(string tmxPath)
+        public void Enter(string tmxPath, Connection connection)
         {
             CurrentLevel = new Level(World, tmxPath);
             Levels.Add(CurrentLevel);

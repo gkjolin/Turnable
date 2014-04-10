@@ -81,6 +81,7 @@
     <Compile Include="Interfaces\IViewport.cs" />
     <Compile Include="Locations\Area.cs" />
     <Compile Include="Locations\Connection.cs" />
+    <Compile Include="Locations\TransitionPointManager.cs" />
     <Compile Include="Locations\Viewport.cs" />
     <Compile Include="Locations\Level.cs" />
     <Compile Include="Locations\MoveResult.cs" />
