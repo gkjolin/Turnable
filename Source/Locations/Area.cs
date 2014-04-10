@@ -17,14 +17,17 @@ namespace TurnItUp.Locations
     {
         public List<Level> Levels { get; private set; }
         public List<Connection> Connections { get; private set; }
+        public Level CurrentLevel { get; private set; }
+        public World World { get; private set; }
 
         public Area()
         {
             Levels = new List<Level>();
             Connections = new List<Connection>();
+            CurrentLevel = null;
         }
 
-        public void SetHubLevel(Level level)
+        private void SetupConnections(Level level)
         {
             foreach (Layer layer in level.Map.Layers)
             {
@@ -43,6 +46,20 @@ namespace TurnItUp.Locations
                     }
                 }
             }
+        }
+
+        public void Initialize(World world, string startingLevelTmxPath)
+        {
+            World = world;
+            CurrentLevel = new Level(world, startingLevelTmxPath);
+            Levels.Add(CurrentLevel);
+            SetupConnections(CurrentLevel);
+        }
+
+        public void Transition(string tmxPath)
+        {
+            CurrentLevel = new Level(World, tmxPath);
+            Levels.Add(CurrentLevel);
         }
     }
 }

@@ -18,11 +18,13 @@ namespace Tests.Locations
     {
         private Area _area;
         private Level _level;
+        private World _world;
 
         [TestInitialize]
         public void Initialize()
         {
             _area = new Area();
+            _world = new World();
             _level = LocationsFactory.BuildLevel("../../Fixtures/HubExample.tmx");
         }
 
@@ -33,18 +35,42 @@ namespace Tests.Locations
 
             Assert.IsNotNull(area.Levels);
             Assert.IsNotNull(area.Connections);
+            Assert.IsNull(area.CurrentLevel);
         }
 
         [TestMethod]
-        public void Area_SettingTheHubLevel_CorrectlyCreatesAllConnections()
+        public void Area_Initializing_InitializesTheCurrentLevelAndSetsUpTheConnectionsCorrectly()
         {
-            _area.SetHubLevel(_level);
+            _area.Initialize(_world, "../../Fixtures/HubExample.tmx");
+
+            Assert.IsNotNull(_area.CurrentLevel);
+            Assert.AreEqual(1, _area.Levels.Count);
+            Assert.AreEqual(_world, _area.World);
 
             Assert.AreEqual(4, _area.Connections.Count);
 
             foreach (Connection connection in _area.Connections)
             {
-                Assert.AreEqual(_level, connection.StartNode.Level);
+                Assert.AreEqual(_area.CurrentLevel, connection.StartNode.Level);
+                Assert.IsNull(connection.EndNode);
+            }
+        }
+
+        [TestMethod]
+        public void Area_TransitioningToANewLevelViaAConnection_InitializesTheNewLevelAndSetsUpTheReverseConnectionAsWell()
+        {
+            Level currentLevel = _area.CurrentLevel;
+
+            _area.Transition("../../Fixtures/HubExample.tmx");
+
+            Assert.AreNotEqual(currentLevel, _area.CurrentLevel);
+            Assert.AreEqual(2, _area.Levels.Count);
+
+            Assert.AreEqual(4, _area.Connections.Count);
+
+            foreach (Connection connection in _area.Connections)
+            {
+                Assert.AreEqual(_area.CurrentLevel, connection.StartNode.Level);
                 Assert.IsNull(connection.EndNode);
             }
         }
