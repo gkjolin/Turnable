@@ -18,6 +18,7 @@ namespace TurnItUp.Locations
         // Facade pattern
 
         public Map Map { get; set; }
+        public TransitionPointManager TransitionPointManager { get; set; }
         public ICharacterManager CharacterManager { get; set; }
         public IPathFinder PathFinder { get; set; }
         public IWorld World { get; set; }
@@ -25,6 +26,21 @@ namespace TurnItUp.Locations
 
         public Level()
         {
+        }
+
+        public void SetUpPathfinder(bool allowDiagonalMovement = false)
+        {
+            PathFinder = new PathFinder(this, allowDiagonalMovement);
+        }
+
+        public void SetupViewport(int mapOriginX, int mapOriginY, int width, int height)
+        {
+            Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);
+        }
+
+        public void SetUpTransitionPoints()
+        {
+            TransitionPointManager = new TransitionPointManager(this);
         }
 
         public Level(IWorld world, string tmxPath, bool allowDiagonalMovement = false)
@@ -99,7 +115,7 @@ namespace TurnItUp.Locations
             }
         }
 
-        public void Initialize(IWorld world, string tmxPath, bool allowDiagonalMovement = false, bool shouldRandomize = false)
+        public void Initialize(IWorld world, string tmxPath, bool shouldRandomize = false)
         {
             OnBeforeInitialization(EventArgs.Empty);
 
@@ -124,8 +140,6 @@ namespace TurnItUp.Locations
                 CharacterManager = new CharacterManager(world, this);
             }
 
-            PathFinder = new PathFinder(this, allowDiagonalMovement);
-
             OnAfterInitialization(EventArgs.Empty);
         }
 
@@ -145,11 +159,6 @@ namespace TurnItUp.Locations
             }
 
             return returnValue;
-        }
-
-        public void SetupViewport(int mapOriginX, int mapOriginY, int width, int height)
-        {
-            Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);
         }
     }
 }

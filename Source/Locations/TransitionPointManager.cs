@@ -16,7 +16,6 @@ namespace TurnItUp.Locations
         public TransitionPointManager(Level level)
         {
             // Each level can have multiple Exits and one Entrance.
-
             Level = level;
             Entrance = null;
             Exits = new List<Position>();

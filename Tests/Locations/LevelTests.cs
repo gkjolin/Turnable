@@ -54,30 +54,51 @@ namespace Tests.Locations
         [TestMethod]
         public void Level_Construction_IsSuccessful()
         {
-            Mock<ILevel> mockLevel = new Mock<ILevel>();
-            mockLevel.Setup(l => l.Initialize(It.IsAny<IWorld>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()));
+        }
 
-            ILevel level = mockLevel.Object;
-            mockLevel.Verify(l => l.Initialize(_world, "../../Fixtures/FullExample.tmx", It.IsAny<bool>(), It.IsAny<bool>()));
+        // Setup methods
+        [TestMethod]
+        public void Level_SettingUpAPathfinder_IsSuccessful()
+        {
+            _level.SetUpPathfinder();
 
-//    var o = mockClass.Object;
+            Assert.IsNotNull(_level.PathFinder);
+            Assert.IsFalse(_level.PathFinder.AllowDiagonalMovement);
+            Assert.AreEqual(_level, _level.PathFinder.Level);
+        }
 
-//    mockClass.Verify(x => x.Method1(@"C:\myfile.dat"));
-//}
+        [TestMethod]
+        public void Level_SettingUpAPathfinderThatAllowsDiagonalMovement_IsSuccessful()
+        {
+            _level.SetUpPathfinder(true);
 
-//            Level level = new Level(_world, "../../Fixtures/FullExample.tmx");
+            Assert.IsNotNull(_level.PathFinder);
+            Assert.IsTrue(_level.PathFinder.AllowDiagonalMovement);
+            Assert.AreEqual(_level, _level.PathFinder.Level);
+        }
 
-//            Assert.IsNotNull(level.Map);
+        [TestMethod]
+        public void Level_SettingUpTransitionPoints_IsSuccessful()
+        {
+            _level.SetUpTransitionPoints();
 
-//            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
-//            Assert.AreEqual(_world, _level.World);
-//            Assert.IsNotNull(level.CharacterManager);
-//            Assert.AreEqual(9, level.CharacterManager.Characters.Count);
-//            Assert.AreEqual(level, level.CharacterManager.Level);
-//            Assert.AreEqual(9, level.CharacterManager.TurnQueue.Count);
-//            Assert.IsNotNull(level.PathFinder);
-//            Assert.IsFalse(level.PathFinder.AllowDiagonalMovement);
-//            Assert.AreEqual(level, level.PathFinder.Level);
+            Assert.IsNotNull(_level.TransitionPointManager);
+            Assert.IsNull(_level.TransitionPointManager.Entrance);
+            Assert.AreEqual(1, _level.TransitionPointManager.Exits.Count);
+            Assert.AreEqual(_level, _level.TransitionPointManager.Level);
+        }
+
+        [TestMethod]
+        public void Level_SettingUpAViewport_IsSuccessful()
+        {
+            _level.SetupViewport(8, 8, 5, 5);
+
+            Assert.IsNotNull(_level.Viewport);
+            Assert.AreEqual(_level, _level.Viewport.Level);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.Y);
+            Assert.AreEqual(5, _level.Viewport.Width);
+            Assert.AreEqual(5, _level.Viewport.Height);
         }
 
         [TestMethod]
@@ -94,16 +115,13 @@ namespace Tests.Locations
             Assert.AreEqual(9, level.CharacterManager.Characters.Count);
             Assert.AreEqual(level, level.CharacterManager.Level);
             Assert.AreEqual(9, level.CharacterManager.TurnQueue.Count);
-            Assert.IsNotNull(level.PathFinder);
-            Assert.IsFalse(level.PathFinder.AllowDiagonalMovement);
-            Assert.AreEqual(level, level.PathFinder.Level);
         }
 
         [TestMethod]
         public void Level_InitializationAndRandomizationWhileInitializing_IsSuccessful()
         {
             Level level = new Level();
-            level.Initialize(_world, "../../Fixtures/FullExample.tmx", false, true);
+            level.Initialize(_world, "../../Fixtures/FullExample.tmx", true);
 
             Assert.IsNotNull(level.Map);
 
@@ -111,46 +129,12 @@ namespace Tests.Locations
             Assert.AreEqual(_world, _level.World);
             Assert.IsNotNull(level.CharacterManager);
             Assert.AreEqual(level, level.CharacterManager.Level);
-            Assert.IsNotNull(level.PathFinder);
-            Assert.IsFalse(level.PathFinder.AllowDiagonalMovement);
-            Assert.AreEqual(level, level.PathFinder.Level);
 
             // Check to see if the characters in the level have been randomized. Right now randomization adds anywhere from 1 to 10 random characters to the level.
             Assert.IsTrue(level.CharacterManager.Characters.Count > 9);
             Assert.IsTrue(level.CharacterManager.TurnQueue.Count > 9);
             Assert.IsTrue(level.CharacterManager.Characters.Count <= 19);
             Assert.IsTrue(level.CharacterManager.TurnQueue.Count <= 19);
-        }
-
-        [TestMethod]
-        public void Level_ConstructionWithAPathFinderThatAllowsDiagonalMovement_IsSuccessful()
-        {
-            Level level = new Level(_world, "../../Fixtures/FullExample.tmx", true);
-
-            Assert.IsNotNull(level.Map);
-
-            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
-            Assert.AreEqual(_world, _level.World);
-            Assert.IsNotNull(level.CharacterManager);
-            Assert.AreEqual(9, level.CharacterManager.Characters.Count);
-            Assert.AreEqual(level, level.CharacterManager.Level);
-            Assert.AreEqual(9, level.CharacterManager.TurnQueue.Count);
-            Assert.IsNotNull(level.PathFinder);
-            Assert.IsTrue(level.PathFinder.AllowDiagonalMovement);
-            Assert.AreEqual(level, level.PathFinder.Level);
-        }
-
-        [TestMethod]
-        public void Level_SettingUpAViewport_IsSuccessful()
-        {
-            _level.SetupViewport(8, 8, 5, 5);
-
-            Assert.IsNotNull(_level.Viewport);
-            Assert.AreEqual(_level, _level.Viewport.Level);
-            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
-            Assert.AreEqual(8, _level.Viewport.MapOrigin.Y);
-            Assert.AreEqual(5, _level.Viewport.Width);
-            Assert.AreEqual(5, _level.Viewport.Height);
         }
 
         [TestMethod]

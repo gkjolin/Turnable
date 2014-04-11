@@ -18,7 +18,8 @@ namespace TurnItUp.Interfaces
         IWorld World { get; set; }
         IViewport Viewport { get; set; }
 
-        void Initialize(IWorld world, string tmxPath, bool allowDiagonalMovement = false, bool shouldRandomize = false);
+        void Initialize(IWorld world, string tmxPath, bool shouldRandomize = false);
+        void SetUpPathfinder(bool allowDiagonalMovement = false);
         void SetupViewport(int mapOriginX, int mapOriginY, int width, int height);
 
         // Facade methods
