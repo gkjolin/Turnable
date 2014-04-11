@@ -47,7 +47,7 @@ namespace Tests.Locations
         {
             _eventTriggeredFlag = false;
             _world = new World();
-            _level = new Level(_world, "../../Fixtures/FullExample.tmx");
+            _level = LocationsFactory.BuildLevel();
             _mockCharacterManager = new Mock<ICharacterManager>();
         }
 
@@ -89,9 +89,21 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void Level_SettingUpCharacters_IsSuccessful()
+        {
+            _level.SetUpCharacters(_world);
+
+            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
+            Assert.IsNotNull(_level.CharacterManager);
+            Assert.AreEqual(9, _level.CharacterManager.Characters.Count);
+            Assert.AreEqual(_level, _level.CharacterManager.Level);
+            Assert.AreEqual(9, _level.CharacterManager.TurnQueue.Count);
+        }
+
+        [TestMethod]
         public void Level_SettingUpAViewport_IsSuccessful()
         {
-            _level.SetupViewport(8, 8, 5, 5);
+            _level.SetUpViewport(8, 8, 5, 5);
 
             Assert.IsNotNull(_level.Viewport);
             Assert.AreEqual(_level, _level.Viewport.Level);
@@ -108,13 +120,7 @@ namespace Tests.Locations
             level.Initialize(_world, "../../Fixtures/FullExample.tmx");
 
             Assert.IsNotNull(level.Map);
-
-            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
             Assert.AreEqual(_world, _level.World);
-            Assert.IsNotNull(level.CharacterManager);
-            Assert.AreEqual(9, level.CharacterManager.Characters.Count);
-            Assert.AreEqual(level, level.CharacterManager.Level);
-            Assert.AreEqual(9, level.CharacterManager.TurnQueue.Count);
         }
 
         [TestMethod]

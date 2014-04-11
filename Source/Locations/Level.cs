@@ -33,7 +33,18 @@ namespace TurnItUp.Locations
             PathFinder = new PathFinder(this, allowDiagonalMovement);
         }
 
-        public void SetupViewport(int mapOriginX, int mapOriginY, int width, int height)
+        public void SetUpCharacters(World world)
+        {
+            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
+
+            // TODO: Test that there is a check for CharactersLayer not being null here
+            if (charactersLayer != null)
+            {
+                CharacterManager = new CharacterManager(world, this);
+            }
+        }
+
+        public void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height)
         {
             Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);
         }
@@ -121,12 +132,6 @@ namespace TurnItUp.Locations
 
             World = world;
             Map = new Map(tmxPath);
-
-            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
-            if (charactersLayer != null)
-            {
-                CharacterManager = new CharacterManager(world, this);
-            }
 
             // Randomize
             if (shouldRandomize)

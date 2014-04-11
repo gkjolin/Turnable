@@ -42,7 +42,7 @@ namespace Tests.Locations
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
-            _level.SetupViewport(8, 8, 5, 5);
+            _level.SetUpViewport(8, 8, 5, 5);
             _viewport = new Viewport(_level, 8, 8, 5, 5);
         }
            
@@ -195,7 +195,7 @@ namespace Tests.Locations
         [TestMethod]
         public void Viewport_MovingPlayerLocateadAtTheExactCenterOfTheViewport_MovesTheMapOriginOfViewportInThatSameDirection()
         {
-            _level.SetupViewport(5, 1, 5, 5);
+            _level.SetUpViewport(5, 1, 5, 5);
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 3));
 
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
@@ -214,7 +214,7 @@ namespace Tests.Locations
         [TestMethod]
         public void Viewport_MovingPlayerWhenLocatedAtTheCentralRowInAnyColumnOfTheViewport_MovesTheMapOriginCorrectly()
         {
-            _level.SetupViewport(5, 1, 5, 5);
+            _level.SetUpViewport(5, 1, 5, 5);
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(5, 3));
 
             // If player moves North or South, the viewport should shift North or South respectively
@@ -238,7 +238,7 @@ namespace Tests.Locations
         [TestMethod]
         public void Viewport_MovingPlayerWhenLocatedAtTheCentralColumnInAnyRowOfTheViewport_MovesTheMapOriginCorrectly()
         {
-            _level.SetupViewport(5, 1, 5, 5);
+            _level.SetUpViewport(5, 1, 5, 5);
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 1));
 
             // If player moves East or West, the viewport should shift East or West respectively
@@ -264,7 +264,7 @@ namespace Tests.Locations
         [TestMethod]
         public void Viewport_MovingPlayerWhenLocatedAtTheCenterOfAViewportWithEvenWidthAndHeight_MovesTheMapOriginCorrectly()
         {
-            _level.SetupViewport(3, 4, 6, 6);
+            _level.SetUpViewport(3, 4, 6, 6);
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(6, 7));
 
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
@@ -284,7 +284,7 @@ namespace Tests.Locations
         [TestMethod]
         public void Viewport_WhenAMovingPlayerHitsAnObstacleOrCharacter_DoesNotMoveItself()
         {
-            _level.SetupViewport(4, 1, 6, 6);
+            _level.SetUpViewport(4, 1, 6, 6);
             _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 4));
 
             _level.MovePlayer(Direction.North);

@@ -20,7 +20,7 @@ namespace TurnItUp.Interfaces
 
         void Initialize(IWorld world, string tmxPath, bool shouldRandomize = false);
         void SetUpPathfinder(bool allowDiagonalMovement = false);
-        void SetupViewport(int mapOriginX, int mapOriginY, int width, int height);
+        void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height);
 
         // Facade methods
         bool IsObstacle(int x, int y);
