@@ -54,19 +54,30 @@ namespace Tests.Locations
         [TestMethod]
         public void Level_Construction_IsSuccessful()
         {
-            Level level = new Level(_world, "../../Fixtures/FullExample.tmx");
+            Mock<ILevel> mockLevel = new Mock<ILevel>();
+            mockLevel.Setup(l => l.Initialize(It.IsAny<IWorld>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()));
 
-            Assert.IsNotNull(level.Map);
+            ILevel level = mockLevel.Object;
+            mockLevel.Verify(l => l.Initialize(_world, "../../Fixtures/FullExample.tmx", It.IsAny<bool>(), It.IsAny<bool>()));
 
-            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
-            Assert.AreEqual(_world, _level.World);
-            Assert.IsNotNull(level.CharacterManager);
-            Assert.AreEqual(9, level.CharacterManager.Characters.Count);
-            Assert.AreEqual(level, level.CharacterManager.Level);
-            Assert.AreEqual(9, level.CharacterManager.TurnQueue.Count);
-            Assert.IsNotNull(level.PathFinder);
-            Assert.IsFalse(level.PathFinder.AllowDiagonalMovement);
-            Assert.AreEqual(level, level.PathFinder.Level);
+//    var o = mockClass.Object;
+
+//    mockClass.Verify(x => x.Method1(@"C:\myfile.dat"));
+//}
+
+//            Level level = new Level(_world, "../../Fixtures/FullExample.tmx");
+
+//            Assert.IsNotNull(level.Map);
+
+//            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
+//            Assert.AreEqual(_world, _level.World);
+//            Assert.IsNotNull(level.CharacterManager);
+//            Assert.AreEqual(9, level.CharacterManager.Characters.Count);
+//            Assert.AreEqual(level, level.CharacterManager.Level);
+//            Assert.AreEqual(9, level.CharacterManager.TurnQueue.Count);
+//            Assert.IsNotNull(level.PathFinder);
+//            Assert.IsFalse(level.PathFinder.AllowDiagonalMovement);
+//            Assert.AreEqual(level, level.PathFinder.Level);
         }
 
         [TestMethod]

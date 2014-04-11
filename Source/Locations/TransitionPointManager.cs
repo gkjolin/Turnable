@@ -15,16 +15,22 @@ namespace TurnItUp.Locations
 
         public TransitionPointManager(Level level)
         {
+            // Each level can have multiple Exits and one Entrance.
+
             Level = level;
             Entrance = null;
             Exits = new List<Position>();
+            ReferenceTile entranceReferenceTile = null;
+            ReferenceTile exitReferenceTile = null;
+
+            entranceReferenceTile = level.Map.Tilesets["World"].FindReferenceTileByProperty("IsEntrance", "true");
+            exitReferenceTile = level.Map.Tilesets["World"].FindReferenceTileByProperty("IsExit", "true");
 
             foreach (Tile tile in Level.Map.Layers["Objects"].Tiles.Values)
             {
-                foreach (Tileset tileset in level.Map.Tilesets)
+                if (exitReferenceTile != null)
                 {
-                    ReferenceTile exitReferenceTile = tileset.FindReferenceTileByProperty("IsExit", "true");
-                    if (exitReferenceTile != null)
+                    foreach (Tileset tileset in level.Map.Tilesets)
                     {
                         if ((tile.Gid - tileset.FirstGid) == exitReferenceTile.Id)
                         {
