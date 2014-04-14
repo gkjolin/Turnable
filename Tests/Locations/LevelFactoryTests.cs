@@ -16,10 +16,53 @@ namespace Tests.Locations
     [TestClass]
     public class LevelFactoryTests
     {
-        [TestMethod]
-        public void LevelFactory_Construction_IsSuccessful()
+        private ILevelFactory _levelFactory;
+        private Mock<ILevel> _levelMock;
+
+        [TestInitialize]
+        public void Initialize()
         {
-            LevelFactory levelFactory = new LevelFactory();
+            _levelFactory = new LevelFactory();
+            _levelMock = new Mock<ILevel>();
+        }
+
+        [TestMethod]
+        public void LevelFactory_InitializingALevelWithDefaultInitializationParams_IsSuccessful()
+        {
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+
+            _levelFactory.Initialize(_levelMock.Object, initializationParams);
+
+            // TmxPath NULL - Make sure that the Map is not loaded up and that the characters are not set up
+            _levelMock.Verify(l => l.SetUpMap(It.IsAny<string>()),Times.Never());
+            _levelMock.Verify(l => l.SetUpCharacters(), Times.Never());
+            // Verify that a Pathfinder is set up
+            _levelMock.Verify(l => l.SetUpPathfinder(initializationParams.AllowDiagonalMovement));
+        }
+
+        [TestMethod]
+        public void LevelFactory_InitializingALevelWithAnInitialTiledMap_IsSuccessful()
+        {
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            initializationParams.AllowDiagonalMovement = true;
+
+            _levelFactory.Initialize(_levelMock.Object, initializationParams);
+
+            // TmxPath NULL - Make sure that the Map is not loaded up and that the characters are not set up
+            _levelMock.Verify(l => l.SetUpMap("../../Fixtures/FullExample.tmx"));
+            _levelMock.Verify(l => l.SetUpCharacters());
+            // Verify that a Pathfinder is set up
+            _levelMock.Verify(l => l.SetUpPathfinder(initializationParams.AllowDiagonalMovement));
+        }
+
+        [TestMethod]
+        public void LevelFactory_RandomizingALevel_IsSuccessful()
+        {
+            _levelFactory.Randomize(_levelMock.Object);
+
+            _levelMock.Verify(l => l.Randomize());
+            _levelMock.Verify(l => l.SetUpCharacters());
         }
     }
 }
