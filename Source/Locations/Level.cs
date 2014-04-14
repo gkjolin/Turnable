@@ -33,14 +33,14 @@ namespace TurnItUp.Locations
             PathFinder = new PathFinder(this, allowDiagonalMovement);
         }
 
-        public void SetUpCharacters(World world)
+        public void SetUpCharacters()
         {
             Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
 
             // TODO: Test that there is a check for CharactersLayer not being null here
             if (charactersLayer != null)
             {
-                CharacterManager = new CharacterManager(world, this);
+                CharacterManager = new CharacterManager(World, this);
             }
         }
 
@@ -54,9 +54,14 @@ namespace TurnItUp.Locations
             TransitionPointManager = new TransitionPointManager(this);
         }
 
-        public Level(IWorld world, string tmxPath, bool allowDiagonalMovement = false)
+        public void SetUpMap(string tmxPath)
         {
-            Initialize(world, tmxPath, allowDiagonalMovement);
+            Map = new Map(tmxPath);
+        }
+
+        public Level(IWorld world, bool allowDiagonalMovement = false)
+        {
+            Initialize(world, allowDiagonalMovement);
         }
 
         public bool IsObstacle(int x, int y)
@@ -126,24 +131,11 @@ namespace TurnItUp.Locations
             }
         }
 
-        public void Initialize(IWorld world, string tmxPath, bool shouldRandomize = false)
+        public void Initialize(IWorld world, bool shouldRandomize = false)
         {
             OnBeforeInitialization(EventArgs.Empty);
 
             World = world;
-            Map = new Map(tmxPath);
-
-            // Randomize
-            if (shouldRandomize)
-            {
-                TileList randomCharactersTileList = new LevelRandomizer(this).BuildRandomTileList(this.Map.Layers["Characters"], Prng.Next(1, 11));
-
-                this.Map.Layers["Characters"].Tiles.Merge(randomCharactersTileList);
-
-                // TODO: This code is not optimal at all. I am creating a CharacterManager to load up pre-defined characters.
-                // Then if the level is being randomized, I am re-creating the CharacterManager from scratch once again!
-                CharacterManager = new CharacterManager(world, this);
-            }
 
             OnAfterInitialization(EventArgs.Empty);
         }
@@ -164,6 +156,13 @@ namespace TurnItUp.Locations
             }
 
             return returnValue;
+        }
+
+        public void Randomize()
+        {
+            TileList randomCharactersTileList = new LevelRandomizer(this).BuildRandomTileList(this.Map.Layers["Characters"], Prng.Next(1, 11));
+
+            this.Map.Layers["Characters"].Tiles.Merge(randomCharactersTileList);
         }
     }
 }

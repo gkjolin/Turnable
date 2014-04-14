@@ -89,6 +89,7 @@
     <Compile Include="Fov\FovCalculatorTests.cs" />
     <Compile Include="Locations\AreaTests.cs" />
     <Compile Include="Locations\ConnectionTests.cs" />
+    <Compile Include="Locations\LevelInitializationParamsTests.cs" />
     <Compile Include="Locations\LevelFactoryTests.cs" />
     <Compile Include="Locations\TransitionPointManagerTests.cs" />
     <Compile Include="Locations\LevelTests.cs" />

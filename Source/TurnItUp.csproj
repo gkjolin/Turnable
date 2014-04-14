@@ -81,6 +81,8 @@
     <Compile Include="Interfaces\IViewport.cs" />
     <Compile Include="Locations\Area.cs" />
     <Compile Include="Locations\Connection.cs" />
+    <Compile Include="Locations\LevelFactory.cs" />
+    <Compile Include="Locations\LevelInitializationParams.cs" />
     <Compile Include="Locations\TransitionPointManager.cs" />
     <Compile Include="Locations\Viewport.cs" />
     <Compile Include="Locations\Level.cs" />

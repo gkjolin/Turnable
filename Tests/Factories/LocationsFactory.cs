@@ -16,8 +16,9 @@ namespace Tests.Factories
             World world = new World();
 
             // TODO: Perhaps use a LevelFactory here after one has been built?
-            Level level = new Level(world, tmxPath);
-            level.SetUpCharacters(world);
+            Level level = new Level(world);
+            level.SetUpMap(tmxPath);
+            level.SetUpCharacters();
             level.SetUpPathfinder();
 
             return level;

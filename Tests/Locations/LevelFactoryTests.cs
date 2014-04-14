@@ -16,5 +16,10 @@ namespace Tests.Locations
     [TestClass]
     public class LevelFactoryTests
     {
+        [TestMethod]
+        public void LevelFactory_Construction_IsSuccessful()
+        {
+            LevelFactory levelFactory = new LevelFactory();
+        }
     }
 }

@@ -51,14 +51,14 @@ namespace TurnItUp.Locations
         public void Initialize(World world, string startingLevelTmxPath)
         {
             World = world;
-            CurrentLevel = new Level(world, startingLevelTmxPath);
+            CurrentLevel = new Level(world);
             Levels.Add(CurrentLevel);
             SetupConnections(CurrentLevel);
         }
 
         public void Enter(string tmxPath, Connection connection)
         {
-            CurrentLevel = new Level(World, tmxPath);
+            CurrentLevel = new Level(World);
             Levels.Add(CurrentLevel);
         }
     }

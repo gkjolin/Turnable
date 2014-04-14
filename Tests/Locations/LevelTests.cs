@@ -37,7 +37,7 @@ namespace Tests.Locations
 
         private Level _level;
         private Mock<ICharacterManager> _mockCharacterManager;
-        private World _world;
+        private IWorld _world;
         private bool _eventTriggeredFlag;
         private EventArgs _eventArgs;
         //private AfterLevelInitializedEventArgs _eventArgs;
@@ -91,7 +91,7 @@ namespace Tests.Locations
         [TestMethod]
         public void Level_SettingUpCharacters_IsSuccessful()
         {
-            _level.SetUpCharacters(_world);
+            _level.SetUpCharacters();
 
             // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
             Assert.IsNotNull(_level.CharacterManager);
@@ -114,27 +114,31 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Level_Initialization_IsSuccessful()
+        public void Level_SettingUpAMap_IsSuccessful()
         {
-            Level level = new Level();
-            level.Initialize(_world, "../../Fixtures/FullExample.tmx");
+            _level.SetUpMap("../../Fixtures/FullExample.tmx");
 
-            Assert.IsNotNull(level.Map);
-            Assert.AreEqual(_world, _level.World);
+            Assert.IsNotNull(_level.Map);
         }
 
         [TestMethod]
-        public void Level_InitializationAndRandomizationWhileInitializing_IsSuccessful()
+        public void Level_Initialization_IsSuccessful()
         {
             Level level = new Level();
-            level.Initialize(_world, "../../Fixtures/FullExample.tmx", true);
+            level.Initialize(_world);
 
-            Assert.IsNotNull(level.Map);
+            Assert.AreEqual(_world, level.World);
+        }
 
-            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
-            Assert.AreEqual(_world, _level.World);
-            Assert.IsNotNull(level.CharacterManager);
-            Assert.AreEqual(level, level.CharacterManager.Level);
+        [TestMethod]
+        public void Level_Randomizing_IsSuccessful()
+        {
+            Level level = new Level();
+            level.Initialize(_world);
+            level.SetUpMap("../../Fixtures/FullExample.tmx");
+            level.SetUpCharacters();
+            level.Randomize();
+            level.SetUpCharacters();
 
             // Check to see if the characters in the level have been randomized. Right now randomization adds anywhere from 1 to 10 random characters to the level.
             Assert.IsTrue(level.CharacterManager.Characters.Count > 9);
@@ -210,7 +214,7 @@ namespace Tests.Locations
         public void Level_WhenInitializing_RaisesABeforeInitializationEventBeforeInitialization()
         {
             _level.BeforeInitialization += SetEventTriggeredFlag;
-            _level.Initialize(_world, "../../Fixtures/FullExample.tmx");
+            _level.Initialize(_world);
 
             Assert.IsTrue(_eventTriggeredFlag);
             // TODO: Test this event is triggered BEFORE initialization
@@ -220,7 +224,7 @@ namespace Tests.Locations
         public void Level_WhenInitializing_RaisesAnAfterInitializationEventAfterInitialization()
         {
             _level.AfterInitialization += SetEventTriggeredFlag;
-            _level.Initialize(_world, "../../Fixtures/FullExample.tmx");
+            _level.Initialize(_world);
 
             Assert.IsTrue(_eventTriggeredFlag);
             // TODO: Test this event is triggered AFTER initialization
