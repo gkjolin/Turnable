@@ -46,5 +46,23 @@ namespace Tests.Randomization
                 Assert.IsTrue(tile.Gid >= _level.Map.Tilesets["Characters"].FirstGid);
             }
         }
+
+        [TestMethod]
+        public void LevelRandomizer_RandomizingTheCharactersWithAFixedNumberOfNewRandomCharacters_MergesARandomizedSetOfTilesWithTheCharactersInALevel()
+        {
+            _levelRandomizer.Randomize(_level, "Characters", 5);
+
+            Assert.AreEqual(14, _level.Map.Layers["Characters"].Tiles.Count);
+        }
+
+        [TestMethod]
+        public void LevelRandomizer_RandomizingTheCharactersWithARandomNumberOfNewRandomCharacters_MergesARandomizedSetOfTilesWithTheCharactersInALevel()
+        {
+            _levelRandomizer.Randomize(_level, "Characters", 1, 11);
+
+            Assert.IsTrue(_level.Map.Layers["Characters"].Tiles.Count > 9);
+            Assert.IsTrue(_level.Map.Layers["Characters"].Tiles.Count <= 19);
+        }
+
     }
 }

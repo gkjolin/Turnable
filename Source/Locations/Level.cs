@@ -157,12 +157,5 @@ namespace TurnItUp.Locations
 
             return returnValue;
         }
-
-        public void Randomize()
-        {
-            TileList randomCharactersTileList = new LevelRandomizer(this).BuildRandomTileList(this.Map.Layers["Characters"], Prng.Next(1, 11));
-
-            this.Map.Layers["Characters"].Tiles.Merge(randomCharactersTileList);
-        }
     }
 }

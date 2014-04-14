@@ -5,6 +5,7 @@ using System.Text;
 using System.Tuples;
 using TurnItUp.Components;
 using TurnItUp.ConceptMappers;
+using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 using TurnItUp.Tmx;
 
@@ -34,6 +35,18 @@ namespace TurnItUp.Randomization
             }
 
             return returnValue;
+        }
+
+        public void Randomize(ILevel level, string layerName, int count)
+        {
+            Randomize(level, layerName, count, count + 1);
+        }
+
+        public void Randomize(ILevel level, string layerName, int inclusiveMinimumValue, int exclusiveMaximumValue)
+        {
+            TileList randomCharactersTileList = BuildRandomTileList(level.Map.Layers[layerName], Prng.Next(inclusiveMinimumValue, exclusiveMaximumValue));
+
+            level.Map.Layers["Characters"].Tiles.Merge(randomCharactersTileList);
         }
     }
 }

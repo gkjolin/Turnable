@@ -24,7 +24,6 @@ namespace TurnItUp.Interfaces
         void SetUpMap(string tmxPath);
         void SetUpPathfinder(bool allowDiagonalMovement = false);
         void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height);
-        void Randomize();
 
         // Facade methods
         bool IsObstacle(int x, int y);
