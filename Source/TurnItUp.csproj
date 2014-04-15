@@ -73,6 +73,7 @@
     <Compile Include="Interfaces\ILevelFactory.cs" />
     <Compile Include="Interfaces\IConceptMapper.cs" />
     <Compile Include="Interfaces\IEffect.cs" />
+    <Compile Include="Interfaces\ILevelRandomizer.cs" />
     <Compile Include="Interfaces\IPathFinder.cs" />
     <Compile Include="Interfaces\ILevel.cs" />
     <Compile Include="Interfaces\ISkill.cs" />

@@ -11,27 +11,24 @@ using TurnItUp.Tmx;
 
 namespace TurnItUp.Randomization
 {
-    public class LevelRandomizer
+    public class LevelRandomizer : ILevelRandomizer
     {
-        public Level Level { get; set; }
-
-        public LevelRandomizer(Level level)
+        public LevelRandomizer()
         {
-            Level = level;
         }
 
-        public TileList BuildRandomTileList(Layer targetLayer, int count)
+        public TileList BuildRandomTileList(ILevel level, Layer targetLayer, int count)
         {
             TileList returnValue = new TileList();
 
-            ModelToTileIdsConceptMapper mapper = new ModelToTileIdsConceptMapper(Level);
+            ModelToTileIdsConceptMapper mapper = new ModelToTileIdsConceptMapper(level);
             Dictionary<string, List<int>> map = mapper.BuildMapping();
-            List<Position> randomSubsetOfWalkablePositions = RandomSelector.Next<Position>(Level.CalculateWalkablePositions(), count);
+            List<Position> randomSubsetOfWalkablePositions = RandomSelector.Next<Position>(level.CalculateWalkablePositions(), count);
 
             foreach (Position position in randomSubsetOfWalkablePositions)
             {
                 int randomCharacterTileId = RandomSelector.Next<string, List<int>, int>(map);
-                returnValue.Add(new Tuple<int,int>(position.X, position.Y), new Tile((uint)Level.Map.Tilesets["Characters"].FirstGid + (uint)randomCharacterTileId, position.X, position.Y));
+                returnValue.Add(new Tuple<int, int>(position.X, position.Y), new Tile((uint)level.Map.Tilesets["Characters"].FirstGid + (uint)randomCharacterTileId, position.X, position.Y));
             }
 
             return returnValue;
@@ -44,7 +41,7 @@ namespace TurnItUp.Randomization
 
         public void Randomize(ILevel level, string layerName, int inclusiveMinimumValue, int exclusiveMaximumValue)
         {
-            TileList randomCharactersTileList = BuildRandomTileList(level.Map.Layers[layerName], Prng.Next(inclusiveMinimumValue, exclusiveMaximumValue));
+            TileList randomCharactersTileList = BuildRandomTileList(level, level.Map.Layers[layerName], Prng.Next(inclusiveMinimumValue, exclusiveMaximumValue));
 
             level.Map.Layers["Characters"].Tiles.Merge(randomCharactersTileList);
         }

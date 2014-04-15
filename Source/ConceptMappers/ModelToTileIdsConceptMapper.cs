@@ -10,9 +10,9 @@ namespace TurnItUp.ConceptMappers
 {
     public class ModelToTileIdsConceptMapper : IConceptMapper<string, List<int>>
     {
-        public Level Level { get; set; }
+        public ILevel Level { get; set; }
 
-        public ModelToTileIdsConceptMapper(Level level)
+        public ModelToTileIdsConceptMapper(ILevel level)
         {
             Level = level;
         }

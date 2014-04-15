@@ -10,6 +10,7 @@ using TurnItUp.Pathfinding;
 using TurnItUp.Tmx;
 using System.Tuples;
 using Tests.Factories;
+using TurnItUp.Randomization;
 
 namespace Tests.Locations
 {
@@ -24,6 +25,14 @@ namespace Tests.Locations
         {
             _levelFactory = new LevelFactory();
             _levelMock = new Mock<ILevel>();
+        }
+
+        [TestMethod]
+        public void LevelFactory_Construction_IsSuccessful()
+        {
+            LevelFactory levelFactory = new LevelFactory();
+
+            Assert.IsNotNull(levelFactory.LevelRandomizer);
         }
 
         [TestMethod]
@@ -57,12 +66,10 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void LevelFactory_RandomizingALevel_IsSuccessful()
+        [ExpectedException(typeof(ArgumentException))]
+        public void LevelFactory_RandomizingALevelWithDefaultRandomizationParams_Fails()
         {
-            _levelFactory.Randomize(_levelMock.Object);
-
-            _levelMock.Verify(l => l.Randomize());
-            _levelMock.Verify(l => l.SetUpCharacters());
+            _levelFactory.Randomize(_levelMock.Object, new LevelRandomizationParams());
         }
     }
 }

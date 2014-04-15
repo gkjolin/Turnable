@@ -25,6 +25,8 @@ namespace TurnItUp.Interfaces
         void SetUpPathfinder(bool allowDiagonalMovement = false);
         void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height);
 
+        List<Position> CalculateWalkablePositions();
+
         // Facade methods
         bool IsObstacle(int x, int y);
         bool IsCharacterAt(int x, int y);

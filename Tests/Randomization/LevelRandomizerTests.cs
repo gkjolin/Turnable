@@ -18,21 +18,13 @@ namespace Tests.Randomization
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
-            _levelRandomizer = new LevelRandomizer(_level);
-        }
-
-        [TestMethod]
-        public void LevelRandomizer_Construction_IsSuccessful()
-        {
-            LevelRandomizer levelRandomizer = new LevelRandomizer(_level);
-
-            Assert.AreEqual(_level, levelRandomizer.Level);
+            _levelRandomizer = new LevelRandomizer();
         }
 
         [TestMethod]
         public void LevelRandomizer_BuildingARandomSetOfCharactersForALevel_ReturnsATileListWithASetOfRandomCharactersInRandomButValidLocations()
         {
-            TileList randomCharacters = _levelRandomizer.BuildRandomTileList(_level.Map.Layers["Characters"], 5);
+            TileList randomCharacters = _levelRandomizer.BuildRandomTileList(_level, _level.Map.Layers["Characters"], 5);
 
             Assert.AreEqual(5, randomCharacters.Count);
 

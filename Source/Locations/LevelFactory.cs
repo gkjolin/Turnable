@@ -15,6 +15,13 @@ namespace TurnItUp.Locations
 {
     public class LevelFactory : ILevelFactory
     {
+        public ILevelRandomizer LevelRandomizer { get; set; }
+
+        public LevelFactory()
+        {
+            LevelRandomizer = new LevelRandomizer();
+        }
+
         public void Initialize(ILevel level, LevelInitializationParams initializationParams)
         {
             if (initializationParams.TmxPath != null)
@@ -26,9 +33,9 @@ namespace TurnItUp.Locations
             level.SetUpPathfinder(initializationParams.AllowDiagonalMovement);
         }
 
-        public void Randomize(ILevel level)
+        public void Randomize(ILevel level, LevelRandomizationParams randomizationParams)
         {
-            level.Randomize();
+            // level.Randomize();
             level.SetUpCharacters();
         }
     }
