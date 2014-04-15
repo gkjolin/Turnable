@@ -10,35 +10,34 @@ using TurnItUp.Pathfinding;
 using TurnItUp.Tmx;
 using System.Tuples;
 using Tests.Factories;
+using TurnItUp.Randomization;
 
 namespace Tests.Locations
 {
     [TestClass]
-    public class LevelInitializationParamsTests
+    public class LevelRandomizationParamsTests
     {
-        private LevelInitializationParams _levelInitializationParams;
+        private LevelRandomizationParams _levelRandomizationParams;
 
         [TestInitialize]
         public void Initialize()
         {
-            _levelInitializationParams = new LevelInitializationParams();
+            _levelRandomizationParams = new LevelRandomizationParams();
         }
 
         [TestMethod]
-        public void LevelInitializationParams_Construction_SetsUpDefaultValuesForIndividualParams()
+        public void LevelRandomizationParams_Construction_SetsUpDefaultValuesForIndividualParams()
         {
-            Assert.AreEqual(null, _levelInitializationParams.TmxPath);
-            Assert.AreEqual(false, _levelInitializationParams.AllowDiagonalMovement);
         }
 
         [TestMethod]
-        public void LevelInitializationParams_SettingIndividualParams_IsSuccessful()
+        public void LevelRandomizationParams_SettingIndividualParams_IsSuccessful()
         {
-            _levelInitializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
-            _levelInitializationParams.AllowDiagonalMovement = true;
-            
-            Assert.AreEqual("../../Fixtures/FullExample.tmx", _levelInitializationParams.TmxPath);
-            Assert.AreEqual(true, _levelInitializationParams.AllowDiagonalMovement);
+            _levelRandomizationParams.LayerName = "Characters";
+            _levelRandomizationParams.Count = 5;
+            _levelRandomizationParams.Maximum = 10;
+
+            Assert.AreEqual("Characters", _levelRandomizationParams.LayerName);
         }
     }
 }

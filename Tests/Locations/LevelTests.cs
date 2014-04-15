@@ -130,22 +130,22 @@ namespace Tests.Locations
             Assert.AreEqual(_world, level.World);
         }
 
-        [TestMethod]
-        public void Level_Randomizing_IsSuccessful()
-        {
-            Level level = new Level();
-            level.Initialize(_world);
-            level.SetUpMap("../../Fixtures/FullExample.tmx");
-            level.SetUpCharacters();
-            level.Randomize();
-            level.SetUpCharacters();
+        //[TestMethod]
+        //public void Level_Randomizing_IsSuccessful()
+        //{
+        //    Level level = new Level();
+        //    level.Initialize(_world);
+        //    level.SetUpMap("../../Fixtures/FullExample.tmx");
+        //    level.SetUpCharacters();
+        //    level.Randomize();
+        //    level.SetUpCharacters();
 
-            // Check to see if the characters in the level have been randomized. Right now randomization adds anywhere from 1 to 10 random characters to the level.
-            Assert.IsTrue(level.CharacterManager.Characters.Count > 9);
-            Assert.IsTrue(level.CharacterManager.TurnQueue.Count > 9);
-            Assert.IsTrue(level.CharacterManager.Characters.Count <= 19);
-            Assert.IsTrue(level.CharacterManager.TurnQueue.Count <= 19);
-        }
+        //    // Check to see if the characters in the level have been randomized. Right now randomization adds anywhere from 1 to 10 random characters to the level.
+        //    Assert.IsTrue(level.CharacterManager.Characters.Count > 9);
+        //    Assert.IsTrue(level.CharacterManager.TurnQueue.Count > 9);
+        //    Assert.IsTrue(level.CharacterManager.Characters.Count <= 19);
+        //    Assert.IsTrue(level.CharacterManager.TurnQueue.Count <= 19);
+        //}
 
         [TestMethod]
         public void Level_DeterminingObstacles_TakesIntoAccountLayerHavingTrueForIsCollisionProperty()

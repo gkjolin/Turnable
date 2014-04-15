@@ -5,7 +5,8 @@ using System.Text;
 
 namespace TurnItUp.Randomization
 {
-    class LevelRandomizationParams
+    public class LevelRandomizationParams
     {
+
     }
 }
