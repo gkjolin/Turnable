@@ -35,6 +35,11 @@ namespace TurnItUp.Locations
 
         public void Randomize(ILevel level, LevelRandomizationParams randomizationParams)
         {
+            if (randomizationParams.LayerName == null || randomizationParams.TileCount == null)
+            {
+                throw new ArgumentException("<LevelFactory::Randomize> : the randomizationParams have not been initialized with any values.");
+            }
+
             // level.Randomize();
             level.SetUpCharacters();
         }
