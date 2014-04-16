@@ -55,6 +55,5 @@ namespace Tests.Randomization
             Assert.IsTrue(_level.Map.Layers["Characters"].Tiles.Count > 9);
             Assert.IsTrue(_level.Map.Layers["Characters"].Tiles.Count <= 19);
         }
-
     }
 }

@@ -28,6 +28,11 @@ namespace Tests.Locations
         [TestMethod]
         public void LevelRandomizationParams_Construction_SetsUpDefaultValuesForIndividualParams()
         {
+            LevelRandomizationParams randomizationParams = new LevelRandomizationParams();
+
+            Assert.IsNull(randomizationParams.LayerName);
+            Assert.AreEqual(0, randomizationParams.TileCount);
+            Assert.AreEqual(0, randomizationParams.TileMaximum);
         }
 
         [TestMethod]
