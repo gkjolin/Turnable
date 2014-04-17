@@ -18,12 +18,15 @@ namespace Tests.Locations
     public class LevelFactoryTests
     {
         private ILevelFactory _levelFactory;
+        private Mock<ILevelRandomizer> _levelRandomizerMock;
         private Mock<ILevel> _levelMock;
 
         [TestInitialize]
         public void Initialize()
         {
             _levelFactory = new LevelFactory();
+            _levelRandomizerMock = new Mock<ILevelRandomizer>();
+            _levelFactory.LevelRandomizer = _levelRandomizerMock.Object;
             _levelMock = new Mock<ILevel>();
         }
 
@@ -70,6 +73,29 @@ namespace Tests.Locations
         public void LevelFactory_RandomizingALevelWithDefaultRandomizationParams_Fails()
         {
             _levelFactory.Randomize(_levelMock.Object, new LevelRandomizationParams());
+        }
+
+        [TestMethod]
+        public void LevelFactory_RandomizingALevelWithLayerNameAndTileCount_CallsTheCorrectMethodOnTheLevelRandomizer()
+        {
+            LevelRandomizationParams randomizationParams = new LevelRandomizationParams();
+            randomizationParams.LayerName = "Characters";
+            randomizationParams.TileCount = 5;
+
+            _levelFactory.Randomize(_levelMock.Object, randomizationParams);
+            _levelRandomizerMock.Verify(lr => lr.Randomize(_levelMock.Object, randomizationParams.LayerName, randomizationParams.TileCount.Value));
+        }
+
+        [TestMethod]
+        public void LevelFactory_RandomizingALevelWithLayerNameTileCountAndTileMaximum_CallsTheCorrectMethodOnTheLevelRandomizer()
+        {
+            LevelRandomizationParams randomizationParams = new LevelRandomizationParams();
+            randomizationParams.LayerName = "Characters";
+            randomizationParams.TileCount = 5;
+            randomizationParams.TileMaximum = 10;
+
+            _levelFactory.Randomize(_levelMock.Object, randomizationParams);
+            _levelRandomizerMock.Verify(lr => lr.Randomize(_levelMock.Object, randomizationParams.LayerName, randomizationParams.TileCount.Value, randomizationParams.TileMaximum.Value + 1));
         }
     }
 }

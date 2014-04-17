@@ -17,12 +17,12 @@ namespace Tests.Locations
     [TestClass]
     public class LevelRandomizationParamsTests
     {
-        private LevelRandomizationParams _levelRandomizationParams;
+        private LevelRandomizationParams _randomizationParams;
 
         [TestInitialize]
         public void Initialize()
         {
-            _levelRandomizationParams = new LevelRandomizationParams();
+            _randomizationParams = new LevelRandomizationParams();
         }
 
         [TestMethod]
@@ -31,18 +31,20 @@ namespace Tests.Locations
             LevelRandomizationParams randomizationParams = new LevelRandomizationParams();
 
             Assert.IsNull(randomizationParams.LayerName);
-            Assert.AreEqual(0, randomizationParams.TileCount);
-            Assert.AreEqual(0, randomizationParams.TileMaximum);
+            Assert.IsNull(randomizationParams.TileCount);
+            Assert.IsNull(randomizationParams.TileMaximum);
         }
 
         [TestMethod]
         public void LevelRandomizationParams_SettingIndividualParams_IsSuccessful()
         {
-            //_levelRandomizationParams.LayerName = "Characters";
-            //_levelRandomizationParams.Count = 5;
-            //_levelRandomizationParams.Maximum = 10;
+            _randomizationParams.LayerName = "Characters";
+            _randomizationParams.TileCount = 5;
+            _randomizationParams.TileMaximum = 10;
 
-            //Assert.AreEqual("Characters", _levelRandomizationParams.LayerName);
+            Assert.AreEqual("Characters", _randomizationParams.LayerName);
+            Assert.AreEqual(5, _randomizationParams.TileCount);
+            Assert.AreEqual(10, _randomizationParams.TileMaximum);
         }
     }
 }

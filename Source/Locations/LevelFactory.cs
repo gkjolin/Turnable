@@ -40,7 +40,15 @@ namespace TurnItUp.Locations
                 throw new ArgumentException("<LevelFactory::Randomize> : the randomizationParams have not been initialized with any values.");
             }
 
-            // level.Randomize();
+            if (randomizationParams.TileMaximum == null)
+            {
+                LevelRandomizer.Randomize(level, randomizationParams.LayerName, randomizationParams.TileCount.Value);
+            }
+            else
+            {
+                LevelRandomizer.Randomize(level, randomizationParams.LayerName, randomizationParams.TileCount.Value, randomizationParams.TileMaximum.Value + 1);
+            }
+
             level.SetUpCharacters();
         }
     }
