@@ -59,9 +59,9 @@ namespace TurnItUp.Locations
             Map = new Map(tmxPath);
         }
 
-        public Level(IWorld world, bool allowDiagonalMovement = false)
+        public Level(IWorld world)
         {
-            Initialize(world, allowDiagonalMovement);
+            World = world;
         }
 
         public bool IsObstacle(int x, int y)
@@ -112,33 +112,33 @@ namespace TurnItUp.Locations
             return CharacterManager.MoveCharacterTo(character, destination);
         }
 
-        public virtual event EventHandler<EventArgs> BeforeInitialization;
-        public virtual event EventHandler<EventArgs> AfterInitialization;
+        //public virtual event EventHandler<EventArgs> BeforeInitialization;
+        //public virtual event EventHandler<EventArgs> AfterInitialization;
         
-        protected virtual void OnBeforeInitialization(EventArgs e)
-        {
-            if (BeforeInitialization != null)
-            {
-                BeforeInitialization(this, e);
-            }
-        }
+        //protected virtual void OnBeforeInitialization(EventArgs e)
+        //{
+        //    if (BeforeInitialization != null)
+        //    {
+        //        BeforeInitialization(this, e);
+        //    }
+        //}
 
-        protected virtual void OnAfterInitialization(EventArgs e)
-        {
-            if (AfterInitialization != null)
-            {
-                AfterInitialization(this, e);
-            }
-        }
+        //protected virtual void OnAfterInitialization(EventArgs e)
+        //{
+        //    if (AfterInitialization != null)
+        //    {
+        //        AfterInitialization(this, e);
+        //    }
+        //}
 
-        public void Initialize(IWorld world, bool shouldRandomize = false)
-        {
-            OnBeforeInitialization(EventArgs.Empty);
+        //public void Initialize(IWorld world, bool shouldRandomize = false)
+        //{
+        //    OnBeforeInitialization(EventArgs.Empty);
 
-            World = world;
+        //    World = world;
 
-            OnAfterInitialization(EventArgs.Empty);
-        }
+        //    OnAfterInitialization(EventArgs.Empty);
+        //}
 
         public List<Position> CalculateWalkablePositions()
         {

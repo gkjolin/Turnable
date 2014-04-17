@@ -38,14 +38,14 @@ namespace Tests.Locations
         private Level _level;
         private Mock<ICharacterManager> _mockCharacterManager;
         private IWorld _world;
-        private bool _eventTriggeredFlag;
-        private EventArgs _eventArgs;
+        //private bool _eventTriggeredFlag;
+        //private EventArgs _eventArgs;
         //private AfterLevelInitializedEventArgs _eventArgs;
 
         [TestInitialize]
         public void Initialize()
         {
-            _eventTriggeredFlag = false;
+            //_eventTriggeredFlag = false;
             _world = new World();
             _level = LocationsFactory.BuildLevel();
             _mockCharacterManager = new Mock<ICharacterManager>();
@@ -54,6 +54,14 @@ namespace Tests.Locations
         [TestMethod]
         public void Level_Construction_IsSuccessful()
         {
+        }
+
+        [TestMethod]
+        public void Level_ConstructionWithAWorld_IsSuccessful()
+        {
+            Level level = new Level(_world);
+
+            Assert.AreEqual(_world, level.World);
         }
 
         // Setup methods
@@ -122,32 +130,6 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Level_Initialization_IsSuccessful()
-        {
-            Level level = new Level();
-            level.Initialize(_world);
-
-            Assert.AreEqual(_world, level.World);
-        }
-
-        //[TestMethod]
-        //public void Level_Randomizing_IsSuccessful()
-        //{
-        //    Level level = new Level();
-        //    level.Initialize(_world);
-        //    level.SetUpMap("../../Fixtures/FullExample.tmx");
-        //    level.SetUpCharacters();
-        //    level.Randomize();
-        //    level.SetUpCharacters();
-
-        //    // Check to see if the characters in the level have been randomized. Right now randomization adds anywhere from 1 to 10 random characters to the level.
-        //    Assert.IsTrue(level.CharacterManager.Characters.Count > 9);
-        //    Assert.IsTrue(level.CharacterManager.TurnQueue.Count > 9);
-        //    Assert.IsTrue(level.CharacterManager.Characters.Count <= 19);
-        //    Assert.IsTrue(level.CharacterManager.TurnQueue.Count <= 19);
-        //}
-
-        [TestMethod]
         public void Level_DeterminingObstacles_TakesIntoAccountLayerHavingTrueForIsCollisionProperty()
         {
             // The example level has a "wall" around the entire 15x15 level
@@ -204,30 +186,30 @@ namespace Tests.Locations
             _mockCharacterManager.Verify(cm => cm.MoveCharacterTo(null, new Position(0, 0)));
         }
 
-        private void SetEventTriggeredFlag(object sender, EventArgs e)
-        {
-            _eventTriggeredFlag = true;
-            _eventArgs = e;
-        }
+        //private void SetEventTriggeredFlag(object sender, EventArgs e)
+        //{
+        //    _eventTriggeredFlag = true;
+        //    _eventArgs = e;
+        //}
 
-        [TestMethod]
-        public void Level_WhenInitializing_RaisesABeforeInitializationEventBeforeInitialization()
-        {
-            _level.BeforeInitialization += SetEventTriggeredFlag;
-            _level.Initialize(_world);
+        //[TestMethod]
+        //public void Level_WhenInitializing_RaisesABeforeInitializationEventBeforeInitialization()
+        //{
+        //    _level.BeforeInitialization += SetEventTriggeredFlag;
+        //    _level.Initialize(_world);
 
-            Assert.IsTrue(_eventTriggeredFlag);
-            // TODO: Test this event is triggered BEFORE initialization
-        }
+        //    Assert.IsTrue(_eventTriggeredFlag);
+        //    // TODO: Test this event is triggered BEFORE initialization
+        //}
 
-        [TestMethod]
-        public void Level_WhenInitializing_RaisesAnAfterInitializationEventAfterInitialization()
-        {
-            _level.AfterInitialization += SetEventTriggeredFlag;
-            _level.Initialize(_world);
+        //[TestMethod]
+        //public void Level_WhenInitializing_RaisesAnAfterInitializationEventAfterInitialization()
+        //{
+        //    _level.AfterInitialization += SetEventTriggeredFlag;
+        //    _level.Initialize(_world);
 
-            Assert.IsTrue(_eventTriggeredFlag);
-            // TODO: Test this event is triggered AFTER initialization
-        }
+        //    Assert.IsTrue(_eventTriggeredFlag);
+        //    // TODO: Test this event is triggered AFTER initialization
+        //}
     }
 }

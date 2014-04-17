@@ -51,5 +51,16 @@ namespace TurnItUp.Locations
 
             level.SetUpCharacters();
         }
+
+        public Level BuildLevel(World world)
+        {
+            return new Level(world);
+        }
+
+
+        public Level BuildLevel(LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

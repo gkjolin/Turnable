@@ -18,7 +18,6 @@ namespace TurnItUp.Interfaces
         IWorld World { get; set; }
         IViewport Viewport { get; set; }
 
-        void Initialize(IWorld world, bool shouldRandomize = false);
         void SetUpCharacters();
         void SetUpTransitionPoints();
         void SetUpMap(string tmxPath);
