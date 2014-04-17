@@ -28,6 +28,7 @@ namespace TurnItUp.Locations
             {
                 level.SetUpMap(initializationParams.TmxPath);
                 level.SetUpCharacters();
+                level.SetUpTransitionPoints();
             }
 
             level.SetUpPathfinder(initializationParams.AllowDiagonalMovement);
@@ -52,15 +53,22 @@ namespace TurnItUp.Locations
             level.SetUpCharacters();
         }
 
-        public Level BuildLevel(World world)
+        public ILevel BuildLevel(IWorld world)
         {
             return new Level(world);
         }
 
 
-        public Level BuildLevel(LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
+        public ILevel BuildLevel(IWorld world, LevelInitializationParams initializationParams)
         {
             throw new NotImplementedException();
         }
+
+        public ILevel BuildLevel(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

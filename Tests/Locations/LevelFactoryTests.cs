@@ -106,7 +106,7 @@ namespace Tests.Locations
         [TestMethod]
         public void LevelFactory_CanBuildABlankLevel()
         {
-            Level level = _levelFactory.BuildLevel(_world);
+            ILevel level = _levelFactory.BuildLevel(_world);
 
             Assert.IsNull(level.Map);
             Assert.IsNull(level.CharacterManager);
@@ -117,7 +117,7 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void LevelFactory_CanBuildAProperlyInitializedAndRandomizedLevel()
+        public void LevelFactory_GivenInitializationParams_CanBuildAProperlyInitializedLevel()
         {
             LevelInitializationParams initializationParams = new LevelInitializationParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
@@ -126,11 +126,30 @@ namespace Tests.Locations
             randomizationParams.LayerName = "Characters";
             randomizationParams.TileCount = 5;
 
-            _levelFactoryMock.Setup(lf => lf.BuildLevel(_world)).Returns((Level)_levelMock.Object);
+            _levelFactoryMock.Setup(lf => lf.BuildLevel(_world)).Returns(_levelMock.Object);
 
-            _levelFactoryMock.Object.BuildLevel(initializationParams, randomizationParams);
+            _levelFactoryMock.Object.BuildLevel(_world, initializationParams);
 
-            _levelFactoryMock
+            _levelFactoryMock.Verify(lf => lf.Initialize(_levelMock.Object, initializationParams));
+            _levelFactoryMock.Verify(lf => lf.Randomize(_levelMock.Object, randomizationParams), Times.Never());
+        }
+
+        [TestMethod]
+        public void LevelFactory_GivenBothAnInitializationAndRandomizationParams_CanBuildAProperlyInitializedAndRandomizedLevel()
+        {
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            initializationParams.AllowDiagonalMovement = true;
+            LevelRandomizationParams randomizationParams = new LevelRandomizationParams();
+            randomizationParams.LayerName = "Characters";
+            randomizationParams.TileCount = 5;
+
+            _levelFactoryMock.Setup(lf => lf.BuildLevel(_world)).Returns(_levelMock.Object);
+
+            _levelFactoryMock.Object.BuildLevel(_world, initializationParams, randomizationParams);
+
+            _levelFactoryMock.Verify(lf => lf.Initialize(_levelMock.Object, initializationParams));
+            _levelFactoryMock.Verify(lf => lf.Randomize(_levelMock.Object, randomizationParams));
         }
     }
 }
