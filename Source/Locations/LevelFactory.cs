@@ -58,17 +58,22 @@ namespace TurnItUp.Locations
             return new Level(world);
         }
 
-
         public ILevel BuildLevel(IWorld world, LevelInitializationParams initializationParams)
         {
-            throw new NotImplementedException();
+            ILevel returnValue = BuildLevel(world);
+
+            Initialize(returnValue, initializationParams);
+
+            return returnValue;
         }
 
         public ILevel BuildLevel(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
         {
-            throw new NotImplementedException();
+            ILevel returnValue = BuildLevel(world, initializationParams);
+
+            Randomize(returnValue, randomizationParams);
+
+            return returnValue;
         }
-
-
     }
 }
