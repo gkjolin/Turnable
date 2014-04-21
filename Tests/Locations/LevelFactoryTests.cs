@@ -119,37 +119,13 @@ namespace Tests.Locations
         [TestMethod]
         public void LevelFactory_GivenInitializationParams_CanBuildAProperlyInitializedLevel()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
-            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
-            initializationParams.AllowDiagonalMovement = true;
-            LevelRandomizationParams randomizationParams = new LevelRandomizationParams();
-            randomizationParams.LayerName = "Characters";
-            randomizationParams.TileCount = 5;
-
-            _levelFactoryMock.Setup(lf => lf.BuildLevel(_world)).Returns(_levelMock.Object);
-
-            _levelFactoryMock.Object.BuildLevel(_world, initializationParams);
-
-            _levelFactoryMock.Verify(lf => lf.Initialize(_levelMock.Object, initializationParams));
-            _levelFactoryMock.Verify(lf => lf.Randomize(_levelMock.Object, randomizationParams), Times.Never());
+            // TODO: Test this
         }
 
         [TestMethod]
         public void LevelFactory_GivenBothAnInitializationAndRandomizationParams_CanBuildAProperlyInitializedAndRandomizedLevel()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
-            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
-            initializationParams.AllowDiagonalMovement = true;
-            LevelRandomizationParams randomizationParams = new LevelRandomizationParams();
-            randomizationParams.LayerName = "Characters";
-            randomizationParams.TileCount = 5;
-
-            _levelFactoryMock.Setup(lf => lf.BuildLevel(_world)).Returns(_levelMock.Object);
-
-            _levelFactoryMock.Object.BuildLevel(_world, initializationParams, randomizationParams);
-
-            _levelFactoryMock.Verify(lf => lf.Initialize(_levelMock.Object, initializationParams));
-            _levelFactoryMock.Verify(lf => lf.Randomize(_levelMock.Object, randomizationParams));
+            // TODO: Test this
         }
     }
 }

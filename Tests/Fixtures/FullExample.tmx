@@ -4,7 +4,7 @@
   <image source="../../../../Users/Praveen/Dropbox/Game Development/Assets/oryx_16-bit_fantasy_1.1/TMX Source/oryx_16bit_fantasy_world_trans_cropped.png" width="1318" height="936"/>
   <tile id="385">
    <properties>
-    <property name="IsExit" value="true"/>
+    <property name="IsEntrance" value="true"/>
    </properties>
   </tile>
   <tile id="386">

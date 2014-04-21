@@ -10,6 +10,7 @@ using TurnItUp.Pathfinding;
 using TurnItUp.Tmx;
 using System.Tuples;
 using Tests.Factories;
+using Tests.MoqExtensions;
 
 namespace Tests.Locations
 {
@@ -18,7 +19,9 @@ namespace Tests.Locations
     {
         private Area _area;
         private Level _level;
+        private Level _anotherLevel;
         private World _world;
+        private Mock<ILevelFactory> _levelFactoryMock;
 
         [TestInitialize]
         public void Initialize()
@@ -26,6 +29,17 @@ namespace Tests.Locations
             _area = new Area();
             _world = new World();
             _level = LocationsFactory.BuildLevel("../../Fixtures/HubExample.tmx");
+            _level.SetUpCharacters();
+            _level.SetUpTransitionPoints();
+            _level.SetUpPathfinder();
+            _anotherLevel = LocationsFactory.BuildLevel("../../Fixtures/FullExample.tmx");
+            _anotherLevel.SetUpCharacters();
+            _anotherLevel.SetUpTransitionPoints();
+            _anotherLevel.SetUpPathfinder();
+            _levelFactoryMock = new Mock<ILevelFactory>();
+
+            _levelFactoryMock.Setup(lf => lf.BuildLevel(It.IsAny<IWorld>(), It.IsAny<LevelInitializationParams>())).ReturnsInOrder(_level, _anotherLevel);
+            _area.LevelFactory = _levelFactoryMock.Object;
         }
 
         [TestMethod]
@@ -36,19 +50,26 @@ namespace Tests.Locations
             Assert.IsNotNull(area.Levels);
             Assert.IsNotNull(area.Connections);
             Assert.IsNull(area.CurrentLevel);
+            Assert.IsNotNull(area.LevelFactory);
         }
 
         [TestMethod]
-        public void Area_Initializing_InitializesTheCurrentLevelAndSetsUpTheConnectionsCorrectly()
+        public void Area_Initializing_BuildsALevelWithTheLevelFactoryAndSetsUpTheConnectionsCorrectly()
         {
-            _area.Initialize(_world, "../../Fixtures/HubExample.tmx");
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/HubExample.tmx";
 
-            Assert.IsNotNull(_area.CurrentLevel);
-            Assert.AreEqual(1, _area.Levels.Count);
+            _area.Initialize(_world, initializationParams);
+
+            _levelFactoryMock.Verify(lf => lf.BuildLevel(_area.World, initializationParams));
+
+            // Is the newly created level added to the level cache in the Area?
             Assert.AreEqual(_world, _area.World);
+            Assert.AreEqual(_level, _area.CurrentLevel);
+            Assert.AreEqual(1, _area.Levels.Count);
 
+            // Are the connections between levels set up?
             Assert.AreEqual(4, _area.Connections.Count);
-
             foreach (Connection connection in _area.Connections)
             {
                 Assert.AreEqual(_area.CurrentLevel, connection.StartNode.Level);
@@ -59,15 +80,20 @@ namespace Tests.Locations
         [TestMethod]
         public void Area_EnteringANewLevelViaAConnection_InitializesTheNewLevelAndCompletesAnIncompleteConnection()
         {
-            _area.Initialize(_world, "../../Fixtures/HubExample.tmx");
-            Level currentLevel = _area.CurrentLevel;
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
 
-            _area.Enter("../../Fixtures/HubExample.tmx", _area.Connections[0]);
+            _area.Initialize(_world, initializationParams);
+            ILevel currentLevel = _area.CurrentLevel;
+
+            _area.Enter(_area.Connections[0], initializationParams);
+
+            _levelFactoryMock.Verify(lf => lf.BuildLevel(_area.World, initializationParams));
 
             Assert.AreNotEqual(currentLevel, _area.CurrentLevel);
             Assert.AreEqual(2, _area.Levels.Count);
 
-            Assert.AreEqual(4, _area.Connections.Count);
+            Assert.AreEqual(5, _area.Connections.Count);
             Assert.AreEqual(_area.CurrentLevel, _area.Connections[0].EndNode.Level);
 
             foreach (Connection connection in _area.Connections)

@@ -15,8 +15,8 @@ namespace TurnItUp.Locations
 {
     public class Connection
     {
-        public Node StartNode { get; private set; }
-        public Node EndNode { get; private set; }
+        public Node StartNode { get; set; }
+        public Node EndNode { get; set; }
 
         public Connection(Node startNode, Node endNode)
         {

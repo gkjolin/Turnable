@@ -13,53 +13,55 @@ using TurnItUp.Randomization;
 
 namespace TurnItUp.Locations
 {
-    public class Area
+    public class Area : IArea
     {
-        public List<Level> Levels { get; private set; }
-        public List<Connection> Connections { get; private set; }
-        public Level CurrentLevel { get; private set; }
-        public World World { get; private set; }
+        public List<ILevel> Levels { get; set; }
+        public List<Connection> Connections { get; set; }
+        public ILevel CurrentLevel { get; set; }
+        public IWorld World { get; set; }
+        public ILevelFactory LevelFactory { get; set; }
 
         public Area()
         {
-            Levels = new List<Level>();
+            Levels = new List<ILevel>();
             Connections = new List<Connection>();
             CurrentLevel = null;
+            LevelFactory = new LevelFactory();
         }
 
-        private void SetupConnections(Level level)
+        private void SetupConnections(ILevel level)
         {
-            foreach (Layer layer in level.Map.Layers)
+            foreach (Position transitionPoint in level.TransitionPointManager.Exits)
             {
-                foreach (Tile tile in layer.Tiles.Values)
-                {
-                    foreach (Tileset tileset in level.Map.Tilesets)
-                    {
-                        ReferenceTile entranceReferenceTile = tileset.FindReferenceTileByProperty("IsEntrance", "true");
-                        if (entranceReferenceTile != null)
-                        {
-                            if ((tile.Gid - tileset.FirstGid) == entranceReferenceTile.Id)
-                            {
-                                Connections.Add(new Connection(new Node(level, tile.X, tile.Y), null));
-                            }
-                        }
-                    }
-                }
+                Connections.Add(new Connection(new Node(level, transitionPoint.X, transitionPoint.Y), null));
             }
         }
 
-        public void Initialize(World world, string startingLevelTmxPath)
+        public void Initialize(IWorld world, LevelInitializationParams initializationParams)
         {
             World = world;
-            CurrentLevel = new Level(world);
+            CurrentLevel = LevelFactory.BuildLevel(World, initializationParams);
             Levels.Add(CurrentLevel);
             SetupConnections(CurrentLevel);
         }
 
-        public void Enter(string tmxPath, Connection connection)
+        public void Initialize(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
         {
-            CurrentLevel = new Level(World);
+            throw new NotImplementedException();
+        }
+
+        public void Enter(Connection connection, LevelInitializationParams initializationParams)
+        {
+            CurrentLevel = LevelFactory.BuildLevel(World, initializationParams);
             Levels.Add(CurrentLevel);
+            // Set up the endNode for the connection (this is set as null which indicates that the Level is still not built)
+            connection.EndNode = new Node(CurrentLevel, CurrentLevel.TransitionPointManager.Entrance.X, CurrentLevel.TransitionPointManager.Entrance.Y);
+            SetupConnections(CurrentLevel);
+        }
+
+        public void Enter(Connection connection, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
+        {
+            throw new NotImplementedException();
         }
     }
 }
