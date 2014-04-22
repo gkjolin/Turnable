@@ -91,7 +91,7 @@ namespace Tests.Locations
             _level.SetUpTransitionPoints();
 
             Assert.IsNotNull(_level.TransitionPointManager);
-            Assert.IsNull(_level.TransitionPointManager.Entrance);
+            Assert.IsNotNull(_level.TransitionPointManager.Entrance);
             Assert.AreEqual(1, _level.TransitionPointManager.Exits.Count);
             Assert.AreEqual(_level, _level.TransitionPointManager.Level);
         }

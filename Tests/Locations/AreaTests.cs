@@ -22,6 +22,8 @@ namespace Tests.Locations
         private Level _anotherLevel;
         private World _world;
         private Mock<ILevelFactory> _levelFactoryMock;
+        private EventArgs _eventArgs;
+        private bool _eventTriggeredFlag;
 
         [TestInitialize]
         public void Initialize()
@@ -37,6 +39,7 @@ namespace Tests.Locations
             _anotherLevel.SetUpTransitionPoints();
             _anotherLevel.SetUpPathfinder();
             _levelFactoryMock = new Mock<ILevelFactory>();
+            _eventTriggeredFlag = false;
 
             _levelFactoryMock.Setup(lf => lf.BuildLevel(It.IsAny<IWorld>(), It.IsAny<LevelInitializationParams>())).ReturnsInOrder(_level, _anotherLevel);
             _area.LevelFactory = _levelFactoryMock.Object;
@@ -78,7 +81,14 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Area_EnteringANewLevelViaAConnection_InitializesTheNewLevelAndCompletesAnIncompleteConnection()
+        [ExpectedException(typeof(ArgumentException))]
+        public void Area_Initializing_WithoutInitializationParams_Fails()
+        {
+            _area.Initialize(_world, null);
+        }
+
+        [TestMethod]
+        public void Area_EnteringANewConnection_BuildsANewLevelAndCompletesAnIncompleteConnection()
         {
             LevelInitializationParams initializationParams = new LevelInitializationParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
@@ -95,12 +105,102 @@ namespace Tests.Locations
 
             Assert.AreEqual(5, _area.Connections.Count);
             Assert.AreEqual(_area.CurrentLevel, _area.Connections[0].EndNode.Level);
+            Assert.AreEqual(_level, _area.Connections[0].StartNode.Level);
+        }
 
-            foreach (Connection connection in _area.Connections)
-            {
-                Assert.AreEqual(_area.CurrentLevel, connection.StartNode.Level);
-                Assert.IsNull(connection.EndNode);
-            }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Area_EnteringANewConnectionWithoutInitializationParams_Fails()
+        {
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+
+            _area.Initialize(_world, initializationParams);
+            ILevel currentLevel = _area.CurrentLevel;
+
+            _area.Enter(_area.Connections[0], null);
+        }
+
+        [TestMethod]
+        public void Area_EnteringAConnectionWithLevelsOnBothSidesLoaded_DoesNotBuildANewLevel()
+        {
+            // Test setup
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            _area.Initialize(_world, initializationParams);
+            _area.Enter(_area.Connections[0], initializationParams);
+
+            //Try entering the level from the EndNode side
+            _area.Enter(_area.Connections[0]);
+            _levelFactoryMock.Verify(lf => lf.BuildLevel(_area.World, initializationParams), Times.Exactly(2));
+            Assert.AreEqual(_level, _area.CurrentLevel);
+
+            // Try entering the connection again, this time from the StartNode side
+            _area.Enter(_area.Connections[0]);
+            _levelFactoryMock.Verify(lf => lf.BuildLevel(_area.World, initializationParams), Times.Exactly(2));
+            Assert.AreEqual(_anotherLevel, _area.CurrentLevel);
+        }
+
+        [TestMethod]
+        public void Area_WhenInitializingTheFirstLevel_RaisesAfterInitializationEvent()
+        {
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+
+            _area.AfterInitialization += SetEventTriggeredFlag;
+            // TODO: Test this event is triggered AFTER initialization
+            _area.Initialize(_world, initializationParams);
+
+            Assert.IsTrue(_eventTriggeredFlag);
+        }
+
+        [TestMethod]
+        public void Area_EnteringAnUnbuiltLevel_RaisesAfterEnteringEvent()
+        {
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+
+            _area.Initialize(_world, initializationParams);
+
+            _area.AfterEntering += SetEventTriggeredFlag;
+            _area.Enter(_area.Connections[0], initializationParams);
+            // TODO: Test this event is triggered AFTER initialization
+
+            Assert.IsTrue(_eventTriggeredFlag);
+        }
+
+        [TestMethod]
+        public void Area_EnteringABuiltLevel_RaisesAfterEnteringEvent()
+        {
+            // Test setup
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            _area.Initialize(_world, initializationParams);
+            _area.Enter(_area.Connections[0], initializationParams);
+
+            _area.AfterEntering += SetEventTriggeredFlag;
+            _area.Enter(_area.Connections[0]);
+            // TODO: Test this event is triggered AFTER initialization
+
+            Assert.IsTrue(_eventTriggeredFlag);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void Area_TryingToEnterABuiltLevelAndPassingInInitializationParams_Fails()
+        {
+            // Test setup
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            _area.Initialize(_world, initializationParams);
+            _area.Enter(_area.Connections[0], initializationParams);
+            _area.Enter(_area.Connections[0], initializationParams);
+        }
+
+        private void SetEventTriggeredFlag(object sender, EventArgs e)
+        {
+            _eventTriggeredFlag = true;
+            _eventArgs = e;
         }
     }
 }

@@ -40,5 +40,15 @@ namespace Tests.Locations
             Assert.IsNull(_transitionPointManager.Entrance);
             Assert.AreEqual(4, _transitionPointManager.Exits.Count);
         }
+
+        [TestMethod]
+        public void TransitionPointManager_WhenConstructedWithALevelWithOneEntranceAndOneExit_SetsBothTheEntranceAndTheExit()
+        {
+            ILevel level = LocationsFactory.BuildLevel("../../Fixtures/FullExample.tmx");
+            TransitionPointManager transitionPointManager = new TransitionPointManager(level);
+
+            Assert.IsNotNull(transitionPointManager.Entrance);
+            Assert.AreEqual(1, transitionPointManager.Exits.Count);
+        }
     }
 }

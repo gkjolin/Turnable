@@ -39,10 +39,17 @@ namespace TurnItUp.Locations
 
         public void Initialize(IWorld world, LevelInitializationParams initializationParams)
         {
+            if (initializationParams == null)
+            {
+                throw new ArgumentException("<Area::Initialize> : initializationParmas cannot be null.");
+            } 
+
             World = world;
             CurrentLevel = LevelFactory.BuildLevel(World, initializationParams);
             Levels.Add(CurrentLevel);
             SetupConnections(CurrentLevel);
+
+            OnAfterInitialization(new EventArgs());
         }
 
         public void Initialize(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
@@ -50,18 +57,63 @@ namespace TurnItUp.Locations
             throw new NotImplementedException();
         }
 
+        public void Enter(Connection connection)
+        {
+            // Entering from the StartNode side
+            if (CurrentLevel == connection.StartNode.Level)
+            {
+                CurrentLevel = connection.EndNode.Level;
+                OnAfterEntering(new EventArgs());
+                return;
+            }
+
+            CurrentLevel = connection.StartNode.Level;
+            OnAfterEntering(new EventArgs());
+        }
+
         public void Enter(Connection connection, LevelInitializationParams initializationParams)
         {
+            if (initializationParams == null)
+            {
+                throw new ArgumentException("<Area::Initialize> : initializationParmas cannot be null.");
+            }
+
+            if (connection.EndNode != null)
+            {
+                throw new InvalidOperationException("<Area::Initialize> : a level has already been initialized at the EndNode of this connection and cannot be reinitialized. Use <Area::Enter(Connection connection)> instead.");
+            }
+
             CurrentLevel = LevelFactory.BuildLevel(World, initializationParams);
             Levels.Add(CurrentLevel);
             // Set up the endNode for the connection (this is set as null which indicates that the Level is still not built)
             connection.EndNode = new Node(CurrentLevel, CurrentLevel.TransitionPointManager.Entrance.X, CurrentLevel.TransitionPointManager.Entrance.Y);
             SetupConnections(CurrentLevel);
+
+            OnAfterEntering(new EventArgs());
         }
 
         public void Enter(Connection connection, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual event EventHandler<EventArgs> AfterInitialization;
+        public virtual event EventHandler<EventArgs> AfterEntering;
+
+        protected virtual void OnAfterInitialization(EventArgs e)
+        {
+            if (AfterInitialization != null)
+            {
+                AfterInitialization(this, e);
+            }
+        }
+
+        protected virtual void OnAfterEntering(EventArgs e)
+        {
+            if (AfterEntering != null)
+            {
+                AfterEntering(this, e);
+            }
         }
     }
 }

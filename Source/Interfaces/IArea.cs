@@ -18,6 +18,7 @@ namespace TurnItUp.Interfaces
 
         void Initialize(IWorld world, LevelInitializationParams initializationParams);
         void Initialize(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams);
+        void Enter(Connection connection);
         void Enter(Connection connection, LevelInitializationParams initializationParams);
         void Enter(Connection connection, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams);
     }
