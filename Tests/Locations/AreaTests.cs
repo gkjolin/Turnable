@@ -87,6 +87,33 @@ namespace Tests.Locations
             _area.Initialize(_world, null);
         }
 
+        // Area - Finding Connections
+        [TestMethod]
+        public void Area_FindingAConnectionAtAPosition_ReturnsTheConnection()
+        {
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+
+            _area.Initialize(_world, initializationParams);
+
+            Connection connection = _area.FindConnection(_area.Connections[0].StartNode.Position);
+
+            Assert.AreEqual(connection, _area.Connections[0]);
+        }
+
+        [TestMethod]
+        public void Area_FindingAConnectionAtAPosition_ReturnsNullIfNoConnectionCanBeFound()
+        {
+            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
+
+            _area.Initialize(_world, initializationParams);
+
+            Connection connection = _area.FindConnection(new Position(0, 0));
+
+            Assert.IsNull(connection);
+        }
+
         [TestMethod]
         public void Area_EnteringANewConnection_BuildsANewLevelAndCompletesAnIncompleteConnection()
         {

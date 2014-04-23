@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TurnItUp.Components;
 using TurnItUp.Locations;
 using TurnItUp.Randomization;
 
@@ -21,5 +22,7 @@ namespace TurnItUp.Interfaces
         void Enter(Connection connection);
         void Enter(Connection connection, LevelInitializationParams initializationParams);
         void Enter(Connection connection, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams);
+
+        Connection FindConnection(Position position);
     }
 }

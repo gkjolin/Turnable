@@ -115,5 +115,10 @@ namespace TurnItUp.Locations
                 AfterEntering(this, e);
             }
         }
+
+        public Connection FindConnection(Position position)
+        {
+            return Connections.FirstOrDefault<Connection>(c => c.StartNode.Position == position || (c.EndNode != null && c.EndNode.Position == position));
+        }
     }
 }
