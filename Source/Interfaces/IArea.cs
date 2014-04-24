@@ -24,5 +24,9 @@ namespace TurnItUp.Interfaces
         void Enter(Connection connection, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams);
 
         Connection FindConnection(Position position);
+
+        // Events
+        event EventHandler<EventArgs> AfterInitialization;
+        event EventHandler<EventArgs> AfterEnteringLevel;
     }
 }

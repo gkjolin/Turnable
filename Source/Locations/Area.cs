@@ -63,12 +63,12 @@ namespace TurnItUp.Locations
             if (CurrentLevel == connection.StartNode.Level)
             {
                 CurrentLevel = connection.EndNode.Level;
-                OnAfterEntering(new EventArgs());
+                OnAfterEnteringLevel(new EventArgs());
                 return;
             }
 
             CurrentLevel = connection.StartNode.Level;
-            OnAfterEntering(new EventArgs());
+            OnAfterEnteringLevel(new EventArgs());
         }
 
         public void Enter(Connection connection, LevelInitializationParams initializationParams)
@@ -89,7 +89,7 @@ namespace TurnItUp.Locations
             connection.EndNode = new Node(CurrentLevel, CurrentLevel.TransitionPointManager.Entrance.X, CurrentLevel.TransitionPointManager.Entrance.Y);
             SetupConnections(CurrentLevel);
 
-            OnAfterEntering(new EventArgs());
+            OnAfterEnteringLevel(new EventArgs());
         }
 
         public void Enter(Connection connection, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
@@ -98,7 +98,7 @@ namespace TurnItUp.Locations
         }
 
         public virtual event EventHandler<EventArgs> AfterInitialization;
-        public virtual event EventHandler<EventArgs> AfterEntering;
+        public virtual event EventHandler<EventArgs> AfterEnteringLevel;
 
         protected virtual void OnAfterInitialization(EventArgs e)
         {
@@ -108,11 +108,11 @@ namespace TurnItUp.Locations
             }
         }
 
-        protected virtual void OnAfterEntering(EventArgs e)
+        protected virtual void OnAfterEnteringLevel(EventArgs e)
         {
-            if (AfterEntering != null)
+            if (AfterEnteringLevel != null)
             {
-                AfterEntering(this, e);
+                AfterEnteringLevel(this, e);
             }
         }
 

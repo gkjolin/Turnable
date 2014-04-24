@@ -189,7 +189,7 @@ namespace Tests.Locations
 
             _area.Initialize(_world, initializationParams);
 
-            _area.AfterEntering += SetEventTriggeredFlag;
+            _area.AfterEnteringLevel += SetEventTriggeredFlag;
             _area.Enter(_area.Connections[0], initializationParams);
             // TODO: Test this event is triggered AFTER initialization
 
@@ -205,7 +205,7 @@ namespace Tests.Locations
             _area.Initialize(_world, initializationParams);
             _area.Enter(_area.Connections[0], initializationParams);
 
-            _area.AfterEntering += SetEventTriggeredFlag;
+            _area.AfterEnteringLevel += SetEventTriggeredFlag;
             _area.Enter(_area.Connections[0]);
             // TODO: Test this event is triggered AFTER initialization
 
