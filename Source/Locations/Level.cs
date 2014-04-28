@@ -10,6 +10,7 @@ using TurnItUp.Interfaces;
 using Entropy;
 using TurnItUp.Pathfinding;
 using TurnItUp.Randomization;
+using TurnItUp.Fov;
 
 namespace TurnItUp.Locations
 {
@@ -23,6 +24,7 @@ namespace TurnItUp.Locations
         public IPathFinder PathFinder { get; set; }
         public IWorld World { get; set; }
         public IViewport Viewport { get; set; }
+        public FovCalculator FovCalculator { get; set; }
 
         public Level()
         {
@@ -57,6 +59,11 @@ namespace TurnItUp.Locations
         public void SetUpMap(string tmxPath)
         {
             Map = new Map(tmxPath);
+        }
+
+        public void SetUpFov()
+        {
+            FovCalculator = new FovCalculator(this);
         }
 
         public Level(IWorld world)

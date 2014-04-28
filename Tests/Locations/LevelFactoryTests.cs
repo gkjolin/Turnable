@@ -74,6 +74,19 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void LevelFactory_SettingUpALevelWithAnFovCalculator_IsSuccessful()
+        {
+            LevelSetUpParams setUpParams = new LevelSetUpParams();
+            setUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            setUpParams.AllowDiagonalMovement = true;
+            setUpParams.UseFov = true;
+
+            _levelFactory.SetUp(_levelMock.Object, setUpParams);
+
+            _levelMock.Verify(l => l.SetUpFov());
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void LevelFactory_RandomizingALevelWithDefaultRandomizationParams_Fails()
         {

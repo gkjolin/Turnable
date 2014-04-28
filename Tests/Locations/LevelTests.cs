@@ -129,6 +129,15 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void Level_SettingUpFov_IsSuccessful()
+        {
+            _level.SetUpFov();
+
+            Assert.IsNotNull(_level.FovCalculator);
+            Assert.AreEqual(_level, _level.FovCalculator.Level);
+        }
+
+        [TestMethod]
         public void Level_DeterminingObstacles_TakesIntoAccountLayerHavingTrueForIsCollisionProperty()
         {
             // The example level has a "wall" around the entire 15x15 level

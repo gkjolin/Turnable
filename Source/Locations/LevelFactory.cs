@@ -31,6 +31,11 @@ namespace TurnItUp.Locations
                 level.SetUpTransitionPoints();
             }
 
+            if (setUpParams.UseFov)
+            {
+                level.SetUpFov();
+            }
+
             level.SetUpPathfinder(setUpParams.AllowDiagonalMovement);
         }
 
