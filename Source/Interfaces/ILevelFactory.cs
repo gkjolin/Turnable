@@ -16,9 +16,9 @@ namespace TurnItUp.Interfaces
         ILevelRandomizer LevelRandomizer { get; set; }
 
         ILevel BuildLevel(IWorld world);
-        ILevel BuildLevel(IWorld world, LevelInitializationParams initializationParams);
-        ILevel BuildLevel(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams);
-        void Initialize(ILevel level, LevelInitializationParams initializationParams);
+        ILevel BuildLevel(IWorld world, LevelSetUpParams setUpParams);
+        ILevel BuildLevel(IWorld world, LevelSetUpParams setUpParams, LevelRandomizationParams randomizationParams);
+        void SetUp(ILevel level, LevelSetUpParams setUpParams);
         void Randomize(ILevel level, LevelRandomizationParams randomizationParams);
     }
 }

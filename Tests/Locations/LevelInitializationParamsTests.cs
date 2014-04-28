@@ -16,12 +16,12 @@ namespace Tests.Locations
     [TestClass]
     public class LevelInitializationParamsTests
     {
-        private LevelInitializationParams _levelInitializationParams;
+        private LevelSetUpParams _levelInitializationParams;
 
         [TestInitialize]
         public void Initialize()
         {
-            _levelInitializationParams = new LevelInitializationParams();
+            _levelInitializationParams = new LevelSetUpParams();
         }
 
         [TestMethod]

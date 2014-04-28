@@ -22,16 +22,16 @@ namespace TurnItUp.Locations
             LevelRandomizer = new LevelRandomizer();
         }
 
-        public void Initialize(ILevel level, LevelInitializationParams initializationParams)
+        public void SetUp(ILevel level, LevelSetUpParams setUpParams)
         {
-            if (initializationParams.TmxPath != null)
+            if (setUpParams.TmxPath != null)
             {
-                level.SetUpMap(initializationParams.TmxPath);
+                level.SetUpMap(setUpParams.TmxPath);
                 level.SetUpCharacters();
                 level.SetUpTransitionPoints();
             }
 
-            level.SetUpPathfinder(initializationParams.AllowDiagonalMovement);
+            level.SetUpPathfinder(setUpParams.AllowDiagonalMovement);
         }
 
         public void Randomize(ILevel level, LevelRandomizationParams randomizationParams)
@@ -58,18 +58,18 @@ namespace TurnItUp.Locations
             return new Level(world);
         }
 
-        public ILevel BuildLevel(IWorld world, LevelInitializationParams initializationParams)
+        public ILevel BuildLevel(IWorld world, LevelSetUpParams setUpParams)
         {
             ILevel returnValue = BuildLevel(world);
 
-            Initialize(returnValue, initializationParams);
+            SetUp(returnValue, setUpParams);
 
             return returnValue;
         }
 
-        public ILevel BuildLevel(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
+        public ILevel BuildLevel(IWorld world, LevelSetUpParams setUpParams, LevelRandomizationParams randomizationParams)
         {
-            ILevel returnValue = BuildLevel(world, initializationParams);
+            ILevel returnValue = BuildLevel(world, setUpParams);
 
             Randomize(returnValue, randomizationParams);
 

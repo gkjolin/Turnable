@@ -37,22 +37,22 @@ namespace TurnItUp.Locations
             }
         }
 
-        public void Initialize(IWorld world, LevelInitializationParams initializationParams)
+        public void SetUp(IWorld world, LevelSetUpParams setUpParams)
         {
-            if (initializationParams == null)
+            if (setUpParams == null)
             {
-                throw new ArgumentException("<Area::Initialize> : initializationParmas cannot be null.");
+                throw new ArgumentException("<Area::SetUp> : setUpParams cannot be null.");
             } 
 
             World = world;
-            CurrentLevel = LevelFactory.BuildLevel(World, initializationParams);
+            CurrentLevel = LevelFactory.BuildLevel(World, setUpParams);
             Levels.Add(CurrentLevel);
             SetupConnections(CurrentLevel);
 
-            OnAfterInitialization(new EventArgs());
+            OnAfterSetUp(new EventArgs());
         }
 
-        public void Initialize(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
+        public void SetUp(IWorld world, LevelSetUpParams setUpParams, LevelRandomizationParams randomizationParams)
         {
             throw new NotImplementedException();
         }
@@ -71,19 +71,19 @@ namespace TurnItUp.Locations
             OnAfterEnteringLevel(new EventArgs());
         }
 
-        public void Enter(Connection connection, LevelInitializationParams initializationParams)
+        public void Enter(Connection connection, LevelSetUpParams setUpParams)
         {
-            if (initializationParams == null)
+            if (setUpParams == null)
             {
-                throw new ArgumentException("<Area::Initialize> : initializationParmas cannot be null.");
+                throw new ArgumentException("<Area::Enter> : setUpParams cannot be null.");
             }
 
             if (connection.EndNode != null)
             {
-                throw new InvalidOperationException("<Area::Initialize> : a level has already been initialized at the EndNode of this connection and cannot be reinitialized. Use <Area::Enter(Connection connection)> instead.");
+                throw new InvalidOperationException("<Area::Enter> : a level has already been set up at the EndNode of this connection and cannot be set up again. Use <Area::Enter(Connection connection)> instead.");
             }
 
-            CurrentLevel = LevelFactory.BuildLevel(World, initializationParams);
+            CurrentLevel = LevelFactory.BuildLevel(World, setUpParams);
             Levels.Add(CurrentLevel);
             // Set up the endNode for the connection (this is set as null which indicates that the Level is still not built)
             connection.EndNode = new Node(CurrentLevel, CurrentLevel.TransitionPointManager.Entrance.X, CurrentLevel.TransitionPointManager.Entrance.Y);
@@ -92,19 +92,19 @@ namespace TurnItUp.Locations
             OnAfterEnteringLevel(new EventArgs());
         }
 
-        public void Enter(Connection connection, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams)
+        public void Enter(Connection connection, LevelSetUpParams setUpParams, LevelRandomizationParams randomizationParams)
         {
             throw new NotImplementedException();
         }
 
-        public virtual event EventHandler<EventArgs> AfterInitialization;
+        public virtual event EventHandler<EventArgs> AfterSetUp;
         public virtual event EventHandler<EventArgs> AfterEnteringLevel;
 
-        protected virtual void OnAfterInitialization(EventArgs e)
+        protected virtual void OnAfterSetUp(EventArgs e)
         {
-            if (AfterInitialization != null)
+            if (AfterSetUp != null)
             {
-                AfterInitialization(this, e);
+                AfterSetUp(this, e);
             }
         }
 

@@ -41,7 +41,7 @@ namespace Tests.Locations
             _levelFactoryMock = new Mock<ILevelFactory>();
             _eventTriggeredFlag = false;
 
-            _levelFactoryMock.Setup(lf => lf.BuildLevel(It.IsAny<IWorld>(), It.IsAny<LevelInitializationParams>())).ReturnsInOrder(_level, _anotherLevel);
+            _levelFactoryMock.Setup(lf => lf.BuildLevel(It.IsAny<IWorld>(), It.IsAny<LevelSetUpParams>())).ReturnsInOrder(_level, _anotherLevel);
             _area.LevelFactory = _levelFactoryMock.Object;
         }
 
@@ -59,10 +59,10 @@ namespace Tests.Locations
         [TestMethod]
         public void Area_Initializing_BuildsALevelWithTheLevelFactoryAndSetsUpTheConnectionsCorrectly()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/HubExample.tmx";
 
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
 
             _levelFactoryMock.Verify(lf => lf.BuildLevel(_area.World, initializationParams));
 
@@ -84,17 +84,17 @@ namespace Tests.Locations
         [ExpectedException(typeof(ArgumentException))]
         public void Area_Initializing_WithoutInitializationParams_Fails()
         {
-            _area.Initialize(_world, null);
+            _area.SetUp(_world, null);
         }
 
         // Area - Finding Connections
         [TestMethod]
         public void Area_FindingAConnectionAtAPosition_ReturnsTheConnection()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
 
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
 
             Connection connection = _area.FindConnection(_area.Connections[0].StartNode.Position);
 
@@ -104,10 +104,10 @@ namespace Tests.Locations
         [TestMethod]
         public void Area_FindingAConnectionAtAPosition_ReturnsNullIfNoConnectionCanBeFound()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
 
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
 
             Connection connection = _area.FindConnection(new Position(0, 0));
 
@@ -117,10 +117,10 @@ namespace Tests.Locations
         [TestMethod]
         public void Area_EnteringANewConnection_BuildsANewLevelAndCompletesAnIncompleteConnection()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
 
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
             ILevel currentLevel = _area.CurrentLevel;
 
             _area.Enter(_area.Connections[0], initializationParams);
@@ -139,10 +139,10 @@ namespace Tests.Locations
         [ExpectedException(typeof(ArgumentException))]
         public void Area_EnteringANewConnectionWithoutInitializationParams_Fails()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
 
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
             ILevel currentLevel = _area.CurrentLevel;
 
             _area.Enter(_area.Connections[0], null);
@@ -152,9 +152,9 @@ namespace Tests.Locations
         public void Area_EnteringAConnectionWithLevelsOnBothSidesLoaded_DoesNotBuildANewLevel()
         {
             // Test setup
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
             _area.Enter(_area.Connections[0], initializationParams);
 
             //Try entering the level from the EndNode side
@@ -171,12 +171,12 @@ namespace Tests.Locations
         [TestMethod]
         public void Area_WhenInitializingTheFirstLevel_RaisesAfterInitializationEvent()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
 
-            _area.AfterInitialization += SetEventTriggeredFlag;
+            _area.AfterSetUp += SetEventTriggeredFlag;
             // TODO: Test this event is triggered AFTER initialization
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
 
             Assert.IsTrue(_eventTriggeredFlag);
         }
@@ -184,10 +184,10 @@ namespace Tests.Locations
         [TestMethod]
         public void Area_EnteringAnUnbuiltLevel_RaisesAfterEnteringEvent()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
 
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
 
             _area.AfterEnteringLevel += SetEventTriggeredFlag;
             _area.Enter(_area.Connections[0], initializationParams);
@@ -200,9 +200,9 @@ namespace Tests.Locations
         public void Area_EnteringABuiltLevel_RaisesAfterEnteringEvent()
         {
             // Test setup
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
             _area.Enter(_area.Connections[0], initializationParams);
 
             _area.AfterEnteringLevel += SetEventTriggeredFlag;
@@ -217,9 +217,9 @@ namespace Tests.Locations
         public void Area_TryingToEnterABuiltLevelAndPassingInInitializationParams_Fails()
         {
             // Test setup
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
-            _area.Initialize(_world, initializationParams);
+            _area.SetUp(_world, initializationParams);
             _area.Enter(_area.Connections[0], initializationParams);
             _area.Enter(_area.Connections[0], initializationParams);
         }

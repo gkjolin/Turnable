@@ -105,7 +105,7 @@
     <Compile Include="Skills\DirectLineOriginMapCalculator.cs" />
     <Compile Include="Skills\SkillAppliedEventArgs.cs" />
     <Compile Include="Skills\SkillDatabase.cs" />
-    <Compile Include="Skills\StatChangeEffect.cs" />
+    <Compile Include="Effects\StatChangeEffect.cs" />
     <Compile Include="Skills\SkillSet.cs" />
     <Compile Include="Skills\TargetMap.cs" />
     <Compile Include="Skills\TargetType.cs" />

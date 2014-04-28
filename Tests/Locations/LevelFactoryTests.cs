@@ -46,9 +46,9 @@ namespace Tests.Locations
         [TestMethod]
         public void LevelFactory_InitializingALevelWithDefaultInitializationParams_IsSuccessful()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
 
-            _levelFactory.Initialize(_levelMock.Object, initializationParams);
+            _levelFactory.SetUp(_levelMock.Object, initializationParams);
 
             // TmxPath NULL - Make sure that the Map is not loaded up and that the characters are not set up
             _levelMock.Verify(l => l.SetUpMap(It.IsAny<string>()),Times.Never());
@@ -60,11 +60,11 @@ namespace Tests.Locations
         [TestMethod]
         public void LevelFactory_InitializingALevelWithAnInitialTiledMap_IsSuccessful()
         {
-            LevelInitializationParams initializationParams = new LevelInitializationParams();
+            LevelSetUpParams initializationParams = new LevelSetUpParams();
             initializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
             initializationParams.AllowDiagonalMovement = true;
 
-            _levelFactory.Initialize(_levelMock.Object, initializationParams);
+            _levelFactory.SetUp(_levelMock.Object, initializationParams);
 
             // TmxPath NULL - Make sure that the Map is not loaded up and that the characters are not set up
             _levelMock.Verify(l => l.SetUpMap("../../Fixtures/FullExample.tmx"));

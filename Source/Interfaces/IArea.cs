@@ -17,16 +17,16 @@ namespace TurnItUp.Interfaces
         IWorld World { get; set; }
         ILevelFactory LevelFactory { get; set; }
 
-        void Initialize(IWorld world, LevelInitializationParams initializationParams);
-        void Initialize(IWorld world, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams);
+        void SetUp(IWorld world, LevelSetUpParams setUpParams);
+        void SetUp(IWorld world, LevelSetUpParams setUpParams, LevelRandomizationParams randomizationParams);
         void Enter(Connection connection);
-        void Enter(Connection connection, LevelInitializationParams initializationParams);
-        void Enter(Connection connection, LevelInitializationParams initializationParams, LevelRandomizationParams randomizationParams);
+        void Enter(Connection connection, LevelSetUpParams setUpParams);
+        void Enter(Connection connection, LevelSetUpParams setUpParams, LevelRandomizationParams randomizationParams);
 
         Connection FindConnection(Position position);
 
         // Events
-        event EventHandler<EventArgs> AfterInitialization;
+        event EventHandler<EventArgs> AfterSetUp;
         event EventHandler<EventArgs> AfterEnteringLevel;
     }
 }

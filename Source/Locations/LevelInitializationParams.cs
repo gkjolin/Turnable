@@ -5,12 +5,12 @@ using System.Text;
 
 namespace TurnItUp.Locations
 {
-    public class LevelInitializationParams
+    public class LevelSetUpParams
     {
         public string TmxPath { get; set; }
         public bool AllowDiagonalMovement { get; set; }
 
-        public LevelInitializationParams()
+        public LevelSetUpParams()
         {
         }
     }
