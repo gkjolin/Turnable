@@ -15,7 +15,7 @@ namespace TurnItUp.Skills
         public RangeType RangeType { get; set; }
         public TargetType TargetType { get; set; }
         public int Range { get; set; }
-        public List<IEffect> Effects { get; private set; }
+        public List<IEffect> Effects { get; set; }
         public int Points { get; set; }
         public ISkillOriginMapCalculator OriginMapCalculator { get; set; }
 
