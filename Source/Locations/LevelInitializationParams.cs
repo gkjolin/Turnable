@@ -9,6 +9,7 @@ namespace TurnItUp.Locations
     {
         public string TmxPath { get; set; }
         public bool AllowDiagonalMovement { get; set; }
+        public bool UseFov { get; set; }
 
         public LevelSetUpParams()
         {

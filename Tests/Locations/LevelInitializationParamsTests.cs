@@ -14,31 +14,34 @@ using Tests.Factories;
 namespace Tests.Locations
 {
     [TestClass]
-    public class LevelInitializationParamsTests
+    public class LevelSetUpParamsTests
     {
-        private LevelSetUpParams _levelInitializationParams;
+        private LevelSetUpParams _levelSetUpParams;
 
         [TestInitialize]
         public void Initialize()
         {
-            _levelInitializationParams = new LevelSetUpParams();
+            _levelSetUpParams = new LevelSetUpParams();
         }
 
         [TestMethod]
-        public void LevelInitializationParams_Construction_SetsUpDefaultValuesForIndividualParams()
+        public void LevelSetUpParams_Construction_SetsUpDefaultValuesForIndividualParams()
         {
-            Assert.AreEqual(null, _levelInitializationParams.TmxPath);
-            Assert.AreEqual(false, _levelInitializationParams.AllowDiagonalMovement);
+            Assert.AreEqual(null, _levelSetUpParams.TmxPath);
+            Assert.AreEqual(false, _levelSetUpParams.AllowDiagonalMovement);
+            Assert.AreEqual(false, _levelSetUpParams.UseFov);
         }
 
         [TestMethod]
-        public void LevelInitializationParams_SettingIndividualParams_IsSuccessful()
+        public void LevelSetUpParams_SettingIndividualParams_IsSuccessful()
         {
-            _levelInitializationParams.TmxPath = "../../Fixtures/FullExample.tmx";
-            _levelInitializationParams.AllowDiagonalMovement = true;
+            _levelSetUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            _levelSetUpParams.AllowDiagonalMovement = true;
+            _levelSetUpParams.UseFov = true;
             
-            Assert.AreEqual("../../Fixtures/FullExample.tmx", _levelInitializationParams.TmxPath);
-            Assert.AreEqual(true, _levelInitializationParams.AllowDiagonalMovement);
+            Assert.AreEqual("../../Fixtures/FullExample.tmx", _levelSetUpParams.TmxPath);
+            Assert.AreEqual(true, _levelSetUpParams.AllowDiagonalMovement);
+            Assert.AreEqual(true, _levelSetUpParams.UseFov);
         }
     }
 }
