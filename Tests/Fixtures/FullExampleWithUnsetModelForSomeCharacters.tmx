@@ -7,7 +7,6 @@
     <image source="../../../../Users/Praveen/Dropbox/Game Development/Assets/oryx_16-bit_fantasy_1.1/TMX Source/oryx_16bit_fantasy_creatures_trans_cropped.png" width="432" height="552"/>
     <tile id="0">
       <properties>
-        <property name="IsPlayer" value="true"/>
         <property name="Model" value="Knight M"/>
       </properties>
     </tile>

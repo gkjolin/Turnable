@@ -30,61 +30,66 @@ namespace TurnItUp.Characters
 
         public CharacterManager(IWorld world, ILevel level)
         {
-            Tileset characterTileset = level.Map.Tilesets["Characters"];
-            Layer characterLayer = level.Map.Layers["Characters"];
-            Characters = new List<Entity>();
-            TurnQueue = new List<Entity>();
-
-            foreach (Tile tile in characterLayer.Tiles.Values)
-            {
-                Entity character = null;
-                ReferenceTile referenceTile = null;
-
-                // Is there a reference tile for this character?
-                referenceTile = characterTileset.FindReferenceTileByTile(tile);
-
-                if (referenceTile != null)
-                {
-                    string propertyValue;
-                    bool isPlayerTile = referenceTile.Properties.TryGetValue("IsPlayer", out propertyValue);
-
-                    if (propertyValue == "true")
-                    {
-                        character = world.CreateEntityFromTemplate<PC>();
-                        Player = character;
-                    }
-                    else
-                    {
-                        character = world.CreateEntityFromTemplate<Npc>();
-                    }
-
-                    // Set the model of this character
-                    if (referenceTile.Properties.ContainsKey("Model"))
-                    {
-                        character.AddComponent(new Model(referenceTile.Properties["Model"]));
-                    }
-                }
-                else
-                {
-                    character = world.CreateEntityFromTemplate<Npc>();
-                }
-
-                character.GetComponent<OnLevel>().Level = level;
-                character.GetComponent<Position>().X = tile.X;
-                character.GetComponent<Position>().Y = tile.Y;
-
-                Characters.Add(character);
-            }
-
-            foreach (Entity character in Characters)
-            {
-                TurnQueue.Add(character);
-            }
-            // Move player to the front of the TurnQueue
-            TurnQueue.Remove(Player);
-            TurnQueue.Insert(0, Player);
-
             Level = level;
+
+            ////Tileset characterTileset = level.Map.Tilesets["Characters"];
+            ////Layer characterLayer = level.Map.Layers["Characters"];
+            ////Characters = new List<Entity>();
+            ////TurnQueue = new List<Entity>();
+
+            ////foreach (Tile tile in characterLayer.Tiles.Values)
+            ////{
+            ////    Entity character = null;
+            ////    ReferenceTile referenceTile = null;
+
+            ////    // Is there a reference tile for this character?
+            ////    referenceTile = characterTileset.FindReferenceTileByTile(tile);
+
+            ////    if (referenceTile != null)
+            ////    {
+            ////        //string propertyValue;
+
+            ////        character = world.CreateEntityFromTemplate<Npc>();
+
+            ////        //if (propertyValue == "true")
+            ////        //{
+            ////        //    character = world.CreateEntityFromTemplate<PC>();
+            ////        //    Player = character;
+            ////        //}
+            ////        //else
+            ////        //{
+            ////        //}
+
+            ////        // Set the model of this character
+            ////        if (referenceTile.Properties.ContainsKey("Model"))
+            ////        {
+            ////            character.AddComponent(new Model(referenceTile.Properties["Model"]));
+            ////        }
+            ////    }
+            ////    else
+            ////    {
+            ////        character = world.CreateEntityFromTemplate<Npc>();
+            ////    }
+
+            ////    character.GetComponent<OnLevel>().Level = level;
+            ////    character.GetComponent<Position>().X = tile.X;
+            ////    character.GetComponent<Position>().Y = tile.Y;
+
+            ////    Characters.Add(character);
+            ////}
+
+            ////foreach (Entity character in Characters)
+            ////{
+            ////    TurnQueue.Add(character);
+            ////}
+            ////// Move player to the front of the TurnQueue
+            ////TurnQueue.Remove(Player);
+            ////TurnQueue.Insert(0, Player);
+        }
+
+        public void SetUp(int playerX, int playerY)
+        {
+            throw new NotImplementedException();
         }
 
         public virtual MoveResult MovePlayer(Direction direction)

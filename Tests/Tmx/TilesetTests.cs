@@ -67,10 +67,10 @@ namespace Tests.Tmx
         {
             Tileset tileset = TmxFactory.BuildTileset();
 
-            ReferenceTile referenceTile = tileset.FindReferenceTileByProperty("IsPlayer", "true");
+            ReferenceTile referenceTile = tileset.FindReferenceTileByProperty("Model", "Knight M");
 
             Assert.IsNotNull(referenceTile);
-            Assert.AreEqual("true", referenceTile.Properties["IsPlayer"]);
+            Assert.AreEqual("Knight M", referenceTile.Properties["Model"]);
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace Tests.Tmx
         {
             Tileset tileset = TmxFactory.BuildTileset();
 
-            ReferenceTile referenceTile = tileset.FindReferenceTileByProperty("IsPlayer", "false");
+            ReferenceTile referenceTile = tileset.FindReferenceTileByProperty("Model", "Nothing");
 
             Assert.IsNull(referenceTile);
         }

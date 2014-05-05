@@ -46,6 +46,11 @@ namespace TurnItUp.Locations
             }
         }
 
+        public void SetUpCharacters(int playerX, int playerY)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height)
         {
             Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);

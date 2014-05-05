@@ -22,6 +22,7 @@ namespace TurnItUp.Interfaces
         FovCalculator FovCalculator { get; set; }
 
         void SetUpCharacters();
+        void SetUpCharacters(int playerX, int playerY);
         void SetUpTransitionPoints();
         void SetUpMap(string tmxPath);
         void SetUpPathfinder(bool allowDiagonalMovement = false);

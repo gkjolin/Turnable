@@ -17,6 +17,7 @@ namespace TurnItUp.Interfaces
         ILevel Level { get; set; }
         Entity Player { get; set; }
 
+        void SetUp(int playerX, int playerY);
         bool IsCharacterAt(int x, int y);
         MoveResult MovePlayer(Direction direction);
         MoveResult MoveCharacter(Entity character, Direction direction);
