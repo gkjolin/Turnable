@@ -42,7 +42,7 @@ namespace TurnItUp.Locations
             // TODO: Test that there is a check for CharactersLayer not being null here
             if (charactersLayer != null)
             {
-                CharacterManager = new CharacterManager(World, this);
+                CharacterManager = new CharacterManager(this);
             }
         }
 

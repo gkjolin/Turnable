@@ -18,7 +18,7 @@ namespace Tests.Characters
     public class CharacterManagerTests
     {
         private IWorld _world;
-        private Level _level;
+        private ILevel _level;
         private CharacterManager _characterManager;
         private bool _eventTriggeredFlag;
         private EntityEventArgs _eventArgs;
@@ -35,45 +35,50 @@ namespace Tests.Characters
         [TestMethod]
         public void CharacterManager_Construction_IsSuccessful()
         {
-            // TODO: Check that the position of the characters is set correctly
-            CharacterManager characterManager = new CharacterManager(_world, _level);
+            CharacterManager characterManager = new CharacterManager(_level);
 
             Assert.AreEqual(_level, characterManager.Level);
-
-            //Assert.IsNotNull(characterManager.Characters);
-            //Assert.AreEqual(9, characterManager.Characters.Count);
-            //Assert.IsNotNull(characterManager.Player);
-
-            //// Are all Characters set up with a Model?
-            //foreach (Entity character in characterManager.Characters)
-            //{
-            //    Assert.IsNotNull(character.GetComponent<Model>());
-            //    // TODO: Test that the models are set up correctly for each character
-            //    Assert.IsTrue(new List<String> { "Knight M", "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
-            //}
-
-            //// Is a TurnQueue setup with the Player taking the first turn?
-            //Assert.IsNotNull(characterManager.TurnQueue);
-            //Assert.AreEqual(9, characterManager.TurnQueue.Count);
-            //Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
-
-            //foreach (Entity character in characterManager.Characters)
-            //{
-            //    Assert.AreEqual(_level, character.GetComponent<OnLevel>().Level);
-            //}
         }
 
         [TestMethod]
-        public void CharacterManager_ConstructionWhenModelPropertyIsUnsetForACharacter_IgnoresSettingUpTheModelWhenNeeded()
+        public void CharacterManager_SettingUpCharacters_IsSuccessful()
+        {
+            // TODO: Check that the position of the characters is set correctly
+            CharacterManager characterManager = new CharacterManager(_level);
+            characterManager.SetUpCharacters();
+
+            Assert.IsNotNull(characterManager.Characters);
+            Assert.AreEqual(8, characterManager.Characters.Count);
+
+            // Are all Characters set up with a Model?
+            foreach (Entity character in characterManager.Characters)
+            {
+                Assert.IsNotNull(character.GetComponent<Model>());
+                // TODO: Test that the models are set up correctly for each character
+                Assert.IsTrue(new List<String> { "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
+            }
+
+            // Is a TurnQueue setup with the Player taking the first turn?
+            Assert.IsNotNull(characterManager.TurnQueue);
+            Assert.AreEqual(8, characterManager.TurnQueue.Count);
+
+            foreach (Entity character in characterManager.Characters)
+            {
+                Assert.AreEqual(_level, character.GetComponent<OnLevel>().Level);
+            }
+        }
+
+        [TestMethod]
+        public void CharacterManager_WhenSettingUpCharacters_IgnoresCharacterTilesThatHaveNoModelPropertySet()
         {
             _level = LocationsFactory.BuildLevel("../../Fixtures/FullExampleWithUnsetModelForSomeCharacters.tmx");
 
-            CharacterManager characterManager = new CharacterManager(_world, _level);
+            CharacterManager characterManager = new CharacterManager(_level);
+            characterManager.SetUpCharacters();
 
             Assert.AreEqual(characterManager.Level, _level);
             Assert.IsNotNull(characterManager.Characters);
-            Assert.AreEqual(9, characterManager.Characters.Count);
-            Assert.IsNotNull(characterManager.Player);
+            Assert.AreEqual(8, characterManager.Characters.Count);
 
             // Are all Characters set up with a Model IF they had a model property in the reference tile?
             foreach (Entity character in characterManager.Characters)
@@ -84,6 +89,23 @@ namespace Tests.Characters
                     Assert.IsTrue(new List<String> { "Knight M", "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
                 }
             }
+        }
+
+        [TestMethod]
+        public void CharacterManager_SettingUpPlayer_IsSuccessful()
+        {
+            CharacterManager characterManager = new CharacterManager(_level);
+            characterManager.SetUpPlayer("Knight M", 7, 1);
+
+            Assert.IsNotNull(characterManager.Player);
+            Assert.AreEqual(9, characterManager.Characters.Count);
+            Assert.AreEqual(new Position(7, 1), characterManager.Player.GetComponent<Position>());
+            Assert.AreEqual("Knight M", characterManager.Player.GetComponent<Model>());
+            Assert.AreEqual(_level, characterManager.Player.GetComponent<OnLevel>().Level);
+
+            // Is a TurnQueue setup with the Player taking the first turn?
+            Assert.IsNotNull(characterManager.TurnQueue);
+            Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
         }
 
         [TestMethod]
