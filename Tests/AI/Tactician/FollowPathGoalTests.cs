@@ -6,6 +6,7 @@ using TurnItUp.AI.Tactician;
 using Entropy;
 using Tests.Factories;
 using TurnItUp.Locations;
+using TurnItUp.Interfaces;
 
 namespace Tests.AI.Tactician
 {
@@ -14,7 +15,7 @@ namespace Tests.AI.Tactician
     {
         private Entity _entity;
         private List<Node> _path;
-        private Level _level;
+        private ILevel _level;
 
         [TestInitialize]
         public void Initialize()

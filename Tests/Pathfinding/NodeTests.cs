@@ -4,6 +4,7 @@ using TurnItUp.Pathfinding;
 using TurnItUp.Locations;
 using Tests.Factories;
 using System.Collections.Generic;
+using TurnItUp.Interfaces;
 
 namespace Tests.Pathfinding
 {
@@ -11,7 +12,7 @@ namespace Tests.Pathfinding
     public class NodeTests
     {
         private Node _node;
-        private Level _level;
+        private ILevel _level;
 
         [TestInitialize]
         public void Initialize()

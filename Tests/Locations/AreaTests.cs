@@ -18,8 +18,8 @@ namespace Tests.Locations
     public class AreaTests
     {
         private Area _area;
-        private Level _level;
-        private Level _anotherLevel;
+        private ILevel _level;
+        private ILevel _anotherLevel;
         private World _world;
         private Mock<ILevelFactory> _levelFactoryMock;
         private EventArgs _eventArgs;
@@ -31,13 +31,8 @@ namespace Tests.Locations
             _area = new Area();
             _world = new World();
             _level = LocationsFactory.BuildLevel("../../Fixtures/HubExample.tmx");
-            _level.SetUpCharacters();
-            _level.SetUpTransitionPoints();
             _level.SetUpPathfinder();
             _anotherLevel = LocationsFactory.BuildLevel("../../Fixtures/FullExample.tmx");
-            _anotherLevel.SetUpCharacters();
-            _anotherLevel.SetUpTransitionPoints();
-            _anotherLevel.SetUpPathfinder();
             _levelFactoryMock = new Mock<ILevelFactory>();
             _eventTriggeredFlag = false;
 

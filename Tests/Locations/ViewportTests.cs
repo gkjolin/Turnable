@@ -35,7 +35,7 @@ namespace Tests.Locations
         // XXXXXXXXXXXXXXXX
         // X - Obstacles, P - Player, E - Enemies
 
-        private Level _level;
+        private ILevel _level;
         private Viewport _viewport;
 
         [TestInitialize]

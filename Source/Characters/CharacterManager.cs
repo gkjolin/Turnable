@@ -33,7 +33,7 @@ namespace TurnItUp.Characters
             Level = level;
         }
 
-        public void SetUpCharacters()
+        public void SetUpNpcs()
         {
             Tileset characterTileset = Level.Map.Tilesets["Characters"];
             Layer characterLayer = Level.Map.Layers["Characters"];
@@ -76,14 +76,11 @@ namespace TurnItUp.Characters
             }
         }
 
-        public void SetUpPlayer(string model, int X, int Y)
+        public void SetUpPc(string model, int x, int y)
         {
             ReferenceTile referenceTile = Level.Map.Tilesets["Characters"].FindReferenceTileByProperty("Model", model);
-            //referenceTile.Gid
 
-            //Level.Map.Layers["Characters"].
-            //CharacterManager characterManager = new CharacterManager(_level);
-            //characterManager.SetUpPlayer("Knight M", 7, 1);
+            Level.Map.Layers["Characters"].SetTile(new Position(x, y), referenceTile.Gid);
 
             //Assert.IsNotNull(characterManager.Player);
             //Assert.AreEqual(9, characterManager.Characters.Count);

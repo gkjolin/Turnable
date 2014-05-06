@@ -6,6 +6,7 @@ using TurnItUp.Locations;
 using Tests.Factories;
 using TurnItUp.Tmx;
 using TurnItUp.Components;
+using TurnItUp.Interfaces;
 
 namespace Tests.Pathfinding
 {
@@ -32,7 +33,7 @@ namespace Tests.Pathfinding
     public class PathFinderTests
     {
         private Node _node;
-        private Level _level;
+        private ILevel _level;
         private PathFinder _pathFinderWithDiagonalMovement;
         private PathFinder _pathFinderWithoutDiagonalMovement;
 

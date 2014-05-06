@@ -32,7 +32,7 @@ namespace Tests.Skills
         // X......P...X...X
         // XXXXXXXXXXXXXXXX
         // X - Obstacles, P - Player, E - Enemies
-        private Level _level;
+        private ILevel _level;
         private DirectLineOriginMapCalculator _directLineOriginMapCalculator;
         private ISkill _skill;
 

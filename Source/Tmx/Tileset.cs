@@ -10,18 +10,18 @@ namespace TurnItUp.Tmx
     public class Tileset : IElement
     {
         public string Name { get; private set; }
-        public int FirstGid { get; private set; }
+        public uint FirstGid { get; private set; }
         public int TileWidth { get; private set; }
         public int TileHeight { get; private set; }
         public int Spacing { get; private set; }
         public int Margin { get; private set; }
         // TODO: Use a KeyedCollection here, it's more efficient
-        public Dictionary<int, ReferenceTile> ReferenceTiles { get; private set; }
+        public Dictionary<uint, ReferenceTile> ReferenceTiles { get; private set; }
 
         public Tileset(XElement xTileset, string tmxFilePath = null)
         {
             // .tmx files have the concept of an external tileset which can be shared among various maps
-            FirstGid = (int)xTileset.Attribute("firstgid");
+            FirstGid = (uint)xTileset.Attribute("firstgid");
 
             // If there is a attribute called source, the value indicates the file location of the external tileset
             if ((string)xTileset.Attribute("source") != null)
@@ -41,7 +41,7 @@ namespace TurnItUp.Tmx
             TileHeight = (int)xTileset.Attribute("tileheight");
             Spacing = (int?)xTileset.Attribute("spacing") ?? 0;
             Margin = (int?)xTileset.Attribute("margin") ?? 0;
-            ReferenceTiles = new Dictionary<int, ReferenceTile>();
+            ReferenceTiles = new Dictionary<uint, ReferenceTile>();
 
             foreach (XElement xReferenceTile in xTileset.Elements("tile"))
             {
@@ -66,7 +66,7 @@ namespace TurnItUp.Tmx
 
         public ReferenceTile FindReferenceTileByTile(Tile tile)
         {
-            int referenceTileId = (int)tile.Gid - FirstGid;
+            uint referenceTileId = tile.Gid - FirstGid;
 
             if (ReferenceTiles.ContainsKey(referenceTileId))
             {

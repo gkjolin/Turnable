@@ -8,7 +8,7 @@ using TurnItUp.Tmx;
 
 namespace TurnItUp.ConceptMappers
 {
-    public class ModelToTileIdsConceptMapper : IConceptMapper<string, List<int>>
+    public class ModelToTileIdsConceptMapper : IConceptMapper<string, List<uint>>
     {
         public ILevel Level { get; set; }
 
@@ -17,9 +17,9 @@ namespace TurnItUp.ConceptMappers
             Level = level;
         }
 
-        public Dictionary<string, List<int>> BuildMapping()
+        public Dictionary<string, List<uint>> BuildMapping()
         {
-            Dictionary<string, List<int>> returnValue = new Dictionary<string,List<int>>();
+            Dictionary<string, List<uint>> returnValue = new Dictionary<string,List<uint>>();
             string modelName = null;
 
             // The mapping maps model names to a list of tile ids that can be used to represent that model
@@ -30,7 +30,7 @@ namespace TurnItUp.ConceptMappers
                     modelName = referenceTile.Properties["Model"];
                     if (!(returnValue.ContainsKey(modelName)))
                     {
-                        returnValue[modelName] = new List<int>();
+                        returnValue[modelName] = new List<uint>();
                     }
                     returnValue[modelName].Add(referenceTile.Id);
                 }

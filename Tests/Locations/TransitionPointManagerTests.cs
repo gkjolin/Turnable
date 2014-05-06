@@ -16,7 +16,7 @@ namespace Tests.Locations
     [TestClass]
     public class TransitionPointManagerTests
     {
-        private Level _level;
+        private ILevel _level;
         private TransitionPointManager _transitionPointManager;
 
         [TestInitialize]

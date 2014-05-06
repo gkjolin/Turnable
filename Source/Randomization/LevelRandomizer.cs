@@ -22,12 +22,12 @@ namespace TurnItUp.Randomization
             TileList returnValue = new TileList();
 
             ModelToTileIdsConceptMapper mapper = new ModelToTileIdsConceptMapper(level);
-            Dictionary<string, List<int>> map = mapper.BuildMapping();
+            Dictionary<string, List<uint>> map = mapper.BuildMapping();
             List<Position> randomSubsetOfWalkablePositions = RandomSelector.Next<Position>(level.CalculateWalkablePositions(), count);
 
             foreach (Position position in randomSubsetOfWalkablePositions)
             {
-                int randomCharacterTileId = RandomSelector.Next<string, List<int>, int>(map);
+                uint randomCharacterTileId = RandomSelector.Next<string, List<uint>, uint>(map);
                 returnValue.Add(new Tuple<int, int>(position.X, position.Y), new Tile((uint)level.Map.Tilesets["Characters"].FirstGid + (uint)randomCharacterTileId, position.X, position.Y));
             }
 

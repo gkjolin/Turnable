@@ -27,7 +27,7 @@ namespace TurnItUp.Locations
             if (setUpParams.TmxPath != null)
             {
                 level.SetUpMap(setUpParams.TmxPath);
-                level.SetUpCharacters();
+                level.SetUpCharacters(setUpParams.PlayerModel, setUpParams.PlayerX, setUpParams.PlayerY);
                 level.SetUpTransitionPoints();
             }
 
@@ -55,7 +55,7 @@ namespace TurnItUp.Locations
                 LevelRandomizer.Randomize(level, randomizationParams.LayerName, randomizationParams.TileCount.Value, randomizationParams.TileMaximum.Value + 1);
             }
 
-            level.SetUpCharacters();
+            level.SetUpNpcs();
         }
 
         public ILevel BuildLevel(IWorld world)

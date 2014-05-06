@@ -4,13 +4,14 @@ using Tests.Factories;
 using TurnItUp.Locations;
 using System.Collections.Generic;
 using TurnItUp.ConceptMappers;
+using TurnItUp.Interfaces;
 
 namespace Tests.ConceptMappers
 {
     [TestClass]
     public class ModelToTileIdsConceptMapperTests
     {
-        private Level _level;
+        private ILevel _level;
 
         [TestInitialize]
         public void Initialize()
@@ -31,7 +32,7 @@ namespace Tests.ConceptMappers
         {
             ModelToTileIdsConceptMapper mapper = new ModelToTileIdsConceptMapper(_level);
 
-            Dictionary<string, List<int>> mapping = mapper.BuildMapping();
+            Dictionary<string, List<uint>> mapping = mapper.BuildMapping();
 
             Assert.AreEqual(156, mapping.Count);
 

@@ -9,7 +9,7 @@ namespace TurnItUp.Interfaces
 {
     public interface IViewport
     {
-        Level Level { get; set; }
+        ILevel Level { get; set; }
         Position MapOrigin { get; set; }
         int Width { get; set; }
         int Height { get; set; }

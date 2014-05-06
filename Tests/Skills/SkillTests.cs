@@ -35,7 +35,7 @@ namespace Tests.Skills
         // XXXXXXXXXXXXXXXX
         // X - Obstacles, P - Player, E - Enemies
 
-        private Level _level;
+        private ILevel _level;
         private Entity _skillUser;
         private Entity _target;
         private Skill _skill;

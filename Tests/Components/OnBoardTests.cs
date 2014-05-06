@@ -4,13 +4,14 @@ using TurnItUp.Components;
 using Entropy;
 using TurnItUp.Locations;
 using Tests.Factories;
+using TurnItUp.Interfaces;
 
 namespace Tests.Components
 {
     [TestClass]
     public class OnLevelTests
     {
-        private Level _level;
+        private ILevel _level;
 
         [TestInitialize]
         public void Initialize()

@@ -6,22 +6,23 @@ using System.Xml.Linq;
 using TurnItUp.Tmx;
 using TurnItUp.Locations;
 using Entropy;
+using TurnItUp.Interfaces;
 
 namespace Tests.Factories
 {
     public static class LocationsFactory
     {
-        public static Level BuildLevel(string tmxPath = "../../Fixtures/FullExample.tmx")
+        public static ILevel BuildLevel(string tmxPath = "../../Fixtures/FullExample.tmx")
         {
             World world = new World();
 
             // TODO: Perhaps use a LevelFactory here after one has been built?
-            Level level = new Level(world);
-            level.SetUpMap(tmxPath);
-            level.SetUpCharacters();
-            level.SetUpPathfinder();
+            LevelFactory levelFactory = new LevelFactory();
 
-            return level;
+            LevelSetUpParams setUpParams = new LevelSetUpParams();
+            setUpParams.TmxPath = tmxPath;
+
+            return levelFactory.BuildLevel(world, setUpParams);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Tests.Locations
 
             // TmxPath NULL - Make sure that the Map is not loaded up and that the characters are not set up
             _levelMock.Verify(l => l.SetUpMap(It.IsAny<string>()),Times.Never());
-            _levelMock.Verify(l => l.SetUpCharacters(), Times.Never());
+            _levelMock.Verify(l => l.SetUpCharacters(setUpParams.PlayerModel, setUpParams.PlayerX, setUpParams.PlayerY), Times.Never());
             // Verify that a Pathfinder is set up
             _levelMock.Verify(l => l.SetUpPathfinder(setUpParams.AllowDiagonalMovement));
         }
@@ -68,7 +68,7 @@ namespace Tests.Locations
 
             // TmxPath NULL - Make sure that the Map is not loaded up and that the characters are not set up
             _levelMock.Verify(l => l.SetUpMap("../../Fixtures/FullExample.tmx"));
-            _levelMock.Verify(l => l.SetUpCharacters());
+            _levelMock.Verify(l => l.SetUpCharacters(setUpParams.PlayerModel, setUpParams.PlayerX, setUpParams.PlayerY));
             // Verify that a Pathfinder is set up
             _levelMock.Verify(l => l.SetUpPathfinder(setUpParams.AllowDiagonalMovement));
         }

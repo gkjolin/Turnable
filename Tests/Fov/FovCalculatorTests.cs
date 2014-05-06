@@ -7,13 +7,14 @@ using TurnItUp.Pathfinding;
 using System.Collections.Generic;
 using TurnItUp.Components;
 using System.Linq;
+using TurnItUp.Interfaces;
 
 namespace Tests.Fov
 {
     [TestClass]
     public class FovCalculatorTests
     {
-        private Level _level;
+        private ILevel _level;
         private FovCalculator _fovCalculator;
 
         [TestInitialize]

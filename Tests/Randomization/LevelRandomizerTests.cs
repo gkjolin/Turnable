@@ -5,13 +5,14 @@ using Tests.Factories;
 using TurnItUp.Randomization;
 using TurnItUp.Tmx;
 using System.Tuples;
+using TurnItUp.Interfaces;
 
 namespace Tests.Randomization
 {
     [TestClass]
     public class LevelRandomizerTests
     {
-        private Level _level;
+        private ILevel _level;
         private LevelRandomizer _levelRandomizer;
 
         [TestInitialize]

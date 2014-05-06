@@ -15,12 +15,12 @@ namespace TurnItUp.Locations
 {
     public class Viewport : IViewport
     {
-        public Level Level { get; set; }
+        public ILevel Level { get; set; }
         public Position MapOrigin { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public Viewport(Level level, int mapOriginX, int mapOriginY, int width, int height)
+        public Viewport(ILevel level, int mapOriginX, int mapOriginY, int width, int height)
         {
             Level = level;
             MapOrigin = new Position(mapOriginX, mapOriginY);

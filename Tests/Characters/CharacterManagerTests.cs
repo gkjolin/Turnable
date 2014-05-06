@@ -41,11 +41,11 @@ namespace Tests.Characters
         }
 
         [TestMethod]
-        public void CharacterManager_SettingUpCharacters_IsSuccessful()
+        public void CharacterManager_SettingUpNpcs_IsSuccessful()
         {
             // TODO: Check that the position of the characters is set correctly
             CharacterManager characterManager = new CharacterManager(_level);
-            characterManager.SetUpCharacters();
+            characterManager.SetUpNpcs();
 
             Assert.IsNotNull(characterManager.Characters);
             Assert.AreEqual(8, characterManager.Characters.Count);
@@ -69,12 +69,12 @@ namespace Tests.Characters
         }
 
         [TestMethod]
-        public void CharacterManager_WhenSettingUpCharacters_IgnoresCharacterTilesThatHaveNoModelPropertySet()
+        public void CharacterManager_SettingUpNpcs_IgnoresCharacterTilesThatHaveNoModelPropertySet()
         {
             _level = LocationsFactory.BuildLevel("../../Fixtures/FullExampleWithUnsetModelForSomeCharacters.tmx");
 
             CharacterManager characterManager = new CharacterManager(_level);
-            characterManager.SetUpCharacters();
+            characterManager.SetUpNpcs();
 
             Assert.AreEqual(characterManager.Level, _level);
             Assert.IsNotNull(characterManager.Characters);
@@ -95,7 +95,7 @@ namespace Tests.Characters
         public void CharacterManager_SettingUpPlayer_IsSuccessful()
         {
             CharacterManager characterManager = new CharacterManager(_level);
-            characterManager.SetUpPlayer("Knight M", 7, 1);
+            characterManager.SetUpPc("Knight M", 7, 1);
 
             Assert.IsNotNull(characterManager.Player);
             Assert.AreEqual(9, characterManager.Characters.Count);

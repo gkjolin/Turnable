@@ -35,7 +35,7 @@ namespace Tests.Locations
         // XXXXXXXXXXXXXXXX
         // X - Obstacles, P - Player, E - Enemies
 
-        private Level _level;
+        private ILevel _level;
         private Mock<ICharacterManager> _mockCharacterManager;
         private IWorld _world;
         //private bool _eventTriggeredFlag;
@@ -61,6 +61,33 @@ namespace Tests.Locations
             Level level = new Level(_world);
 
             Assert.AreEqual(_world, level.World);
+            Assert.IsNotNull(level.CharacterManager);
+            Assert.AreEqual(level, level.CharacterManager.Level);
+        }
+
+        [TestMethod]
+        public void Level_SettingUpCharacters_DelegatesToTheCharacterManager()
+        {
+            Level level = new Level(_world);
+            Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
+            level.CharacterManager = characterManagerMock.Object;
+
+            level.SetUpCharacters("Knight M", 7, 1);
+
+            characterManagerMock.Verify(cm => cm.SetUpNpcs());
+            characterManagerMock.Verify(cm => cm.SetUpPc("Knight M", 7, 2));
+        }
+
+        [TestMethod]
+        public void Level_SettingUpNpcs_DelegatesToTheCharacterManager()
+        {
+            Level level = new Level(_world);
+            Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
+            level.CharacterManager = characterManagerMock.Object;
+
+            level.SetUpNpcs();
+
+            characterManagerMock.Verify(cm => cm.SetUpNpcs());
         }
 
         // Setup methods
@@ -93,18 +120,6 @@ namespace Tests.Locations
             Assert.IsNotNull(_level.TransitionPointManager.Entrance);
             Assert.AreEqual(1, _level.TransitionPointManager.Exits.Count);
             Assert.AreEqual(_level, _level.TransitionPointManager.Level);
-        }
-
-        [TestMethod]
-        public void Level_SettingUpCharacters_IsSuccessful()
-        {
-            _level.SetUpCharacters();
-
-            // The TurnManager should have been automatically set up to track the turns of any sprites in the layer which has IsCharacters property set to true
-            Assert.IsNotNull(_level.CharacterManager);
-            Assert.AreEqual(9, _level.CharacterManager.Characters.Count);
-            Assert.AreEqual(_level, _level.CharacterManager.Level);
-            Assert.AreEqual(9, _level.CharacterManager.TurnQueue.Count);
         }
 
         [TestMethod]

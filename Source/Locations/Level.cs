@@ -35,20 +35,15 @@ namespace TurnItUp.Locations
             PathFinder = new PathFinder(this, allowDiagonalMovement);
         }
 
-        public void SetUpCharacters()
+        public void SetUpCharacters(string playerModel, int playerX, int playerY)
         {
-            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
-
             // TODO: Test that there is a check for CharactersLayer not being null here
+            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
             if (charactersLayer != null)
             {
-                CharacterManager = new CharacterManager(this);
+                CharacterManager.SetUpNpcs();
+                CharacterManager.SetUpPc(playerModel, playerX, playerY);
             }
-        }
-
-        public void SetUpCharacters(int playerX, int playerY)
-        {
-            throw new NotImplementedException();
         }
 
         public void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height)
@@ -74,6 +69,7 @@ namespace TurnItUp.Locations
         public Level(IWorld world)
         {
             World = world;
+            CharacterManager = new CharacterManager(this);
         }
 
         public bool IsObstacle(int x, int y)
@@ -140,6 +136,12 @@ namespace TurnItUp.Locations
             }
 
             return returnValue;
+        }
+
+
+        public void SetUpNpcs()
+        {
+            throw new NotImplementedException();
         }
     }
 }

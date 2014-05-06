@@ -6,13 +6,14 @@ using TurnItUp.Tmx;
 using Tests.Factories;
 using System.Tuples;
 using TurnItUp.Locations;
+using TurnItUp.Interfaces;
 
 namespace Tests.Tmx
 {
     [TestClass]
     public class TileListTests
     {
-        private Level _level;
+        private ILevel _level;
 
         [TestInitialize]
         public void Initialize()

@@ -16,7 +16,7 @@ namespace Tests.Locations
     [TestClass]
     public class ConnectionTests
     {
-        private Level _level;
+        private ILevel _level;
 
         [TestInitialize]
         public void Initialize()

@@ -10,11 +10,11 @@ namespace TurnItUp.Tmx
 {
     public class ReferenceTile
     {
-        public int Id { get; private set; }
+        public uint Id { get; private set; }
         public Tileset Tileset { get; private set; }
         public PropertyDictionary Properties { get; private set; }
 
-        public ReferenceTile(Tileset tileset, int id)
+        public ReferenceTile(Tileset tileset, uint id)
         {
             Id = id;
             Tileset = tileset;
@@ -22,7 +22,7 @@ namespace TurnItUp.Tmx
 
         public ReferenceTile(XElement xReferenceTile)
         {
-            Id = (int)xReferenceTile.Attribute("id");
+            Id = (uint)xReferenceTile.Attribute("id");
 
             // Load up the Properties for this reference tile, IF it exists
             if (xReferenceTile.Element("properties") != null)
@@ -32,7 +32,7 @@ namespace TurnItUp.Tmx
             }
         }
 
-        public int Gid
+        public uint Gid
         {
             get
             {

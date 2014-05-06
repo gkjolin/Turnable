@@ -36,7 +36,7 @@ namespace Tests.AI.Tactician
         // X......P...X...X
         // XXXXXXXXXXXXXXXX
         // X - Obstacles, P - Player, E - Enemies, S - Enemy that is going to use the skill, o - Expected path
-        private Level _level;
+        private ILevel _level;
         private Skill _skill;
         private Entity _entity;
         private Position _target;

@@ -18,7 +18,7 @@ namespace Tests.AI.Tactician
     [TestClass]
     public class ChooseSkillAndTargetGoalTests
     {
-        private Level _level;
+        private ILevel _level;
         private Skill _skill;
         private Entity _entity;
 
