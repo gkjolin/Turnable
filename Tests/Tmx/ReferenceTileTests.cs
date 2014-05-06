@@ -24,16 +24,17 @@ namespace Tests.Tmx
         {
             ReferenceTile referenceTile = new ReferenceTile(_tileset, 1);
 
-            Assert.AreEqual(1, referenceTile.Id);
+            Assert.AreEqual((uint)1, referenceTile.Id);
             Assert.AreEqual(_tileset, referenceTile.Tileset);
         }
 
         [TestMethod]
         public void ReferenceTile_ConstructionUsingReferenceTileDataWithProperties_IsSuccessful()
         {
-            ReferenceTile referenceTile = new ReferenceTile(TmxFactory.BuildReferenceTileXElementWithProperties());
+            ReferenceTile referenceTile = new ReferenceTile(_tileset, TmxFactory.BuildReferenceTileXElementWithProperties());
 
-            Assert.AreEqual(0, referenceTile.Id);
+            Assert.AreEqual((uint)0, referenceTile.Id);
+            Assert.AreEqual(_tileset, referenceTile.Tileset);
             // Properties have been loaded?
             Assert.IsNotNull(referenceTile.Properties);
             Assert.AreEqual(2, referenceTile.Properties.Count);

@@ -20,10 +20,8 @@ namespace TurnItUp.Tmx
             Tileset = tileset;
         }
 
-        public ReferenceTile(XElement xReferenceTile)
+        public ReferenceTile(Tileset tileset, XElement xReferenceTile) : this(tileset, (uint)xReferenceTile.Attribute("id"))
         {
-            Id = (uint)xReferenceTile.Attribute("id");
-
             // Load up the Properties for this reference tile, IF it exists
             if (xReferenceTile.Element("properties") != null)
             {

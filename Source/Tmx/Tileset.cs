@@ -45,7 +45,7 @@ namespace TurnItUp.Tmx
 
             foreach (XElement xReferenceTile in xTileset.Elements("tile"))
             {
-                ReferenceTile referenceTile = new ReferenceTile(xReferenceTile);
+                ReferenceTile referenceTile = new ReferenceTile(this, xReferenceTile);
 
                 ReferenceTiles[referenceTile.Id] = referenceTile;
             }

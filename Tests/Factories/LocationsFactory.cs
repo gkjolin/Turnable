@@ -21,6 +21,9 @@ namespace Tests.Factories
 
             LevelSetUpParams setUpParams = new LevelSetUpParams();
             setUpParams.TmxPath = tmxPath;
+            setUpParams.PlayerModel = "Knight M";
+            setUpParams.PlayerX = 7;
+            setUpParams.PlayerY = 1;
 
             return levelFactory.BuildLevel(world, setUpParams);
         }

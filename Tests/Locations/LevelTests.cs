@@ -68,11 +68,13 @@ namespace Tests.Locations
         [TestMethod]
         public void Level_SettingUpCharacters_DelegatesToTheCharacterManager()
         {
-            Level level = new Level(_world);
             Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
-            level.CharacterManager = characterManagerMock.Object;
+            _level.CharacterManager = characterManagerMock.Object;
 
-            level.SetUpCharacters("Knight M", 7, 1);
+            characterManagerMock.Setup(cm => cm.SetUpNpcs());
+            characterManagerMock.Setup(cm => cm.SetUpPc("Knight M", 7, 2));
+
+            _level.SetUpCharacters("Knight M", 7, 2);
 
             characterManagerMock.Verify(cm => cm.SetUpNpcs());
             characterManagerMock.Verify(cm => cm.SetUpPc("Knight M", 7, 2));
