@@ -57,5 +57,9 @@ namespace TurnItUp.Tmx
             Tiles[new Tuple<int, int>(newPosition.X, newPosition.Y)] = newTile;
             Tiles.Remove(new Tuple<int, int>(currentPosition.X, currentPosition.Y));
         }
+        
+        public void SetTile(Position position, int gid)
+        {
+        }
     }
 }

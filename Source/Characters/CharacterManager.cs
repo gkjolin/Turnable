@@ -78,7 +78,22 @@ namespace TurnItUp.Characters
 
         public void SetUpPlayer(string model, int X, int Y)
         {
-            throw new NotImplementedException();
+            ReferenceTile referenceTile = Level.Map.Tilesets["Characters"].FindReferenceTileByProperty("Model", model);
+            //referenceTile.Gid
+
+            //Level.Map.Layers["Characters"].
+            //CharacterManager characterManager = new CharacterManager(_level);
+            //characterManager.SetUpPlayer("Knight M", 7, 1);
+
+            //Assert.IsNotNull(characterManager.Player);
+            //Assert.AreEqual(9, characterManager.Characters.Count);
+            //Assert.AreEqual(new Position(7, 1), characterManager.Player.GetComponent<Position>());
+            //Assert.AreEqual("Knight M", characterManager.Player.GetComponent<Model>());
+            //Assert.AreEqual(_level, characterManager.Player.GetComponent<OnLevel>().Level);
+
+            //// Is a TurnQueue setup with the Player taking the first turn?
+            //Assert.IsNotNull(characterManager.TurnQueue);
+            //Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
         }
 
         public virtual MoveResult MovePlayer(Direction direction)

@@ -93,5 +93,29 @@ namespace Tests.Tmx
 
             layer.MoveTile(new Position(7, 1), new Position(7, 14));
         }
+
+        [TestMethod]
+        public void Layer_SettingATile_IsSuccessful()
+        {
+            Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
+
+            layer.SetTile(new Position(7, 2), 400);
+        }
+
+        [TestMethod]
+        public void Layer_SettingATileLessThanTheGid_Fails()
+        {
+            Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
+
+            layer.SetTile(new Position(7, 2), 400);
+        }
+
+        [TestMethod]
+        public void Layer_SettingATileThatIsAlreadySetFails()
+        {
+            Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
+
+            layer.SetTile(new Position(7, 2), 400);
+        }
     }
 }
