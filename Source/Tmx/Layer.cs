@@ -54,12 +54,18 @@ namespace TurnItUp.Tmx
 
             Tile oldTile = Tiles[new Tuple<int, int>(currentPosition.X, currentPosition.Y)];
             Tile newTile = new Tile(oldTile.Gid, newPosition.X, newPosition.Y);
-            Tiles[new Tuple<int, int>(newPosition.X, newPosition.Y)] = newTile;
+            SetTile(newPosition, oldTile.Gid);
             Tiles.Remove(new Tuple<int, int>(currentPosition.X, currentPosition.Y));
         }
         
-        public void SetTile(Position position, int gid)
+        public void SetTile(Position position, uint gid)
         {
+            if (Tiles.ContainsKey(new Tuple<int, int>(position.X, position.Y)))
+            {
+                throw new ArgumentException(String.Format("<Layer::SetTile> : a tile is already set at {0}", position));
+            }
+
+            Tiles[new Tuple<int, int>(position.X, position.Y)] = new Tile((uint)gid, position.X, position.Y);
         }
     }
 }

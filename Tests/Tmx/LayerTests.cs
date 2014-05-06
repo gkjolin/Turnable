@@ -47,7 +47,7 @@ namespace Tests.Tmx
             Assert.AreEqual(true, layer.IsVisible);
 
             // Are Tiles in the layer created?
-            Assert.AreEqual(9, layer.Tiles.Count);
+            Assert.AreEqual(8, layer.Tiles.Count);
 
             // Are the Properties for this Layer loaded?
             Assert.AreEqual(1, layer.Properties.Count);
@@ -99,23 +99,25 @@ namespace Tests.Tmx
         {
             Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
 
-            layer.SetTile(new Position(7, 2), 400);
+            layer.SetTile(new Position(7, 2), 200);
+            layer.SetTile(new Position(7, 3), 2108);
+
+            Assert.AreEqual((uint)200, layer.Tiles[new Tuple<int, int>(7, 2)].Gid);
+            Assert.AreEqual(7, layer.Tiles[new Tuple<int, int>(7, 2)].X);
+            Assert.AreEqual(2, layer.Tiles[new Tuple<int, int>(7, 2)].Y);
+            Assert.AreEqual((uint)2108, layer.Tiles[new Tuple<int, int>(7, 3)].Gid);
+            Assert.AreEqual(7, layer.Tiles[new Tuple<int, int>(7, 3)].X);
+            Assert.AreEqual(3, layer.Tiles[new Tuple<int, int>(7, 3)].Y);
         }
 
         [TestMethod]
-        public void Layer_SettingATileLessThanTheGid_Fails()
+        [ExpectedException(typeof(ArgumentException))]
+        public void Layer_SettingATileThatIsAlreadySet_Fails()
         {
             Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
 
-            layer.SetTile(new Position(7, 2), 400);
-        }
-
-        [TestMethod]
-        public void Layer_SettingATileThatIsAlreadySetFails()
-        {
-            Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
-
-            layer.SetTile(new Position(7, 2), 400);
+            layer.SetTile(new Position(7, 2), 2107);
+            layer.SetTile(new Position(7, 2), 2107);
         }
     }
 }
