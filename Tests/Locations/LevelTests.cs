@@ -83,11 +83,12 @@ namespace Tests.Locations
         [TestMethod]
         public void Level_SettingUpNpcs_DelegatesToTheCharacterManager()
         {
-            Level level = new Level(_world);
             Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
-            level.CharacterManager = characterManagerMock.Object;
+            _level.CharacterManager = characterManagerMock.Object;
 
-            level.SetUpNpcs();
+            characterManagerMock.Setup(cm => cm.SetUpNpcs());
+
+            _level.SetUpNpcs();
 
             characterManagerMock.Verify(cm => cm.SetUpNpcs());
         }

@@ -92,8 +92,9 @@ namespace Tests.Characters
         }
 
         [TestMethod]
-        public void CharacterManager_SettingUpPlayer_IsSuccessful()
+        public void CharacterManager_SettingUpPc_IsSuccessful()
         {
+            _level = LocationsFactory.BuildLevel("../../Fixtures/FullExample.tmx", false);
             CharacterManager characterManager = new CharacterManager(_level);
             characterManager.SetUpPc("Knight M", 7, 1);
 

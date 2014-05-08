@@ -12,7 +12,7 @@ namespace Tests.Factories
 {
     public static class LocationsFactory
     {
-        public static ILevel BuildLevel(string tmxPath = "../../Fixtures/FullExample.tmx")
+        public static ILevel BuildLevel(string tmxPath = "../../Fixtures/FullExample.tmx", bool setUpPc = true)
         {
             World world = new World();
 
@@ -21,9 +21,13 @@ namespace Tests.Factories
 
             LevelSetUpParams setUpParams = new LevelSetUpParams();
             setUpParams.TmxPath = tmxPath;
-            setUpParams.PlayerModel = "Knight M";
-            setUpParams.PlayerX = 7;
-            setUpParams.PlayerY = 1;
+
+            if (setUpPc)
+            {
+                setUpParams.PlayerModel = "Knight M";
+                setUpParams.PlayerX = 7;
+                setUpParams.PlayerY = 1;
+            }
 
             return levelFactory.BuildLevel(world, setUpParams);
         }

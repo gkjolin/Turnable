@@ -46,6 +46,16 @@ namespace TurnItUp.Locations
             }
         }
 
+        public void SetUpNpcs()
+        {
+            // TODO: Test that there is a check for CharactersLayer not being null here
+            Layer charactersLayer = Map.FindLayerByProperty("IsCharacters", "true");
+            if (charactersLayer != null)
+            {
+                CharacterManager.SetUpNpcs();
+            }
+        }
+
         public void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height)
         {
             Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);
@@ -136,12 +146,6 @@ namespace TurnItUp.Locations
             }
 
             return returnValue;
-        }
-
-
-        public void SetUpNpcs()
-        {
-            throw new NotImplementedException();
         }
     }
 }
