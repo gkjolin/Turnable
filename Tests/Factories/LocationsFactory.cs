@@ -12,22 +12,17 @@ namespace Tests.Factories
 {
     public static class LocationsFactory
     {
-        public static ILevel BuildLevel(string tmxPath = "../../Fixtures/FullExample.tmx", bool setUpPc = true)
+        public static ILevel BuildLevel(string tmxPath = "../../Fixtures/FullExample.tmx")
         {
             World world = new World();
 
-            // TODO: Perhaps use a LevelFactory here after one has been built?
             LevelFactory levelFactory = new LevelFactory();
 
             LevelSetUpParams setUpParams = new LevelSetUpParams();
             setUpParams.TmxPath = tmxPath;
-
-            if (setUpPc)
-            {
-                setUpParams.PlayerModel = "Knight M";
-                setUpParams.PlayerX = 7;
-                setUpParams.PlayerY = 1;
-            }
+            setUpParams.PlayerModel = "Knight M";
+            setUpParams.PlayerX = 7;
+            setUpParams.PlayerY = 1;
 
             return levelFactory.BuildLevel(world, setUpParams);
         }

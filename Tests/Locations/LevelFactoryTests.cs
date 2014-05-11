@@ -122,7 +122,6 @@ namespace Tests.Locations
             ILevel level = _levelFactory.BuildLevel(_world);
 
             Assert.IsNull(level.Map);
-            Assert.IsNull(level.CharacterManager);
             Assert.IsNull(level.PathFinder);
             Assert.IsNull(level.TransitionPointManager);
             Assert.IsNull(level.Viewport);

@@ -31,14 +31,14 @@ namespace TurnItUp.Characters
         public CharacterManager(ILevel level)
         {
             Level = level;
+            Characters = new List<Entity>();
+            TurnQueue = new List<Entity>();
         }
 
         public void SetUpNpcs()
         {
             Tileset characterTileset = Level.Map.Tilesets["Characters"];
             Layer characterLayer = Level.Map.Layers["Characters"];
-            Characters = new List<Entity>();
-            TurnQueue = new List<Entity>();
 
             foreach (Tile tile in characterLayer.Tiles.Values)
             {
@@ -82,15 +82,14 @@ namespace TurnItUp.Characters
 
             Level.Map.Layers["Characters"].SetTile(new Position(x, y), referenceTile.Gid);
 
-            //Assert.IsNotNull(characterManager.Player);
-            //Assert.AreEqual(9, characterManager.Characters.Count);
-            //Assert.AreEqual(new Position(7, 1), characterManager.Player.GetComponent<Position>());
-            //Assert.AreEqual("Knight M", characterManager.Player.GetComponent<Model>());
-            //Assert.AreEqual(_level, characterManager.Player.GetComponent<OnLevel>().Level);
+            Player = Level.World.CreateEntityFromTemplate<PC>();
+            Player.AddComponent(new Model(referenceTile.Properties["Model"]));
+            Player.GetComponent<OnLevel>().Level = Level;
+            Player.GetComponent<Position>().X = x;
+            Player.GetComponent<Position>().Y = y;
+            Characters.Add(Player);
 
-            //// Is a TurnQueue setup with the Player taking the first turn?
-            //Assert.IsNotNull(characterManager.TurnQueue);
-            //Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
+            TurnQueue.Insert(0, Player);
         }
 
         public virtual MoveResult MovePlayer(Direction direction)

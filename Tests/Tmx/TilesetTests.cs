@@ -15,7 +15,7 @@ namespace Tests.Tmx
         {
             Tileset tileset = new Tileset(TmxFactory.BuildTilesetXElement());
 
-            Assert.AreEqual(1, tileset.FirstGid);
+            Assert.AreEqual((uint)1, tileset.FirstGid);
             Assert.AreEqual("World", tileset.Name);
             Assert.AreEqual(24, tileset.TileWidth);
             Assert.AreEqual(24, tileset.TileHeight);
@@ -29,7 +29,7 @@ namespace Tests.Tmx
         {
             Tileset tileset = new Tileset(TmxFactory.BuildExternalTilesetXElement(), "../../Fixtures/FullExample.tmx");
 
-            Assert.AreEqual(2107, tileset.FirstGid);
+            Assert.AreEqual((uint)2107, tileset.FirstGid);
             Assert.AreEqual("Characters", tileset.Name);
             Assert.AreEqual(24, tileset.TileWidth);
             Assert.AreEqual(24, tileset.TileHeight);
@@ -50,7 +50,7 @@ namespace Tests.Tmx
         {
             Tileset tileset = new Tileset(TmxFactory.BuildTilesetXElementWithReferenceTiles());
 
-            Assert.AreEqual(2107, tileset.FirstGid);
+            Assert.AreEqual((uint)2107, tileset.FirstGid);
             Assert.AreEqual("Characters", tileset.Name);
             Assert.AreEqual(24, tileset.TileWidth);
             Assert.AreEqual(24, tileset.TileHeight);
@@ -59,7 +59,7 @@ namespace Tests.Tmx
 
             // Have the reference tiles been loaded with their properties?
             Assert.AreEqual(4, tileset.ReferenceTiles.Count);
-            Assert.AreEqual(2, tileset.ReferenceTiles[0].Properties.Count);
+            Assert.AreEqual(1, tileset.ReferenceTiles[0].Properties.Count);
         }
 
         [TestMethod]

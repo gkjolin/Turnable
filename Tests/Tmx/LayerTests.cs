@@ -59,20 +59,20 @@ namespace Tests.Tmx
             Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
 
             int tileCount = layer.Tiles.Count;
-            uint tileGid = layer.Tiles[new Tuple<int, int>(7, 1)].Gid;
+            uint tileGid = layer.Tiles[new Tuple<int, int>(8, 7)].Gid;
 
-            layer.MoveTile(new Position(7, 1), new Position(7, 2));
+            layer.MoveTile(new Position(8, 7), new Position(8, 8));
 
-            Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(7, 1)));
-            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(7, 2)));
+            Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(8, 7)));
+            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(8, 8)));
 
             // Make sure that the tileCount does not change
             Assert.AreEqual(tileCount, layer.Tiles.Count);
 
             // Make sure that the tile data is changed as well
-            Tile tile = layer.Tiles[new Tuple<int,int>(7, 2)];
-            Assert.AreEqual(7, tile.X);
-            Assert.AreEqual(2, tile.Y);
+            Tile tile = layer.Tiles[new Tuple<int,int>(8, 8)];
+            Assert.AreEqual(8, tile.X);
+            Assert.AreEqual(8, tile.Y);
             Assert.AreEqual(tileGid, tile.Gid);
         }
 
@@ -91,7 +91,7 @@ namespace Tests.Tmx
         {
             Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
 
-            layer.MoveTile(new Position(7, 1), new Position(7, 14));
+            layer.MoveTile(new Position(8, 7), new Position(7, 14));
         }
 
         [TestMethod]

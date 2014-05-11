@@ -19,6 +19,7 @@ namespace Tests.Characters
     {
         private IWorld _world;
         private ILevel _level;
+        private ILevel _levelWithoutCharacters;
         private CharacterManager _characterManager;
         private bool _eventTriggeredFlag;
         private EntityEventArgs _eventArgs;
@@ -26,9 +27,18 @@ namespace Tests.Characters
         [TestInitialize]
         public void Initialize()
         {
+            // Manually create the level instead of using a LevelFactory to skip setting up the characters
+            _world = new World();
+            _level = new Level(_world);
+            _level.SetUpMap("../../Fixtures/FullExample.tmx");
+            _level.SetUpCharacters("Knight M", 7, 1);
+            _level.SetUpTransitionPoints();
+
+            _levelWithoutCharacters = new Level(_world);
+            _levelWithoutCharacters.SetUpMap("../../Fixtures/FullExample.tmx");
+            _levelWithoutCharacters.SetUpTransitionPoints();
+
             _eventTriggeredFlag = false;
-            _level = LocationsFactory.BuildLevel();
-            _world = _level.World;
             _characterManager = (CharacterManager)_level.CharacterManager;
         }
 
@@ -38,13 +48,15 @@ namespace Tests.Characters
             CharacterManager characterManager = new CharacterManager(_level);
 
             Assert.AreEqual(_level, characterManager.Level);
+            Assert.IsNotNull(characterManager.Characters);
+            Assert.IsNotNull(characterManager.TurnQueue);
         }
 
         [TestMethod]
         public void CharacterManager_SettingUpNpcs_IsSuccessful()
         {
             // TODO: Check that the position of the characters is set correctly
-            CharacterManager characterManager = new CharacterManager(_level);
+            CharacterManager characterManager = new CharacterManager(_levelWithoutCharacters);
             characterManager.SetUpNpcs();
 
             Assert.IsNotNull(characterManager.Characters);
@@ -64,19 +76,16 @@ namespace Tests.Characters
 
             foreach (Entity character in characterManager.Characters)
             {
-                Assert.AreEqual(_level, character.GetComponent<OnLevel>().Level);
+                Assert.AreEqual(_levelWithoutCharacters, character.GetComponent<OnLevel>().Level);
             }
         }
 
         [TestMethod]
         public void CharacterManager_SettingUpNpcs_IgnoresCharacterTilesThatHaveNoModelPropertySet()
         {
-            _level = LocationsFactory.BuildLevel("../../Fixtures/FullExampleWithUnsetModelForSomeCharacters.tmx");
-
-            CharacterManager characterManager = new CharacterManager(_level);
+            CharacterManager characterManager = new CharacterManager(_levelWithoutCharacters);
             characterManager.SetUpNpcs();
 
-            Assert.AreEqual(characterManager.Level, _level);
             Assert.IsNotNull(characterManager.Characters);
             Assert.AreEqual(8, characterManager.Characters.Count);
 
@@ -94,15 +103,14 @@ namespace Tests.Characters
         [TestMethod]
         public void CharacterManager_SettingUpPc_IsSuccessful()
         {
-            _level = LocationsFactory.BuildLevel("../../Fixtures/FullExample.tmx", false);
-            CharacterManager characterManager = new CharacterManager(_level);
+            CharacterManager characterManager = new CharacterManager(_levelWithoutCharacters);
             characterManager.SetUpPc("Knight M", 7, 1);
 
             Assert.IsNotNull(characterManager.Player);
-            Assert.AreEqual(9, characterManager.Characters.Count);
+            Assert.AreEqual(1, characterManager.Characters.Count);
             Assert.AreEqual(new Position(7, 1), characterManager.Player.GetComponent<Position>());
-            Assert.AreEqual("Knight M", characterManager.Player.GetComponent<Model>());
-            Assert.AreEqual(_level, characterManager.Player.GetComponent<OnLevel>().Level);
+            Assert.AreEqual("Knight M", characterManager.Player.GetComponent<Model>().Name);
+            Assert.AreEqual(_levelWithoutCharacters, characterManager.Player.GetComponent<OnLevel>().Level);
 
             // Is a TurnQueue setup with the Player taking the first turn?
             Assert.IsNotNull(characterManager.TurnQueue);
