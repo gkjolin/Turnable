@@ -147,12 +147,12 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Level_SettingUpFov_IsSuccessful()
+        public void Level_SettingUpVisionCalculator_IsSuccessful()
         {
-            _level.SetUpFov();
+            _level.SetUpVisionCalculator();
 
-            Assert.IsNotNull(_level.FovCalculator);
-            Assert.AreEqual(_level, _level.FovCalculator.Level);
+            Assert.IsNotNull(_level.VisionCalculator);
+            Assert.AreEqual(_level, _level.VisionCalculator.Level);
         }
 
         [TestMethod]

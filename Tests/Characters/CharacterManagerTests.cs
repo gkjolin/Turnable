@@ -118,6 +118,22 @@ namespace Tests.Characters
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CharacterManager_SettingUpWithAnInvalidStartingPosition_Fails()
+        {
+            CharacterManager characterManager = new CharacterManager(_levelWithoutCharacters);
+            characterManager.SetUpPc("Knight M", -1, -1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CharacterManager_SettingUpWithAnInvalidPlayerModel_Fails()
+        {
+            CharacterManager characterManager = new CharacterManager(_levelWithoutCharacters);
+            characterManager.SetUpPc("Missing Model", 1, 1);
+        }
+
+        [TestMethod]
         public void CharacterManager_MovingCharacterToAPosition_MovesCharacterCorrectly()
         {
             Entity character = _characterManager.Characters[0];

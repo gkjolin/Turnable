@@ -10,7 +10,7 @@ using TurnItUp.Interfaces;
 using Entropy;
 using TurnItUp.Pathfinding;
 using TurnItUp.Randomization;
-using TurnItUp.Fov;
+using TurnItUp.Vision;
 
 namespace TurnItUp.Locations
 {
@@ -24,7 +24,7 @@ namespace TurnItUp.Locations
         public IPathFinder PathFinder { get; set; }
         public IWorld World { get; set; }
         public IViewport Viewport { get; set; }
-        public FovCalculator FovCalculator { get; set; }
+        public VisionCalculator VisionCalculator { get; set; }
 
         public Level()
         {
@@ -71,9 +71,9 @@ namespace TurnItUp.Locations
             Map = new Map(tmxPath);
         }
 
-        public void SetUpFov()
+        public void SetUpVisionCalculator()
         {
-            FovCalculator = new FovCalculator(this);
+            VisionCalculator = new VisionCalculator(this);
         }
 
         public Level(IWorld world)

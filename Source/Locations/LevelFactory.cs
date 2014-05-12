@@ -31,9 +31,9 @@ namespace TurnItUp.Locations
                 level.SetUpTransitionPoints();
             }
 
-            if (setUpParams.UseFov)
+            if (setUpParams.UseVisionCalculator)
             {
-                level.SetUpFov();
+                level.SetUpVisionCalculator();
             }
 
             level.SetUpPathfinder(setUpParams.AllowDiagonalMovement);

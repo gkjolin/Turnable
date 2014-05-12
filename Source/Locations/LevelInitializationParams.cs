@@ -9,7 +9,7 @@ namespace TurnItUp.Locations
     {
         public string TmxPath { get; set; }
         public bool AllowDiagonalMovement { get; set; }
-        public bool UseFov { get; set; }
+        public bool UseVisionCalculator { get; set; }
         public string PlayerModel { get; set; }
         public int PlayerX { get; set; }
         public int PlayerY { get; set; }

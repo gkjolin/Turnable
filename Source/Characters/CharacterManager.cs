@@ -78,7 +78,20 @@ namespace TurnItUp.Characters
 
         public void SetUpPc(string model, int x, int y)
         {
+            // Is this a valid position for the Player?
+            Node playerNode = new Node(Level, x, y);
+            if (!playerNode.IsWithinBounds())
+            {
+                throw new ArgumentException("<CharacterManager::SetUpPc> : the player position is out of bounds of the level.");
+            }
+
             ReferenceTile referenceTile = Level.Map.Tilesets["Characters"].FindReferenceTileByProperty("Model", model);
+
+            // Is there a valid model for the Player?
+            if (referenceTile == null)
+            {
+                throw new ArgumentException(String.Format("<CharacterManager::SetUpPc> : there is no model {0} that can be used for the player.", model));
+            }
 
             Level.Map.Layers["Characters"].SetTile(new Position(x, y), referenceTile.Gid);
 

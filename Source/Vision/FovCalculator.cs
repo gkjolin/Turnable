@@ -7,9 +7,9 @@ using TurnItUp.Interfaces;
 using TurnItUp.Locations;
 using TurnItUp.Pathfinding;
 
-namespace TurnItUp.Fov
+namespace TurnItUp.Vision
 {
-    public class FovCalculator
+    public class VisionCalculator
     {
         // http://www.roguebasin.com/index.php?title=Improved_Shadowcasting_in_Java
 
@@ -23,7 +23,7 @@ namespace TurnItUp.Fov
             {1,  0,  0,  1, -1,  0,  0, -1},
         };
 
-        public FovCalculator(ILevel level)
+        public VisionCalculator(ILevel level)
         {
             Level = level;
         }

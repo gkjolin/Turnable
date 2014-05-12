@@ -29,7 +29,7 @@ namespace Tests.Locations
         {
             Assert.IsNull(_levelSetUpParams.TmxPath);
             Assert.AreEqual(false, _levelSetUpParams.AllowDiagonalMovement);
-            Assert.AreEqual(false, _levelSetUpParams.UseFov);
+            Assert.AreEqual(false, _levelSetUpParams.UseVisionCalculator);
             Assert.IsNull(_levelSetUpParams.PlayerModel);
             Assert.AreEqual(0, _levelSetUpParams.PlayerX);
             Assert.AreEqual(0, _levelSetUpParams.PlayerY);
@@ -40,14 +40,14 @@ namespace Tests.Locations
         {
             _levelSetUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
             _levelSetUpParams.AllowDiagonalMovement = true;
-            _levelSetUpParams.UseFov = true;
+            _levelSetUpParams.UseVisionCalculator = true;
             _levelSetUpParams.PlayerModel = "Knight M";
             _levelSetUpParams.PlayerX = 1;
             _levelSetUpParams.PlayerY = 2;
             
             Assert.AreEqual("../../Fixtures/FullExample.tmx", _levelSetUpParams.TmxPath);
             Assert.AreEqual(true, _levelSetUpParams.AllowDiagonalMovement);
-            Assert.AreEqual(true, _levelSetUpParams.UseFov);
+            Assert.AreEqual(true, _levelSetUpParams.UseVisionCalculator);
             Assert.AreEqual("Knight M", _levelSetUpParams.PlayerModel);
             Assert.AreEqual(1, _levelSetUpParams.PlayerX);
             Assert.AreEqual(2, _levelSetUpParams.PlayerY);

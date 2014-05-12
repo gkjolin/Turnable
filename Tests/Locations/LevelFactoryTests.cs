@@ -79,11 +79,11 @@ namespace Tests.Locations
             LevelSetUpParams setUpParams = new LevelSetUpParams();
             setUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
             setUpParams.AllowDiagonalMovement = true;
-            setUpParams.UseFov = true;
+            setUpParams.UseVisionCalculator = true;
 
             _levelFactory.SetUp(_levelMock.Object, setUpParams);
 
-            _levelMock.Verify(l => l.SetUpFov());
+            _levelMock.Verify(l => l.SetUpVisionCalculator());
         }
 
         [TestMethod]

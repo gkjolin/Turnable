@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Tuples;
 using TurnItUp.Components;
-using TurnItUp.Fov;
+using TurnItUp.Vision;
 using TurnItUp.Locations;
 using TurnItUp.Tmx;
 
@@ -19,7 +19,7 @@ namespace TurnItUp.Interfaces
         TransitionPointManager TransitionPointManager { get; set; }
         IWorld World { get; set; }
         IViewport Viewport { get; set; }
-        FovCalculator FovCalculator { get; set; }
+        VisionCalculator VisionCalculator { get; set; }
 
         void SetUpCharacters(string playerModel, int playerX, int playerY);
         void SetUpNpcs();
@@ -27,7 +27,7 @@ namespace TurnItUp.Interfaces
         void SetUpMap(string tmxPath);
         void SetUpPathfinder(bool allowDiagonalMovement = false);
         void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height);
-        void SetUpFov();
+        void SetUpVisionCalculator();
 
         List<Position> CalculateWalkablePositions();
 

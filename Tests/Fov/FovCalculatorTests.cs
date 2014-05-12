@@ -2,63 +2,63 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests.Factories;
 using TurnItUp.Locations;
-using TurnItUp.Fov;
+using TurnItUp.Vision;
 using TurnItUp.Pathfinding;
 using System.Collections.Generic;
 using TurnItUp.Components;
 using System.Linq;
 using TurnItUp.Interfaces;
 
-namespace Tests.Fov
+namespace Tests.Vision
 {
     [TestClass]
-    public class FovCalculatorTests
+    public class VisionCalculatorTests
     {
         private ILevel _level;
-        private FovCalculator _fovCalculator;
+        private VisionCalculator _visionCalculator;
 
         [TestInitialize]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
-            _fovCalculator = new FovCalculator(_level);
+            _visionCalculator = new VisionCalculator(_level);
         }
 
         [TestMethod]
-        public void FovCalculator_Construction_IsSuccessful()
+        public void VisionCalculator_Construction_IsSuccessful()
         {
-            FovCalculator fovCalculator = new FovCalculator(_level);
+            VisionCalculator visionCalculator = new VisionCalculator(_level);
 
-            Assert.AreEqual(fovCalculator.Level, _level);
+            Assert.AreEqual(visionCalculator.Level, _level);
         }
 
         [TestMethod]
-        public void FovCalculator_WhenCalculatingASlope_IsCorrect()
+        public void VisionCalculator_WhenCalculatingASlope_IsCorrect()
         {
-            double slope = _fovCalculator.CalculateSlope(0, 0, 1, 1);
+            double slope = _visionCalculator.CalculateSlope(0, 0, 1, 1);
             Assert.AreEqual(1.0, slope);
 
-            slope = _fovCalculator.CalculateSlope(4, 2, 3, 4);
+            slope = _visionCalculator.CalculateSlope(4, 2, 3, 4);
             Assert.AreEqual(-0.5, slope);
         }
 
         [TestMethod]
-        public void FovCalculator_WhenCalculatingInverseSlope_IsCorrect()
+        public void VisionCalculator_WhenCalculatingInverseSlope_IsCorrect()
         {
-            double slope = _fovCalculator.CalculateSlope(0, 0, 1, 1, true);
+            double slope = _visionCalculator.CalculateSlope(0, 0, 1, 1, true);
             Assert.AreEqual(1.0, slope);
 
-            slope = _fovCalculator.CalculateSlope(4, 2, 3, 4, true);
+            slope = _visionCalculator.CalculateSlope(4, 2, 3, 4, true);
             Assert.AreEqual(-2.0, slope);
         }
 
         [TestMethod]
-        public void FovCalculator_WhenCalculatingTheVisibleDistance_CorrectlyCalculatesTheSquaredDistance()
+        public void VisionCalculator_WhenCalculatingTheVisibleDistance_CorrectlyCalculatesTheSquaredDistance()
         {
-            int visibleDistance = _fovCalculator.CalculateVisibleDistance(0, 0, 1, 1);
+            int visibleDistance = _visionCalculator.CalculateVisibleDistance(0, 0, 1, 1);
             Assert.AreEqual(2, visibleDistance);
 
-            visibleDistance = _fovCalculator.CalculateVisibleDistance(4, 2, 3, 4);
+            visibleDistance = _visionCalculator.CalculateVisibleDistance(4, 2, 3, 4);
             Assert.AreEqual(5, visibleDistance);
         }
 
@@ -86,19 +86,19 @@ namespace Tests.Fov
         // X - Obstacles, P - Player, E - Enemies
 
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf0_ReturnsOnlyTheStartingPositionAsAVisiblePosition()
+        public void VisionCalculator_ForAVisualRangeOf0_ReturnsOnlyTheStartingPositionAsAVisiblePosition()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 14, 0);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 14, 0);
 
             Assert.AreEqual(1, visiblePositions.Count);
             Assert.AreEqual(new Position(7, 14), visiblePositions[0]);
         }
 
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf1AndNoObstacles_ReturnsAllPositionsAdjacentToTheStartingPosition()
+        public void VisionCalculator_ForAVisualRangeOf1AndNoObstacles_ReturnsAllPositionsAdjacentToTheStartingPosition()
         {
             // The FOV algorithm creates a cross for a VisualRange of 1
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 3, 1);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 3, 1);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -111,9 +111,9 @@ namespace Tests.Fov
         }
 
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf1_IncludesObstaclesInTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf1_IncludesObstaclesInTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 4, 1);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 4, 1);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -126,9 +126,9 @@ namespace Tests.Fov
         }
 
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf1_IncludesCharactersInTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf1_IncludesCharactersInTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(2, 10, 1);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(2, 10, 1);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -146,9 +146,9 @@ namespace Tests.Fov
 
         // Obstacle to the N
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorth_CorrectlyCalculatesTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf2AndObstacleToTheNorth_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 4, 2);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 4, 2);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -163,9 +163,9 @@ namespace Tests.Fov
 
         // Obstacle to the NE
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorthEast_CorrectlyCalculatesTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf2AndObstacleToTheNorthEast_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 4, 2);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(6, 4, 2);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -178,9 +178,9 @@ namespace Tests.Fov
 
         // Obstacle to the E
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheEast_CorrectlyCalculatesTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf2AndObstacleToTheEast_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 5, 2);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(6, 5, 2);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -195,9 +195,9 @@ namespace Tests.Fov
 
         // Obstacle to the SE
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouthEast_CorrectlyCalculatesTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf2AndObstacleToTheSouthEast_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(6, 6, 2);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(6, 6, 2);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -210,9 +210,9 @@ namespace Tests.Fov
 
         // Obstacle to the S
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouth_CorrectlyCalculatesTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf2AndObstacleToTheSouth_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(7, 6, 2);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 6, 2);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -227,9 +227,9 @@ namespace Tests.Fov
 
         // Obstacle to the SW
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheSouthWest_CorrectlyCalculatesTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf2AndObstacleToTheSouthWest_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 6, 2);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(8, 6, 2);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -242,9 +242,9 @@ namespace Tests.Fov
 
         // Obstacle to the W
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheWest_CorrectlyCalculatesTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf2AndObstacleToTheWest_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 5, 2);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(8, 5, 2);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
@@ -259,9 +259,9 @@ namespace Tests.Fov
 
         // Obstacle to the NW
         [TestMethod]
-        public void FovCalculator_ForAVisualRangeOf2AndObstacleToTheNorthWest_CorrectlyCalculatesTheVisiblePositions()
+        public void VisionCalculator_ForAVisualRangeOf2AndObstacleToTheNorthWest_CorrectlyCalculatesTheVisiblePositions()
         {
-            List<Position> visiblePositions = _fovCalculator.CalculateVisiblePositions(8, 4, 2);
+            List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(8, 4, 2);
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
