@@ -74,7 +74,7 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void LevelFactory_SettingUpALevelWithAnFovCalculator_IsSuccessful()
+        public void LevelFactory_SettingUpALevelWithAVisionCalculator_IsSuccessful()
         {
             LevelSetUpParams setUpParams = new LevelSetUpParams();
             setUpParams.TmxPath = "../../Fixtures/FullExample.tmx";

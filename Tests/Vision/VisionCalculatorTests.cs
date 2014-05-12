@@ -271,5 +271,34 @@ namespace Tests.Vision
             //The obstacle itself should be visible
             Assert.IsTrue(visiblePositions.Contains(new Position(7, 5)));
         }
+
+        //--------------------------------
+        // LoS (Line of Sight) Calculation Examples
+        //--------------------------------
+
+        // The sample level:
+        // XXXXXXXXXXXXXXXX
+        // X....EEE.......X
+        // X..........X...X
+        // X.......E......X
+        // X.E.X..........X
+        // X.....E....E...X
+        // X........X.....X
+        // X..........XXXXX
+        // X..........X...X
+        // X..........X...X
+        // X......X.......X
+        // X.X........X...X
+        // X..........X...X
+        // X..........X...X
+        // X......P...X...X
+        // XXXXXXXXXXXXXXXX
+        // X - Obstacles, P - Player, E - Enemies
+
+        // Obstacle to the NW
+        [TestMethod]
+        public void VisionCalculator_ForAVisualRangeOf1AndAnEndingPositionInTheVisualRange_ReturnsTrue()
+        {
+        }
     }
 }
