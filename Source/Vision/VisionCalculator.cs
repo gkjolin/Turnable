@@ -61,6 +61,16 @@ namespace TurnItUp.Vision
             return _visiblePositions;
         }
 
+        public bool IsInLineOfSight(Position startingPosition, Position endingPosition, int visualRange)
+        {
+            if (CalculateVisibleDistance(startingPosition.X, startingPosition.Y, endingPosition.X, endingPosition.Y) > visualRange * visualRange)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private void CastLight(int startX, int startY, int row, double startSlope, double endSlope, int visualRange, int xx, int xy, int yx, int yy)
         {
             double newStartSlope = 0.0;

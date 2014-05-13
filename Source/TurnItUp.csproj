@@ -69,7 +69,7 @@
     <Compile Include="Components\OnLevel.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="ConceptMappers\ModelToTileIdsConceptMapper.cs" />
-    <Compile Include="Vision\FovCalculator.cs" />
+    <Compile Include="Vision\VisionCalculator.cs" />
     <Compile Include="Interfaces\IArea.cs" />
     <Compile Include="Interfaces\ILevelFactory.cs" />
     <Compile Include="Interfaces\IConceptMapper.cs" />
