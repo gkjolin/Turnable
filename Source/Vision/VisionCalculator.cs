@@ -12,7 +12,6 @@ namespace TurnItUp.Vision
     public class VisionCalculator
     {
         // http://www.roguebasin.com/index.php?title=Improved_Shadowcasting_in_Java
-
         private List<Position> _visiblePositions;
         public ILevel Level { get; set; }
         private int[,] multipliers = 
@@ -63,9 +62,20 @@ namespace TurnItUp.Vision
 
         public bool IsInLineOfSight(Position startingPosition, Position endingPosition, int visualRange)
         {
+            // Out of visual range
             if (CalculateVisibleDistance(startingPosition.X, startingPosition.Y, endingPosition.X, endingPosition.Y) > visualRange * visualRange)
             {
                 return false;
+            }
+
+            Line line = new Line(startingPosition, endingPosition);
+
+            foreach (Position position in line.Points)
+            {
+                if (Level.IsObstacle(position.X, position.Y))
+                {
+                    return false;
+                }
             }
 
             return true;

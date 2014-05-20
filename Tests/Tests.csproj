@@ -86,6 +86,7 @@
     <Compile Include="Factories\EntropyFactory.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TmxFactory.cs" />
+    <Compile Include="Vision\LineTests.cs" />
     <Compile Include="Vision\VisionCalculatorTests.cs" />
     <Compile Include="Locations\AreaTests.cs" />
     <Compile Include="Locations\ConnectionTests.cs" />
