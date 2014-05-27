@@ -16,7 +16,7 @@ namespace TurnItUp.Interfaces
         Map Map { get; set; }
         ICharacterManager CharacterManager { get; set; }
         IPathFinder PathFinder { get; set; }
-        TransitionPointManager TransitionPointManager { get; set; }
+        ITransitionPointManager TransitionPointManager { get; set; }
         IWorld World { get; set; }
         IViewport Viewport { get; set; }
         VisionCalculator VisionCalculator { get; set; }

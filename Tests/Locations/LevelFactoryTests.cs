@@ -21,7 +21,9 @@ namespace Tests.Locations
         private ILevelFactory _levelFactory;
         private Mock<ILevelFactory> _levelFactoryMock;
         private Mock<ILevelRandomizer> _levelRandomizerMock;
+        private Mock<ITransitionPointManager> _transitionPointManagerMock;
         private Mock<ILevel> _levelMock;
+        private Position _entrancePosition;
 
         [TestInitialize]
         public void Initialize()
@@ -30,7 +32,17 @@ namespace Tests.Locations
             _levelFactory = new LevelFactory();
             _levelRandomizerMock = new Mock<ILevelRandomizer>();
             _levelFactory.LevelRandomizer = _levelRandomizerMock.Object;
+            
+            _entrancePosition = new Position(1, 2);
+
+            _transitionPointManagerMock = new Mock<ITransitionPointManager>();
+            _transitionPointManagerMock.SetupGet<Position>(tpm => tpm.Entrance).Returns(_entrancePosition);
+            _transitionPointManagerMock.CallBase = true;
+
             _levelMock = new Mock<ILevel>();
+            _levelMock.Object.TransitionPointManager = _transitionPointManagerMock.Object;
+            _levelMock.CallBase = true;
+
             _levelFactoryMock = new Mock<ILevelFactory>();
             _levelFactoryMock.CallBase = true;
         }
@@ -58,6 +70,21 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void LevelFactory_SettingUpALevelWithAnEntranceAndUnsetPlayerPosition_UsesThePositionOfTheEntranceForThePlayer()
+        {
+            LevelSetUpParams setUpParams = new LevelSetUpParams();
+            setUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            setUpParams.AllowDiagonalMovement = true;
+
+            _levelFactory.SetUp(_levelMock.Object, setUpParams);
+
+            _levelMock.Verify(l => l.SetUpMap(It.IsAny<string>()));
+            _levelMock.Verify(l => l.SetUpCharacters(setUpParams.PlayerModel, _entrancePosition.X, _entrancePosition.Y));
+            // Verify that a Pathfinder is set up
+            _levelMock.Verify(l => l.SetUpPathfinder(setUpParams.AllowDiagonalMovement));
+        }
+
+        [TestMethod]
         public void LevelFactory_SettingUpALevelWithAnInitialTiledMap_IsSuccessful()
         {
             LevelSetUpParams setUpParams = new LevelSetUpParams();
@@ -66,7 +93,6 @@ namespace Tests.Locations
 
             _levelFactory.SetUp(_levelMock.Object, setUpParams);
 
-            // TmxPath NULL - Make sure that the Map is not loaded up and that the characters are not set up
             _levelMock.Verify(l => l.SetUpMap("../../Fixtures/FullExample.tmx"));
             _levelMock.Verify(l => l.SetUpCharacters(setUpParams.PlayerModel, setUpParams.PlayerX, setUpParams.PlayerY));
             // Verify that a Pathfinder is set up

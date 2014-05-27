@@ -16,6 +16,13 @@ namespace TurnItUp.Locations
 
         public LevelSetUpParams()
         {
+            PlayerX = -1;
+            PlayerY = -1;
+        }
+
+        public bool IsPlayerPositionUnset()
+        {
+            return PlayerX == -1 && PlayerY == -1;
         }
     }
 }

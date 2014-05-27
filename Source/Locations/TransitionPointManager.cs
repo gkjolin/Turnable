@@ -8,11 +8,11 @@ using TurnItUp.Tmx;
 
 namespace TurnItUp.Locations
 {
-    public class TransitionPointManager
+    public class TransitionPointManager : ITransitionPointManager
     {
-        public ILevel Level { get; private set; }
-        public Position Entrance { get; private set; }
-        public List<Position> Exits { get; private set; }
+        public ILevel Level { get; set; }
+        public Position Entrance { get; set; }
+        public List<Position> Exits { get; set; }
 
         public TransitionPointManager(ILevel level)
         {

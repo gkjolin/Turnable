@@ -27,8 +27,16 @@ namespace TurnItUp.Locations
             if (setUpParams.TmxPath != null)
             {
                 level.SetUpMap(setUpParams.TmxPath);
-                level.SetUpCharacters(setUpParams.PlayerModel, setUpParams.PlayerX, setUpParams.PlayerY);
                 level.SetUpTransitionPoints();
+
+                if (setUpParams.IsPlayerPositionUnset())
+                {
+                    level.SetUpCharacters(setUpParams.PlayerModel, level.TransitionPointManager.Entrance.X, level.TransitionPointManager.Entrance.Y);
+                }
+                else
+                {
+                    level.SetUpCharacters(setUpParams.PlayerModel, setUpParams.PlayerX, setUpParams.PlayerY);
+                }
             }
 
             if (setUpParams.UseVisionCalculator)

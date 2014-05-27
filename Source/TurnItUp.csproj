@@ -69,6 +69,7 @@
     <Compile Include="Components\OnLevel.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="ConceptMappers\ModelToTileIdsConceptMapper.cs" />
+    <Compile Include="Interfaces\ITransitionPointManager.cs" />
     <Compile Include="Vision\Line.cs" />
     <Compile Include="Vision\VisionCalculator.cs" />
     <Compile Include="Interfaces\IArea.cs" />

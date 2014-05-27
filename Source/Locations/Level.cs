@@ -19,7 +19,7 @@ namespace TurnItUp.Locations
         // Facade pattern
 
         public Map Map { get; set; }
-        public TransitionPointManager TransitionPointManager { get; set; }
+        public ITransitionPointManager TransitionPointManager { get; set; }
         public ICharacterManager CharacterManager { get; set; }
         public IPathFinder PathFinder { get; set; }
         public IWorld World { get; set; }

@@ -31,8 +31,8 @@ namespace Tests.Locations
             Assert.AreEqual(false, _levelSetUpParams.AllowDiagonalMovement);
             Assert.AreEqual(false, _levelSetUpParams.UseVisionCalculator);
             Assert.IsNull(_levelSetUpParams.PlayerModel);
-            Assert.AreEqual(0, _levelSetUpParams.PlayerX);
-            Assert.AreEqual(0, _levelSetUpParams.PlayerY);
+            Assert.AreEqual(-1, _levelSetUpParams.PlayerX);
+            Assert.AreEqual(-1, _levelSetUpParams.PlayerY);
         }
 
         [TestMethod]
@@ -52,5 +52,20 @@ namespace Tests.Locations
             Assert.AreEqual(1, _levelSetUpParams.PlayerX);
             Assert.AreEqual(2, _levelSetUpParams.PlayerY);
         }
+
+        [TestMethod]
+        public void LevelSetUpParams_CanDetermineIfPlayerPositionIsUnset()
+        {
+            _levelSetUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            _levelSetUpParams.PlayerX = -1;
+            _levelSetUpParams.PlayerY = -1;
+
+            Assert.IsTrue(_levelSetUpParams.IsPlayerPositionUnset());
+
+            _levelSetUpParams.PlayerX = 0;
+            _levelSetUpParams.PlayerY = 0;
+            Assert.IsFalse(_levelSetUpParams.IsPlayerPositionUnset());
+        }
+
     }
 }
