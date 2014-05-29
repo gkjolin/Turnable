@@ -40,8 +40,7 @@ namespace Tests.Locations
             _transitionPointManagerMock.CallBase = true;
 
             _levelMock = new Mock<ILevel>();
-            _levelMock.Object.TransitionPointManager = _transitionPointManagerMock.Object;
-            _levelMock.CallBase = true;
+            _levelMock.SetupGet<ITransitionPointManager>(l => l.TransitionPointManager).Returns(_transitionPointManagerMock.Object);
 
             _levelFactoryMock = new Mock<ILevelFactory>();
             _levelFactoryMock.CallBase = true;
@@ -85,10 +84,12 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void LevelFactory_SettingUpALevelWithAnInitialTiledMap_IsSuccessful()
+        public void LevelFactory_SettingUpALevelWithAnInitialTiledMapAndSpecificPlayerPosition_IsSuccessful()
         {
             LevelSetUpParams setUpParams = new LevelSetUpParams();
             setUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            setUpParams.PlayerX = 1;
+            setUpParams.PlayerY = 2;
             setUpParams.AllowDiagonalMovement = true;
 
             _levelFactory.SetUp(_levelMock.Object, setUpParams);
