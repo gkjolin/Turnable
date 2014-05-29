@@ -101,19 +101,6 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void LevelFactory_SettingUpALevelWithAVisionCalculator_IsSuccessful()
-        {
-            LevelSetUpParams setUpParams = new LevelSetUpParams();
-            setUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
-            setUpParams.AllowDiagonalMovement = true;
-            setUpParams.UseVisionCalculator = true;
-
-            _levelFactory.SetUp(_levelMock.Object, setUpParams);
-
-            _levelMock.Verify(l => l.SetUpVisionCalculator());
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void LevelFactory_RandomizingALevelWithDefaultRandomizationParams_Fails()
         {

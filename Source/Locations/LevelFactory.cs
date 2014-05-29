@@ -39,11 +39,6 @@ namespace TurnItUp.Locations
                 }
             }
 
-            if (setUpParams.UseVisionCalculator)
-            {
-                level.SetUpVisionCalculator();
-            }
-
             level.SetUpPathfinder(setUpParams.AllowDiagonalMovement);
         }
 

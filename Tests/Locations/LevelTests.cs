@@ -63,6 +63,8 @@ namespace Tests.Locations
             Assert.AreEqual(_world, level.World);
             Assert.IsNotNull(level.CharacterManager);
             Assert.AreEqual(level, level.CharacterManager.Level);
+            Assert.IsNotNull(level.VisionCalculator);
+            Assert.AreEqual(level, level.VisionCalculator.Level);
         }
 
         [TestMethod]
@@ -144,15 +146,6 @@ namespace Tests.Locations
             _level.SetUpMap("../../Fixtures/FullExample.tmx");
 
             Assert.IsNotNull(_level.Map);
-        }
-
-        [TestMethod]
-        public void Level_SettingUpVisionCalculator_IsSuccessful()
-        {
-            _level.SetUpVisionCalculator();
-
-            Assert.IsNotNull(_level.VisionCalculator);
-            Assert.AreEqual(_level, _level.VisionCalculator.Level);
         }
 
         [TestMethod]

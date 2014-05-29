@@ -27,7 +27,6 @@ namespace TurnItUp.Interfaces
         void SetUpMap(string tmxPath);
         void SetUpPathfinder(bool allowDiagonalMovement = false);
         void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height);
-        void SetUpVisionCalculator();
 
         List<Position> CalculateWalkablePositions();
 

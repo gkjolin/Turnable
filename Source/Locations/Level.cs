@@ -71,15 +71,11 @@ namespace TurnItUp.Locations
             Map = new Map(tmxPath);
         }
 
-        public void SetUpVisionCalculator()
-        {
-            VisionCalculator = new VisionCalculator(this);
-        }
-
         public Level(IWorld world)
         {
             World = world;
             CharacterManager = new CharacterManager(this);
+            VisionCalculator = new VisionCalculator(this);
         }
 
         public bool IsObstacle(int x, int y)
