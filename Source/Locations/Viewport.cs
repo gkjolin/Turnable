@@ -20,12 +20,16 @@ namespace TurnItUp.Locations
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public Viewport(ILevel level, int mapOriginX, int mapOriginY, int width, int height)
+        public Viewport(ILevel level, int width, int height)
         {
             Level = level;
-            MapOrigin = new Position(mapOriginX, mapOriginY);
             Width = width;
             Height = height;
+        }
+
+        public Viewport(ILevel level, int mapOriginX, int mapOriginY, int width, int height) : this(level, width, height)
+        {
+            MapOrigin = new Position(mapOriginX, mapOriginY);
         }
 
         public void Move(Direction direction)
@@ -52,6 +56,11 @@ namespace TurnItUp.Locations
         public bool IsMapOriginValid()
         {
             return !(MapOrigin.X < 0 || MapOrigin.Y < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1) || (MapOrigin.Y + Height) > (Level.Map.Height - 1));
+        }
+
+        public void CenterOn(Position center)
+        {
+            MapOrigin = new Position(center.X - Width / 2, center.Y - Height / 2);
         }
     }
 }

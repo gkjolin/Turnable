@@ -45,7 +45,17 @@ namespace Tests.Locations
             _level.SetUpViewport(8, 8, 5, 5);
             _viewport = new Viewport(_level, 8, 8, 5, 5);
         }
-           
+
+        [TestMethod]
+        public void Viewport_ConstructionWithOnlyItsSize_IsSuccessful()
+        {
+            Viewport viewport = new Viewport(_level, 16, 16);
+
+            Assert.AreEqual(_level, viewport.Level);
+            Assert.AreEqual(16, viewport.Width);
+            Assert.AreEqual(16, viewport.Height);
+        }
+   
         [TestMethod]
         public void Viewport_Construction_IsSuccessful()
         {
@@ -291,6 +301,29 @@ namespace Tests.Locations
 
             Assert.AreEqual(4, _level.Viewport.MapOrigin.X);
             Assert.AreEqual(1, _level.Viewport.MapOrigin.Y);
+        }
+
+        // Centering a viewport
+        [TestMethod]
+        public void Viewport_WithEvenSizeWhenCenteringOnAPositionWithPlentyOfSpaceAroundTheCenter_IsSuccessful()
+        {
+            _level.SetUpViewport(6, 6);
+
+            _level.Viewport.CenterOn(new Position(5, 5));
+
+            Assert.AreEqual(2, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(2, _level.Viewport.MapOrigin.Y);
+        }
+
+        [TestMethod]
+        public void Viewport_WithOddSizeWhenCenteringOnAPositionWithPlentyOfSpaceAroundTheCenter_IsSuccessful()
+        {
+            _level.SetUpViewport(5, 5);
+
+            _level.Viewport.CenterOn(new Position(5, 5));
+
+            Assert.AreEqual(3, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(3, _level.Viewport.MapOrigin.Y);
         }
     }
 }

@@ -30,6 +30,7 @@ namespace Tests.Vision
             VisionCalculator visionCalculator = new VisionCalculator(_level);
 
             Assert.AreEqual(visionCalculator.Level, _level);
+            Assert.IsTrue(visionCalculator.IsEnabled);
         }
 
         [TestMethod]
@@ -60,6 +61,15 @@ namespace Tests.Vision
 
             visibleDistance = _visionCalculator.CalculateVisibleDistance(4, 2, 3, 4);
             Assert.AreEqual(5, visibleDistance);
+        }
+
+        [TestMethod]
+        public void VisionCalculator_CanEnableAndDisableItself()
+        {
+            _visionCalculator.Disable();
+            Assert.IsFalse(_visionCalculator.IsEnabled);
+            _visionCalculator.Enable();
+            Assert.IsTrue(_visionCalculator.IsEnabled);
         }
 
         //--------------------------------

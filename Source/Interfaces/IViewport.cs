@@ -15,5 +15,7 @@ namespace TurnItUp.Interfaces
         int Height { get; set; }
 
         void Move(Direction direction);
+
+        void CenterOn(Position center);
     }
 }

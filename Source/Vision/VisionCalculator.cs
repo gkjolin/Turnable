@@ -14,6 +14,8 @@ namespace TurnItUp.Vision
         // http://www.roguebasin.com/index.php?title=Improved_Shadowcasting_in_Java
         private List<Position> _visiblePositions;
         public ILevel Level { get; set; }
+        public bool IsEnabled { get; set; }
+
         private int[,] multipliers = 
         {
             {1,  0,  0, -1, -1,  0,  0,  1},
@@ -25,6 +27,7 @@ namespace TurnItUp.Vision
         public VisionCalculator(ILevel level)
         {
             Level = level;
+            IsEnabled = true;
         }
 
         public double CalculateSlope(double x1, double y1, double x2, double y2, bool inverse = false)
@@ -148,6 +151,16 @@ namespace TurnItUp.Vision
             }
 
             return;
+        }
+
+        public void Enable()
+        {
+            IsEnabled = true;
+        }
+
+        public void Disable()
+        {
+            IsEnabled = false;
         }
     }
 }

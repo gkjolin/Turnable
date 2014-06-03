@@ -128,6 +128,17 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void Level_SettingUpAViewportWithJustAWidthAndHeight_IsSuccessful()
+        {
+            _level.SetUpViewport(5, 6);
+
+            Assert.IsNotNull(_level.Viewport);
+            Assert.AreEqual(_level, _level.Viewport.Level);
+            Assert.AreEqual(5, _level.Viewport.Width);
+            Assert.AreEqual(6, _level.Viewport.Height);
+        }
+
+        [TestMethod]
         public void Level_SettingUpAViewport_IsSuccessful()
         {
             _level.SetUpViewport(8, 8, 5, 5);

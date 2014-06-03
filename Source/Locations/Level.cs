@@ -56,6 +56,11 @@ namespace TurnItUp.Locations
             }
         }
 
+        public void SetUpViewport(int width, int height)
+        {
+            Viewport = new Viewport(this, width, height);
+        }
+
         public void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height)
         {
             Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);
