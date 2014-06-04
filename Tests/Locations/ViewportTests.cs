@@ -325,5 +325,24 @@ namespace Tests.Locations
             Assert.AreEqual(3, _level.Viewport.MapOrigin.X);
             Assert.AreEqual(3, _level.Viewport.MapOrigin.Y);
         }
+
+        [TestMethod]
+        public void Viewport_WhenCenteringOnAPositionWithNotEnoughSpaceAroundCenter_IsSuccessful()
+        {
+            _level.SetUpViewport(5, 5);
+
+            // Bottom left
+            _level.Viewport.CenterOn(new Position(0, 0));
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
+
+            // Bottom right
+            _level.Viewport.CenterOn(new Position(_level.Map.Width - 1, _level.Map.Height - 1));
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
+
+            Assert.AreEqual(_level.Map.Width - 5 - 1, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
+        }
     }
 }

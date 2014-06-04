@@ -60,7 +60,21 @@ namespace TurnItUp.Locations
 
         public void CenterOn(Position center)
         {
-            MapOrigin = new Position(center.X - Width / 2, center.Y - Height / 2);
+            int x, y;
+
+            x = center.X - Width / 2;
+            y = center.Y - Width / 2;
+
+            if (x < 0)
+            {
+                x = 0;
+            }
+            if (y < 0)
+            {
+                y = 0;
+            }
+
+            MapOrigin = new Position(x, y);
         }
     }
 }
