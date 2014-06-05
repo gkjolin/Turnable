@@ -33,6 +33,10 @@ namespace Tests.Locations
             Assert.IsNull(_levelSetUpParams.PlayerModel);
             Assert.AreEqual(-1, _levelSetUpParams.PlayerX);
             Assert.AreEqual(-1, _levelSetUpParams.PlayerY);
+            Assert.AreEqual(-1, _levelSetUpParams.ViewportMapOriginX);
+            Assert.AreEqual(-1, _levelSetUpParams.ViewportMapOriginY);
+            Assert.AreEqual(-1, _levelSetUpParams.ViewportWidth);
+            Assert.AreEqual(-1, _levelSetUpParams.ViewportHeight);
         }
 
         [TestMethod]
@@ -54,18 +58,49 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void LevelSetUpParams_CanDetermineIfPlayerPositionIsUnset()
+        public void LevelSetUpParams_CanDetermineIfPlayerPositionIsSet()
         {
             _levelSetUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
             _levelSetUpParams.PlayerX = -1;
             _levelSetUpParams.PlayerY = -1;
 
-            Assert.IsTrue(_levelSetUpParams.IsPlayerPositionUnset());
+            Assert.IsFalse(_levelSetUpParams.IsPlayerPositionSet());
 
             _levelSetUpParams.PlayerX = 0;
             _levelSetUpParams.PlayerY = 0;
-            Assert.IsFalse(_levelSetUpParams.IsPlayerPositionUnset());
+            Assert.IsTrue(_levelSetUpParams.IsPlayerPositionSet());
         }
 
+        [TestMethod]
+        public void LevelSetUpParams_CanDetermineIfViewportSizeIsSet()
+        {
+            _levelSetUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            _levelSetUpParams.ViewportWidth = -1;
+            _levelSetUpParams.ViewportHeight = -1;
+
+            Assert.IsFalse(_levelSetUpParams.IsViewportSizeSet());
+
+            _levelSetUpParams.ViewportWidth = 5;
+            _levelSetUpParams.ViewportHeight = 5;
+            Assert.IsTrue(_levelSetUpParams.IsViewportSizeSet());
+        }
+
+        [TestMethod]
+        public void LevelSetUpParams_CanDetermineIfAllViewportParamsAreSet()
+        {
+            _levelSetUpParams.TmxPath = "../../Fixtures/FullExample.tmx";
+            _levelSetUpParams.ViewportWidth = -1;
+            _levelSetUpParams.ViewportHeight = -1;
+            _levelSetUpParams.ViewportMapOriginX = -1;
+            _levelSetUpParams.ViewportMapOriginY = -1;
+
+            Assert.IsFalse(_levelSetUpParams.IsViewportParamsSet());
+
+            _levelSetUpParams.ViewportWidth = 5;
+            _levelSetUpParams.ViewportHeight = 5;
+            _levelSetUpParams.ViewportMapOriginX = 0;
+            _levelSetUpParams.ViewportMapOriginY = 0;
+            Assert.IsTrue(_levelSetUpParams.IsViewportParamsSet());
+        }
     }
 }

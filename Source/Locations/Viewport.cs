@@ -63,7 +63,16 @@ namespace TurnItUp.Locations
             int x, y;
 
             x = center.X - Width / 2;
-            y = center.Y - Width / 2;
+            y = center.Y - Height / 2;
+
+            if ((Width / 2 + center.X) > Level.Map.Width)
+            {
+                x -= (Width / 2 - (Level.Map.Width - center.X - 1));
+            }
+            if ((Height / 2 + center.Y) > Level.Map.Height)
+            {
+                y -= (Height / 2 - (Level.Map.Height- center.Y - 1));
+            }
 
             if (x < 0)
             {

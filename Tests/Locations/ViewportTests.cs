@@ -337,12 +337,19 @@ namespace Tests.Locations
             Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
 
             // Bottom right
-            _level.Viewport.CenterOn(new Position(_level.Map.Width - 1, _level.Map.Height - 1));
-            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
+            _level.Viewport.CenterOn(new Position(_level.Map.Width - 1, 0));
+            Assert.AreEqual(_level.Map.Width - _level.Viewport.Width, _level.Viewport.MapOrigin.X);
             Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
 
-            Assert.AreEqual(_level.Map.Width - 5 - 1, _level.Viewport.MapOrigin.X);
-            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
+            // Top right
+            _level.Viewport.CenterOn(new Position(_level.Map.Width - 1, _level.Map.Height - 1));
+            Assert.AreEqual(_level.Map.Width - _level.Viewport.Width, _level.Viewport.MapOrigin.X, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(_level.Map.Height - _level.Viewport.Height, _level.Viewport.MapOrigin.Y);
+
+            // Top left
+            _level.Viewport.CenterOn(new Position(0, _level.Map.Height - 1));
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(_level.Map.Height - _level.Viewport.Height, _level.Viewport.MapOrigin.Y);
         }
     }
 }
