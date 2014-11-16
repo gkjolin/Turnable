@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using TurnItUp.Interfaces;
 
-namespace TurnItUp.AI.State_Machines
+namespace TurnItUp.AI.StateMachines
 {
     public class StateMachine : IComponent
     {

@@ -135,7 +135,7 @@ namespace TurnItUp.Pathfinding
             return (Position.X == other.Position.X || Position.Y == other.Position.Y);
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return Position.ToString();
         }

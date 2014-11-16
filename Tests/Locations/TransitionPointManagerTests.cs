@@ -50,5 +50,23 @@ namespace Tests.Locations
             Assert.IsNotNull(transitionPointManager.Entrance);
             Assert.AreEqual(1, transitionPointManager.Exits.Count);
         }
+
+        [TestMethod]
+        public void TransitionPointManager_DeterminingIfALevelMeetsItsRequirements_ReturnsFalseWhenTheWorldTilesetIsMissing()
+        {
+            ILevel level = LocationsFactory.BuildLevel("../../Fixtures/FullExample.tmx");
+            level.Map.Tilesets.Remove("World");
+
+            Assert.AreEqual(false, TransitionPointManager.DoesLevelMeetRequirements(level));
+        }
+
+        [TestMethod]
+        public void TransitionPointManager_DeterminingIfALevelMeetsItsRequirements_ReturnsFalseWhenTheObjectsLayerIsMissing()
+        {
+            ILevel level = LocationsFactory.BuildLevel("../../Fixtures/FullExample.tmx");
+            level.Map.Layers.Remove("Objects");
+
+            Assert.AreEqual(false, TransitionPointManager.DoesLevelMeetRequirements(level));
+        }
     }
 }

@@ -31,6 +31,12 @@ namespace TurnItUp.Locations
 
         private void SetupConnections(ILevel level)
         {
+            // TODO: Unit test the next line
+            if (!TransitionPointManager.DoesLevelMeetRequirements(level))
+            {
+                return;
+            }
+
             foreach (Position transitionPoint in level.TransitionPointManager.Exits)
             {
                 Connections.Add(new Connection(new Node(level, transitionPoint.X, transitionPoint.Y), null));

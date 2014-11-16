@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TurnItUp.AI.State_Machines;
+using TurnItUp.AI.StateMachines;
 using Entropy;
 using Tests.SupportingClasses;
 using TurnItUp.Interfaces;

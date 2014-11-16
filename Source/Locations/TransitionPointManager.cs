@@ -16,6 +16,12 @@ namespace TurnItUp.Locations
 
         public TransitionPointManager(ILevel level)
         {
+            // TODO: Unit test the next line
+            if (!TransitionPointManager.DoesLevelMeetRequirements(level)) 
+            {
+                return;
+            }
+
             // Each level can have multiple Exits and one Entrance.
             Level = level;
             Entrance = null;
@@ -52,6 +58,11 @@ namespace TurnItUp.Locations
                     }
                 }
             }
+        }
+
+        public static bool DoesLevelMeetRequirements(ILevel level)
+        {
+            return (level.Map.Tilesets.Contains("World") && level.Map.Layers.Contains("Objects"));
         }
     }
 }
