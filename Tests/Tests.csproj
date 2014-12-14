@@ -38,9 +38,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Entropy">
-      <HintPath>..\Dependencies\Entropy.dll</HintPath>
-    </Reference>
     <Reference Include="Moq">
       <HintPath>..\Dependencies\Moq.dll</HintPath>
     </Reference>
@@ -65,9 +62,20 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tmx\DataTests.cs" />
+    <Compile Include="Tmx\MapTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fixtures\MinimalBase64GzipCompressed.tmx" />
+    <None Include="Fixtures\MinimalBase64GzipCompressed.tmx">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Fixtures\MinimalBase64ZlibCompressed.tmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Source\Turnable.csproj">
+      <Project>{b578758b-1fc4-4b15-8342-4b9c45b65105}</Project>
+      <Name>Turnable</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

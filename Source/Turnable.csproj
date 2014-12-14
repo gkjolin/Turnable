@@ -7,8 +7,8 @@
     <ProjectGuid>{B578758B-1FC4-4B15-8342-4B9C45B65105}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TurnItUp</RootNamespace>
-    <AssemblyName>TurnItUp</AssemblyName>
+    <RootNamespace>Turnable</RootNamespace>
+    <AssemblyName>Turnable</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -49,6 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tiled\Data.cs" />
+    <Compile Include="Tiled\Map.cs" />
+    <Compile Include="Tiled\Orientation.cs" />
+    <Compile Include="Tiled\RenderOrder.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
