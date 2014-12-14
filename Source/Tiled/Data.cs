@@ -12,7 +12,7 @@ namespace Turnable.Tiled
     {
         public Stream Contents { get; private set; }
 
-        public Data(XElement data)
+        public Data(XElement xData)
         {
             //var encoding = (string)xData.Attribute("encoding");
             //if (encoding != "base64")
@@ -21,11 +21,11 @@ namespace Turnable.Tiled
             //}
 
             // Decode the contents of data
-            byte[] rawContents = Convert.FromBase64String((string)data.Value);
+            byte[] rawContents = Convert.FromBase64String((string)xData.Value);
             Contents = new MemoryStream(rawContents, false);
 
             // Uncompress the decoded contents
-            var compression = (string)data.Attribute("compression");
+            var compression = (string)xData.Attribute("compression");
             switch (compression)
             {
                 case "gzip":

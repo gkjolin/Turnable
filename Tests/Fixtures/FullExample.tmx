@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="15" tilewidth="24" tileheight="24">
+ <tileset firstgid="1" name="World" tilewidth="24" tileheight="24">
+  <image source="../../../../Users/Praveen/Dropbox/Game Development/Assets/oryx_16-bit_fantasy_1.1/TMX Source/oryx_16bit_fantasy_world_trans_cropped.png" width="1318" height="936"/>
+ </tileset>
+ <tileset firstgid="2107" name="Characters" tilewidth="24" tileheight="24">
+  <image source="../../../../Users/Praveen/Dropbox/Game Development/Assets/oryx_16-bit_fantasy_1.1/TMX Source/oryx_16bit_fantasy_creatures_trans_cropped.png" width="432" height="552"/>
+ </tileset>
+ <layer name="Background" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC/NgZGDwGMWjeBQPGAYAe2B2qIQDAAA=
+  </data>
+ </layer>
+ <layer name="Obstacles" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC3NlZGBwpQCTA0b10kYvJXGEro5eerGZNdjdjEsvuRgAwzpEu4QDAAA=
+  </data>
+ </layer>
+ <layer name="Objects" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGJpgPuPQt4MefqAnYCTDP/3UdwZJgBw3UxsAADxBRVeEAwAA
+  </data>
+ </layer>
+ <layer name="Characters" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgoB6I5WRgiOOEsJOh7FhOKlowCkbBAABrDtqaDwDGR1wzhAMAAA==
+  </data>
+ </layer>
+</map>
