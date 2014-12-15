@@ -7,6 +7,9 @@
   <image source="../../../../Users/Praveen/Dropbox/Game Development/Assets/oryx_16-bit_fantasy_1.1/TMX Source/oryx_16bit_fantasy_creatures_trans_cropped.png" width="432" height="552"/>
  </tileset>
  <layer name="Background" width="15" height="15">
+  <properties>
+   <property name="Property" value="Value"/>
+  </properties>
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC/NgZGDwGMWjeBQPGAYAe2B2qIQDAAA=
   </data>

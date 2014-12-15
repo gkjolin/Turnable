@@ -51,11 +51,6 @@ namespace Tests.Factories
         //    return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>());
         //}
 
-        //public static IEnumerable<XElement> BuildPropertiesXElements()
-        //{
-        //    return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>().Element("properties").Elements("property"));
-        //}
-
         // Data
         public static Data BuildDataWithNoTiles()
         {
@@ -66,6 +61,13 @@ namespace Tests.Factories
         {
             return (new Data(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>().Element("data")));
         }
+
+        // Properties
+        public static IEnumerable<XElement> BuildPropertiesXElements()
+        {
+            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>().Element("properties").Elements("property"));
+        }
+
 
         //public static XElement BuildReferenceTileXElementWithProperties()
         //{

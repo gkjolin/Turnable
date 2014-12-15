@@ -53,6 +53,7 @@
     <Compile Include="Tiled\Layer.cs" />
     <Compile Include="Tiled\Map.cs" />
     <Compile Include="Tiled\Orientation.cs" />
+    <Compile Include="Tiled\PropertyDictionary.cs" />
     <Compile Include="Tiled\RenderOrder.cs" />
     <Compile Include="Tiled\Tile.cs" />
     <Compile Include="Tiled\TileList.cs" />

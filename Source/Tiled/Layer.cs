@@ -16,6 +16,8 @@ namespace Turnable.Tiled
         // However for convenience, we also set the Width and Height for each Layer of a Map during construction
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public TileList Tiles { get; private set; }
+        public PropertyDictionary Properties { get; private set; }
 
         public Layer(XElement xLayer)
         {
@@ -26,8 +28,15 @@ namespace Turnable.Tiled
             Height = (int)xLayer.Attribute("height");
 
             // Load up the Tiles in this layer
-            //Data data = new Data(xLayer.Element("data"));
-            //Tiles = new TileList(this, data);
+            Data data = new Data(xLayer.Element("data"));
+            Tiles = new TileList(Width, Height, data);
+
+            // Load up the Properties for this layer, if it exists
+            if (xLayer.Element("properties") != null)
+            {
+                IEnumerable<XElement> xProperties = xLayer.Element("properties").Elements("property");
+                Properties = new PropertyDictionary(xProperties);
+            }
         }
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="Tiled\DataTests.cs" />
     <Compile Include="Tiled\LayerTests.cs" />
     <Compile Include="Tiled\MapTests.cs" />
+    <Compile Include="Tiled\PropertyDictionaryTests.cs" />
     <Compile Include="Tiled\TileListTests.cs" />
     <Compile Include="Tiled\TilesetTests.cs" />
     <Compile Include="Tiled\TileTests.cs" />
