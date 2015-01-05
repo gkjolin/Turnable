@@ -84,6 +84,22 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
+        public void GetSpecialLayer_WhenASpecialLayerExists_ReturnsTheLayer()
+        {
+            _fullMap.SetSpecialLayer(_fullMap.Layers[0], Map.SpecialLayer.Background);
+
+            Assert.AreEqual(_fullMap.Layers[0], _fullMap.GetSpecialLayer(Map.SpecialLayer.Background));
+        }
+
+        [TestMethod]
+        public void GetSpecialLayer_WhenASpecialLayerDoesNotExist_ReturnsNull()
+        {
+            _fullMap.SetSpecialLayer(_fullMap.Layers[0], Map.SpecialLayer.Character);
+
+            Assert.IsNull(_fullMap.GetSpecialLayer(Map.SpecialLayer.Background));
+        }
+
+        [TestMethod]
         public void SetSpecialLayer_InitializesTheSpecialLayer()
         {
             Mock<IMap> mockMap = new Mock<IMap>();

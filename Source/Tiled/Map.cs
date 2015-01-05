@@ -51,9 +51,9 @@ namespace Turnable.Tiled
             Character
         }
 
-        public void SetSpecialLayer(Layer layer, SpecialLayer value)
+        public void SetSpecialLayer(Layer layer, SpecialLayer specialLayer)
         {
-            string key = "Is" + value.ToString() + "Layer";
+            string key = SpecialLayerPropertyKey(specialLayer);
 
             if (Layers[0].Properties.ContainsKey(key))
             {
@@ -66,6 +66,18 @@ namespace Turnable.Tiled
         public void InitializeSpecialLayer(Map.SpecialLayer value)
         {
             throw new NotImplementedException();
+        }
+
+        public object GetSpecialLayer(SpecialLayer specialLayer)
+        {
+            string key = SpecialLayerPropertyKey(specialLayer);
+
+            return Layers.FirstOrDefault<Layer>(l => l.Properties.ContainsKey(key));
+        }
+
+        private string SpecialLayerPropertyKey(SpecialLayer specialLayer)
+        {
+            return "Is" + specialLayer.ToString() + "Layer";
         }
     }
 }
