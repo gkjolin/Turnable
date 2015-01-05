@@ -8,6 +8,14 @@ namespace Tests.Tiled
     [TestClass]
     public class MapTests
     {
+        private Map _fullMap;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _fullMap = new Map("../../Fixtures/FullExample.tmx");
+        }
+
         [TestMethod]
         public void Constructor_InitializesAllProperties()
         {
@@ -56,15 +64,21 @@ namespace Tests.Tiled
         [TestMethod]
         public void SetSpecialLayer_SetsTheCorrectPropertyForTheLayer()
         {
-            Map map = new Map("../../Fixtures/FullExample.tmx");
-
             var values = Enum.GetValues(typeof(Map.SpecialLayer)).Cast<Map.SpecialLayer>();
 
             foreach (Map.SpecialLayer value in Enum.GetValues(typeof(Map.SpecialLayer)).Cast<Map.SpecialLayer>())
             {
-                map.SetSpecialLayer(map.Layers[0], value);
-                Assert.AreEqual("true", map.Layers[0].Properties["Is" + value.ToString() + "Layer"]);
+                _fullMap.SetSpecialLayer(_fullMap.Layers[0], value);
+                Assert.AreEqual("true", _fullMap.Layers[0].Properties["Is" + value.ToString() + "Layer"]);
             }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void SetSpecialLayer_WhenTheSpecificSpecialLayerAlreadyExists_ThrowsAnException()
+        {
+            _fullMap.SetSpecialLayer(_fullMap.Layers[0], Map.SpecialLayer.Background);
+            _fullMap.SetSpecialLayer(_fullMap.Layers[1], Map.SpecialLayer.Background);
         }
     }
 }

@@ -52,7 +52,14 @@ namespace Turnable.Tiled
 
         public void SetSpecialLayer(Layer layer, SpecialLayer value)
         {
-            Layers[0].Properties["Is" + value.ToString() + "Layer"] = "true";
+            string key = "Is" + value.ToString() + "Layer";
+
+            if (Layers[0].Properties.ContainsKey(key))
+            {
+                throw new ArgumentException();
+            }
+            
+            Layers[0].Properties[key] = "true";
         }
     }
 }
