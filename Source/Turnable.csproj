@@ -52,6 +52,7 @@
     <Compile Include="Tiled\Data.cs" />
     <Compile Include="Tiled\ElementList.cs" />
     <Compile Include="Tiled\IElement.cs" />
+    <Compile Include="Api\IMap.cs" />
     <Compile Include="Tiled\Layer.cs" />
     <Compile Include="Tiled\Map.cs" />
     <Compile Include="Tiled\Orientation.cs" />

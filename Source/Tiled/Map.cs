@@ -6,16 +6,16 @@ using System.Xml.Linq;
 
 namespace Turnable.Tiled
 {
-    public class Map
+    public class Map : IMap
     {
-        public int TileWidth { get; private set; }
-        public int TileHeight { get; private set; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public RenderOrder RenderOrder { get; private set; }
-        public Orientation Orientation { get; private set; }
-        public string Version { get; private set; }
-        public ElementList<Layer> Layers { get; private set; }
+        public int TileWidth { get; set; }
+        public int TileHeight { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public RenderOrder RenderOrder { get; set; }
+        public Orientation Orientation { get; set; }
+        public string Version { get; set; }
+        public ElementList<Layer> Layers { get; set; }
 
         public Map()
         {
