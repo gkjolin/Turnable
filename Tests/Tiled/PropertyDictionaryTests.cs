@@ -20,11 +20,40 @@ namespace Tests.Tmx
         }
 
         [TestMethod]
-        public void Indexer_IgnoresCaseOfPropertyName()
+        public void Indexer_WhenGettingAValue_IgnoresCaseOfPropertyName()
         {
             PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
 
             Assert.AreEqual("Value", properties["property"]);
+        }
+
+        [TestMethod]
+        public void Indexer_SetsProperty()
+        {
+            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+            properties["New Property"] = "New Value";
+
+            Assert.AreEqual("New Value", properties["New Property"]);
+        }
+
+        [TestMethod]
+        public void Indexer_UpdatingPreexistingProperty_SetsNewValue()
+        {
+            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+            properties["New Property"] = "New Value";
+            properties["New Property"] = "New Value 2";
+
+            Assert.AreEqual("New Value 2", properties["New Property"]);
+        }
+
+        [TestMethod]
+        public void Indexer_UpdatingPreexistingProperty_IgnoresCaseOfPropertyName()
+        {
+            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+            properties["New Property"] = "New Value";
+            properties["new property"] = "New Value 2";
+
+            Assert.AreEqual("New Value 2", properties["New Property"]);
         }
     }
 }

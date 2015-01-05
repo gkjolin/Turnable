@@ -33,5 +33,14 @@ namespace Turnable.Tiled
             Orientation = (Orientation)Enum.Parse(typeof(Orientation), xMap.Attribute("orientation").Value, true);
             Version = (string)xMap.Attribute("version");
         }
+
+        public enum SpecialLayer
+        {
+            Background,
+            Collision,
+            Object,
+            Character
+        }
     }
+
 }
