@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Tiled;
+using System.Linq;
 
 namespace Tests.Tiled
 {
@@ -19,7 +20,7 @@ namespace Tests.Tiled
             Assert.AreEqual(RenderOrder.RightDown, map.RenderOrder);
             Assert.AreEqual(Orientation.Orthogonal, map.Orientation);
             Assert.IsNull(map.Version);
-            // Assert.IsNotNull(map.Layers);
+            Assert.IsNull(map.Layers);
         }
 
         [TestMethod]
@@ -35,13 +36,15 @@ namespace Tests.Tiled
             Assert.AreEqual(Orientation.Orthogonal, map.Orientation);
             Assert.AreEqual("1.0", map.Version);
 
-            // Make sure that the layers are properly loaded up
-            // Assert.AreEqual(1, map.Layers.Count);
+            // Make sure that the layers are loaded up
+            Assert.AreEqual(1, map.Layers.Count);
+            Assert.IsInstanceOfType(map.Layers, typeof(ElementList<Layer>));
+            Assert.AreEqual(0, map.Layers[0].Tiles.Count);
         }
 
         // Special layer tests
         [TestMethod]
-        public void Map_Supports4DifferentSpecialLayers()
+        public void Map_SpecialLayerEnum_Defines4DifferentSpecialLayers()
         {
             Assert.AreEqual(4, Enum.GetValues(typeof(Map.SpecialLayer)).Length);
             Assert.IsTrue(Enum.IsDefined(typeof(Map.SpecialLayer), "Background"));
@@ -53,6 +56,15 @@ namespace Tests.Tiled
         [TestMethod]
         public void SetSpecialLayer_SetsTheCorrectPropertyForTheLayer()
         {
+            Map map = new Map("../../Fixtures/FullExample.tmx");
+
+            var values = Enum.GetValues(typeof(Map.SpecialLayer)).Cast<Map.SpecialLayer>();
+
+            foreach (Map.SpecialLayer value in Enum.GetValues(typeof(Map.SpecialLayer)).Cast<Map.SpecialLayer>())
+            {
+                map.SetSpecialLayer(map.Layers[0], value);
+                Assert.AreEqual("true", map.Layers[0].Properties["Is" + value.ToString() + "Layer"]);
+            }
         }
     }
 }

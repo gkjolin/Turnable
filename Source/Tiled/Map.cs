@@ -8,19 +8,20 @@ namespace Turnable.Tiled
 {
     public class Map
     {
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public RenderOrder RenderOrder { get; set; }
-        public Orientation Orientation { get; set; }
-        public string Version { get; set; }
+        public int TileWidth { get; private set; }
+        public int TileHeight { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public RenderOrder RenderOrder { get; private set; }
+        public Orientation Orientation { get; private set; }
+        public string Version { get; private set; }
+        public ElementList<Layer> Layers { get; private set; }
 
         public Map()
         {
         }
 
-        public Map(string tmxFullFilePath) : base()
+        public Map(string tmxFullFilePath)
         {
             XDocument xDocument = XDocument.Load(tmxFullFilePath);
             XElement xMap = xDocument.Element("map");
@@ -32,6 +33,13 @@ namespace Turnable.Tiled
             // TODO: Load up RenderOrder correctly
             Orientation = (Orientation)Enum.Parse(typeof(Orientation), xMap.Attribute("orientation").Value, true);
             Version = (string)xMap.Attribute("version");
+
+            // Load up all the Layers in this Map.
+            Layers = new ElementList<Layer>();
+            foreach (XElement xLayer in xMap.Elements("layer"))
+            {
+                Layers.Add(new Layer(xLayer));
+            }
         }
 
         public enum SpecialLayer
@@ -41,6 +49,10 @@ namespace Turnable.Tiled
             Object,
             Character
         }
-    }
 
+        public void SetSpecialLayer(Layer layer, SpecialLayer value)
+        {
+            Layers[0].Properties["Is" + value.ToString() + "Layer"] = "true";
+        }
+    }
 }
