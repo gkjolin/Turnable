@@ -7,16 +7,11 @@ using Turnable.Tiled;
 
 namespace Tests.Factories
 {
-    public static class TmxFactory
+    public static class TiledFactory
     {
         //public static Map BuildMap()
         //{
         //    return (new Map("../../Fixtures/FullExample.tmx"));
-        //}
-
-        //public static Layer BuildLayer()
-        //{
-        //    return (new Layer(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>()));
         //}
 
         //public static Tileset BuildTileset()
@@ -25,6 +20,11 @@ namespace Tests.Factories
         //}
 
         // Layers
+        public static Layer BuildLayer()
+        {
+            return (new Layer(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>()));
+        }
+
         public static XElement BuildLayerXElement()
         {
             return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>());

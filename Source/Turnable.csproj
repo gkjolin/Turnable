@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tiled\Data.cs" />
+    <Compile Include="Tiled\ElementList.cs" />
+    <Compile Include="Tiled\IElement.cs" />
     <Compile Include="Tiled\Layer.cs" />
     <Compile Include="Tiled\Map.cs" />
     <Compile Include="Tiled\Orientation.cs" />
@@ -62,7 +64,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)bin\Release\*" "C:\git\TheGraysons\Assets\First Party Libraries\"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

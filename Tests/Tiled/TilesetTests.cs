@@ -11,7 +11,7 @@ namespace Tests.Tiled
         [TestMethod]
         public void Constructor_GivenATilesetXElement_SuccessfullyInitializesAllProperties()
         {
-            Tileset tileset = new Tileset(TmxFactory.BuildTilesetXElement());
+            Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElement());
 
             Assert.AreEqual((uint)1, tileset.FirstGlobalId);
             Assert.AreEqual("World", tileset.Name);

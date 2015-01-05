@@ -14,7 +14,7 @@ namespace Tests.Tiled
         [TestMethod]
         public void Constructor_GivenALayerXElement_SuccessfullyInitializesLayerIncludingPropertiesAndTiles()
         {
-            Layer layer = new Layer(TmxFactory.BuildLayerXElement());
+            Layer layer = new Layer(TiledFactory.BuildLayerXElement());
 
             Assert.AreEqual("Background", layer.Name);
             Assert.AreEqual(15, layer.Width);

@@ -22,7 +22,7 @@ namespace Tests.Tiled
         [TestMethod]
         public void Constructor_GivenDataWithNoTiles_SuccessfullyCreatesAnEmptyTileList()
         {
-            TileList tileList = new TileList(15, 15, TmxFactory.BuildDataWithNoTiles());
+            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
 
             Assert.AreEqual(0, tileList.Count);
         }
@@ -30,7 +30,7 @@ namespace Tests.Tiled
         [TestMethod]
         public void Constructor_GivenDataWithTiles_SuccessfullyCreatesAllTiles()
         {
-            TileList tileList = new TileList(15, 15, TmxFactory.BuildDataWithTiles());
+            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
 
             Assert.AreEqual(6, tileList.Count);
 

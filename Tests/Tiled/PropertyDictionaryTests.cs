@@ -13,7 +13,7 @@ namespace Tests.Tmx
         [TestMethod]
         public void Constructor_SuccessfullyLoadsUpAllProperties()
         {
-            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+            PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
 
             Assert.AreEqual(1, properties.Count);
             Assert.AreEqual("Value", properties["Property"]);
@@ -22,7 +22,7 @@ namespace Tests.Tmx
         [TestMethod]
         public void Indexer_WhenGettingAValue_IgnoresCaseOfPropertyName()
         {
-            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+            PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
 
             Assert.AreEqual("Value", properties["property"]);
         }
@@ -30,7 +30,7 @@ namespace Tests.Tmx
         [TestMethod]
         public void Indexer_SetsProperty()
         {
-            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+            PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
             properties["New Property"] = "New Value";
 
             Assert.AreEqual("New Value", properties["New Property"]);
@@ -39,7 +39,7 @@ namespace Tests.Tmx
         [TestMethod]
         public void Indexer_UpdatingPreexistingProperty_SetsNewValue()
         {
-            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+            PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
             properties["New Property"] = "New Value";
             properties["New Property"] = "New Value 2";
 
@@ -49,7 +49,7 @@ namespace Tests.Tmx
         [TestMethod]
         public void Indexer_UpdatingPreexistingProperty_IgnoresCaseOfPropertyName()
         {
-            PropertyDictionary properties = new PropertyDictionary(TmxFactory.BuildPropertiesXElements());
+            PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
             properties["New Property"] = "New Value";
             properties["new property"] = "New Value 2";
 

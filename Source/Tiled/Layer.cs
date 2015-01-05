@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 namespace Turnable.Tiled
 {
-    public class Layer
+    public class Layer : IElement
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public double Opacity { get; private set; }
         public bool IsVisible { get; private set; }
         // The .tmx specification https://github.com/marshallward/TiledSharp specifies that Width and Height are the same as the Width and Height of the map
