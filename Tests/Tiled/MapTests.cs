@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Tiled;
 using System.Linq;
+using Moq;
+using Turnable.Api;
 
 namespace Tests.Tiled
 {
@@ -79,6 +81,17 @@ namespace Tests.Tiled
         {
             _fullMap.SetSpecialLayer(_fullMap.Layers[0], Map.SpecialLayer.Background);
             _fullMap.SetSpecialLayer(_fullMap.Layers[1], Map.SpecialLayer.Background);
+        }
+
+        [TestMethod]
+        public void SetSpecialLayer_InitializesTheSpecialLayer()
+        {
+            Mock<IMap> mockMap = new Mock<IMap>();
+            mockMap.Setup(m => m.InitializeSpecialLayer(Map.SpecialLayer.Background)).Verifiable();
+
+            mockMap.Object.SetSpecialLayer(mockMap.Object.Layers[0], Map.SpecialLayer.Background);
+
+            mockMap.Verify(m => m.InitializeSpecialLayer(Map.SpecialLayer.Background));
         }
     }
 }

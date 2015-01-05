@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Turnable.Api;
 
 namespace Turnable.Tiled
 {
@@ -60,6 +61,11 @@ namespace Turnable.Tiled
             }
             
             Layers[0].Properties[key] = "true";
+        }
+
+        public void InitializeSpecialLayer(Map.SpecialLayer value)
+        {
+            throw new NotImplementedException();
         }
     }
 }
