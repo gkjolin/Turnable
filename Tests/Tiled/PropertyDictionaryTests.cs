@@ -11,6 +11,14 @@ namespace Tests.Tmx
     public class PropertyDictionaryTests
     {
         [TestMethod]
+        public void DefaultConstructor_Exists()
+        {
+            PropertyDictionary properties = new PropertyDictionary();
+
+            Assert.AreEqual(0, properties.Count);
+        }
+
+        [TestMethod]
         public void Constructor_SuccessfullyLoadsUpAllProperties()
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());

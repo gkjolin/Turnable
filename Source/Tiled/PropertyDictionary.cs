@@ -10,6 +10,10 @@ namespace Turnable.Tiled
 {
     public class PropertyDictionary : Dictionary<string, string>
     {
+        public PropertyDictionary()
+        {
+        }
+
         public PropertyDictionary(IEnumerable<XElement> xProperties) : base(StringComparer.OrdinalIgnoreCase)
         {
             foreach (XElement xProperty in xProperties)

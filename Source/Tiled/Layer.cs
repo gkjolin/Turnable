@@ -37,6 +37,10 @@ namespace Turnable.Tiled
                 IEnumerable<XElement> xProperties = xLayer.Element("properties").Elements("property");
                 Properties = new PropertyDictionary(xProperties);
             }
+            else
+            {
+                Properties = new PropertyDictionary();
+            }
         }
     }
 }

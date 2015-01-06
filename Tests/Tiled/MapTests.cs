@@ -103,6 +103,7 @@ namespace Tests.Tiled
         public void SetSpecialLayer_InitializesTheSpecialLayer()
         {
             Mock<IMap> mockMap = new Mock<IMap>();
+            mockMap.CallBase = true;
             mockMap.Setup(m => m.InitializeSpecialLayer(Map.SpecialLayer.Background)).Verifiable();
 
             mockMap.Object.SetSpecialLayer(mockMap.Object.Layers[0], Map.SpecialLayer.Background);

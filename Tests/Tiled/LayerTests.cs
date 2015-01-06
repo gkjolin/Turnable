@@ -12,6 +12,14 @@ namespace Tests.Tiled
     public class LayerTests
     {
         [TestMethod]
+        public void Constructor_GivenALayerXElementWithNoProperties_InitializesAnEmptyPropertiesCollection()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithNoProperties());
+
+            Assert.IsNotNull(layer.Properties);
+        }
+        
+        [TestMethod]
         public void Constructor_GivenALayerXElement_SuccessfullyInitializesLayerIncludingPropertiesAndTiles()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElement());
