@@ -61,11 +61,11 @@ namespace Turnable.Tiled
             }
             
             Layers[0].Properties[key] = "true";
+            InitializeSpecialLayer(specialLayer);
         }
 
-        public void InitializeSpecialLayer(Map.SpecialLayer value)
+        public virtual void InitializeSpecialLayer(Map.SpecialLayer value)
         {
-            throw new NotImplementedException();
         }
 
         public object GetSpecialLayer(SpecialLayer specialLayer)

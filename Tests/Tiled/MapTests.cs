@@ -98,17 +98,5 @@ namespace Tests.Tiled
 
             Assert.IsNull(_fullMap.GetSpecialLayer(Map.SpecialLayer.Background));
         }
-
-        [TestMethod]
-        public void SetSpecialLayer_InitializesTheSpecialLayer()
-        {
-            Mock<IMap> mockMap = new Mock<IMap>();
-            mockMap.CallBase = true;
-            mockMap.Setup(m => m.InitializeSpecialLayer(Map.SpecialLayer.Background)).Verifiable();
-
-            mockMap.Object.SetSpecialLayer(mockMap.Object.Layers[0], Map.SpecialLayer.Background);
-
-            mockMap.Verify(m => m.InitializeSpecialLayer(Map.SpecialLayer.Background));
-        }
     }
 }
