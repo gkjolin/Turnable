@@ -2,126 +2,111 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Api;
 using Turnable.Locations;
+using Turnable.Pathfinding;
+using Turnable.Components;
 
 namespace Tests.Pathfinding
 {
     [TestClass]
     public class NodeTests
     {
-        // private Node _node;
+        private Node _node;
         private ILevel _level;
 
         [TestInitialize]
         public void Initialize()
         {
             _level = new Level();
+            _node = new Node(_level, 0, 0);
         }
 
         [TestMethod]
-        public void Constructor_ForNodeWithParentNode_IsSuccessful()
+        public void Constructor_ForNodeWithoutParentNode_InitializesNode()
         {
-            //Node node = new Node(_level, 0, 0);
+            Node node = new Node(_level, 0, 0);
 
-            //Assert.AreEqual(_level, node.Level);
-            //Assert.AreEqual(0, node.Position.X);
-            //Assert.AreEqual(0, node.Position.Y);
-            //Assert.IsNull(node.Parent);
+            Assert.AreEqual(_level, node.Level);
+            Assert.AreEqual(0, node.Position.X);
+            Assert.AreEqual(0, node.Position.Y);
+            Assert.IsNull(node.Parent);
+        }
+
+        [TestMethod]
+        public void Constructor_ForNodeWithParentNode_InitializesNode()
+        {
+            Node parentNode = new Node(_level, 0, 0);
+
+            Node node = new Node(_level, 0, 0, parentNode);
+
+            Assert.AreEqual(0, node.Position.X);
+            Assert.AreEqual(0, node.Position.Y);
+            Assert.AreEqual(parentNode, node.Parent);           
+        }
+
+        [TestMethod]
+        public void Constructor_ForNodeWithParentNodeAndPosition_InitializesNode()
+        {
+            Node parentNode = new Node(_level, 0, 0);
+            Position position = new Position(1, 2);
+            
+            Node node = new Node(_level, position, parentNode);
+
+            Assert.AreEqual(position, node.Position);
+            Assert.AreEqual(parentNode, node.Parent);
+        }
+
+        // Calculating values for A* algorithm (PathScore, EstimatedMovementCost and ActualMovementCost)
+        [TestMethod]
+        public void PathScore_IsCalculatedAsTheSumOfActualMovementCostAndEstimatedMovementCost()
+        {
+            _node.ActualMovementCost = 4;
+            _node.EstimatedMovementCost = 5;
+
+            Assert.AreEqual(_node.ActualMovementCost + _node.EstimatedMovementCost, _node.PathScore);
+        }
+
+        [TestMethod]
+        public void ActualMovementCost_ForANodeWithoutAParent_Is0()
+        {
+            Assert.AreEqual(0, _node.ActualMovementCost);
+        }
+
+        [TestMethod]
+        public void EstimatedMovementCost_ForANodeWithoutAParent_Is0()
+        {
+            Assert.AreEqual(0, _node.EstimatedMovementCost);
+        }
+
+        [TestMethod]
+        public void ActualMovementCost_WithOrthogonalParentNode_HasACostOf10()
+        {
+            Node node = new Node(_level, 5, 5);
+            Direction[] orthogonalDirections = new Direction[4] {Direction.North, Direction.East, Direction.South, Direction.East};
+
+            foreach(Direction direction in orthogonalDirections)
+            {
+                Node parent = new Node(_level, node.Position.NeighboringPosition(direction));
+
+                Assert.AreEqual(parent.ActualMovementCost + 10, _node.ActualMovementCost);
+            }
+        }
+
+        [TestMethod]
+        public void ActualMovementCost_WithDiagonalParentNode_HasACostOf14()
+        {
+            Node node = new Node(_level, 5, 5);
+            Direction[] diagonalDirections = new Direction[4] { Direction.NorthEast, Direction.SouthEast, Direction.SouthWest, Direction.NorthWest };
+
+            foreach (Direction direction in diagonalDirections)
+            {
+                Node parent = new Node(_level, node.Position.NeighboringPosition(direction));
+
+                Assert.AreEqual(parent.ActualMovementCost + 14, _node.ActualMovementCost);
+            }
         }
     }
 }
 
-//[TestClass]
-//public class NodeTests
-//{
-
-
-
-//    [TestMethod]
-//    public void Node_WithParentNode_CanBeConstructed()
-//    {
-//        Node parentNode = new Node(_level, 0, 0);
-
-//        Node node = new Node(_level, 0, 0, parentNode);
-
-//        Assert.AreEqual(0, node.Position.X);
-//        Assert.AreEqual(0, node.Position.Y);
-//        Assert.AreEqual(parentNode, node.Parent);
-//    }
-
-//    [TestMethod]
-//    public void Node_CanCalculateF()
-//    {
-//        _node.G = 5;
-//        _node.H = 5;
-
-//        Assert.AreEqual(_node.G + _node.H, _node.F);
-//    }
-
-//    [TestMethod]
-//    public void Node_WithoutAParentNode_CanCalculateG()
-//    {
-//        Assert.AreEqual(0, _node.G);
-//    }
-
-//    [TestMethod]
-//    public void Node_WithoutAParentNode_CanCalculateH()
-//    {
-//        Assert.AreEqual(0, _node.H);
-//    }
-
-//    [TestMethod]
-//    public void Node_WithOrthogonalParentNode_CanCalculateG()
-//    {
-//        // Parent directly above child
-//        Node parent = new Node(_level, 5, 4);
-//        _node = new Node(_level, 5, 5, parent);
-//        parent.G = 10;
-
-//        Assert.AreEqual(parent.G + 10, _node.G);
-
-//        // Parent directly below child
-//        parent.Position.Y = 6;
-
-//        Assert.AreEqual(parent.G + 10, _node.G);
-
-//        // Parent to left of child
-//        parent.Position.Y = 5;
-//        parent.Position.X = 4;
-
-//        Assert.AreEqual(parent.G + 10, _node.G);
-
-//        // Parent to right of child
-//        parent.Position.X = 6;
-
-//        Assert.AreEqual(parent.G + 10, _node.G);
-//    }
-
-//    [TestMethod]
-//    public void Node_WithDiagonalParentNode_CanCalculateG()
-//    {
-//        // Parent directly above and left of child
-//        Node parent = new Node(_level, 4, 4);
-//        _node = new Node(_level, 5, 5, parent);
-//        parent.G = 10;
-
-//        Assert.AreEqual(parent.G + 14, _node.G);
-
-//        // Parent directly below and left of child
-//        parent.Position.Y = 6;
-
-//        Assert.AreEqual(parent.G + 14, _node.G);
-
-//        // Parent to below and right of child
-//        parent.Position.X = 6;
-
-//        Assert.AreEqual(parent.G + 14, _node.G);
-
-//        // Parent to above and right of child
-//        parent.Position.X = 4;
-//        parent.Position.Y = 6;
-
-//        Assert.AreEqual(parent.G + 14, _node.G);
-//    }
 
 //    [TestMethod]
 //    public void Node_CanCalculateH()
@@ -136,52 +121,6 @@ namespace Tests.Pathfinding
 
 //        _node.CalculateH(5, 4);
 //        Assert.AreEqual(10, _node.H);
-//    }
-
-//    [TestMethod]
-//    public void Node_ImplementsEquals()
-//    {
-//        Node node = new Node(_level, 1, 2);
-//        Node node2 = new Node(_level, 1, 2);
-
-//        Assert.AreEqual(node, node2);
-
-//        node = new Node(_level, 2, 3);
-//        Assert.AreNotEqual(node, node2);
-//    }
-
-//    [TestMethod]
-//    public void Node_ImplementsEqualityOperator()
-//    {
-//        Node node = new Node(_level, 1, 2);
-//        Node node2 = new Node(_level, 1, 2);
-
-//        Assert.IsTrue(node == node2);
-//    }
-
-//    [TestMethod]
-//    public void Node_ImplementsInequalityOperator()
-//    {
-//        Node node = new Node(_level, 1, 2);
-//        Node node2 = new Node(_level, 1, 3);
-
-//        Assert.IsTrue(node != node2);
-//    }
-
-//    [TestMethod]
-//    public void Node_WhenUsingEqualityOperator_CanBeComparedToNull()
-//    {
-//        Node node = null;
-
-//        Assert.IsTrue(node == null);
-//    }
-
-//    [TestMethod]
-//    public void Node_WhenUsingInequalityOperator_CanBeComparedToNull()
-//    {
-//        Node node = new Node(_level, 1, 2);
-
-//        Assert.IsTrue(node != null);
 //    }
 
 //    [TestMethod]

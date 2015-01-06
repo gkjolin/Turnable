@@ -166,36 +166,36 @@ namespace Tests.Components
             Assert.AreEqual("(4, 5)", position.ToString());
         }
 
-    //    [TestMethod]
-    //    public void Position_ReturningAPositionInACertainDirection_ReturnsANewPosition()
-    //    {
-    //        Position position = new Position(4, 5);
+        [TestMethod]
+        public void NeighboringPosition_GivenADirection_ReturnsTheNeighboringPositionInThatDirection()
+        {
+            Position position = new Position(4, 5);
 
-    //        Position newPosition = position.InDirection(Direction.North);
-    //        Assert.AreNotEqual(newPosition, position);
-    //        Assert.AreEqual(new Position(4, 6), newPosition);
-    //        newPosition = position.InDirection(Direction.NorthEast);
-    //        Assert.AreNotEqual(newPosition, position);
-    //        Assert.AreEqual(new Position(5, 6), newPosition);
-    //        newPosition = position.InDirection(Direction.East);
-    //        Assert.AreNotEqual(newPosition, position);
-    //        Assert.AreEqual(new Position(5, 5), newPosition);
-    //        newPosition = position.InDirection(Direction.SouthEast);
-    //        Assert.AreNotEqual(newPosition, position);
-    //        Assert.AreEqual(new Position(5, 4), newPosition);
-    //        newPosition = position.InDirection(Direction.South);
-    //        Assert.AreNotEqual(newPosition, position);
-    //        Assert.AreEqual(new Position(4, 4), newPosition);
-    //        newPosition = position.InDirection(Direction.SouthWest);
-    //        Assert.AreNotEqual(newPosition, position);
-    //        Assert.AreEqual(new Position(3, 4), newPosition);
-    //        newPosition = position.InDirection(Direction.West);
-    //        Assert.AreNotEqual(newPosition, position);
-    //        Assert.AreEqual(new Position(3, 5), newPosition);
-    //        newPosition = position.InDirection(Direction.North);
-    //        Assert.AreNotEqual(newPosition, position);
-    //        Assert.AreEqual(new Position(4, 6), newPosition);
-    //    }
+            Position newPosition = position.NeighboringPosition(Direction.North);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(4, 6), newPosition);
+            newPosition = position.NeighboringPosition(Direction.NorthEast);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(5, 6), newPosition);
+            newPosition = position.NeighboringPosition(Direction.East);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(5, 5), newPosition);
+            newPosition = position.NeighboringPosition(Direction.SouthEast);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(5, 4), newPosition);
+            newPosition = position.NeighboringPosition(Direction.South);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(4, 4), newPosition);
+            newPosition = position.NeighboringPosition(Direction.SouthWest);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(3, 4), newPosition);
+            newPosition = position.NeighboringPosition(Direction.West);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(3, 5), newPosition);
+            newPosition = position.NeighboringPosition(Direction.North);
+            Assert.AreNotEqual(newPosition, position);
+            Assert.AreEqual(new Position(4, 6), newPosition);
+        }
 
     }
 }

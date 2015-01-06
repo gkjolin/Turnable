@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Turnable.Locations;
 
 namespace Turnable.Components
 {
@@ -86,6 +87,31 @@ namespace Turnable.Components
         public override string ToString()
         {
             return String.Format("({0}, {1})", X, Y);
+        }
+
+        public Position NeighboringPosition(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.North:
+                    return new Position(X, Y + 1);
+                case Direction.South:
+                    return new Position(X, Y - 1);
+                case Direction.West:
+                    return new Position(X - 1, Y);
+                case Direction.East:
+                    return new Position(X + 1, Y);
+                case Direction.NorthEast:
+                    return new Position(X + 1, Y + 1);
+                case Direction.NorthWest:
+                    return new Position(X - 1, Y + 1);
+                case Direction.SouthEast:
+                    return new Position(X + 1, Y - 1);
+                case Direction.SouthWest:
+                    return new Position(X - 1, Y - 1);
+                default:
+                    return null;
+            }
         }
     }
 }
