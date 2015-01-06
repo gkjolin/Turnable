@@ -1,14 +1,31 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Turnable.Api;
+using Turnable.Locations;
 
 namespace Tests.Pathfinding
 {
     [TestClass]
     public class NodeTests
     {
-        [TestMethod]
-        public void TestMethod1()
+        // private Node _node;
+        private ILevel _level;
+
+        [TestInitialize]
+        public void Initialize()
         {
+            _level = new Level();
+        }
+
+        [TestMethod]
+        public void Constructor_ForNodeWithParentNode_IsSuccessful()
+        {
+            //Node node = new Node(_level, 0, 0);
+
+            //Assert.AreEqual(_level, node.Level);
+            //Assert.AreEqual(0, node.Position.X);
+            //Assert.AreEqual(0, node.Position.Y);
+            //Assert.IsNull(node.Parent);
         }
     }
 }
@@ -16,26 +33,8 @@ namespace Tests.Pathfinding
 //[TestClass]
 //public class NodeTests
 //{
-//    private Node _node;
-//    private ILevel _level;
 
-//    [TestInitialize]
-//    public void Initialize()
-//    {
-//        _level = LocationsFactory.BuildLevel();
-//        _node = new Node(_level, 0, 0);
-//    }
 
-//    [TestMethod]
-//    public void Node_WithoutParentNode_CanBeConstructed()
-//    {
-//        Node node = new Node(_level, 0, 0);
-
-//        Assert.AreEqual(_level, node.Level);
-//        Assert.AreEqual(0, node.Position.X);
-//        Assert.AreEqual(0, node.Position.Y);
-//        Assert.IsNull(node.Parent);
-//    }
 
 //    [TestMethod]
 //    public void Node_WithParentNode_CanBeConstructed()

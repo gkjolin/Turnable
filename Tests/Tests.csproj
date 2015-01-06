@@ -65,6 +65,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Components\PositionTests.cs" />
     <Compile Include="Factories\TiledFactory.cs" />
     <Compile Include="Locations\LevelTests.cs" />
     <Compile Include="Pathfinding\NodeTests.cs" />

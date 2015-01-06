@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Entropy.Core;
+using Turnable.Locations;
 
 namespace Tests.Locations
 {
@@ -8,7 +9,7 @@ namespace Tests.Locations
     public class LevelTests
     {
         [TestMethod]
-        public void DefaultConstructor_InitializesAllLevelComponentsToNil()
+        public void DefaultConstructor_InitializesAllLevelComponentsToNull()
         {
             Level level = new Level();
 
