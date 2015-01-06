@@ -7,10 +7,11 @@ using System.Text;
 namespace Turnable.Components
 {
     // Notes and example on implementing IEquatable<Position>: http://msdn.microsoft.com/en-us/library/ms131190%28v=vs.110%29.aspx
+    // Notes on overriding GetHashCode: http://msdn.microsoft.com/en-us/library/system.object.gethashcode%28v=vs.110%29.aspx
     public class Position : IComponent, IEquatable<Position>
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public Position()
         {
@@ -56,18 +57,30 @@ namespace Turnable.Components
 
         public static bool operator ==(Position position1, Position position2)
         {
-            //if ((object)person1 == null || ((object)person2) == null)
-            //    return Object.Equals(person1, person2);
+            if ((object)position1 == null || ((object)position2) == null) return Object.Equals(position1, position2);
 
             return position1.Equals(position2);
         }
 
         public static bool operator !=(Position position1, Position position2)
         {
-            //if (person1 == null || person2 == null)
-            //    return !Object.Equals(person1, person2);
+            if ((object)position1 == null || ((object)position2) == null) return !Object.Equals(position1, position2);
 
             return !(position1.Equals(position2));
+        }
+
+        public override int GetHashCode()
+        {
+            // TODO: Unit test this
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = (int)2166136261;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 16777619 ^ X.GetHashCode();
+                hash = hash * 16777619 ^ Y.GetHashCode();
+
+                return hash;
+            }
         }
 
         public override string ToString()

@@ -45,7 +45,7 @@ namespace Tests.Components
             Assert.AreEqual(1, position.X);
             Assert.AreEqual(2, position.Y);
         }
-
+        
         public void Copy_CreatesADeepClone()
         {
             Position position = new Position(1, 2);
@@ -56,6 +56,7 @@ namespace Tests.Components
             Assert.AreEqual(position.Y, copiedPosition.Y);
         }
 
+        // Equals Tests
         [TestMethod]
         public void Equals_FromIEquatableTInterface_CanComparePositions()
         {
@@ -136,6 +137,25 @@ namespace Tests.Components
             Position position = new Position(1, 2);
 
             Assert.IsTrue(position != null);
+        }
+
+        [TestMethod]
+        public void GetHashCode_IsOverridenToReturnASuitableHashCode()
+        {
+            Position position = new Position(1, 2);
+            int calculatedHash;
+
+            // http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = (int)2166136261;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 16777619 ^ position.X.GetHashCode();
+                hash = hash * 16777619 ^ position.Y.GetHashCode();
+                calculatedHash = hash;
+            }
+
+            Assert.AreEqual(calculatedHash, position.GetHashCode());
         }
 
         [TestMethod]
