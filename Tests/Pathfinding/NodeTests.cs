@@ -78,72 +78,104 @@ namespace Tests.Pathfinding
         }
 
         [TestMethod]
-        public void ActualMovementCost_WithOrthogonalParentNode_HasACostOf10()
+        public void ActualMovementCost_WithOrthogonalParentNode_HasAnOrthogonalMovementCost()
         {
-            Node node = new Node(_level, 5, 5);
+            Node parent = new Node(_level, 5, 5);
             Direction[] orthogonalDirections = new Direction[4] {Direction.North, Direction.East, Direction.South, Direction.East};
 
             foreach(Direction direction in orthogonalDirections)
             {
-                Node parent = new Node(_level, node.Position.NeighboringPosition(direction));
-
-                Assert.AreEqual(parent.ActualMovementCost + 10, _node.ActualMovementCost);
+                Node node = new Node(_level, parent.Position.NeighboringPosition(direction), parent);
+                
+                Assert.AreEqual(parent.ActualMovementCost + Node.OrthogonalMovementCost, node.ActualMovementCost);
             }
         }
 
         [TestMethod]
-        public void ActualMovementCost_WithDiagonalParentNode_HasACostOf14()
+        public void ActualMovementCost_WithDiagonalParentNode_HasADiagonalMovementCost()
         {
-            Node node = new Node(_level, 5, 5);
+            Node parent = new Node(_level, 5, 5);
             Direction[] diagonalDirections = new Direction[4] { Direction.NorthEast, Direction.SouthEast, Direction.SouthWest, Direction.NorthWest };
 
             foreach (Direction direction in diagonalDirections)
             {
-                Node parent = new Node(_level, node.Position.NeighboringPosition(direction));
+                Node node = new Node(_level, parent.Position.NeighboringPosition(direction), parent);
 
-                Assert.AreEqual(parent.ActualMovementCost + 14, _node.ActualMovementCost);
+                Assert.AreEqual(parent.ActualMovementCost + Node.DiagonalMovementCost, node.ActualMovementCost);
             }
         }
+
+        [TestMethod]
+        public void EstimatedMovementCost_IsCalculatedAsTheManhattanDistanceBetweenTwoPositions()
+        {
+            // Manhattan distance = (Simple sum of the horizontal and vertical components) * OrthogonalMovementCost
+            Node node = new Node(_level, 5, 5, null);
+
+            node.CalculateEstimatedMovementCost(4, 4);
+            Assert.AreEqual(20, node.EstimatedMovementCost);
+
+            node.CalculateEstimatedMovementCost(4, 5);
+            Assert.AreEqual(10, node.EstimatedMovementCost);
+
+            node.CalculateEstimatedMovementCost(5, 4);
+            Assert.AreEqual(10, node.EstimatedMovementCost);
+        }
+
+        [TestMethod]
+        public void IsOrthogonalTo_ReturnsWhetherOtherNodeIsOrthogonalToTheNode()
+        {
+            Node node = new Node(_level, 5, 5);
+
+            Node node2 = new Node(_level, 5, 6);
+            Assert.IsTrue(node.IsOrthogonalTo(node2));
+
+            node2 = new Node(_level, 4, 5);
+            Assert.IsTrue(node.IsOrthogonalTo(node2));
+
+            node2 = new Node(_level, 6, 6);
+            Assert.IsFalse(node.IsOrthogonalTo(node2));
+        }
+
+        [TestMethod]
+        public void IsDiagonalTo_ReturnsWhetherOtherNodeIsDiagonalToTheNode()
+        {
+            Node node = new Node(_level, 5, 5);
+
+            Node node2 = new Node(_level, 5, 6);
+            Assert.IsFalse(node.IsDiagonalTo(node2));
+
+            node2 = new Node(_level, 4, 5);
+            Assert.IsFalse(node.IsDiagonalTo(node2));
+
+            node2 = new Node(_level, 6, 6);
+            Assert.IsTrue(node.IsDiagonalTo(node2));
+        }
+
+        //[TestMethod]
+        //public void IsWithinBounds_ReturnsWhetherTheNodesPositionsAreWithinTheBoundsOfTheLevel()
+        //{
+        //    Node node = new Node(_level, 7, 7);
+        //    Assert.IsTrue(node.IsWithinBounds());
+
+        //    node = new Node(_level, 0, 0);
+        //    Assert.IsTrue(node.IsWithinBounds());
+
+        //    node = new Node(_level, 14, 14);
+        //    Assert.IsTrue(node.IsWithinBounds());
+
+        //    node = new Node(_level, 20, 4);
+        //    Assert.IsFalse(node.IsWithinBounds());
+
+        //    node = new Node(_level, -1, -1);
+        //    Assert.IsFalse(node.IsWithinBounds());
+
+        //    node = new Node(_level, 16, 16);
+        //    Assert.IsFalse(node.IsWithinBounds());
+        //}
     }
 }
 
 
-//    [TestMethod]
-//    public void Node_CanCalculateH()
-//    {
-//        _node = new Node(_level, 5, 5, null);
-
-//        _node.CalculateH(4, 4);
-//        Assert.AreEqual(20, _node.H);
-
-//        _node.CalculateH(4, 5);
-//        Assert.AreEqual(10, _node.H);
-
-//        _node.CalculateH(5, 4);
-//        Assert.AreEqual(10, _node.H);
-//    }
-
-//    [TestMethod]
-//    public void Node_CanDetermineIfItIsWithinBounds()
-//    {
-//        _node = new Node(_level, 7, 7);
-//        Assert.IsTrue(_node.IsWithinBounds());
-
-//        _node = new Node(_level, 0, 0);
-//        Assert.IsTrue(_node.IsWithinBounds());
-
-//        _node = new Node(_level, 14, 14);
-//        Assert.IsTrue(_node.IsWithinBounds());
-
-//        _node = new Node(_level, 20, 4);
-//        Assert.IsFalse(_node.IsWithinBounds());
-
-//        _node = new Node(_level, -1, -1);
-//        Assert.IsFalse(_node.IsWithinBounds());
-
-//        _node = new Node(_level, 16, 16);
-//        Assert.IsFalse(_node.IsWithinBounds());
-//    }
 
 //    [TestMethod]
 //    public void Node_CanFindAdjacentNodes()
@@ -190,20 +222,7 @@ namespace Tests.Pathfinding
 //        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 1)));
 //    }
 
-//    [TestMethod]
-//    public void Node_CanDetermineIfItIsOrthogonalToAnotherNode()
-//    {
-//        _node = new Node(_level, 5, 5);
 
-//        Node node2 = new Node(_level, 5, 6);
-//        Assert.IsTrue(_node.IsOrthogonalTo(node2));
-
-//        node2 = new Node(_level, 4, 5);
-//        Assert.IsTrue(_node.IsOrthogonalTo(node2));
-
-//        node2 = new Node(_level, 6, 6);
-//        Assert.IsFalse(_node.IsOrthogonalTo(node2));
-//    }
 
 //    [TestMethod]
 //    public void Node_CanDetermineIfItIsWalkable()

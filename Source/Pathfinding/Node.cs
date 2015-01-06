@@ -12,8 +12,10 @@ namespace Turnable.Pathfinding
         public ILevel Level { get; set; }
         public Node Parent { get; set; }
         public Position Position { get; private set; }
-        public int ActualMovementCost { get; set; }
-        public int EstimatedMovementCost { get; set; }
+        //private int _actualMovementCost;
+        //private int _estimatedMovementCost;
+        public const int OrthogonalMovementCost = 10;
+        public const int DiagonalMovementCost = 14;
 
         public Node(ILevel level, Position position, Node parent = null)
         {
@@ -33,5 +35,40 @@ namespace Turnable.Pathfinding
                 return ActualMovementCost + EstimatedMovementCost;
             }
         }
+
+        public int ActualMovementCost { 
+            get
+            {
+                if (Parent == null) return 0;
+                if (IsOrthogonalTo(Parent)) return Parent.ActualMovementCost + OrthogonalMovementCost;
+                return Parent.ActualMovementCost + DiagonalMovementCost;
+            }
+            set
+            {
+            }
+        }
+
+        public int EstimatedMovementCost { get; set; }
+
+        public void CalculateEstimatedMovementCost(int destinationX, int destinationY)
+        {
+            EstimatedMovementCost = (Math.Abs(destinationX - Position.X) + Math.Abs(destinationY - Position.Y)) * OrthogonalMovementCost;
+        }
+
+        public bool IsOrthogonalTo(Node other)
+        {
+            return (other.Position.X == Position.X || other.Position.Y == Position.Y);
+        }
+
+        public bool IsDiagonalTo(Node other)
+        {
+            return !IsOrthogonalTo(other);
+        }
+
+        //public bool IsWithinBounds()
+        //{
+        //    return (Position.X >= 0 && Position.X <= (Level.Map.Width - 1) &&
+        //            Position.Y >= 0 && Position.Y <= (Level.Map.Height - 1));
+        //}
     }
 }
