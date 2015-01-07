@@ -5,14 +5,18 @@ using System.Text;
 using System.Xml.Linq;
 using Turnable.Api;
 using Turnable.Locations;
+using Turnable.Tiled;
 
 namespace Tests.Factories
 {
     public static class LocationsFactory
     {
-        public static ILevel BuildLevel(string tmxPath = "../../Fixtures/FullExample.tmx")
+        public static ILevel BuildLevel(string tmxFullFilePath = "../../Fixtures/FullExample.tmx")
         {
             ILevel level = new Level();
+
+            // Setup a fully populated level.
+            level.Map = new Map(tmxFullFilePath);
 
             //World world = new World();
 
@@ -25,6 +29,7 @@ namespace Tests.Factories
             //setUpParams.PlayerY = 1;
 
             //return levelFactory.BuildLevel(world, setUpParams);
+            return level;
         }
     }
 }

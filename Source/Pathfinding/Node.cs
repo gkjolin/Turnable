@@ -65,10 +65,10 @@ namespace Turnable.Pathfinding
             return !IsOrthogonalTo(other);
         }
 
-        //public bool IsWithinBounds()
-        //{
-        //    return (Position.X >= 0 && Position.X <= (Level.Map.Width - 1) &&
-        //            Position.Y >= 0 && Position.Y <= (Level.Map.Height - 1));
-        //}
+        public bool IsWithinBounds()
+        {
+            return (Position.X >= 0 && Position.X <= (Level.Map.Width - 1) &&
+                    Position.Y >= 0 && Position.Y <= (Level.Map.Height - 1));
+        }
     }
 }

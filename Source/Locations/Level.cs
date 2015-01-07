@@ -8,10 +8,16 @@ namespace Turnable.Locations
 {
     public class Level : ILevel
     {
-        public IMap Map { get; private set; }
+        public IMap Map { get; set; }
 
         public Level()
         {
+        }
+
+        public Level(IMap map)
+            : this()
+        {
+            Map = map;
         }
     }
 }

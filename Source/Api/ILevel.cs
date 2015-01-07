@@ -9,5 +9,6 @@ namespace Turnable.Api
 {
     public interface ILevel
     {
+        IMap Map { get; set; }
     }
 }

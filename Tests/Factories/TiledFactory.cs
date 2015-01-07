@@ -9,10 +9,11 @@ namespace Tests.Factories
 {
     public static class TiledFactory
     {
-        //public static Map BuildMap()
-        //{
-        //    return (new Map("../../Fixtures/FullExample.tmx"));
-        //}
+        // Maps
+        public static Map BuildMap()
+        {
+            return (new Map("../../Fixtures/FullExample.tmx"));
+        }
 
         //public static Tileset BuildTileset()
         //{

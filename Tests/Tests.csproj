@@ -69,6 +69,7 @@
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TiledFactory.cs" />
     <Compile Include="Locations\LevelTests.cs" />
+    <Compile Include="Pathfinding\NodeListTests.cs" />
     <Compile Include="Pathfinding\NodeTests.cs" />
     <Compile Include="Pathfinding\PathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

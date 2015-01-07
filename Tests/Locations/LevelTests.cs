@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Entropy.Core;
 using Turnable.Locations;
+using Turnable.Tiled;
+using Tests.Factories;
 
 namespace Tests.Locations
 {
@@ -21,6 +23,22 @@ namespace Tests.Locations
             //Assert.IsNull(level.PathFinder);
             //Assert.IsNull(level.Viewport);
         }
+
+        [TestMethod]
+        public void Constructor_AllowsInjectingAllLevelComponents()
+        {
+            Map map = TiledFactory.BuildMap();
+            Level level = new Level(map);
+
+            // TODO: Uncomment these out as we implement these systems
+            Assert.AreEqual(map, level.Map);
+            //Assert.IsNull(level.World);
+            //Assert.IsNull(level.CharacterManager);
+            //Assert.IsNull(level.VisionCalculator);
+            //Assert.IsNull(level.PathFinder);
+            //Assert.IsNull(level.Viewport);
+        }
+
     }
 }
 

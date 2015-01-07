@@ -52,6 +52,7 @@
     <Compile Include="Components\Position.cs" />
     <Compile Include="Locations\Direction.cs" />
     <Compile Include="Locations\Level.cs" />
+    <Compile Include="Pathfinding\NodeList.cs" />
     <Compile Include="Pathfinding\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tiled\Data.cs" />

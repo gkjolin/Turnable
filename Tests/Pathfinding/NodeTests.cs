@@ -4,6 +4,7 @@ using Turnable.Api;
 using Turnable.Locations;
 using Turnable.Pathfinding;
 using Turnable.Components;
+using Tests.Factories;
 
 namespace Tests.Pathfinding
 {
@@ -16,7 +17,7 @@ namespace Tests.Pathfinding
         [TestInitialize]
         public void Initialize()
         {
-            _level = new Level();
+            _level = LocationsFactory.BuildLevel();
             _node = new Node(_level, 0, 0);
         }
 
@@ -151,27 +152,27 @@ namespace Tests.Pathfinding
             Assert.IsTrue(node.IsDiagonalTo(node2));
         }
 
-        //[TestMethod]
-        //public void IsWithinBounds_ReturnsWhetherTheNodesPositionsAreWithinTheBoundsOfTheLevel()
-        //{
-        //    Node node = new Node(_level, 7, 7);
-        //    Assert.IsTrue(node.IsWithinBounds());
+        [TestMethod]
+        public void IsWithinBounds_ReturnsWhetherTheNodeIsPositionedWithinTheBoundsOfTheLevel()
+        {
+            Node node = new Node(_level, 7, 7);
+            Assert.IsTrue(node.IsWithinBounds());
 
-        //    node = new Node(_level, 0, 0);
-        //    Assert.IsTrue(node.IsWithinBounds());
+            node = new Node(_level, 0, 0);
+            Assert.IsTrue(node.IsWithinBounds());
 
-        //    node = new Node(_level, 14, 14);
-        //    Assert.IsTrue(node.IsWithinBounds());
+            node = new Node(_level, 14, 14);
+            Assert.IsTrue(node.IsWithinBounds());
 
-        //    node = new Node(_level, 20, 4);
-        //    Assert.IsFalse(node.IsWithinBounds());
+            node = new Node(_level, 20, 4);
+            Assert.IsFalse(node.IsWithinBounds());
 
-        //    node = new Node(_level, -1, -1);
-        //    Assert.IsFalse(node.IsWithinBounds());
+            node = new Node(_level, -1, -1);
+            Assert.IsFalse(node.IsWithinBounds());
 
-        //    node = new Node(_level, 16, 16);
-        //    Assert.IsFalse(node.IsWithinBounds());
-        //}
+            node = new Node(_level, 16, 16);
+            Assert.IsFalse(node.IsWithinBounds());
+        }
     }
 }
 
@@ -248,10 +249,4 @@ namespace Tests.Pathfinding
 //        Assert.IsTrue(_node.IsWalkable());
 //    }
 
-//    [TestMethod]
-//    public void Node_ToString_DisplaysPositionToString()
-//    {
-//        _node = new Node(_level, 4, 5);
-//        Assert.AreEqual(_node.Position.ToString(), _node.ToString());
-//    }
 //}

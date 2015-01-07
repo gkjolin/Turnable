@@ -32,7 +32,7 @@ namespace Tests.Tiled
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
 
-            Assert.AreEqual(6, tileList.Count);
+            Assert.AreEqual(7, tileList.Count);
 
             // Test to see if one tile is loaded up correctly.
             Assert.AreEqual((uint)2107, tileList[new Tuple<int, int>(6, 13)].GlobalId);
