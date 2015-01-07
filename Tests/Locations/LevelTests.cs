@@ -14,6 +14,7 @@ namespace Tests.Locations
             Level level = new Level();
 
             // TODO: Uncomment these out as we implement these systems
+            Assert.IsNull(level.Map);
             //Assert.IsNull(level.World);
             //Assert.IsNull(level.CharacterManager);
             //Assert.IsNull(level.VisionCalculator);
