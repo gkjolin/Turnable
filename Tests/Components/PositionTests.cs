@@ -196,6 +196,5 @@ namespace Tests.Components
             Assert.AreNotEqual(newPosition, position);
             Assert.AreEqual(new Position(4, 6), newPosition);
         }
-
     }
 }

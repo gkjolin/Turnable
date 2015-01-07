@@ -107,6 +107,14 @@ namespace Tests.Pathfinding
         }
 
         [TestMethod]
+        public void EstimatedMovementCost_CanBeSetToAValue()
+        {
+            _node.EstimatedMovementCost = 10;
+
+            Assert.AreEqual(10, _node.EstimatedMovementCost);
+        }
+
+        [TestMethod]
         public void EstimatedMovementCost_IsCalculatedAsTheManhattanDistanceBetweenTwoPositions()
         {
             // Manhattan distance = (Simple sum of the horizontal and vertical components) * OrthogonalMovementCost
@@ -172,6 +180,23 @@ namespace Tests.Pathfinding
 
             node = new Node(_level, 16, 16);
             Assert.IsFalse(node.IsWithinBounds());
+        }
+
+        [TestMethod]
+        public void ToString_DisplaysXAndYCoordinatesOfNodeAndParent()
+        {
+            Node parent = new Node(_level, 8, 8);
+            Node node = new Node(_level, 7, 7, parent);
+
+            Assert.AreEqual("(7, 7); Parent (8, 8)", node.ToString());
+        }
+
+        [TestMethod]
+        public void ToString_ForNodeWithNullParent_DisplaysNullForParent()
+        {
+            Node node = new Node(_level, 8, 8);
+
+            Assert.AreEqual("(8, 8); Parent null", node.ToString());
         }
     }
 }

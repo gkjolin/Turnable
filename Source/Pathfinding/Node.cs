@@ -12,8 +12,7 @@ namespace Turnable.Pathfinding
         public ILevel Level { get; set; }
         public Node Parent { get; set; }
         public Position Position { get; private set; }
-        //private int _actualMovementCost;
-        //private int _estimatedMovementCost;
+        private int _actualMovementCost;
         public const int OrthogonalMovementCost = 10;
         public const int DiagonalMovementCost = 14;
 
@@ -69,6 +68,19 @@ namespace Turnable.Pathfinding
         {
             return (Position.X >= 0 && Position.X <= (Level.Map.Width - 1) &&
                     Position.Y >= 0 && Position.Y <= (Level.Map.Height - 1));
+        }
+
+        public override string ToString()
+        {
+            if (Parent == null)
+            {
+                return String.Format("({0}, {1}); Parent null", Position.X, Position.Y);
+            }
+            else
+            {
+                return String.Format("({0}, {1}); Parent ({2}, {3})", Position.X, Position.Y, Parent.Position.X, Parent.Position.Y);
+            }
+            
         }
     }
 }
