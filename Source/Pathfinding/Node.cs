@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Turnable.Api;
 using Turnable.Components;
+using Turnable.Locations;
 
 namespace Turnable.Pathfinding
 {
@@ -81,6 +82,18 @@ namespace Turnable.Pathfinding
                 return String.Format("({0}, {1}); Parent ({2}, {3})", Position.X, Position.Y, Parent.Position.X, Parent.Position.Y);
             }
             
+        }
+
+        public List<Node> GetAdjacentNodes()
+        {
+            List<Node> adjacentNodes = new List<Node>();
+
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                adjacentNodes.Add(new Node(Level, Position.NeighboringPosition(direction)));
+            }
+
+            return adjacentNodes;
         }
     }
 }

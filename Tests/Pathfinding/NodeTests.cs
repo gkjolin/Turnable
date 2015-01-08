@@ -5,6 +5,7 @@ using Turnable.Locations;
 using Turnable.Pathfinding;
 using Turnable.Components;
 using Tests.Factories;
+using System.Collections.Generic;
 
 namespace Tests.Pathfinding
 {
@@ -183,6 +184,24 @@ namespace Tests.Pathfinding
         }
 
         [TestMethod]
+        public void GetAdjacentNodes_FindsAllAdjacentNodes()
+        {
+            Node node = new Node(_level, 5, 5);
+
+            List<Node> adjacentNodes = _node.GetAdjacentNodes();
+
+            Assert.AreEqual(8, adjacentNodes.Count);
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 6)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 6)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 6)));
+        }
+
+        [TestMethod]
         public void ToString_DisplaysXAndYCoordinatesOfNodeAndParent()
         {
             Node parent = new Node(_level, 8, 8);
@@ -203,23 +222,7 @@ namespace Tests.Pathfinding
 
 
 
-//    [TestMethod]
-//    public void Node_CanFindAdjacentNodes()
-//    {
-//        _node = new Node(_level, 5, 5);
 
-//        List<Node> adjacentNodes = _node.GetAdjacentNodes();
-
-//        Assert.AreEqual(8, adjacentNodes.Count);
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 4)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 4)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 4)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 5)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 5)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 6)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 6)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 6)));
-//    }
 
 //    [TestMethod]
 //    public void Node_CanFindOnlyOrthogonallyAdjacentNodes()
