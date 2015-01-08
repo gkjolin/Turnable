@@ -72,7 +72,6 @@ namespace Turnable.Components
 
         public override int GetHashCode()
         {
-            // TODO: Unit test this
             unchecked // Overflow is fine, just wrap
             {
                 int hash = (int)2166136261;

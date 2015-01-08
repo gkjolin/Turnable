@@ -95,5 +95,45 @@ namespace Turnable.Pathfinding
 
             return adjacentNodes;
         }
+
+        public bool Equals(Node other)
+        {
+            if (other == null) return false;
+
+            return (this.Position == other.Position && this.Level == other.Level);
+        }
+
+        public override bool Equals(Object other)
+        {
+            Node otherNode = other as Node;
+
+            if (otherNode == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(otherNode);
+            }
+        }
+
+        public static bool operator ==(Node node1, Node node2)
+        {
+            if ((object)node1 == null || ((object)node2) == null) return Object.Equals(node1, node2);
+
+            return node1.Equals(node2);
+        }
+
+        public static bool operator !=(Node node1, Node node2)
+        {
+            if ((object)node1 == null || ((object)node2) == null) return !Object.Equals(node1, node2);
+
+            return !(node1.Equals(node2));
+        }
+
+        public override int GetHashCode()
+        {
+            return Position.GetHashCode();
+        }
     }
 }
