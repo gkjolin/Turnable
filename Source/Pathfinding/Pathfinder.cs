@@ -49,44 +49,44 @@ namespace Turnable.Pathfinding
                     break;
                 }
 
-                //foreach (Node adjacentNode in currentNode.GetAdjacentNodes(AllowDiagonalMovement))
-                //{
-                //    // If it is not walkable or if it is on the closed list, ignore it.
-                //    if (closedNodes.Find(x => x == adjacentNode) != null || !(adjacentNode.IsWalkable()))
-                //    {
-                //        continue;
-                //    }
+                foreach (Node adjacentNode in currentNode.GetAdjacentNodes())
+                {
+                    // If it is not walkable or if it is on the closed list, ignore it.
+                    if (closedNodes.Contains(adjacentNode))
+                    {
+                        continue;
+                    }
 
-                //    node = openNodes.Find(x => x == adjacentNode);
-                //    // If it isn’t on the open list, add it to the open list. Make the current square the parent of this square. Record the G and H costs of the square. 
-                //    if (node == null)
-                //    {
-                //        node = new Node(Level, adjacentNode.Position.X, adjacentNode.Position.Y, currentNode);
-                //        node.CalculateH(endingNode.Position.X, endingNode.Position.Y);
-                //        openNodes.Add(node);
-                //    }
-                //    else
-                //    {
-                //        //If it is on the open list already, check to see if this path to that square is better, using G cost as the measure. 
-                //        temporaryG = node.G - node.Parent.G + currentNode.G;
-                //        if (adjacentNode.IsOrthogonalTo(currentNode))
-                //        {
-                //            temporaryG += 10;
-                //        }
-                //        else  // Nodes diagonal to each other
-                //        {
-                //            temporaryG += 14;
-                //        }
-                //        // A lower G cost means that this is a better path. If so, change the parent of the square to the current square, and recalculate the G and F scores of the square. If you are keeping your open list sorted by F score, you may need to resort the list to account for the change.
-                //        if (temporaryG < node.G)
-                //        {
-                //            node.Parent = currentNode;
-                //            node.G = temporaryG;
-                //        }
-                //    }
-                //    //d) Stop when you:
-                //    //Fail to find the target square, and the open list is empty. In this case, there is no path.   
-                //}
+                    node = openNodes.Find(x => x == adjacentNode);
+                    // If it isn’t on the open list, add it to the open list. Make the current square the parent of this square. Record the G and H costs of the square. 
+                    if (node == null)
+                    {
+                        node = new Node(Level, adjacentNode.Position.X, adjacentNode.Position.Y, currentNode);
+                        node.CalculateH(endingNode.Position.X, endingNode.Position.Y);
+                        openNodes.Add(node);
+                    }
+                    else
+                    {
+                        //If it is on the open list already, check to see if this path to that square is better, using G cost as the measure. 
+                        temporaryG = node.G - node.Parent.G + currentNode.G;
+                        if (adjacentNode.IsOrthogonalTo(currentNode))
+                        {
+                            temporaryG += 10;
+                        }
+                        else  // Nodes diagonal to each other
+                        {
+                            temporaryG += 14;
+                        }
+                        // A lower G cost means that this is a better path. If so, change the parent of the square to the current square, and recalculate the G and F scores of the square. If you are keeping your open list sorted by F score, you may need to resort the list to account for the change.
+                        if (temporaryG < node.G)
+                        {
+                            node.Parent = currentNode;
+                            node.G = temporaryG;
+                        }
+                    }
+                    //d) Stop when you:
+                    //Fail to find the target square, and the open list is empty. In this case, there is no path.   
+                }
             }
 
             return path;
