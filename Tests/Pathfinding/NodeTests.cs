@@ -201,6 +201,108 @@ namespace Tests.Pathfinding
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 6)));
         }
 
+        //// Equals Tests
+        //[TestMethod]
+        //public void Equals_FromIEquatableTInterface_CanComparePositions()
+        //{
+        //    Position position = new Position(1, 2);
+        //    Position position2 = new Position(1, 2);
+
+        //    Assert.IsTrue(position.Equals(position2));
+
+        //    position2 = new Position(2, 3);
+        //    Assert.IsFalse(position.Equals(position2));
+        //}
+
+        //[TestMethod]
+        //public void Equals_FromIEquatableTInterface_CanComparePositionToNull()
+        //{
+        //    Position position = new Position(1, 2);
+
+        //    Assert.IsFalse(position.Equals((Position)null));
+        //}
+
+        //[TestMethod]
+        //public void Equals_OverridenFromObjectEquals_CanComparePositions()
+        //{
+        //    Object position = new Position(1, 2);
+        //    Object position2 = new Position(1, 2);
+
+        //    Assert.IsTrue(position.Equals(position2));
+
+        //    position2 = new Position(2, 3);
+        //    Assert.IsFalse(position.Equals(position2));
+        //}
+
+        //[TestMethod]
+        //public void Equals_OverridenFromObjectEquals_CanComparePositionToNull()
+        //{
+        //    Object position = new Position(1, 2);
+
+        //    Assert.IsFalse(position.Equals(null));
+        //}
+
+        //[TestMethod]
+        //public void Equals_OverridenFromObjectEquals_ReturnsFalseIfOtherObjectIsNotAPosition()
+        //{
+        //    Object position = new Position(1, 2);
+
+        //    Assert.IsFalse(position.Equals(new Object()));
+        //}
+
+        //[TestMethod]
+        //public void EqualityOperator_IsImplemented()
+        //{
+        //    Position position = new Position(1, 2);
+        //    Position position2 = new Position(1, 2);
+
+        //    Assert.IsTrue(position == position2);
+        //}
+
+        //[TestMethod]
+        //public void InequalityOperator_IsImplemented()
+        //{
+        //    Position position = new Position(1, 2);
+        //    Position position2 = new Position(2, 3);
+
+        //    Assert.IsTrue(position != position2);
+        //}
+
+        //[TestMethod]
+        //public void EqualityOperator_CanComparePositionToNull()
+        //{
+        //    Position position = null;
+
+        //    Assert.IsTrue(position == null);
+        //}
+
+        //[TestMethod]
+        //public void InequalityOperator_CanComparePositionToNull()
+        //{
+        //    Position position = new Position(1, 2);
+
+        //    Assert.IsTrue(position != null);
+        //}
+
+        //[TestMethod]
+        //public void GetHashCode_IsOverridenToReturnASuitableHashCode()
+        //{
+        //    Position position = new Position(1, 2);
+        //    int calculatedHash;
+
+        //    // http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
+        //    unchecked // Overflow is fine, just wrap
+        //    {
+        //        int hash = (int)2166136261;
+        //        // Suitable nullity checks etc, of course :)
+        //        hash = hash * 16777619 ^ position.X.GetHashCode();
+        //        hash = hash * 16777619 ^ position.Y.GetHashCode();
+        //        calculatedHash = hash;
+        //    }
+
+        //    Assert.AreEqual(calculatedHash, position.GetHashCode());
+        //}
+
         [TestMethod]
         public void ToString_DisplaysXAndYCoordinatesOfNodeAndParent()
         {
