@@ -8,26 +8,32 @@
  </tileset>
  <layer name="Background" width="15" height="15">
   <properties>
-   <property name="Property" value="Value"/>
+   <property name="IsBackgroundLayer" value="true"/>
   </properties>
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC/NgZGDwGMWjeBQPGAYAe2B2qIQDAAA=
   </data>
  </layer>
  <layer name="Collision" width="15" height="15">
-   <properties>
-     <property name="IsCollisionLayer" value="true"/>
-   </properties>
-   <data encoding="base64" compression="gzip">
+  <properties>
+   <property name="IsCollisionLayer" value="true"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC3NlZGBwpQCTA0b10kYvJXGEro5eerGZNdjdjEsvuRgAwzpEu4QDAAA=
   </data>
  </layer>
  <layer name="Object" width="15" height="15">
+  <properties>
+   <property name="IsObjectLayer" value="true"/>
+  </properties>
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC2NgGJpgPuPQt4MefqAnYCTDP/3UdwZJgBw3UxsAADxBRVeEAwAA
   </data>
  </layer>
  <layer name="Character" width="15" height="15">
+  <properties>
+   <property name="IsCharacterLayer" value="true"/>
+  </properties>
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC2NgoB6I5WRgiOOEsJOh7FhOKlowCqgGXBkH2gVDB1hz0NZ8AKFJjvSEAwAA
   </data>

@@ -23,6 +23,5 @@ namespace Turnable.Api
         Orientation Orientation { get; set; }
         string Version { get; set; }
         ElementList<Layer> Layers { get; set; }
-        Map.SpecialLayersCollection SpecialLayers { get; set; }
     }
 }

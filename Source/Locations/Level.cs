@@ -13,20 +13,78 @@ namespace Turnable.Locations
     {
         public IMap Map { get; set; }
         public IPathfinder Pathfinder { get; set; }
+        public SpecialLayersCollection SpecialLayers { get; set; }
 
         public Level()
         {
+            SpecialLayers = new SpecialLayersCollection();
+        }
 
+        public void InitializeSpecialLayers()
+        {
+            foreach (Layer layer in Map.Layers)
+            {
+                foreach (Level.SpecialLayer specialLayer in Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>())
+                {
+                    string key = Level.SpecialLayerPropertyKey(specialLayer);
+
+                    if (layer.Properties[key] != null)
+                    {
+                        SpecialLayers[specialLayer] = layer;
+                    }
+                }
+            }
         }
 
         public bool IsCollision(Position position)
         {
-            Layer collisionLayer = Map.SpecialLayers[Tiled.Map.SpecialLayer.Collision];
+            Layer collisionLayer = SpecialLayers[SpecialLayer.Collision];
 
             //// No obstacle layer exists. Currently the only way to mark obstacles is to use a layer in Tiled that has a IsCollision propert with the value "true"
             //if (obstacleLayer == null) return false;
 
             return (collisionLayer.Tiles.ContainsKey(new Tuple<int, int>(position.X, position.Y)));
+        }
+
+        public enum SpecialLayer
+        {
+            Background,
+            Collision,
+            Object,
+            Character
+        }
+
+        public static string SpecialLayerPropertyKey(SpecialLayer specialLayer)
+        {
+            return "Is" + specialLayer.ToString() + "Layer";
+        }
+
+        public class SpecialLayersCollection : Dictionary<Level.SpecialLayer, Layer>
+        {
+            public new Layer this[Level.SpecialLayer index]
+            {
+                get
+                {
+                    Layer returnValue;
+
+                    base.TryGetValue(index, out returnValue);
+
+                    return returnValue;
+                }
+
+                set
+                {
+                    string key = Level.SpecialLayerPropertyKey(index);
+
+                    if (ContainsKey(index))
+                    {
+                        throw new ArgumentException();
+                    }
+
+                    value.Properties[key] = "true";
+                    base[index] = value;
+                }
+            }
         }
     }
 }

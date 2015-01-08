@@ -21,5 +21,22 @@ namespace Turnable.Tiled
                 Add((string)xProperty.Attribute("name"), (string)xProperty.Attribute("value"));
             }
         }
+
+        public new string this[string index]
+        {
+            get 
+            {
+                string returnValue;
+
+                TryGetValue(index, out returnValue);
+
+                return returnValue;
+            }
+
+            set
+            {
+                base[index] = value;
+            }
+        }
     }
 }

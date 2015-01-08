@@ -13,7 +13,6 @@ namespace Turnable.Pathfinding
         public ILevel Level { get; set; }
         public Node Parent { get; set; }
         public Position Position { get; private set; }
-        private int _actualMovementCost;
         public const int OrthogonalMovementCost = 10;
         public const int DiagonalMovementCost = 14;
 

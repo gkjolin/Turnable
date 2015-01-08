@@ -7,6 +7,7 @@ using Tests.Factories;
 using Turnable.Pathfinding;
 using Turnable.Api;
 using Turnable.Components;
+using System.Linq;
 
 namespace Tests.Locations
 {
@@ -29,6 +30,7 @@ namespace Tests.Locations
             // TODO: Uncomment these out as we implement these systems
             Assert.IsNull(level.Map);
             Assert.IsNull(level.Pathfinder);
+            Assert.IsNotNull(level.SpecialLayers);
             //Assert.IsNull(level.World);
             //Assert.IsNull(level.CharacterManager);
             //Assert.IsNull(level.VisionCalculator);
@@ -46,6 +48,74 @@ namespace Tests.Locations
             Assert.IsTrue(_level.IsCollision(new Position(2, 0)));
 
             Assert.IsFalse(_level.IsCollision(new Position(10, 1)));
+        }
+
+        // Special layer tests
+        [TestMethod]
+        public void SpecialLayerPropertyKey_ReturnsTheRightPropertyName()
+        {
+            foreach (Level.SpecialLayer specialLayer in Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>())
+            {
+                Assert.AreEqual("Is" + specialLayer.ToString() + "Layer", Level.SpecialLayerPropertyKey(specialLayer));
+            }
+        }
+
+        [TestMethod]
+        public void InitializeSpecialLayers_SetsAllTheSpecialLayersPresentInTheMap()
+        {
+            _level.InitializeSpecialLayers();
+
+            Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[Level.SpecialLayer.Background]);
+            Assert.AreEqual(_level.Map.Layers[1], _level.SpecialLayers[Level.SpecialLayer.Collision]);
+            Assert.AreEqual(_level.Map.Layers[2], _level.SpecialLayers[Level.SpecialLayer.Object]);
+            Assert.AreEqual(_level.Map.Layers[3], _level.SpecialLayers[Level.SpecialLayer.Character]);
+        }
+
+        [TestMethod]
+        public void Level_SpecialLayerEnum_Defines4DifferentSpecialLayers()
+        {
+            Assert.AreEqual(4, Enum.GetValues(typeof(Level.SpecialLayer)).Length);
+            Assert.IsTrue(Enum.IsDefined(typeof(Level.SpecialLayer), "Background"));
+            Assert.IsTrue(Enum.IsDefined(typeof(Level.SpecialLayer), "Collision"));
+            Assert.IsTrue(Enum.IsDefined(typeof(Level.SpecialLayer), "Object"));
+            Assert.IsTrue(Enum.IsDefined(typeof(Level.SpecialLayer), "Character"));
+        }
+
+        [TestMethod]
+        public void SpecialLayers_AllowsSettingASpecialLayerUsingTheSpecialLayerEnumAsKey()
+        {
+            var values = Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>();
+
+            foreach (Level.SpecialLayer specialLayer in Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>())
+            {
+                _level.SpecialLayers[specialLayer] = _level.Map.Layers[0];
+                Assert.AreEqual("true", _level.Map.Layers[0].Properties["Is" + specialLayer.ToString() + "Layer"]);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void SpecialLayers_SettingASpecialLayerWhenTheSpecificSpecialLayerAlreadyExists_ThrowsException()
+        {
+            // Usually special layers requires quite a bit of processing by the framework. For example, processing the character layer sets up teams, NPCs, PCs etc. Once the processing is done for a special layer, there is no easy way currently to undo and redo processing for a new layer. We therefore throw an exception to prevent a special layer being reassigned to another layer.
+            _level.SpecialLayers[Level.SpecialLayer.Background] = _level.Map.Layers[0];
+            _level.SpecialLayers[Level.SpecialLayer.Background] = _level.Map.Layers[1];
+        }
+
+        [TestMethod]
+        public void SpecialLayers_WhenASpecialLayerExists_ReturnsTheLayer()
+        {
+            _level.SpecialLayers[Level.SpecialLayer.Background] = _level.Map.Layers[0];
+
+            Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[Level.SpecialLayer.Background]);
+        }
+
+        [TestMethod]
+        public void SpecialLayers_WhenASpecialLayerDoesNotExist_ReturnsNull()
+        {
+            _level.SpecialLayers[Level.SpecialLayer.Character] = _level.Map.Layers[0];
+
+            Assert.IsNull(_level.SpecialLayers[Level.SpecialLayer.Background]);
         }
     }
 }

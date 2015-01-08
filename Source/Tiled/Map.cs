@@ -17,11 +17,9 @@ namespace Turnable.Tiled
         public Orientation Orientation { get; set; }
         public string Version { get; set; }
         public ElementList<Layer> Layers { get; set; }
-        public SpecialLayersCollection SpecialLayers { get; set; }
 
         public Map()
         {
-            SpecialLayers = new SpecialLayersCollection();
         }
 
         public Map(string tmxFullFilePath) : this()
@@ -42,47 +40,6 @@ namespace Turnable.Tiled
             foreach (XElement xLayer in xMap.Elements("layer"))
             {
                 Layers.Add(new Layer(xLayer));
-            }
-        }
-
-        public enum SpecialLayer
-        {
-            Background,
-            Collision,
-            Object,
-            Character
-        }
-
-        public class SpecialLayersCollection : Dictionary<Map.SpecialLayer, Layer>
-        {
-            public new Layer this[Map.SpecialLayer index]
-            {
-                get
-                {
-                    Layer returnValue;
-
-                    base.TryGetValue(index, out returnValue);
-
-                    return returnValue;
-                }
-
-                set
-                {
-                    string key = SpecialLayerPropertyKey(index);
-
-                    if (ContainsKey(index))
-                    {
-                        throw new ArgumentException();
-                    }
-
-                    value.Properties[key] = "true";
-                    base[index] = value;
-                }
-            }
-
-            private string SpecialLayerPropertyKey(SpecialLayer specialLayer)
-            {
-                return "Is" + specialLayer.ToString() + "Layer";
             }
         }
     }

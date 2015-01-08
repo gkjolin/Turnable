@@ -24,7 +24,7 @@ namespace Tests.Tmx
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
 
             Assert.AreEqual(1, properties.Count);
-            Assert.AreEqual("Value", properties["Property"]);
+            Assert.AreEqual("true", properties["IsBackgroundLayer"]);
         }
 
         [TestMethod]
@@ -32,7 +32,15 @@ namespace Tests.Tmx
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
 
-            Assert.AreEqual("Value", properties["property"]);
+            Assert.AreEqual("true", properties["isbackgroundlayer"]);
+        }
+
+        [TestMethod]
+        public void Indexer_WhenPropertyDoesNotExist_ReturnsNull()
+        {
+            PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
+
+            Assert.IsNull(properties["DoesNotExist"]);
         }
 
         [TestMethod]
