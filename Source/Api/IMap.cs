@@ -8,6 +8,13 @@ namespace Turnable.Api
 {
     public interface IMap
     {
+        // ----------------
+        // Public interface
+        // ----------------
+
+        // ----------
+        // Properties
+        // ----------
         int TileWidth { get; set; }
         int TileHeight { get; set; }
         int Width { get; set; }
@@ -16,8 +23,6 @@ namespace Turnable.Api
         Orientation Orientation { get; set; }
         string Version { get; set; }
         ElementList<Layer> Layers { get; set; }
-
-        void SetSpecialLayer(Layer layer, Map.SpecialLayer value);
-        void InitializeSpecialLayer(Map.SpecialLayer value);
+        Map.SpecialLayersCollection SpecialLayers { get; set; }
     }
 }

@@ -17,12 +17,14 @@ namespace Turnable.Tiled
         public Orientation Orientation { get; set; }
         public string Version { get; set; }
         public ElementList<Layer> Layers { get; set; }
+        public SpecialLayersCollection SpecialLayers { get; set; }
 
         public Map()
         {
+            SpecialLayers = new SpecialLayersCollection();
         }
 
-        public Map(string tmxFullFilePath)
+        public Map(string tmxFullFilePath) : this()
         {
             XDocument xDocument = XDocument.Load(tmxFullFilePath);
             XElement xMap = xDocument.Element("map");
@@ -51,33 +53,37 @@ namespace Turnable.Tiled
             Character
         }
 
-        public void SetSpecialLayer(Layer layer, SpecialLayer specialLayer)
+        public class SpecialLayersCollection : Dictionary<Map.SpecialLayer, Layer>
         {
-            string key = SpecialLayerPropertyKey(specialLayer);
-
-            if (Layers[0].Properties.ContainsKey(key))
+            public new Layer this[Map.SpecialLayer index]
             {
-                throw new ArgumentException();
+                get
+                {
+                    Layer returnValue;
+
+                    base.TryGetValue(index, out returnValue);
+
+                    return returnValue;
+                }
+
+                set
+                {
+                    string key = SpecialLayerPropertyKey(index);
+
+                    if (ContainsKey(index))
+                    {
+                        throw new ArgumentException();
+                    }
+
+                    value.Properties[key] = "true";
+                    base[index] = value;
+                }
             }
-            
-            Layers[0].Properties[key] = "true";
-            InitializeSpecialLayer(specialLayer);
-        }
 
-        public virtual void InitializeSpecialLayer(Map.SpecialLayer value)
-        {
-        }
-
-        public object GetSpecialLayer(SpecialLayer specialLayer)
-        {
-            string key = SpecialLayerPropertyKey(specialLayer);
-
-            return Layers.FirstOrDefault<Layer>(l => l.Properties.ContainsKey(key));
-        }
-
-        private string SpecialLayerPropertyKey(SpecialLayer specialLayer)
-        {
-            return "Is" + specialLayer.ToString() + "Layer";
+            private string SpecialLayerPropertyKey(SpecialLayer specialLayer)
+            {
+                return "Is" + specialLayer.ToString() + "Layer";
+            }
         }
     }
 }

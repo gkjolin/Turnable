@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ILevel.cs" />
+    <Compile Include="Api\IPathfinder.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Locations\Direction.cs" />
     <Compile Include="Locations\Level.cs" />

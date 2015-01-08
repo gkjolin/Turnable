@@ -6,7 +6,7 @@ using Turnable.Api;
 
 namespace Turnable.Pathfinding
 {
-    public class Pathfinder
+    public class Pathfinder : IPathfinder
     {
         public bool AllowDiagonalMovement { get; set; }
         public ILevel Level { get; set; }
@@ -21,10 +21,10 @@ namespace Turnable.Pathfinding
         {
             NodeList openNodes = new NodeList();
             NodeList closedNodes = new NodeList();
-            //Node node;
+            Node node;
             Node currentNode;
             bool? shortestPathFound = null;
-            //int temporaryActualMovementCost = 0;
+            int actualMovementCost = 0;
             List<Node> path = new List<Node>();
 
             openNodes.Add(startingNode);
@@ -37,6 +37,12 @@ namespace Turnable.Pathfinding
                 //    return null;
                 //}
 
+                //    // If the endingNode is unwalkable, it's impossible to find a path to this node
+                //    if (!endingNode.IsWalkable())
+                //    {
+                //        throw new InvalidOperationException("<PathFinder::SeekPath> : ending node is unwalkable. Cannot calculate path to this node.");
+                //    }
+
                 currentNode = openNodes[0];
 
                 openNodes.Remove(currentNode);
@@ -44,7 +50,7 @@ namespace Turnable.Pathfinding
 
                 if (currentNode == endingNode)
                 {
-                    // Stop when target square has been added to the closed list, in which case the shortest path has been found
+                    // Stop when target node has been added to the closed list, in which case the shortest path has been found
                     shortestPathFound = true;
                     break;
                 }
@@ -58,70 +64,56 @@ namespace Turnable.Pathfinding
                     }
 
                     node = openNodes.Find(x => x == adjacentNode);
-                    // If it isn’t on the open list, add it to the open list. Make the current square the parent of this square. Record the G and H costs of the square. 
+                    // If it isn’t on the open list, add it to the open list. Make the current node the parent of this node. Calculate the EstimatedMovementCost of the node.
                     if (node == null)
                     {
-                        node = new Node(Level, adjacentNode.Position.X, adjacentNode.Position.Y, currentNode);
-                        node.CalculateH(endingNode.Position.X, endingNode.Position.Y);
+                        node = new Node(Level, adjacentNode.Position, currentNode);
+                        node.CalculateEstimatedMovementCost(endingNode.Position.X, endingNode.Position.Y);
                         openNodes.Add(node);
                     }
                     else
                     {
-                        //If it is on the open list already, check to see if this path to that square is better, using G cost as the measure. 
-                        temporaryG = node.G - node.Parent.G + currentNode.G;
+                        //If it is on the open list already, check to see if this path to that node is better, using ActualMovementCost as the measure. 
+                        actualMovementCost = node.ActualMovementCost - node.Parent.ActualMovementCost + currentNode.ActualMovementCost;
                         if (adjacentNode.IsOrthogonalTo(currentNode))
                         {
-                            temporaryG += 10;
+                            actualMovementCost += 10;
                         }
                         else  // Nodes diagonal to each other
                         {
-                            temporaryG += 14;
+                            actualMovementCost += 14;
                         }
-                        // A lower G cost means that this is a better path. If so, change the parent of the square to the current square, and recalculate the G and F scores of the square. If you are keeping your open list sorted by F score, you may need to resort the list to account for the change.
-                        if (temporaryG < node.G)
+                        // A lower ActualMovementCost means that this is a better path. If so, change the parent of the node to the current node. The ActualMovementCost and PathScore will be automatically recalculated when the parent is changed. Our NodeList automatically sorts nodes by PathScore, so we don't have to do any manual resorting.
+                        if (actualMovementCost < node.ActualMovementCost)
                         {
                             node.Parent = currentNode;
-                            node.G = temporaryG;
                         }
                     }
                     //d) Stop when you:
-                    //Fail to find the target square, and the open list is empty. In this case, there is no path.   
+                    //Fail to find the target node, and the open list is empty. In this case, there is no path.
                 }
             }
 
-            return path;
+            if (shortestPathFound == true)
+            {
+                // Save the path: Working backwards from the target node, go from each node to its parent node. This is the shortest path.
+                node = closedNodes.Find(x => x == endingNode);
+
+                path.Add(node);
+
+                while (node.Parent != null)
+                {
+                    node = node.Parent;
+                    path.Add(node);
+                }
+
+                path.Reverse();
+                return path;
+            }
+            else
+            {
+                return null;
+            }
         }
-
-        //{
-        //    // If the endingNode is unwalkable, it's impossible to find a path to this node
-        //    if (!endingNode.IsWalkable())
-        //    {
-        //        throw new InvalidOperationException("<PathFinder::SeekPath> : ending node is unwalkable. Cannot calculate path to this node.");
-        //    }
-
-
-
-
-        //    if (shortestPathFound == true)
-        //    {
-        //        // Save the path. Working backwards from the target square, go from each square to its parent square until you reach the starting square. That is your path. 
-        //        node = closedNodes.Find(x => x == endingNode);
-
-        //        path.Add(node);
-
-        //        while (node.Parent != null)
-        //        {
-        //            node = node.Parent;
-        //            path.Add(node);
-        //        }
-
-        //        path.Reverse();
-        //        return path;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
     }
 }

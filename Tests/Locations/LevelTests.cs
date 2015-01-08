@@ -4,41 +4,49 @@ using Entropy.Core;
 using Turnable.Locations;
 using Turnable.Tiled;
 using Tests.Factories;
+using Turnable.Pathfinding;
+using Turnable.Api;
+using Turnable.Components;
 
 namespace Tests.Locations
 {
     [TestClass]
     public class LevelTests
     {
+        private ILevel _level;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _level = LocationsFactory.BuildLevel();
+        }
+
         [TestMethod]
         public void DefaultConstructor_InitializesAllLevelComponentsToNull()
         {
-            Level level = new Level();
+            ILevel level = new Level();
 
             // TODO: Uncomment these out as we implement these systems
             Assert.IsNull(level.Map);
+            Assert.IsNull(level.Pathfinder);
             //Assert.IsNull(level.World);
             //Assert.IsNull(level.CharacterManager);
             //Assert.IsNull(level.VisionCalculator);
-            //Assert.IsNull(level.PathFinder);
             //Assert.IsNull(level.Viewport);
         }
 
+        // TODO: Write unit test to ensure IsCollisionReturnsFalseIfNoCollisionLayerExists
         [TestMethod]
-        public void Constructor_AllowsInjectingAllLevelComponents()
+        public void IsCollision_ReturnsTrueIfThereIsAnyTileInTheCollisionSpecialLayerForTheLevel()
         {
-            Map map = TiledFactory.BuildMap();
-            Level level = new Level(map);
+            // The example level has a "wall" around the entire 15x15 level
+            Assert.IsTrue(_level.IsCollision(new Position(0, 0)));
+            Assert.IsTrue(_level.IsCollision(new Position(0, 1)));
+            Assert.IsTrue(_level.IsCollision(new Position(1, 0)));
+            Assert.IsTrue(_level.IsCollision(new Position(2, 0)));
 
-            // TODO: Uncomment these out as we implement these systems
-            Assert.AreEqual(map, level.Map);
-            //Assert.IsNull(level.World);
-            //Assert.IsNull(level.CharacterManager);
-            //Assert.IsNull(level.VisionCalculator);
-            //Assert.IsNull(level.PathFinder);
-            //Assert.IsNull(level.Viewport);
+            Assert.IsFalse(_level.IsCollision(new Position(10, 1)));
         }
-
     }
 }
 
@@ -191,17 +199,7 @@ namespace Tests.Locations
 //            Assert.IsNotNull(_level.Map);
 //        }
 
-//        [TestMethod]
-//        public void Level_DeterminingObstacles_TakesIntoAccountLayerHavingTrueForIsCollisionProperty()
-//        {
-//            // The example level has a "wall" around the entire 15x15 level
-//            Assert.IsTrue(_level.IsObstacle(0, 0));
-//            Assert.IsTrue(_level.IsObstacle(0, 1));
-//            Assert.IsTrue(_level.IsObstacle(1, 0));
-//            Assert.IsTrue(_level.IsObstacle(2, 0));
 
-//            Assert.IsFalse(_level.IsObstacle(1, 1));
-//        }
 
 //        [TestMethod]
 //        public void Level_CalculatingAllWalkablePositions_ReturnsAListOfAllWalkablePositionsInTheLevel()

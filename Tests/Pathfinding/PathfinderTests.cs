@@ -38,7 +38,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(pathfinder.AllowDiagonalMovement);
         }
 
-        // TODO: Write test for when no path can be found and when the starting or ending Node is unwalkable!
+        // TODO: Write test for when no path can be found to endingNode, when the ending Node is unwalkable or out of bounds!
         [TestMethod]
         public void FindPath_WhereStartingAndEndingNodesAreOrthogonalAndNextToEachOther_FindsPath()
         {

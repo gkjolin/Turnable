@@ -32,7 +32,7 @@ namespace Tests.Tiled
 
             // Are the tiles in the layer created? 
             // In the case of the fixture that we use (FullExample.tmx), the background is fully filled in, so this simple assert is enough.
-            // Tiles is a sparse dictionary, so the below Assert will not always be true in most cases.
+            // Tiles is a sparse dictionary, so the below Assert will not always be true. However in this case, the background layer has a tile for each position.
             Assert.AreEqual(layer.Width * layer.Height, layer.Tiles.Count);
 
             // Are the Properties for this Layer loaded?

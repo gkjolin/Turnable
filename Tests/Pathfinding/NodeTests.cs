@@ -201,6 +201,57 @@ namespace Tests.Pathfinding
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 6)));
         }
 
+        [TestMethod]
+        public void GetAdjacentNodes_DisregardsNodesThatAreOutOfBound()
+        {
+            _node = new Node(_level, 0, 0);
+
+            List<Node> adjacentNodes = _node.GetAdjacentNodes();
+
+            Assert.AreEqual(3, adjacentNodes.Count);
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 0)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 0, 1)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 1)));
+        }
+
+        [TestMethod]
+        public void GetAdjacentNodes_WithoutDiagonalMovement_FindsAllAdjacentOrthogonalNodes()
+        {
+            Node node = new Node(_level, 5, 5);
+
+            List<Node> adjacentNodes = node.GetAdjacentNodes(false);
+
+            Assert.AreEqual(4, adjacentNodes.Count);
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 4)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 5)));
+            Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 6)));
+        }
+
+        [TestMethod]
+        public void IsWalkable_DeterminesIfThereIsAnObstacleAtTheNodesPosition()
+        {
+            // Anything out of bounds is unwalkable
+            _node = new Node(_level, -1, 1);
+            Assert.IsFalse(_node.IsWalkable());
+
+            // Any obstacle is unwalkable
+            _node = new Node(_level, 0, 0);
+            Assert.IsFalse(_node.IsWalkable());
+            _node = new Node(_level, 0, 1);
+            Assert.IsFalse(_node.IsWalkable());
+
+            // Any character (including the player) is unwalkable
+            _node = new Node(_level, 5, 14);
+            Assert.IsFalse(_node.IsWalkable());
+
+            _node = new Node(_level, 5, 5);
+            Assert.IsTrue(_node.IsWalkable());
+
+            _node = new Node(_level, 1, 14);
+            Assert.IsTrue(_node.IsWalkable());
+        }
+
         // Equals Tests
         [TestMethod]
         public void Equals_FromIEquatableTInterface_CanCompareNodes()
@@ -318,62 +369,3 @@ namespace Tests.Pathfinding
         }
     }
 }
-
-
-
-
-
-//    [TestMethod]
-//    public void Node_CanFindOnlyOrthogonallyAdjacentNodes()
-//    {
-//        _node = new Node(_level, 5, 5);
-
-//        List<Node> adjacentNodes = _node.GetAdjacentNodes(false);
-
-//        Assert.AreEqual(4, adjacentNodes.Count);
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 4)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 5)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 5)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 6)));
-//    }
-
-//    [TestMethod]
-//    public void Node_CanFindAdjacentNodes_AndDisregardsNodesThatAreOutOfBounds()
-//    {
-//        _node = new Node(_level, 0, 0);
-
-//        List<Node> adjacentNodes = _node.GetAdjacentNodes();
-
-//        Assert.AreEqual(3, adjacentNodes.Count);
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 0)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 0, 1)));
-//        Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 1)));
-//    }
-
-
-
-//    [TestMethod]
-//    public void Node_CanDetermineIfItIsWalkable()
-//    {
-//        // Anything out of bounds is unwalkable
-//        _node = new Node(_level, -1, 1);
-//        Assert.IsFalse(_node.IsWalkable());
-
-//        // Any obstacle is unwalkable
-//        _node = new Node(_level, 0, 0);
-//        Assert.IsFalse(_node.IsWalkable());
-//        _node = new Node(_level, 0, 1);
-//        Assert.IsFalse(_node.IsWalkable());
-
-//        // Any character is unwalkable
-//        _node = new Node(_level, 5, 14);
-//        Assert.IsFalse(_node.IsWalkable());
-
-//        _node = new Node(_level, 5, 5);
-//        Assert.IsTrue(_node.IsWalkable());
-
-//        _node = new Node(_level, 1, 14);
-//        Assert.IsTrue(_node.IsWalkable());
-//    }
-
-//}

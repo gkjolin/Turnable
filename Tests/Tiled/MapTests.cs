@@ -31,12 +31,13 @@ namespace Tests.Tiled
             Assert.AreEqual(Orientation.Orthogonal, map.Orientation);
             Assert.IsNull(map.Version);
             Assert.IsNull(map.Layers);
+            Assert.IsNotNull(map.SpecialLayers);
         }
 
         [TestMethod]
-        public void Constructor_GivenAPathToAMinimalBase64GzippedTmxFile_CorrectlyInitializesAllProperties()
+        public void Constructor_GivenAPathToAFullExample_CorrectlyInitializesAllProperties()
         {
-            Map map = new Map("../../Fixtures/MinimalBase64GzipCompressed.tmx");
+            Map map = new Map("../../Fixtures/FullExample.tmx");
 
             Assert.AreEqual(24, map.TileWidth);
             Assert.AreEqual(24, map.TileHeight);
@@ -46,10 +47,13 @@ namespace Tests.Tiled
             Assert.AreEqual(Orientation.Orthogonal, map.Orientation);
             Assert.AreEqual("1.0", map.Version);
 
-            // Make sure that the layers are loaded up
-            Assert.AreEqual(1, map.Layers.Count);
+            // Make sure that the layers are loaded up. We really only need to test that all the layers have been initialized with the correct constructor. The actual unit tests for the layer construction in LayerTests is where all the heavy lifting is done. However there is no way (that I know of) to use Moq to verify that the constructor was correctly called for the layer.
+            Assert.AreEqual(4, map.Layers.Count);
             Assert.IsInstanceOfType(map.Layers, typeof(ElementList<Layer>));
-            Assert.AreEqual(0, map.Layers[0].Tiles.Count);
+            Assert.AreNotEqual(0, map.Layers[0].Tiles.Count);
+
+            // Are the special layers correctly initialized?
+            Assert.IsNotNull(map.SpecialLayers[Map.SpecialLayer.Collision]);
         }
 
         // Special layer tests
@@ -64,39 +68,40 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        public void SetSpecialLayer_SetsTheCorrectPropertyForTheLayer()
+        public void SpecialLayers_AllowsSettingASpecialLayerUsingTheSpecialLayerEnumAsKey()
         {
             var values = Enum.GetValues(typeof(Map.SpecialLayer)).Cast<Map.SpecialLayer>();
 
-            foreach (Map.SpecialLayer value in Enum.GetValues(typeof(Map.SpecialLayer)).Cast<Map.SpecialLayer>())
+            foreach (Map.SpecialLayer specialLayer in Enum.GetValues(typeof(Map.SpecialLayer)).Cast<Map.SpecialLayer>())
             {
-                _fullMap.SetSpecialLayer(_fullMap.Layers[0], value);
-                Assert.AreEqual("true", _fullMap.Layers[0].Properties["Is" + value.ToString() + "Layer"]);
+                _fullMap.SpecialLayers[specialLayer] = _fullMap.Layers[0];
+                Assert.AreEqual("true", _fullMap.Layers[0].Properties["Is" + specialLayer.ToString() + "Layer"]);
             }
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void SetSpecialLayer_WhenTheSpecificSpecialLayerAlreadyExists_ThrowsAnException()
+        public void SpecialLayers_SettingASpecialLayerWhenTheSpecificSpecialLayerAlreadyExists_ThrowsException()
         {
-            _fullMap.SetSpecialLayer(_fullMap.Layers[0], Map.SpecialLayer.Background);
-            _fullMap.SetSpecialLayer(_fullMap.Layers[1], Map.SpecialLayer.Background);
+            // Usually special layers requires quite a bit of processing by the framework. For example, processing the character layer sets up teams, NPCs, PCs etc. Once the processing is done for a special layer, there is no easy way currently to undo and redo processing for a new layer. We therefore throw an exception to prevent a special layer being reassigned to another layer.
+            _fullMap.SpecialLayers[Map.SpecialLayer.Background] = _fullMap.Layers[0];
+            _fullMap.SpecialLayers[Map.SpecialLayer.Background] = _fullMap.Layers[1];
         }
 
         [TestMethod]
-        public void GetSpecialLayer_WhenASpecialLayerExists_ReturnsTheLayer()
+        public void SpecialLayers_WhenASpecialLayerExists_ReturnsTheLayer()
         {
-            _fullMap.SetSpecialLayer(_fullMap.Layers[0], Map.SpecialLayer.Background);
+            _fullMap.SpecialLayers[Map.SpecialLayer.Background] = _fullMap.Layers[0];
 
-            Assert.AreEqual(_fullMap.Layers[0], _fullMap.GetSpecialLayer(Map.SpecialLayer.Background));
+            Assert.AreEqual(_fullMap.Layers[0], _fullMap.SpecialLayers[Map.SpecialLayer.Background]);
         }
 
         [TestMethod]
-        public void GetSpecialLayer_WhenASpecialLayerDoesNotExist_ReturnsNull()
+        public void SpecialLayers_WhenASpecialLayerDoesNotExist_ReturnsNull()
         {
-            _fullMap.SetSpecialLayer(_fullMap.Layers[0], Map.SpecialLayer.Character);
+            _fullMap.SpecialLayers[Map.SpecialLayer.Character] = _fullMap.Layers[0];
 
-            Assert.IsNull(_fullMap.GetSpecialLayer(Map.SpecialLayer.Background));
+            Assert.IsNull(_fullMap.SpecialLayers[Map.SpecialLayer.Background]);
         }
     }
 }

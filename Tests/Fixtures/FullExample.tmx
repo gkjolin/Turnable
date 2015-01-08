@@ -14,17 +14,20 @@
    H4sIAAAAAAAAC/NgZGDwGMWjeBQPGAYAe2B2qIQDAAA=
   </data>
  </layer>
- <layer name="Obstacles" width="15" height="15">
-  <data encoding="base64" compression="gzip">
+ <layer name="Collision" width="15" height="15">
+   <properties>
+     <property name="IsCollisionLayer" value="true"/>
+   </properties>
+   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC3NlZGBwpQCTA0b10kYvJXGEro5eerGZNdjdjEsvuRgAwzpEu4QDAAA=
   </data>
  </layer>
- <layer name="Objects" width="15" height="15">
+ <layer name="Object" width="15" height="15">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC2NgGJpgPuPQt4MefqAnYCTDP/3UdwZJgBw3UxsAADxBRVeEAwAA
   </data>
  </layer>
- <layer name="Characters" width="15" height="15">
+ <layer name="Character" width="15" height="15">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC2NgoB6I5WRgiOOEsJOh7FhOKlowCqgGXBkH2gVDB1hz0NZ8AKFJjvSEAwAA
   </data>

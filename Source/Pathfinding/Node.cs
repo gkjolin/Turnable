@@ -84,7 +84,7 @@ namespace Turnable.Pathfinding
             
         }
 
-        public List<Node> GetAdjacentNodes()
+        public List<Node> GetAdjacentNodes(bool allowDiagonalMovement = true)
         {
             List<Node> adjacentNodes = new List<Node>();
 
@@ -93,7 +93,21 @@ namespace Turnable.Pathfinding
                 adjacentNodes.Add(new Node(Level, Position.NeighboringPosition(direction)));
             }
 
+            // Remove any diagonal nodes if diagonal movement is not allowed
+            if (!allowDiagonalMovement)
+            {
+                adjacentNodes.RemoveAll(n => n.IsDiagonalTo(this));
+            }
+
+            // Remove any nodes that are out of bounds
+            adjacentNodes.RemoveAll(n => !n.IsWithinBounds());
+
             return adjacentNodes;
+        }
+
+        public bool IsWalkable()
+        {
+            return false;
         }
 
         public bool Equals(Node other)
