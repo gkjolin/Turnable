@@ -19,6 +19,12 @@ namespace Turnable.Pathfinding
 
         public List<Node> FindPath(Node startingNode, Node endingNode)
         {
+            // If the endingNode is unwalkable, it's impossible to find a path to this node
+            if (!endingNode.IsWalkable())
+            {
+                throw new InvalidOperationException();
+            }
+
             NodeList openNodes = new NodeList();
             NodeList closedNodes = new NodeList();
             Node node;
@@ -31,17 +37,11 @@ namespace Turnable.Pathfinding
 
             while (shortestPathFound == null)
             {
-                //// If a path to the endingNode has not yet been found AND there are no openNodes, there is no feasible path to the endingNode
-                //if (openNodes.Count == 0)
-                //{
-                //    return null;
-                //}
-
-                //    // If the endingNode is unwalkable, it's impossible to find a path to this node
-                //    if (!endingNode.IsWalkable())
-                //    {
-                //        throw new InvalidOperationException("<PathFinder::SeekPath> : ending node is unwalkable. Cannot calculate path to this node.");
-                //    }
+                // If a path to the endingNode has not yet been found AND there are no openNodes, there is no feasible path to the endingNode
+                if (openNodes.Count == 0)
+                {
+                    return null;
+                }
 
                 currentNode = openNodes[0];
 
@@ -55,7 +55,7 @@ namespace Turnable.Pathfinding
                     break;
                 }
 
-                foreach (Node adjacentNode in currentNode.GetAdjacentNodes())
+                foreach (Node adjacentNode in currentNode.GetAdjacentNodes(AllowDiagonalMovement))
                 {
                     // If it is not walkable or if it is on the closed list, ignore it.
                     if (closedNodes.Find(x => x == adjacentNode) != null || !adjacentNode.IsWalkable())

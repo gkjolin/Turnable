@@ -11,9 +11,9 @@ namespace Tests.Factories
 {
     // Fixtures/FullExample.tmx
     // XXXXXXXXXXXXXXX
-    // X...EE.EEE....X
-    // X.............X
-    // X.............X
+    // X...EE.EEE..X.X
+    // X...........X.X
+    // X...........XXX
     // X.............X
     // X.............X
     // X.............X

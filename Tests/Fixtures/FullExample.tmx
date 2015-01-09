@@ -19,7 +19,7 @@
    <property name="IsCollisionLayer" value="true"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC3NlZGBwpQCTA0b10kYvJXGErg6fXmxqyXUzNrNp4WZ66CUXAwBZxLoLhAMAAA==
+   H4sIAAAAAAAAC3NlZGBwpQCTAmDqB0IvuW5GN2Mw66UkjtDV4dOLTS25bsZmNi3cTA+95GIAbgk7VYQDAAA=
   </data>
  </layer>
  <layer name="Object" width="15" height="15">

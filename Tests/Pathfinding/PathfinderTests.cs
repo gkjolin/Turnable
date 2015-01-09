@@ -39,7 +39,19 @@ namespace Tests.Pathfinding
             Assert.IsTrue(pathfinder.AllowDiagonalMovement);
         }
 
-        // TODO: Write test for when no path can be found to endingNode, when the ending Node is unwalkable or out of bounds!
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void FindPath_WhenEndingNodeIsUnwalkable_ThrowsException()
+        {
+            List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 4, 14), new Node(_level, 6, 5));
+        }
+
+        [TestMethod]
+        public void FindPath_WhenEndingNodeIsUnreachable_ReturnsNull()
+        {
+            Assert.IsNull(_pathfinderWithDiagonalMovement.FindPath(new Node(_level, 5, 5), new Node(_level, 13, 13)));
+        }
+
         [TestMethod]
         public void FindPath_WhereStartingAndEndingNodesAreOrthogonalAndNextToEachOther_FindsPath()
         {
@@ -88,7 +100,7 @@ namespace Tests.Pathfinding
         }
 
         [TestMethod]
-        public void FindPath_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneCollidable_FindsPath()
+        public void FindPath_WhereEndingAndStartingNodesAreOrthogonallySeparatedAndHaveOneCollidableBetweenThem_FindsPath()
         {
             // Collidable at (6, 5)
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 6, 3), new Node(_level, 6, 7));
@@ -101,38 +113,56 @@ namespace Tests.Pathfinding
             Assert.AreEqual(new Node(_level, 6, 6), path[3]);
             Assert.AreEqual(new Node(_level, 6, 7), path[4]);
         }
+
+        [TestMethod]
+        public void FindPath_WhereEndingAndStartingNodesAreDiagonallySeparatedAndHaveOneCollidableBetweenThem_FindsPath()
+        {
+            // Collidable at (6, 5)
+            List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 4, 3), new Node(_level, 8, 7));
+
+            Assert.IsNotNull(path);
+            Assert.AreEqual(6, path.Count);
+            Assert.AreEqual(new Node(_level, 4, 3), path[0]);
+            Assert.AreEqual(new Node(_level, 5, 4), path[1]);
+            Assert.AreEqual(new Node(_level, 6, 4), path[2]);
+            Assert.AreEqual(new Node(_level, 7, 5), path[3]);
+            Assert.AreEqual(new Node(_level, 8, 6), path[4]);
+            Assert.AreEqual(new Node(_level, 8, 7), path[5]);
+        }
+
+        // **********************************************
+        // Pathfinding with diagonal movement NOT allowed
+        // **********************************************
+        [TestMethod]
+        public void FindPath_NoDiagonalMovementAllowedAndStartingAndEndingNodesAreDiagonalAndNextToEachOther_FindsPath()
+        {
+            List<Node> path = _pathfinderWithoutDiagonalMovement.FindPath(new Node(_level, 6, 9), new Node(_level, 5, 10));
+
+            Assert.IsNotNull(path);
+            Assert.AreEqual(3, path.Count);
+            Assert.AreEqual(new Node(_level, 6, 9), path[0]);
+            Assert.AreEqual(new Node(_level, 5, 9), path[1]);
+            Assert.AreEqual(new Node(_level, 5, 10), path[2]);
+        }
+
+        [TestMethod]
+        public void FindPath_NoDiagonalMovementAllowedAndEndingAndStartingNodesAreOrthogonallySeparatedAndHaveOneObstacleBetweenThem_FindsPath()
+        {
+            List<Node> path = _pathfinderWithoutDiagonalMovement.FindPath(new Node(_level, 6, 3), new Node(_level, 6, 7));
+
+            Assert.IsNotNull(path);
+            Assert.AreEqual(7, path.Count);
+            Assert.AreEqual(new Node(_level, 6, 3), path[0]);
+            Assert.AreEqual(new Node(_level, 6, 4), path[1]);
+            Assert.AreEqual(new Node(_level, 5, 4), path[2]);
+            Assert.AreEqual(new Node(_level, 5, 5), path[3]);
+            Assert.AreEqual(new Node(_level, 5, 6), path[4]);
+            Assert.AreEqual(new Node(_level, 5, 7), path[5]);
+            Assert.AreEqual(new Node(_level, 6, 7), path[6]);
+        }
     }
 
-    //     Diagonal movement allowed
 
-    //     Diagonal movement NOT allowed
-    //    [TestMethod]
-    //    public void PathFinder_WhereDiagonalMovementIsNotAllowedAndStartingAndEndingPointsAreDiagonalAndNextToEachOther_CanFindPath()
-    //    {
-    //        List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 6, 9), new Node(_level, 5, 10));
-
-    //        Assert.IsNotNull(path);
-    //        Assert.AreEqual(3, path.Count);
-    //        Assert.AreEqual(new Node(_level, 6, 9), path[0]);
-    //        Assert.AreEqual(new Node(_level, 5, 9), path[1]);
-    //        Assert.AreEqual(new Node(_level, 5, 10), path[2]);
-    //    }
-
-    //    [TestMethod]
-    //    public void PathFinder_WhereDiagonalMovementIsNotAllowedAndEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneObstacle_CanFindPath()
-    //    {
-    //        List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 14), new Node(_level, 4, 10));
-
-    //        Assert.IsNotNull(path);
-    //        Assert.AreEqual(7, path.Count);
-    //        Assert.AreEqual(new Node(_level, 4, 14), path[0]);
-    //        Assert.AreEqual(new Node(_level, 4, 13), path[1]);
-    //        Assert.AreEqual(new Node(_level, 4, 12), path[2]);
-    //        Assert.AreEqual(new Node(_level, 3, 12), path[3]);
-    //        Assert.AreEqual(new Node(_level, 3, 11), path[4]);
-    //        Assert.AreEqual(new Node(_level, 3, 10), path[5]);
-    //        Assert.AreEqual(new Node(_level, 4, 10), path[6]);
-    //    }
 
     //    [TestMethod]
     //    public void PathFinder_WhereDiagonalMovementIsNotAllowedAndThereAreBothObstaclesAndCharactersInTheWay_CanFindPath()
@@ -171,13 +201,6 @@ namespace Tests.Pathfinding
     //        Assert.AreEqual(new Node(_level, 11, 12), path[8]);
     //        Assert.AreEqual(new Node(_level, 12, 12), path[9]);
     //        Assert.AreEqual(new Node(_level, 12, 13), path[10]);
-    //    }
-
-    //    [TestMethod]
-    //    [ExpectedException(typeof(InvalidOperationException))]
-    //    public void PathFinder_WhenEndingNodeIsUnwalkable_ThrowsAnException()
-    //    {
-    //        List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 14), new Node(_level, 5, 14));
     //    }
 
     //    [TestMethod]
