@@ -8,6 +8,7 @@ using Turnable.Pathfinding;
 using Turnable.Api;
 using Turnable.Components;
 using System.Linq;
+using Moq;
 
 namespace Tests.Locations
 {
@@ -51,6 +52,18 @@ namespace Tests.Locations
         }
 
         // Special layer tests
+        [TestMethod]
+        public void Map_WhenSet_CallsInitializeSpecialLayers()
+        {
+            Mock<ILevel> mockLevel = new Mock<ILevel>();
+            mockLevel.CallBase = true;
+            mockLevel.Setup(l => l.InitializeSpecialLayers()).Verifiable();
+
+            mockLevel.Object.Map = new Map("../../Fixtures/FullExample.tmx");
+
+            mockLevel.Verify(l => l.InitializeSpecialLayers());
+        }
+
         [TestMethod]
         public void SpecialLayerPropertyKey_ReturnsTheRightPropertyName()
         {

@@ -11,9 +11,10 @@ namespace Turnable.Locations
 {
     public class Level : ILevel
     {
-        public IMap Map { get; set; }
         public IPathfinder Pathfinder { get; set; }
         public SpecialLayersCollection SpecialLayers { get; set; }
+
+        public IMap Map { get; set; }
 
         public Level()
         {
