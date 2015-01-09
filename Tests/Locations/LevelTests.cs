@@ -55,7 +55,7 @@ namespace Tests.Locations
         [TestMethod]
         public void Map_WhenSet_CallsInitializeSpecialLayers()
         {
-            Mock<ILevel> mockLevel = new Mock<ILevel>();
+            Mock<Level> mockLevel = new Mock<Level>();
             mockLevel.CallBase = true;
             mockLevel.Setup(l => l.InitializeSpecialLayers()).Verifiable();
 
@@ -76,8 +76,10 @@ namespace Tests.Locations
         [TestMethod]
         public void InitializeSpecialLayers_SetsAllTheSpecialLayersPresentInTheMap()
         {
+            // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
+            _level.SpecialLayers.Clear();
             _level.InitializeSpecialLayers();
-
+            
             Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[Level.SpecialLayer.Background]);
             Assert.AreEqual(_level.Map.Layers[1], _level.SpecialLayers[Level.SpecialLayer.Collision]);
             Assert.AreEqual(_level.Map.Layers[2], _level.SpecialLayers[Level.SpecialLayer.Object]);
@@ -97,6 +99,8 @@ namespace Tests.Locations
         [TestMethod]
         public void SpecialLayers_AllowsSettingASpecialLayerUsingTheSpecialLayerEnumAsKey()
         {
+            // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
+            _level.SpecialLayers.Clear();
             var values = Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>();
 
             foreach (Level.SpecialLayer specialLayer in Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>())
@@ -118,6 +122,8 @@ namespace Tests.Locations
         [TestMethod]
         public void SpecialLayers_WhenASpecialLayerExists_ReturnsTheLayer()
         {
+            // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
+            _level.SpecialLayers.Clear();
             _level.SpecialLayers[Level.SpecialLayer.Background] = _level.Map.Layers[0];
 
             Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[Level.SpecialLayer.Background]);
@@ -126,6 +132,8 @@ namespace Tests.Locations
         [TestMethod]
         public void SpecialLayers_WhenASpecialLayerDoesNotExist_ReturnsNull()
         {
+            // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
+            _level.SpecialLayers.Clear();
             _level.SpecialLayers[Level.SpecialLayer.Character] = _level.Map.Layers[0];
 
             Assert.IsNull(_level.SpecialLayers[Level.SpecialLayer.Background]);

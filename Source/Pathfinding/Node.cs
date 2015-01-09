@@ -106,7 +106,7 @@ namespace Turnable.Pathfinding
 
         public bool IsWalkable()
         {
-            return false;
+            return (IsWithinBounds() && !Level.IsCollision(Position));
         }
 
         public bool Equals(Node other)

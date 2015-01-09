@@ -11,17 +11,29 @@ namespace Turnable.Locations
 {
     public class Level : ILevel
     {
+        private IMap _map;
+
         public IPathfinder Pathfinder { get; set; }
         public SpecialLayersCollection SpecialLayers { get; set; }
 
-        public IMap Map { get; set; }
+        public virtual IMap Map { 
+            get
+            {
+                return _map;
+            }
+            set
+            {
+                _map = value;
+                InitializeSpecialLayers();
+            }
+        }
 
         public Level()
         {
             SpecialLayers = new SpecialLayersCollection();
         }
 
-        public void InitializeSpecialLayers()
+        public virtual void InitializeSpecialLayers()
         {
             foreach (Layer layer in Map.Layers)
             {
