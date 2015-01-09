@@ -19,7 +19,7 @@
    <property name="IsCollisionLayer" value="true"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC3NlZGBwpQCTA0b10kYvJXGEro5eerGZNdjdjEsvuRgAwzpEu4QDAAA=
+   H4sIAAAAAAAAC3NlZGBwpQCTA0b10kYvJXGErg6fXmxqyXUzNrNp4WZ66CUXAwBZxLoLhAMAAA==
   </data>
  </layer>
  <layer name="Object" width="15" height="15">
@@ -35,7 +35,7 @@
    <property name="IsCharacterLayer" value="true"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgoB6I5WRgiOOEsJOh7FhOKlowCqgGXBkH2gVDB1hz0NZ8AKFJjvSEAwAA
+   H4sIAAAAAAAAC2NgoB6I5WRgiOOEsJOh7FhOKlowCkbBAABrDtqaDwDGR1wzhAMAAA==
   </data>
  </layer>
 </map>

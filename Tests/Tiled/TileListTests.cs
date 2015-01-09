@@ -32,12 +32,15 @@ namespace Tests.Tiled
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
 
-            Assert.AreEqual(7, tileList.Count);
+            Assert.AreEqual(6, tileList.Count);
 
-            // Test to see if one tile is loaded up correctly.
-            Assert.AreEqual((uint)2107, tileList[new Tuple<int, int>(6, 13)].GlobalId);
-            Assert.AreEqual(6, tileList[new Tuple<int, int>(6, 13)].X);
-            Assert.AreEqual(13, tileList[new Tuple<int, int>(6, 13)].Y);
+            // Test to see if one tile is loaded up correctly. 
+            // The Tiled(.tmx) format uses an origin that starts at the top left with Y increasing going down
+            // However most libraries use an origin that starts at the bottom left with Y increasing going up
+            // So we need to test that Y is "flipped" using (height - row - 1)
+            Assert.AreEqual((uint)2107, tileList[new Tuple<int, int>(6, 1)].GlobalId);
+            Assert.AreEqual(6, tileList[new Tuple<int, int>(6, 1)].X);
+            Assert.AreEqual(1, tileList[new Tuple<int, int>(6, 1)].Y);
         }
     }
 }

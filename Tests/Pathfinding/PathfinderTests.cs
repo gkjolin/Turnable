@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Tests.Factories;
 using Turnable.Pathfinding;
 using Turnable.Api;
+using Turnable.Locations;
 
 namespace Tests.Pathfinding
 {
@@ -62,7 +63,7 @@ namespace Tests.Pathfinding
         }
 
         [TestMethod]
-        public void FindPath_WhereStartingAndEndingNodesAreOrthogonallySeparatedWithNoObstaclesBetweenThem_FindsPath()
+        public void FindPath_WhereStartingAndEndingNodesAreOrthogonallySeparatedWithNoCollidablesBetweenThem_FindsPath()
         {
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 1, 1), new Node(_level, 4, 1));
 
@@ -75,7 +76,7 @@ namespace Tests.Pathfinding
         }
 
         [TestMethod]
-        public void FindPath_WhereStartingAndEndingNodesAreDiagonallySeparatedWithNoObstaclesBetweenThem_FindsPath()
+        public void FindPath_WhereStartingAndEndingNodesAreDiagonallySeparatedWithNoCollidablesBetweenThem_FindsPath()
         {
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 3, 5), new Node(_level, 5, 7));
 
@@ -85,22 +86,24 @@ namespace Tests.Pathfinding
             Assert.AreEqual(new Node(_level, 4, 6), path[1]);
             Assert.AreEqual(new Node(_level, 5, 7), path[2]);
         }
+
+        [TestMethod]
+        public void FindPath_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneCollidable_FindsPath()
+        {
+            // Collidable at (6, 5)
+            List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 6, 3), new Node(_level, 6, 7));
+
+            Assert.IsNotNull(path);
+            Assert.AreEqual(5, path.Count);
+            Assert.AreEqual(new Node(_level, 6, 3), path[0]);
+            Assert.AreEqual(new Node(_level, 6, 4), path[1]);
+            Assert.AreEqual(new Node(_level, 5, 5), path[2]);
+            Assert.AreEqual(new Node(_level, 6, 6), path[3]);
+            Assert.AreEqual(new Node(_level, 6, 7), path[4]);
+        }
     }
 
     //     Diagonal movement allowed
-    //    [TestMethod]
-    //    public void PathFinder_WhereEndingAndStartingPointsAreOrthogonallySeparatedAndHaveOneObstacle_CanFindPath()
-    //    {
-    //        List<Node> path = _pathFinderWithDiagonalMovement.SeekPath(new Node(_level, 4, 14), new Node(_level, 4, 10));
-
-    //        Assert.IsNotNull(path);
-    //        Assert.AreEqual(5, path.Count);
-    //        Assert.AreEqual(new Node(_level, 4, 14), path[0]);
-    //        Assert.AreEqual(new Node(_level, 4, 13), path[1]);
-    //        Assert.AreEqual(new Node(_level, 4, 12), path[2]);
-    //        Assert.AreEqual(new Node(_level, 3, 11), path[3]);
-    //        Assert.AreEqual(new Node(_level, 4, 10), path[4]);
-    //    }
 
     //     Diagonal movement NOT allowed
     //    [TestMethod]

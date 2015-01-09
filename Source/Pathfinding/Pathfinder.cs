@@ -58,7 +58,7 @@ namespace Turnable.Pathfinding
                 foreach (Node adjacentNode in currentNode.GetAdjacentNodes())
                 {
                     // If it is not walkable or if it is on the closed list, ignore it.
-                    if (closedNodes.Contains(adjacentNode))
+                    if (closedNodes.Find(x => x == adjacentNode) != null || !adjacentNode.IsWalkable())
                     {
                         continue;
                     }

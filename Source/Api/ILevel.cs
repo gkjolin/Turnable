@@ -14,7 +14,7 @@ namespace Turnable.Api
         // ----------------
         // Public interface
         // ----------------
-        bool IsCollision(Position position);
+        bool IsCollidable(Position position);
 
         // ----------
         // Properties

@@ -38,17 +38,28 @@ namespace Tests.Locations
             //Assert.IsNull(level.Viewport);
         }
 
-        // TODO: Write unit test to ensure IsCollisionReturnsFalseIfNoCollisionLayerExists
         [TestMethod]
-        public void IsCollision_ReturnsTrueIfThereIsAnyTileInTheCollisionSpecialLayerForTheLevel()
+        public void IsCollidable_ReturnsTrueIfThereIsAnyTileInTheCollisionSpecialLayerForTheLevel()
         {
             // The example level has a "wall" around the entire 15x15 level
-            Assert.IsTrue(_level.IsCollision(new Position(0, 0)));
-            Assert.IsTrue(_level.IsCollision(new Position(0, 1)));
-            Assert.IsTrue(_level.IsCollision(new Position(1, 0)));
-            Assert.IsTrue(_level.IsCollision(new Position(2, 0)));
+            Assert.IsTrue(_level.IsCollidable(new Position(0, 0)));
+            Assert.IsTrue(_level.IsCollidable(new Position(0, 1)));
+            Assert.IsTrue(_level.IsCollidable(new Position(1, 0)));
+            Assert.IsTrue(_level.IsCollidable(new Position(2, 0)));
 
-            Assert.IsFalse(_level.IsCollision(new Position(10, 1)));
+            Assert.IsFalse(_level.IsCollidable(new Position(9, 1)));
+        }
+
+        [TestMethod]
+        public void IsCollidable_IfThereIsNoCollisionLayer_AlwaysReturnsFalse()
+        {
+            // The example level has a "wall" around the entire 15x15 level
+            _level.SpecialLayers.Remove(Level.SpecialLayer.Collision);
+
+            Assert.IsFalse(_level.IsCollidable(new Position(0, 0)));
+            Assert.IsFalse(_level.IsCollidable(new Position(0, 1)));
+            Assert.IsFalse(_level.IsCollidable(new Position(1, 0)));
+            Assert.IsFalse(_level.IsCollidable(new Position(2, 0)));
         }
 
         // Special layer tests

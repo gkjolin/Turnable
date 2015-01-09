@@ -32,7 +32,10 @@ namespace Turnable.Tiled
                         // The .tmx format uses 0 to indicate a tile that hasn't been set in the editor
                         if (tileGlobalId != 0)
                         {
-                            Add(new Tuple<int, int>(col, row), new Tile(tileGlobalId, col, row));
+                            // The .tmx format uses an origin that starts at the top left with Y increasing going South
+                            // However most libraries use an origin that starts at the bottom left with Y increasing going North
+                            // So Y is "flipped" using (height - row - 1)
+                            Add(new Tuple<int, int>(col, (height - row - 1)), new Tile(tileGlobalId, col, (height - row - 1)));
                         }
                     }
                 }

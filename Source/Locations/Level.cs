@@ -49,12 +49,12 @@ namespace Turnable.Locations
             }
         }
 
-        public bool IsCollision(Position position)
+        public bool IsCollidable(Position position)
         {
             Layer collisionLayer = SpecialLayers[SpecialLayer.Collision];
 
-            //// No obstacle layer exists. Currently the only way to mark obstacles is to use a layer in Tiled that has a IsCollision propert with the value "true"
-            //if (obstacleLayer == null) return false;
+            // No collision layer exists. 
+            if (collisionLayer == null) return false;
 
             return (collisionLayer.Tiles.ContainsKey(new Tuple<int, int>(position.X, position.Y)));
         }
