@@ -204,34 +204,6 @@ namespace Tests.Pathfinding
     //    }
 
     //    [TestMethod]
-    //    public void PathFinder_WhenEndingNodeIsUnreachable_ReturnsANullPath()
-    //    {
-    //         The sample level:
-    //         XXXXXXXXXXXXXXXX
-    //         X....1EE.......X
-    //         X....ooooooX2..X
-    //         X.......E.ooo..X
-    //         X.E.X..........X
-    //         X.....E....E...X
-    //         X........X.....X
-    //         X..........XXXXX
-    //         X.F........X...X
-    //         X..........X...X
-    //         X......X...N...X
-    //         X.X........X...X
-    //         X..........X...X
-    //         X..........X...X
-    //         X......P...X...X
-    //         XXXXXXXXXXXXXXXX
-    //         N - New Obstacle
-
-    //        _level.Map.Layers["Obstacles"].Tiles.Add(new System.Tuples.Tuple<int, int>(11, 5), new Tile(1, 11, 5));
-    //        List<Node> path = _pathFinderWithoutDiagonalMovement.SeekPath(new Node(_level, 4, 14), new Node(_level, 12, 5));
-
-    //        Assert.IsNull(path);
-    //    }
-
-    //    [TestMethod]
     //    public void PathFinder_WhenDiagonalMovementIsAllowed_CanDetermineMovementPointCostBetweenTwoNodes()
     //    {
     //        Node startingNode, endingNode;
