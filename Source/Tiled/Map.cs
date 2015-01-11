@@ -17,6 +17,7 @@ namespace Turnable.Tiled
         public Orientation Orientation { get; set; }
         public string Version { get; set; }
         public ElementList<Layer> Layers { get; set; }
+        public ElementList<Tileset> Tilesets { get; set; }
 
         public Map()
         {
@@ -40,6 +41,13 @@ namespace Turnable.Tiled
             foreach (XElement xLayer in xMap.Elements("layer"))
             {
                 Layers.Add(new Layer(xLayer));
+            }
+
+            // Load up all the Tilesets in this Map.
+            Tilesets = new ElementList<Tileset>();
+            foreach (XElement xTileset in xMap.Elements("tileset"))
+            {
+                Tilesets.Add(new Tileset(xTileset));
             }
         }
     }

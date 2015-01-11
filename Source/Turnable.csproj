@@ -66,6 +66,7 @@
     <Compile Include="Tiled\Orientation.cs" />
     <Compile Include="Tiled\PropertyDictionary.cs" />
     <Compile Include="Tiled\RenderOrder.cs" />
+    <Compile Include="Tiled\SpecialTile.cs" />
     <Compile Include="Tiled\Tile.cs" />
     <Compile Include="Tiled\TileList.cs" />
     <Compile Include="Tiled\Tileset.cs" />

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace Turnable.Tiled
 {
-    public class Tileset
+    public class Tileset : IElement
     {
         public string Name { get; private set; }
         public uint FirstGlobalId { get; private set; }
@@ -15,6 +15,7 @@ namespace Turnable.Tiled
         public int TileHeight { get; private set; }
         public int Spacing { get; private set; }
         public int Margin { get; private set; }
+        public Dictionary<uint, SpecialTile> SpecialTiles { get; private set; }
 
         public Tileset(XElement xTileset)
         {
@@ -25,6 +26,15 @@ namespace Turnable.Tiled
             TileHeight = (int)xTileset.Attribute("tileheight");
             Spacing = (int?)xTileset.Attribute("spacing") ?? 0;
             Margin = (int?)xTileset.Attribute("margin") ?? 0;
+
+            SpecialTiles = new Dictionary<uint, SpecialTile>();
+            foreach (XElement xSpecialTile in xTileset.Elements("tile"))
+            {
+                SpecialTile specialTile = new SpecialTile(this, xSpecialTile);
+
+                SpecialTiles[specialTile.Id] = specialTile;
+            }
         }
     }
 }
+

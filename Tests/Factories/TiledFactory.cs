@@ -15,11 +15,6 @@ namespace Tests.Factories
             return (new Map("../../Fixtures/FullExample.tmx"));
         }
 
-        //public static Tileset BuildTileset()
-        //{
-        //    return (new Tileset(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>()));
-        //}
-
         // Layers
         public static Layer BuildLayer()
         {
@@ -37,6 +32,11 @@ namespace Tests.Factories
         }
 
         // Tilesets
+        public static Tileset BuildTileset()
+        {
+            return (new Tileset(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>()));
+        }
+
         public static XElement BuildTilesetXElement()
         {
             return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").First<XElement>());
@@ -47,7 +47,7 @@ namespace Tests.Factories
         //    return (XDocument.Load("../../Fixtures/FullExampleWithExternalTilesetReference.tmx").Element("map").Elements("tileset").Last<XElement>());
         //}
 
-        //public static XElement BuildTilesetXElementWithReferenceTiles()
+        //public static XElement BuildTilesetXElementWithSpecialTiles()
         //{
         //    return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>());
         //}
@@ -74,10 +74,10 @@ namespace Tests.Factories
             return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>().Element("properties").Elements("property"));
         }
 
-
-        //public static XElement BuildReferenceTileXElementWithProperties()
-        //{
-        //    return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>().Elements("tile").First<XElement>());
-        //}
+        // Special Tiles
+        public static XElement BuildSpecialTileXElementWithProperties()
+        {
+            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").First<XElement>().Elements("tile").First<XElement>());
+        }
     }
 }

@@ -50,6 +50,10 @@ namespace Tests.Tiled
             Assert.AreEqual(4, map.Layers.Count);
             Assert.IsInstanceOfType(map.Layers, typeof(ElementList<Layer>));
             Assert.AreNotEqual(0, map.Layers[0].Tiles.Count);
+            Assert.AreEqual(1, map.Layers[0].Properties.Count);
+
+            // Tilesets loaded?
+            Assert.AreEqual(2, map.Tilesets.Count);
         }
     }
 }
