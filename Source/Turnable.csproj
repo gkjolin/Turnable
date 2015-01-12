@@ -48,11 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IModelManager.cs" />
+    <Compile Include="Api\ICharacterManager.cs" />
     <Compile Include="Api\ILevel.cs" />
     <Compile Include="Api\IPathfinder.cs" />
+    <Compile Include="Characters\CharacterManager.cs" />
+    <Compile Include="Components\TeamMembership.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Locations\Direction.cs" />
     <Compile Include="Locations\Level.cs" />
+    <Compile Include="Models\ModelManager.cs" />
     <Compile Include="Pathfinding\NodeList.cs" />
     <Compile Include="Pathfinding\Node.cs" />
     <Compile Include="Pathfinding\Pathfinder.cs" />

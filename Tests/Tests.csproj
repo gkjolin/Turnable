@@ -66,10 +66,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Characters\CharacterManagerTests.cs" />
+    <Compile Include="Components\TeamMembershipTests.cs" />
     <Compile Include="Components\PositionTests.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TiledFactory.cs" />
     <Compile Include="Locations\LevelTests.cs" />
+    <Compile Include="Models\ModelManagerTests.cs" />
     <Compile Include="Pathfinding\NodeListTests.cs" />
     <Compile Include="Pathfinding\NodeTests.cs" />
     <Compile Include="Pathfinding\PathfinderTests.cs" />

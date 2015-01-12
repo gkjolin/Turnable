@@ -12,14 +12,6 @@ namespace Tests.Components
     [TestClass]
     public class PositionTests
     {
-        private ILevel _level;
-
-        [TestInitialize]
-        public void Initialize()
-        {
-            _level = new Level();
-        }
-
         [TestMethod]
         public void Position_IsAnEntropyComponent()
         {

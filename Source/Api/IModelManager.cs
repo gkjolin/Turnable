@@ -6,28 +6,24 @@ using System.Text;
 using System.Tuples;
 using Turnable.Components;
 using Turnable.Locations;
+using Turnable.Tiled;
 
 namespace Turnable.Api
 {
-    public interface ILevel
+    public interface IModelManager
     {
         // ----------------
         // Public interface
         // ----------------
-        bool IsCollidable(Position position);
 
         // ----------
         // Properties
         // ----------
-        IMap Map { get; set; }
-        IPathfinder Pathfinder { get; set; }
-        ICharacterManager CharacterManager { get; set; }
-        Level.SpecialLayersCollection SpecialLayers { get; set; }
-        IModelManager ModelManager { get; set; }
+        ILevel Level { get; set; }
+        Dictionary<string, SpecialTile> Models { get; set; }
 
         // -----------------
         // Private interface
         // -----------------
-        void InitializeSpecialLayers();
     }
 }

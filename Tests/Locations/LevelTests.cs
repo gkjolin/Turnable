@@ -31,9 +31,10 @@ namespace Tests.Locations
             // TODO: Uncomment these out as we implement these systems
             Assert.IsNull(level.Map);
             Assert.IsNull(level.Pathfinder);
+            Assert.IsNull(level.CharacterManager);
+            Assert.IsNull(level.ModelManager);
             Assert.IsNotNull(level.SpecialLayers);
             //Assert.IsNull(level.World);
-            //Assert.IsNull(level.CharacterManager);
             //Assert.IsNull(level.VisionCalculator);
             //Assert.IsNull(level.Viewport);
         }

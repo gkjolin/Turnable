@@ -1,22 +1,27 @@
-﻿using System;
+﻿using Entropy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Turnable.Pathfinding;
+using System.Tuples;
+using Turnable.Components;
+using Turnable.Locations;
 
 namespace Turnable.Api
 {
-    public interface IPathfinder
+    public interface ICharacterManager
     {
         // ----------------
         // Public interface
         // ----------------
-        List<Node> FindPath(Node startingNode, Node endingNode);
 
         // ----------
         // Properties
         // ----------
-        bool AllowDiagonalMovement { get; set; }
         ILevel Level { get; set; }
+
+        // -----------------
+        // Private interface
+        // -----------------
     }
 }

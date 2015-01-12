@@ -15,6 +15,8 @@ namespace Turnable.Locations
 
         public IPathfinder Pathfinder { get; set; }
         public SpecialLayersCollection SpecialLayers { get; set; }
+        public ICharacterManager CharacterManager { get; set; }
+        public IModelManager ModelManager { get; set; }
 
         public virtual IMap Map { 
             get

@@ -5,46 +5,52 @@ using System.Collections.Generic;
 using System.Tuples;
 using Entropy;
 using Moq;
+using Turnable.Characters;
+using Turnable.Api;
 
 namespace Tests.Characters
 {
     [TestClass]
     public class CharacterManagerTests
     {
+        private ILevel _level;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _level = LocationsFactory.BuildLevel();
+        }
+
+        [TestMethod]
+        public void Constructor_InitializesAllProperties()
+        {
+            CharacterManager characterManager = new CharacterManager(_level);
+
+            Assert.AreEqual(_level, characterManager.Level);
+        }
+
+        //[TestMethod]
+        //public void SettingUpPcs_InitializesThePositionsOfAllPcs()
+        //{
+        //    CharacterManager characterManager = new CharacterManager(_level);
+        //    characterManager.SetUpPcs(["Knight M"], 7, 1);
+
+        //    Assert.IsNotNull(characterManager.Player);
+        //    Assert.AreEqual(1, characterManager.Characters.Count);
+        //    Assert.AreEqual(new Position(7, 1), characterManager.Player.GetComponent<Position>());
+        //    Assert.AreEqual("Knight M", characterManager.Player.GetComponent<Model>().Name);
+        //    Assert.AreEqual(_levelWithoutCharacters, characterManager.Player.GetComponent<OnLevel>().Level);
+
+        //     Is a TurnQueue setup with the Player taking the first turn?
+        //    Assert.IsNotNull(characterManager.TurnQueue);
+        //    Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
+        //}
+
         //private IWorld _world;
-        //private ILevel _level;
         //private ILevel _levelWithoutCharacters;
         //private CharacterManager _characterManager;
         //private bool _eventTriggeredFlag;
         //private EntityEventArgs _eventArgs;
-
-        //[TestInitialize]
-        //public void Initialize()
-        //{
-        //    // Manually create the level instead of using a LevelFactory to skip setting up the characters
-        //    _world = new World();
-        //    _level = new Level(_world);
-        //    _level.SetUpMap("../../Fixtures/FullExample.tmx");
-        //    _level.SetUpCharacters("Knight M", 7, 1);
-        //    _level.SetUpTransitionPoints();
-
-        //    _levelWithoutCharacters = new Level(_world);
-        //    _levelWithoutCharacters.SetUpMap("../../Fixtures/FullExample.tmx");
-        //    _levelWithoutCharacters.SetUpTransitionPoints();
-
-        //    _eventTriggeredFlag = false;
-        //    _characterManager = (CharacterManager)_level.CharacterManager;
-        //}
-
-        //[TestMethod]
-        //public void CharacterManager_Construction_IsSuccessful()
-        //{
-        //    CharacterManager characterManager = new CharacterManager(_level);
-
-        //    Assert.AreEqual(_level, characterManager.Level);
-        //    Assert.IsNotNull(characterManager.Characters);
-        //    Assert.IsNotNull(characterManager.TurnQueue);
-        //}
 
         //[TestMethod]
         //public void CharacterManager_SettingUpNpcs_IsSuccessful()
@@ -92,23 +98,6 @@ namespace Tests.Characters
         //            Assert.IsTrue(new List<String> { "Knight M", "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
         //        }
         //    }
-        //}
-
-        //[TestMethod]
-        //public void CharacterManager_SettingUpPc_IsSuccessful()
-        //{
-        //    CharacterManager characterManager = new CharacterManager(_levelWithoutCharacters);
-        //    characterManager.SetUpPc("Knight M", 7, 1);
-
-        //    Assert.IsNotNull(characterManager.Player);
-        //    Assert.AreEqual(1, characterManager.Characters.Count);
-        //    Assert.AreEqual(new Position(7, 1), characterManager.Player.GetComponent<Position>());
-        //    Assert.AreEqual("Knight M", characterManager.Player.GetComponent<Model>().Name);
-        //    Assert.AreEqual(_levelWithoutCharacters, characterManager.Player.GetComponent<OnLevel>().Level);
-
-        //    // Is a TurnQueue setup with the Player taking the first turn?
-        //    Assert.IsNotNull(characterManager.TurnQueue);
-        //    Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
         //}
 
         //[TestMethod]
