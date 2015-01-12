@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IStat.cs" />
+    <Compile Include="Api\IStatManager.cs" />
     <Compile Include="Api\IModelManager.cs" />
     <Compile Include="Api\ICharacterManager.cs" />
     <Compile Include="Api\ILevel.cs" />
@@ -62,6 +64,8 @@
     <Compile Include="Pathfinding\Node.cs" />
     <Compile Include="Pathfinding\Pathfinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stats\Stat.cs" />
+    <Compile Include="Stats\StatManager.cs" />
     <Compile Include="Tiled\Data.cs" />
     <Compile Include="Tiled\ElementList.cs" />
     <Compile Include="Tiled\IElement.cs" />
