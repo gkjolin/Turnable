@@ -30,7 +30,7 @@ namespace Tests.Models
             Assert.AreEqual(1, modelManager.Models.Count);
             // Is the right SpecialTile associated with the model name?
             SpecialTile specialTile = modelManager.Models["Knight M"];
-            Assert.AreEqual(0, specialTile.Id);
+            Assert.AreEqual((uint)0, specialTile.Id);
             Assert.AreEqual("Knight M", specialTile.Properties["Model"]);
         }
     }

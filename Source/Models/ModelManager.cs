@@ -17,7 +17,7 @@ namespace Turnable.Models
             Level = level;
             Models = new Dictionary<string, SpecialTile>();
 
-            var specialTilesWithModelProperty = (from t in Level.Map.Tilesets select (from st in t.SpecialTiles.Values where st.Properties["Model"] != null select st));
+            var specialTilesWithModelProperty = (from t in Level.Map.Tilesets from st in t.SpecialTiles.Values where st.Properties["Model"] != null select st);
             foreach (SpecialTile specialTile in specialTilesWithModelProperty)
             {
                 Models.Add(specialTile.Properties["Model"], specialTile);
