@@ -14,6 +14,8 @@ namespace Tests
     public class StatManagerTests
     {
         private IStatManager _statManager;
+        private bool _eventTriggeredFlag;
+        private StatChangedEventArgs _statChangedEventArgs;
 
         [TestInitialize]
         public void Initialize()
@@ -102,27 +104,27 @@ namespace Tests
             Assert.IsNull(stat);
         }
 
-        //[TestMethod]
-        //public void StatManager_WhenAStatIsChanged_RaisesAnEvent()
-        //{
-        //    _entity.AddComponent(_statManager);
-        //    _statManager.CreateStat("Health", 100);
-        //    _statManager.CreateStat("Mana", 50);
+        [TestMethod]
+        public void StatManager_WhenAnyStatIsChanged_RaisesAStatChangedEvent()
+        {
+            _statManager.BuildStat("Health", 100);
+            _statManager.BuildStat("Mana", 100);
 
-        //    Stat stat = _statManager.GetStat("Health");
-        //    _statManager.StatChanged += SetEventTriggeredFlag;
-        //    stat.Value += 10;
+            Stat stat = _statManager.GetStat("Health");
+            _statManager.StatChanged += SetEventTriggeredFlag;
+            stat.Value = 50;
 
-        //    Assert.IsTrue(_eventTriggeredFlag);
-        //    Assert.AreEqual(stat, ((StatChangedEventArgs)_eventArgs).Stat);
-        //    Assert.AreEqual(_entity, _eventArgs.Entity);
-        //}
+            Assert.IsTrue(_eventTriggeredFlag);
+            Assert.AreEqual(stat, _statChangedEventArgs.Stat);
+            Assert.AreEqual(100, _statChangedEventArgs.OldValue);
+            Assert.AreEqual(50, _statChangedEventArgs.NewValue);
+        }
 
-        //private void SetEventTriggeredFlag(object sender, EventArgs e)
-        //{
-        //    _eventTriggeredFlag = true;
-        //    _eventArgs = (EntityEventArgs)e;
-        //}
+        private void SetEventTriggeredFlag(object sender, StatChangedEventArgs e)
+        {
+            _eventTriggeredFlag = true;
+            _statChangedEventArgs = e;
+        }
 
         //[TestMethod]
         //public void StatManager_WhenAHealthStatIsReducedToZero_AsksForTheCharacterToBeDestroyed()

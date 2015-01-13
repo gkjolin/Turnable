@@ -20,13 +20,6 @@ namespace Tests.Stats
             _stat = _statManager.BuildStat("Health", 90);
         }
 
-        //[TestMethod]
-        //public void Stat_ConstructionWithAHealthStat_IsSuccessful()
-        //{
-        //    Stat stat = _statManager.CreateStat("Hit Chance", 10, 5, 95, true);
-        //    Assert.IsTrue(stat.IsHealth);
-        //}
-
         [TestMethod]
         public void Value_CanBeChanged()
         {

@@ -23,6 +23,9 @@ namespace Turnable.Api
         // Properties
         Dictionary<string, Stat> Stats { get; set; }
 
+        // Events
+        event EventHandler<StatChangedEventArgs> StatChanged;
+
         // -----------------
         // Private interface
         // -----------------

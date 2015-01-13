@@ -20,8 +20,17 @@ namespace Turnable.Stats
         {
             Stat newStat = new Stat(name, initialValue, maximumValue, minimumValue);
             Stats.Add(name, newStat);
+            newStat.Changed += OnStatChanged;
 
             return newStat;
+        }
+
+        protected virtual void OnStatChanged(object sender, StatChangedEventArgs e)
+        {
+            if (StatChanged != null)
+            {
+                StatChanged(this, e);
+            }
         }
 
         public Stat GetStat(string name)
@@ -32,5 +41,7 @@ namespace Turnable.Stats
 
             return stat;
         }
+
+        public event EventHandler<StatChangedEventArgs> StatChanged;
     }
 }
