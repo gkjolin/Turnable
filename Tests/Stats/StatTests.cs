@@ -10,8 +10,8 @@ namespace Tests.Stats
     {
         private IStatManager _statManager;
         private IStat _stat;
-        //private bool _eventTriggeredFlag;
-        //private EventArgs _eventArgs;
+        private bool _eventTriggeredFlag;
+        private StatChangedEventArgs _statChangedEventArgs;
 
         [TestInitialize]
         public void Initialize()
@@ -86,17 +86,19 @@ namespace Tests.Stats
             Assert.AreEqual(100, _stat.Value);
         }
 
-        //[TestMethod]
-        //public void Stat_WhenChanged_RaisesAChangedEvent()
-        //{
-        //    _stat.Changed += this.SetEventTriggeredFlag;
-        //    _stat.Value -= 10;
+        [TestMethod]
+        public void Value_WhenChanged_RaisesAChangedEvent()
+        {
+            _stat.Changed += this.SetEventTriggeredFlag;
+            _stat.Value -= 10;
 
-        //    Assert.IsTrue(_eventTriggeredFlag);
+            Assert.IsTrue(_eventTriggeredFlag);
 
-        //    StatChangedEventArgs e = (StatChangedEventArgs)_eventArgs;
-        //    Assert.AreEqual(_stat, e.Stat);
-        //}
+            StatChangedEventArgs e = (StatChangedEventArgs)_eventArgs;
+            Assert.AreEqual(_stat, e.Stat);
+            Assert.AreEqual(100, e.OldValue);
+            Assert.AreEqual(90, e.NewValue);
+        }
 
         //[TestMethod]
         //public void Stat_WhenChangedAndClampedToMaximumValue_RaisesAChangedEvent()
@@ -122,10 +124,10 @@ namespace Tests.Stats
         //    Assert.AreEqual(_stat, e.Stat);
         //}
 
-        //private void SetEventTriggeredFlag(object sender, EventArgs e)
-        //{
-        //    _eventTriggeredFlag = true;
-        //    _eventArgs = e;
-        //}
+        private void SetEventTriggeredFlag(object sender, StatChangedEventArgs e)
+        {
+            _eventTriggeredFlag = true;
+            _statChangedEventArgs = e;
+        }
     }
 }
