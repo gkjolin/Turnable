@@ -16,9 +16,7 @@ namespace Turnable.Api
         // Public interface
         // ----------------
 
-        // ----------
         // Properties
-        // ----------
         ILevel Level { get; set; }
         Dictionary<string, SpecialTile> Models { get; set; }
 

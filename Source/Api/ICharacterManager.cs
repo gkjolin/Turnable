@@ -15,9 +15,7 @@ namespace Turnable.Api
         // Public interface
         // ----------------
 
-        // ----------
         // Properties
-        // ----------
         ILevel Level { get; set; }
 
         // -----------------

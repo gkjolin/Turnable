@@ -12,17 +12,20 @@ namespace Turnable.Api
     public interface IStat
     {
         // ----------------
-        // Public interface
+        // Public Interface
         // ----------------
+
+        // Methods
         void Reset();
 
-        // ----------
         // Properties
-        // ----------
         int MinimumValue { get; set; }
         int MaximumValue { get; set; }
         string Name { get; set; }
         int Value { get; set; }
+
+        // Events
+        event EventHandler StatChanged;
 
         // -----------------
         // Private interface

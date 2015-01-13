@@ -14,11 +14,11 @@ namespace Turnable.Api
         // ----------------
         // Public interface
         // ----------------
+
+        // Methods
         bool IsCollidable(Position position);
 
-        // ----------
         // Properties
-        // ----------
         IMap Map { get; set; }
         IPathfinder Pathfinder { get; set; }
         ICharacterManager CharacterManager { get; set; }
@@ -28,6 +28,8 @@ namespace Turnable.Api
         // -----------------
         // Private interface
         // -----------------
+
+        // Methods
         void InitializeSpecialLayers();
     }
 }

@@ -12,9 +12,7 @@ namespace Turnable.Api
         // Public interface
         // ----------------
 
-        // ----------
         // Properties
-        // ----------
         int TileWidth { get; set; }
         int TileHeight { get; set; }
         int Width { get; set; }

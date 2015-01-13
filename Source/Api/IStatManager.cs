@@ -15,12 +15,12 @@ namespace Turnable.Api
         // ----------------
         // Public interface
         // ----------------
+
+        // Methods
         Stat BuildStat(string name, int initialValue, int minimumValue = 0, int maximumValue = 100);
         Stat GetStat(string name);
 
-        // ----------
         // Properties
-        // ----------
         Dictionary<string, Stat> Stats { get; set; }
 
         // -----------------

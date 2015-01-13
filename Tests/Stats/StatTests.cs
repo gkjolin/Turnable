@@ -94,10 +94,9 @@ namespace Tests.Stats
 
             Assert.IsTrue(_eventTriggeredFlag);
 
-            StatChangedEventArgs e = (StatChangedEventArgs)_eventArgs;
-            Assert.AreEqual(_stat, e.Stat);
-            Assert.AreEqual(100, e.OldValue);
-            Assert.AreEqual(90, e.NewValue);
+            Assert.AreEqual(_stat, _statChangedEventArgs.Stat);
+            Assert.AreEqual(100, _statChangedEventArgs.OldValue);
+            Assert.AreEqual(90, _statChangedEventArgs.NewValue);
         }
 
         //[TestMethod]

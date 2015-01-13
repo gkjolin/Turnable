@@ -11,11 +11,11 @@ namespace Turnable.Api
         // ----------------
         // Public interface
         // ----------------
+
+        // Methods
         List<Node> FindPath(Node startingNode, Node endingNode);
 
-        // ----------
         // Properties
-        // ----------
         bool AllowDiagonalMovement { get; set; }
         ILevel Level { get; set; }
     }
