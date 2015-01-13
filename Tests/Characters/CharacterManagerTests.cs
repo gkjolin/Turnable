@@ -27,6 +27,8 @@ namespace Tests.Characters
             CharacterManager characterManager = new CharacterManager(_level);
 
             Assert.AreEqual(_level, characterManager.Level);
+            Assert.IsNotNull(characterManager.Characters);
+            Assert.IsInstanceOfType(characterManager.Characters, IList<IEntity>);
         }
 
         //[TestMethod]
