@@ -46,7 +46,7 @@ namespace Turnable.Stats
                 if (value > MaximumValue)
                 {
                     _value = MaximumValue;
-                }
+                } 
             }
         }
     }

@@ -37,7 +37,10 @@ namespace Turnable.Components
 
         public bool Equals(Position other)
         {
-            if (other == null) return false;
+            if (other == null)
+            {
+                return false;
+            }
 
             return (this.X == other.X && this.Y == other.Y);
         }
@@ -58,14 +61,20 @@ namespace Turnable.Components
 
         public static bool operator ==(Position position1, Position position2)
         {
-            if ((object)position1 == null || ((object)position2) == null) return Object.Equals(position1, position2);
+            if ((object)position1 == null || ((object)position2) == null)
+            {
+                return Object.Equals(position1, position2);
+            }
 
             return position1.Equals(position2);
         }
 
         public static bool operator !=(Position position1, Position position2)
         {
-            if ((object)position1 == null || ((object)position2) == null) return !Object.Equals(position1, position2);
+            if ((object)position1 == null || ((object)position2) == null)
+            {
+                return !Object.Equals(position1, position2);
+            }
 
             return !(position1.Equals(position2));
         }

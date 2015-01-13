@@ -56,7 +56,10 @@ namespace Turnable.Locations
             Layer collisionLayer = SpecialLayers[SpecialLayer.Collision];
 
             // No collision layer exists. 
-            if (collisionLayer == null) return false;
+            if (collisionLayer == null)
+            {
+                return false;
+            }
 
             return (collisionLayer.Tiles.ContainsKey(new Tuple<int, int>(position.X, position.Y)));
         }
@@ -92,8 +95,8 @@ namespace Turnable.Locations
                     string key = Level.SpecialLayerPropertyKey(index);
 
                     if (ContainsKey(index))
-                    {
-                        throw new ArgumentException();
+                    { 
+                        throw new ArgumentException(); 
                     }
 
                     value.Properties[key] = "true";
