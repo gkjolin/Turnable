@@ -37,6 +37,8 @@ namespace Turnable.Stats
             }
             set
             {
+                int oldValue = Value;
+
                 _value = value;
 
                 if (value < MinimumValue)
@@ -47,14 +49,19 @@ namespace Turnable.Stats
                 {
                     _value = MaximumValue;
                 } 
+
+                OnChanged(new StatChangedEventArgs(this, oldValue, value));
             }
         }
+        
+        public event EventHandler<StatChangedEventArgs> Changed;
 
-
-        event EventHandler<StatChangedEventArgs> StatChanged
+        protected virtual void OnChanged(StatChangedEventArgs e)
         {
-            add { throw new NotImplementedException(); }
-            remove { throw new NotImplementedException(); }
+            if (Changed != null)
+            {
+                Changed(this, e);
+            }
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Turnable.Api
         int Value { get; set; }
 
         // Events
-        event EventHandler<StatChangedEventArgs> StatChanged;
+        event EventHandler<StatChangedEventArgs> Changed;
 
         // -----------------
         // Private interface
