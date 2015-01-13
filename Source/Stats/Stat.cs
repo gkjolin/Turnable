@@ -20,10 +20,11 @@ namespace Turnable.Stats
 
         internal Stat(string name, int initialValue, int maximumValue, int minimumValue)
         {
-            Name = name;
-            Value = initialValue;
+            // NOTE: The MinimumValue and MaximumValue MUST be set before Value since Value clamps its values to MaximumValue and MonimumValue
             MinimumValue = minimumValue;
             MaximumValue = maximumValue;
+            Name = name;
+            Value = initialValue;
         }
 
         public int Value

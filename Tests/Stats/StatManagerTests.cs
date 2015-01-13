@@ -51,7 +51,7 @@ namespace Tests
         public void BuildStat_GivenMinimumAndMaximumValuesForStat_SuccessfullyBuildsNewStat()
         {
             Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
-            Assert.AreEqual(stat.Value, 10);
+            Assert.AreEqual(10, stat.Value);
             Assert.AreEqual(5, stat.MinimumValue);
             Assert.AreEqual(95, stat.MaximumValue);
         }
