@@ -89,7 +89,7 @@ namespace Tests.Stats
         [TestMethod]
         public void Value_WhenChanged_RaisesAChangedEvent()
         {
-            _stat.Changed += this.SetEventTriggeredFlag;
+            _stat.StatChanged += this.SetEventTriggeredFlag;
             _stat.Value -= 10;
 
             Assert.IsTrue(_eventTriggeredFlag);

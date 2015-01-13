@@ -49,5 +49,12 @@ namespace Turnable.Stats
                 } 
             }
         }
+
+
+        event EventHandler<StatChangedEventArgs> StatChanged
+        {
+            add { throw new NotImplementedException(); }
+            remove { throw new NotImplementedException(); }
+        }
     }
 }

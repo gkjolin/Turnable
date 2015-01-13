@@ -6,6 +6,7 @@ using System.Text;
 using System.Tuples;
 using Turnable.Components;
 using Turnable.Locations;
+using Turnable.Stats;
 
 namespace Turnable.Api
 {
@@ -25,7 +26,7 @@ namespace Turnable.Api
         int Value { get; set; }
 
         // Events
-        event EventHandler StatChanged;
+        event EventHandler<StatChangedEventArgs> StatChanged;
 
         // -----------------
         // Private interface
