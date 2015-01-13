@@ -38,7 +38,6 @@ namespace Turnable.Stats
             set
             {
                 int oldValue = Value;
-
                 _value = value;
 
                 if (value < MinimumValue)
@@ -48,9 +47,12 @@ namespace Turnable.Stats
                 if (value > MaximumValue)
                 {
                     _value = MaximumValue;
-                } 
+                }
 
-                OnChanged(new StatChangedEventArgs(this, oldValue, value));
+                if (Value != oldValue)
+                {
+                    OnChanged(new StatChangedEventArgs(this, oldValue, Value));
+                }
             }
         }
         

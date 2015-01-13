@@ -32,7 +32,7 @@ namespace Tests.Stats
         {
             _stat.Value -= 5;
 
-            Assert.AreEqual(95, _stat.Value);
+            Assert.AreEqual(85, _stat.Value);
         }
 
         [TestMethod]
@@ -94,16 +94,37 @@ namespace Tests.Stats
         }
 
         [TestMethod]
+        public void Value_WhenThereIsNoChange_DoesNotRaiseAChangedEvent()
+        {
+            _stat.Changed += this.SetEventTriggeredFlag;
+
+            _stat.Value = 90;
+
+            Assert.IsFalse(_eventTriggeredFlag);
+        }
+
+        [TestMethod]
         public void Value_WhenChangedAndClampedToMaximumValue_RaisesAChangedEvent()
         {
             _stat.Changed += this.SetEventTriggeredFlag;
+
             _stat.Value += 20;
 
             Assert.IsTrue(_eventTriggeredFlag);
-
             Assert.AreEqual(_stat, _statChangedEventArgs.Stat);
             Assert.AreEqual(90, _statChangedEventArgs.OldValue);
             Assert.AreEqual(100, _statChangedEventArgs.NewValue);
+        }
+
+        [TestMethod]
+        public void Value_WhenChangeIsNotAppliedDueToValueAlreadyBeingClampedToMaximumValue_DoesNotRaiseAChangedEvent()
+        {
+            _stat.Value += 20;
+            _stat.Changed += this.SetEventTriggeredFlag;
+
+            _stat.Value += 20;
+
+            Assert.IsFalse(_eventTriggeredFlag);
         }
 
         [TestMethod]
@@ -117,6 +138,17 @@ namespace Tests.Stats
             Assert.AreEqual(_stat, _statChangedEventArgs.Stat);
             Assert.AreEqual(90, _statChangedEventArgs.OldValue);
             Assert.AreEqual(0, _statChangedEventArgs.NewValue);
+        }
+
+        [TestMethod]
+        public void Value_WhenChangeIsNotAppliedDueToValueAlreadyBeingClampedToMinimumValue_DoesNotRaiseAChangedEvent()
+        {
+            _stat.Value -= 100;
+            _stat.Changed += this.SetEventTriggeredFlag;
+
+            _stat.Value -=100;
+
+            Assert.IsFalse(_eventTriggeredFlag);
         }
 
         private void SetEventTriggeredFlag(object sender, StatChangedEventArgs e)
