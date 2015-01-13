@@ -12,14 +12,16 @@ namespace Turnable.Stats
         public int MaximumValue { get; set; }
         public string Name { get; set; }
         private int _value;
+        private int _initialValue;
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            Value = _initialValue;
         }
 
         internal Stat(string name, int initialValue, int maximumValue, int minimumValue)
         {
+            _initialValue = initialValue;
             // NOTE: The MinimumValue and MaximumValue MUST be set before Value since Value clamps its values to MaximumValue and MonimumValue
             MinimumValue = minimumValue;
             MaximumValue = maximumValue;

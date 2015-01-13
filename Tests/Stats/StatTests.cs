@@ -31,6 +31,7 @@ namespace Tests.Stats
         public void Value_CanBeChanged()
         {
             _stat.Value -= 5;
+
             Assert.AreEqual(95, _stat.Value);
         }
 
@@ -38,6 +39,7 @@ namespace Tests.Stats
         public void Value_CanBeSetTo0()
         {
             _stat.Value -= 100;
+
             Assert.AreEqual(0, _stat.Value);
         }
 
@@ -61,23 +63,28 @@ namespace Tests.Stats
             Assert.AreEqual(100, _stat.Value);
         }
 
-        //[TestMethod]
-        //public void Stat_WhenReducedOrIncreased_ClampsToValuesOtherThanTheDefault()
-        //{
-        //    Stat stat = _statManager.CreateStat("Hit Chance", 10, 5, 95);
-        //    stat.Value += 100;
-        //    Assert.AreEqual(95, stat.Value);
-        //    stat.Value -= 100;
-        //    Assert.AreEqual(5, stat.Value);
-        //}
+        [TestMethod]
+        public void Value_CanBeClampedToAValueOtherThanTheDefault()
+        {
+            Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
+            
+            stat.Value += 100;
+            Assert.AreEqual(95, stat.Value);
 
-        //[TestMethod]
-        //public void Stat_CanResetItself()
-        //{
-        //    _stat.Value -= 3;
-        //    _stat.Reset();
-        //    Assert.AreEqual(100, _stat.Value);
-        //}
+            stat.Value -= 100;
+            Assert.AreEqual(5, stat.Value);
+        }
+
+        [TestMethod]
+        public void Reset_SetsTheValueToTheInitialValue()
+        {
+            int initialValue = _stat.Value;
+            _stat.Value -= 50;
+
+            _stat.Reset();
+
+            Assert.AreEqual(100, _stat.Value);
+        }
 
         //[TestMethod]
         //public void Stat_WhenChanged_RaisesAChangedEvent()
