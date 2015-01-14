@@ -1,4 +1,5 @@
 ﻿using Entropy;
+using Entropy.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Turnable.Api
 
         // Properties
         ILevel Level { get; set; }
+        IList<Entity> Characters { get; set; }
 
         // -----------------
         // Private interface

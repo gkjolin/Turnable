@@ -7,6 +7,7 @@ using Entropy;
 using Moq;
 using Turnable.Characters;
 using Turnable.Api;
+using Entropy.Core;
 
 namespace Tests.Characters
 {
@@ -28,7 +29,7 @@ namespace Tests.Characters
 
             Assert.AreEqual(_level, characterManager.Level);
             Assert.IsNotNull(characterManager.Characters);
-            Assert.IsInstanceOfType(characterManager.Characters, IList<IEntity>);
+            Assert.IsInstanceOfType(characterManager.Characters, typeof(List<Entity>));
         }
 
         //[TestMethod]
