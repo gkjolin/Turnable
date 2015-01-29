@@ -25,6 +25,7 @@ namespace Tests.Factories
     // X.........X...X
     // X.....P...X...X
     // XXXXXXXXXXXXXXX
+    //
     // X - Obstacles (Collision Layer), P - Player (Character Layer), E - Enemies (Character Layer)
 
     public static class LocationsFactory
