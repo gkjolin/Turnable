@@ -76,6 +76,7 @@
     <Compile Include="Pathfinding\NodeTests.cs" />
     <Compile Include="Pathfinding\PathfinderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\SkillTests.cs" />
     <Compile Include="Stats\StatChangedEventArgsTests.cs" />
     <Compile Include="Stats\StatManagerTests.cs" />
     <Compile Include="Stats\StatTests.cs" />

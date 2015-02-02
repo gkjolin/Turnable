@@ -24,7 +24,7 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void DefaultConstructor_InitializesAllLevelComponentsToNull()
+        public void DefaultConstructor_SuccessfullyInitializesAllProperties()
         {
             ILevel level = new Level();
 
