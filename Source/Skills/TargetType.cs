@@ -8,7 +8,7 @@ namespace Turnable.Skills
     public enum TargetType
     {
         InSameTeam,
-        InOtherTeam,
+        InAnotherTeam,
         FreeLocation
     }
 }

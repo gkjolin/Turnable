@@ -6,6 +6,7 @@ using Tests.Factories;
 using Moq;
 using Entropy;
 using Turnable.Skills;
+using Turnable.Api;
 
 namespace Tests.Skills
 {
@@ -23,12 +24,26 @@ namespace Tests.Skills
             Skill skill = new Skill("Melee Attack");
 
             Assert.AreEqual("Melee Attack", skill.Name);
-            Assert.AreEqual(TargetType.InOtherTeam, skill.TargetType);
+            Assert.AreEqual(TargetType.InAnotherTeam, skill.TargetType);
             Assert.AreEqual(RangeType.Adjacent, skill.RangeType);
-            Assert.AreEqual(1, skill.Range);
             Assert.IsNotNull(skill.Effects);
+            Assert.IsInstanceOfType(skill.Effects, typeof(IEnumerable<IEffect>));
+            Assert.AreEqual(0, skill.Range);
             Assert.AreEqual(0, skill.Cost);
         }
+
+        [TestMethod]
+        public void Constructor_GivenInitialValues_SuccessfullyInitializesAllProperties()
+        {
+            Skill skill = new Skill("Melee Attack", RangeType.DirectLine, TargetType.InAnotherTeam, 1, 2);
+
+            Assert.AreEqual("Melee Attack", skill.Name);
+            Assert.AreEqual(TargetType.InAnotherTeam, skill.TargetType);
+            Assert.AreEqual(RangeType.DirectLine, skill.RangeType);
+            Assert.AreEqual(1, skill.Range);
+            Assert.AreEqual(2, skill.Cost);
+        }
+
 
         //[TestMethod]
         //public void Skill_Construction_CreatesAnOriginMapCalculatorOfTheCorrectType()
@@ -44,16 +59,6 @@ namespace Tests.Skills
         //    Assert.IsInstanceOfType(skill.OriginMapCalculator, typeof(AdjacentOriginMapCalculator));
         //}
 
-        //[TestMethod]
-        //public void Skill_ConstructionWithAllValues_IsSuccessful()
-        //{
-        //    Skill skill = new Skill("Melee Attack", RangeType.DirectLine, TargetType.InAnotherTeam, 5);
-
-        //    Assert.AreEqual("Melee Attack", skill.Name);
-        //    Assert.AreEqual(TargetType.InAnotherTeam, skill.TargetType);
-        //    Assert.AreEqual(RangeType.DirectLine, skill.RangeType);
-        //    Assert.AreEqual(5, skill.Range);
-        //}
 
         // Testing the generation of a skill's Target Map
         // A Target Map is the set of nodes from which an enemy can use the skill on the player

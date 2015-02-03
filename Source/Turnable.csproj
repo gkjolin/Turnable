@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IEffect.cs" />
     <Compile Include="Api\IStat.cs" />
     <Compile Include="Api\IStatManager.cs" />
     <Compile Include="Api\IModelManager.cs" />
