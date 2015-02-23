@@ -40,6 +40,19 @@ namespace Tests.Locations
         }
 
         [TestMethod]
+        public void Setup_GivenParametersWithATmxFullFilePath_InitializesTheTiledMap()
+        {
+            LevelSetupParameters levelSetupParameters = new LevelSetupParameters();
+            levelSetupParameters.TmxFullFilePath = "../../Fixtures/FullExample.tmx";
+
+            ILevel level = new Level(levelSetupParameters);
+
+            // TODO: This should really test that Map's constructor was called correctly and assigned to the Level's Map property.
+            Assert.IsNotNull(level.Map);
+            Assert.AreEqual(4, level.Map.Layers.Count);
+        }
+
+        [TestMethod]
         public void IsCollidable_ReturnsTrueIfThereIsAnyTileInTheCollisionSpecialLayerForTheLevel()
         {
             // The example level has a "wall" around the entire 15x15 level
@@ -149,6 +162,50 @@ namespace Tests.Locations
             _level.SpecialLayers[Level.SpecialLayer.Character] = _level.Map.Layers[0];
 
             Assert.IsNull(_level.SpecialLayers[Level.SpecialLayer.Background]);
+        }
+
+        // -------
+        // Set Ups
+        // -------
+
+        // Viewport
+        [TestMethod]
+        public void SetUpViewport_GivenNoParamters_CreatesAViewportTheSameSizeAsTheLevel()
+        {
+            _level.SetUpViewport();
+
+            Assert.IsNotNull(_level.Viewport);
+            Assert.AreEqual(_level, _level.Viewport.Level);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
+            Assert.AreEqual(_level.Map.Width, _level.Viewport.Width);
+            Assert.AreEqual(_level.Map.Height, _level.Viewport.Height);
+        }
+
+        [TestMethod]
+        public void SetUpViewport_GivenAWidthAndHeight_CreatesAViewportForTheLevel()
+        {
+            _level.SetUpViewport(5, 6);
+
+            Assert.IsNotNull(_level.Viewport);
+            Assert.AreEqual(_level, _level.Viewport.Level);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
+            Assert.AreEqual(5, _level.Viewport.Width);
+            Assert.AreEqual(6, _level.Viewport.Height);
+        }
+
+        [TestMethod]
+        public void SetUpViewport_GivenAMapOriginWidthAndHeight_CreatesAViewportForTheLevel()
+        {
+            _level.SetUpViewport(8, 8, 5, 5);
+
+            Assert.IsNotNull(_level.Viewport);
+            Assert.AreEqual(_level, _level.Viewport.Level);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(8, _level.Viewport.MapOrigin.Y);
+            Assert.AreEqual(5, _level.Viewport.Width);
+            Assert.AreEqual(5, _level.Viewport.Height);
         }
     }
 }
@@ -270,29 +327,7 @@ namespace Tests.Locations
 //            Assert.AreEqual(_level, _level.TransitionPointManager.Level);
 //        }
 
-//        [TestMethod]
-//        public void Level_SettingUpAViewportWithJustAWidthAndHeight_IsSuccessful()
-//        {
-//            _level.SetUpViewport(5, 6);
 
-//            Assert.IsNotNull(_level.Viewport);
-//            Assert.AreEqual(_level, _level.Viewport.Level);
-//            Assert.AreEqual(5, _level.Viewport.Width);
-//            Assert.AreEqual(6, _level.Viewport.Height);
-//        }
-
-//        [TestMethod]
-//        public void Level_SettingUpAViewport_IsSuccessful()
-//        {
-//            _level.SetUpViewport(8, 8, 5, 5);
-
-//            Assert.IsNotNull(_level.Viewport);
-//            Assert.AreEqual(_level, _level.Viewport.Level);
-//            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
-//            Assert.AreEqual(8, _level.Viewport.MapOrigin.Y);
-//            Assert.AreEqual(5, _level.Viewport.Width);
-//            Assert.AreEqual(5, _level.Viewport.Height);
-//        }
 
 //        [TestMethod]
 //        public void Level_SettingUpAMap_IsSuccessful()

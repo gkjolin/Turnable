@@ -17,6 +17,17 @@ namespace Turnable.Locations
         public SpecialLayersCollection SpecialLayers { get; set; }
         public ICharacterManager CharacterManager { get; set; }
         public IModelManager ModelManager { get; set; }
+        public IViewport Viewport { get; set; }
+
+        public Level()
+        {
+            SpecialLayers = new SpecialLayersCollection();
+        }
+
+        public Level(LevelSetupParameters parameters) : this()
+        {
+            Map = new Map(parameters.TmxFullFilePath);
+        }
 
         public virtual IMap Map { 
             get
@@ -28,11 +39,6 @@ namespace Turnable.Locations
                 _map = value;
                 InitializeSpecialLayers();
             }
-        }
-
-        public Level()
-        {
-            SpecialLayers = new SpecialLayersCollection();
         }
 
         public virtual void InitializeSpecialLayers()
@@ -103,6 +109,21 @@ namespace Turnable.Locations
                     base[index] = value;
                 }
             }
+        }
+
+        public void SetUpViewport()
+        {
+            Viewport = new Viewport(this);
+        }
+
+        public void SetUpViewport(int width, int height)
+        {
+            Viewport = new Viewport(this, width, height);
+        }
+
+        public void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height)
+        {
+            Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);
         }
     }
 }

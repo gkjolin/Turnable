@@ -70,7 +70,9 @@
     <Compile Include="Components\PositionTests.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TiledFactory.cs" />
+    <Compile Include="Locations\LevelSetupParametersTests.cs" />
     <Compile Include="Locations\LevelTests.cs" />
+    <Compile Include="Locations\ViewportTests.cs" />
     <Compile Include="Models\ModelManagerTests.cs" />
     <Compile Include="Pathfinding\NodeListTests.cs" />
     <Compile Include="Pathfinding\NodeTests.cs" />

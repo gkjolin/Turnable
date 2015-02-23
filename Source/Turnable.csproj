@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IViewport.cs" />
+    <Compile Include="Api\ISetupParameters.cs" />
     <Compile Include="Api\IEffect.cs" />
     <Compile Include="Api\IStat.cs" />
     <Compile Include="Api\IStatManager.cs" />
@@ -58,8 +60,10 @@
     <Compile Include="Characters\CharacterManager.cs" />
     <Compile Include="Components\TeamMembership.cs" />
     <Compile Include="Components\Position.cs" />
+    <Compile Include="Locations\LevelSetupParameters.cs" />
     <Compile Include="Locations\Direction.cs" />
     <Compile Include="Locations\Level.cs" />
+    <Compile Include="Locations\Viewport.cs" />
     <Compile Include="Models\ModelManager.cs" />
     <Compile Include="Pathfinding\NodeList.cs" />
     <Compile Include="Pathfinding\Node.cs" />
@@ -85,11 +89,12 @@
     <Compile Include="Tiled\TileList.cs" />
     <Compile Include="Tiled\Tileset.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "C:\git\PocketTales\Assets\Libraries"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

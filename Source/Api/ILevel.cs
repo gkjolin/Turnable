@@ -24,6 +24,7 @@ namespace Turnable.Api
         ICharacterManager CharacterManager { get; set; }
         Level.SpecialLayersCollection SpecialLayers { get; set; }
         IModelManager ModelManager { get; set; }
+        IViewport Viewport { get; set; }
 
         // -----------------
         // Private interface
@@ -31,5 +32,8 @@ namespace Turnable.Api
 
         // Methods
         void InitializeSpecialLayers();
+        void SetUpViewport();
+        void SetUpViewport(int width, int height);
+        void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height);
     }
 }
