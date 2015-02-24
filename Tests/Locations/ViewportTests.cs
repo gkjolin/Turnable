@@ -26,8 +26,8 @@ namespace Tests.Locations
             Viewport viewport = new Viewport(_level);
 
             Assert.AreEqual(_level, viewport.Level);
-            Assert.AreEqual(0, _viewport.MapOrigin.X);
-            Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            Assert.AreEqual(0, viewport.MapOrigin.X);
+            Assert.AreEqual(0, viewport.MapOrigin.Y);
             Assert.AreEqual(_level.Map.Width, viewport.Width);
             Assert.AreEqual(_level.Map.Height, viewport.Height);
         }

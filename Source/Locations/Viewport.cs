@@ -19,6 +19,7 @@ namespace Turnable.Locations
             Level = level;
             Width = level.Map.Width;
             Height = level.Map.Height;
+            MapOrigin = new Position(0, 0);
         }
 
         public Viewport(ILevel level, int width, int height) 
