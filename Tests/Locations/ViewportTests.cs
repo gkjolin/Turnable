@@ -10,7 +10,7 @@ namespace Tests.Locations
     public class ViewportTests
     {
         private ILevel _level;
-        private IViewport _viewport;
+        // private IViewport _viewport;
 
         [TestInitialize]
         public void Initialize()

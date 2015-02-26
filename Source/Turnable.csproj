@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IVisionCalculator.cs" />
     <Compile Include="Api\IViewport.cs" />
     <Compile Include="Api\ISetupParameters.cs" />
     <Compile Include="Api\IEffect.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Tiled\TileList.cs" />
     <Compile Include="Tiled\Tileset.cs" />
     <Compile Include="Vision\Line.cs" />
+    <Compile Include="Vision\VisionCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
