@@ -39,7 +39,7 @@ namespace Tests.Vision
         }
 
         [TestMethod]
-        public void COnstructor_GivenTwoDistantPoints_SuccessfullyCreateaALine()
+        public void Constructor_GivenTwoDistantPoints_SuccessfullyCreatesALine()
         {
             Position start = new Position(1, 1);
             Position end = new Position(2, 6);
