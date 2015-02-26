@@ -91,6 +91,7 @@
     <Compile Include="Tiled\TileListTests.cs" />
     <Compile Include="Tiled\TilesetTests.cs" />
     <Compile Include="Tiled\TileTests.cs" />
+    <Compile Include="Vision\LineTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\FullExample.tmx" />
