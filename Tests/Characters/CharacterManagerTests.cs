@@ -8,6 +8,7 @@ using Moq;
 using Turnable.Characters;
 using Turnable.Api;
 using Entropy.Core;
+using Turnable.Components;
 
 namespace Tests.Characters
 {
@@ -30,6 +31,16 @@ namespace Tests.Characters
             Assert.AreEqual(_level, characterManager.Level);
             Assert.IsNotNull(characterManager.Characters);
             Assert.IsInstanceOfType(characterManager.Characters, typeof(List<Entity>));
+        }
+
+        [TestMethod]
+        public void SetUpPlayer_InitializesThePlayerEntity()
+        {
+            CharacterManager characterManager = new CharacterManager(_level);
+            characterManager.SetUpPlayer(2, 13);
+
+            Assert.IsNotNull(characterManager.Player);
+            Assert.AreEqual(new Position(2, 13), characterManager.Player.Get<Position>());
         }
 
         //[TestMethod]

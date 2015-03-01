@@ -11,11 +11,17 @@ namespace Turnable.Characters
     {
         public ILevel Level { get; set; }
         public IList<Entity> Characters { get; set; }
+        public Entity Player { get; set; }
 
         public CharacterManager(ILevel level)
         {
             Level = level;
             Characters = new List<Entity>();
+        }
+
+        public void SetUpPlayer(int startingX, int startingY)
+        {
+            throw new NotImplementedException();
         }
     }
 }

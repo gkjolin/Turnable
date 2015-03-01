@@ -6,6 +6,7 @@ using System.Tuples;
 using Turnable.Api;
 using Turnable.Components;
 using Turnable.Tiled;
+using Turnable.Vision;
 
 namespace Turnable.Locations
 {
@@ -18,6 +19,7 @@ namespace Turnable.Locations
         public ICharacterManager CharacterManager { get; set; }
         public IModelManager ModelManager { get; set; }
         public IViewport Viewport { get; set; }
+        public IVisionCalculator VisionCalculator { get; set; }
 
         public Level()
         {
@@ -124,6 +126,11 @@ namespace Turnable.Locations
         public void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height)
         {
             Viewport = new Viewport(this, mapOriginX, mapOriginY, width, height);
+        }
+
+        public void SetUpVisionCalculator()
+        {
+            VisionCalculator = new VisionCalculator(this);
         }
     }
 }

@@ -207,6 +207,16 @@ namespace Tests.Locations
             Assert.AreEqual(5, _level.Viewport.Width);
             Assert.AreEqual(5, _level.Viewport.Height);
         }
+
+        // VisionCalculator
+        [TestMethod]
+        public void SetUpVisionCalculator_CreatesAVisionCalculatorForTheLevel()
+        {
+            _level.SetUpVisionCalculator();
+
+            Assert.IsNotNull(_level.VisionCalculator);
+            Assert.AreEqual(_level, _level.VisionCalculator.Level);
+        }
     }
 }
 

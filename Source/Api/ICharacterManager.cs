@@ -16,9 +16,13 @@ namespace Turnable.Api
         // Public interface
         // ----------------
 
+        // Method
+        void SetUpPlayer(int startingX, int startingY);
+
         // Properties
         ILevel Level { get; set; }
         IList<Entity> Characters { get; set; }
+        Entity Player { get; set; }
 
         // -----------------
         // Private interface

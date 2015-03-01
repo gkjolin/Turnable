@@ -26,7 +26,7 @@ namespace Turnable.Tiled
             TileHeight = (int)xTileset.Attribute("tileheight");
             Spacing = (int?)xTileset.Attribute("spacing") ?? 0;
             Margin = (int?)xTileset.Attribute("margin") ?? 0;
-
+            
             SpecialTiles = new Dictionary<uint, SpecialTile>();
             foreach (XElement xSpecialTile in xTileset.Elements("tile"))
             {
