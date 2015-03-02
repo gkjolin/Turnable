@@ -30,15 +30,15 @@ namespace Turnable.Characters
         public Movement MoveCharacterTo(Entity character, Position destination)
         {
             Movement movement = new Movement();
-            List<Position> path = new List<Position>();
+            movement.Path = new List<Position>();
 
-            path.Add(character.Get<Position>());
+            movement.Path.Add(character.Get<Position>());
 
             character.Remove<Position>();
             character.Add(destination);
             movement.Status = MovementStatus.Success;
 
-            path.Add(destination);
+            movement.Path.Add(destination);
 
             return movement;
         }

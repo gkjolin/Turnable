@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ILayer.cs" />
     <Compile Include="Api\IVisionCalculator.cs" />
     <Compile Include="Api\IViewport.cs" />
     <Compile Include="Api\ISetupParameters.cs" />

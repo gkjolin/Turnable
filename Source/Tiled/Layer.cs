@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Tuples;
 using System.Xml.Linq;
+using Turnable.Api;
+using Turnable.Components;
 
 namespace Turnable.Tiled
 {
-    public class Layer : IElement
+    public class Layer : IElement, ILayer
     {
         public string Name { get; set; }
         public double Opacity { get; private set; }
@@ -41,6 +43,26 @@ namespace Turnable.Tiled
             {
                 Properties = new PropertyDictionary();
             }
+        }
+
+        public void SetTile(Position position, uint globalId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EraseTile(Position position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveTile(Position currentPosition, Position newPosition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SwapTile(Position position1, Position position2)
+        {
+            throw new NotImplementedException();
         }
     }
 }
