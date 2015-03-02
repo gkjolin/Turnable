@@ -25,11 +25,11 @@ namespace Turnable.Api
 
         // Properties
         string Name { get; set; }
-        double Opacity { get; private set; }
-        bool IsVisible { get; private set; }
-        int Width { get; private set; }
-        int Height { get; private set; }
-        TileList Tiles { get; private set; }
-        PropertyDictionary Properties { get; private set; }
+        double Opacity { get; set; }
+        bool IsVisible { get; set; }
+        int Width { get; set; }
+        int Height { get; set; }
+        TileList Tiles { get; set; }
+        PropertyDictionary Properties { get; set; }
     }
 }

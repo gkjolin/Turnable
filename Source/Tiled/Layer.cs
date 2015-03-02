@@ -12,14 +12,14 @@ namespace Turnable.Tiled
     public class Layer : IElement, ILayer
     {
         public string Name { get; set; }
-        public double Opacity { get; private set; }
-        public bool IsVisible { get; private set; }
+        public double Opacity { get; set; }
+        public bool IsVisible { get; set; }
         // The .tmx specification https://github.com/marshallward/TiledSharp specifies that Width and Height are the same as the Width and Height of the map
         // However for convenience, we also set the Width and Height for each Layer of a Map during construction
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public TileList Tiles { get; private set; }
-        public PropertyDictionary Properties { get; private set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public TileList Tiles { get; set; }
+        public PropertyDictionary Properties { get; set; }
 
         public Layer(XElement xLayer)
         {

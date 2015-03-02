@@ -42,28 +42,28 @@ namespace Tests.Tiled
         // ************************
         // Layer Manipulation Tests
         // ************************
-        [TestMethod]
-        public void MoveTile_MovesATileToAnEmptyPositionInTheSameLayer()
-        {
-            Layer layer = new Layer(TiledFactory.BuildLayerXElement());
+        //[TestMethod]
+        //public void MoveTile_MovesATileToAnEmptyPositionInTheSameLayer()
+        //{
+        //    Layer layer = new Layer(TiledFactory.BuildLayerXElement());
 
-            int tileCount = layer.Tiles.Count;
-            uint tileGlobalId = layer.Tiles[new Tuple<int, int>(8, 7)].Gid;
+        //    int tileCount = layer.Tiles.Count;
+        //    uint tileGlobalId = layer.Tiles[new Tuple<int, int>(8, 7)].Gid;
 
-            layer.MoveTile(new Position(8, 7), new Position(8, 8));
+        //    layer.MoveTile(new Position(8, 7), new Position(8, 8));
 
-            Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(8, 7)));
-            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(8, 8)));
+        //    Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(8, 7)));
+        //    Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(8, 8)));
 
-            // Make sure that the tileCount does not change
-            Assert.AreEqual(tileCount, layer.Tiles.Count);
+        //    // Make sure that the tileCount does not change
+        //    Assert.AreEqual(tileCount, layer.Tiles.Count);
 
-            // Make sure that the tile data is changed as well
-            Tile tile = layer.Tiles[new Tuple<int, int>(8, 8)];
-            Assert.AreEqual(8, tile.X);
-            Assert.AreEqual(8, tile.Y);
-            Assert.AreEqual(tileGid, tile.Gid);
-        }
+        //    // Make sure that the tile data is changed as well
+        //    Tile tile = layer.Tiles[new Tuple<int, int>(8, 8)];
+        //    Assert.AreEqual(8, tile.X);
+        //    Assert.AreEqual(8, tile.Y);
+        //    Assert.AreEqual(tileGid, tile.Gid);
+        //}
 
         //[TestMethod]
         //[ExpectedException(typeof(InvalidOperationException))]
