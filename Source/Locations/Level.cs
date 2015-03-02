@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Tuples;
 using Turnable.Api;
+using Turnable.Characters;
 using Turnable.Components;
 using Turnable.Tiled;
 using Turnable.Vision;
@@ -131,6 +132,11 @@ namespace Turnable.Locations
         public void SetUpVisionCalculator()
         {
             VisionCalculator = new VisionCalculator(this);
+        }
+
+        public void SetUpCharacterManager()
+        {
+            CharacterManager = new CharacterManager(this);
         }
     }
 }

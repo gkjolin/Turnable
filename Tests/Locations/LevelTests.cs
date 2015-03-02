@@ -217,6 +217,16 @@ namespace Tests.Locations
             Assert.IsNotNull(_level.VisionCalculator);
             Assert.AreEqual(_level, _level.VisionCalculator.Level);
         }
+
+        // CharacterManager
+        [TestMethod]
+        public void SetUpCharacterManager_CreatesACharacterManagerForTheLevel()
+        {
+            _level.SetUpCharacterManager();
+
+            Assert.IsNotNull(_level.CharacterManager);
+            Assert.AreEqual(_level, _level.CharacterManager.Level);
+        }
     }
 }
 
