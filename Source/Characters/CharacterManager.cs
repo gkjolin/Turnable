@@ -27,7 +27,7 @@ namespace Turnable.Characters
             Player.Add(new Position(startingX, startingY));
         }
 
-        public Movement MoveCharacterTo(Entity character, Position destination)
+        public Movement MoveCharacter(Entity character, Position destination)
         {
             Movement movement = new Movement();
             movement.Path = new List<Position>();
@@ -44,6 +44,16 @@ namespace Turnable.Characters
             Level.SpecialLayers[SpecialLayer.Character].MoveTile(characterOrigin, destination);
 
             return movement;
+        }
+
+        public Movement MoveCharacter(Entity character, Direction direction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Movement MovePlayer(Direction direction)
+        {
+            throw new NotImplementedException();
         }
     }
 }

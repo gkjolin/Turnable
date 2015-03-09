@@ -18,7 +18,9 @@ namespace Turnable.Api
 
         // Method
         void SetUpPlayer(int startingX, int startingY);
-        Movement MoveCharacterTo(Entity character, Position destination);
+        Movement MoveCharacter(Entity character, Position destination);
+        Movement MoveCharacter(Entity character, Direction direction);
+        Movement MovePlayer(Direction direction);
 
         // Properties
         ILevel Level { get; set; }
