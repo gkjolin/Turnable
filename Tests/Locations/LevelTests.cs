@@ -68,7 +68,7 @@ namespace Tests.Locations
         public void IsCollidable_IfThereIsNoCollisionLayer_AlwaysReturnsFalse()
         {
             // The example level has a "wall" around the entire 15x15 level
-            _level.SpecialLayers.Remove(Level.SpecialLayer.Collision);
+            _level.SpecialLayers.Remove(SpecialLayer.Collision);
 
             Assert.IsFalse(_level.IsCollidable(new Position(0, 0)));
             Assert.IsFalse(_level.IsCollidable(new Position(0, 1)));
@@ -92,7 +92,7 @@ namespace Tests.Locations
         [TestMethod]
         public void SpecialLayerPropertyKey_ReturnsTheRightPropertyName()
         {
-            foreach (Level.SpecialLayer specialLayer in Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>())
+            foreach (SpecialLayer specialLayer in Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>())
             {
                 Assert.AreEqual("Is" + specialLayer.ToString() + "Layer", Level.SpecialLayerPropertyKey(specialLayer));
             }
@@ -105,20 +105,20 @@ namespace Tests.Locations
             _level.SpecialLayers.Clear();
             _level.InitializeSpecialLayers();
             
-            Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[Level.SpecialLayer.Background]);
-            Assert.AreEqual(_level.Map.Layers[1], _level.SpecialLayers[Level.SpecialLayer.Collision]);
-            Assert.AreEqual(_level.Map.Layers[2], _level.SpecialLayers[Level.SpecialLayer.Object]);
-            Assert.AreEqual(_level.Map.Layers[3], _level.SpecialLayers[Level.SpecialLayer.Character]);
+            Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
+            Assert.AreEqual(_level.Map.Layers[1], _level.SpecialLayers[SpecialLayer.Collision]);
+            Assert.AreEqual(_level.Map.Layers[2], _level.SpecialLayers[SpecialLayer.Object]);
+            Assert.AreEqual(_level.Map.Layers[3], _level.SpecialLayers[SpecialLayer.Character]);
         }
 
         [TestMethod]
         public void Level_SpecialLayerEnum_Defines4DifferentSpecialLayers()
         {
-            Assert.AreEqual(4, Enum.GetValues(typeof(Level.SpecialLayer)).Length);
-            Assert.IsTrue(Enum.IsDefined(typeof(Level.SpecialLayer), "Background"));
-            Assert.IsTrue(Enum.IsDefined(typeof(Level.SpecialLayer), "Collision"));
-            Assert.IsTrue(Enum.IsDefined(typeof(Level.SpecialLayer), "Object"));
-            Assert.IsTrue(Enum.IsDefined(typeof(Level.SpecialLayer), "Character"));
+            Assert.AreEqual(4, Enum.GetValues(typeof(SpecialLayer)).Length);
+            Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Background"));
+            Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Collision"));
+            Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Object"));
+            Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Character"));
         }
 
         [TestMethod]
@@ -126,9 +126,9 @@ namespace Tests.Locations
         {
             // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
             _level.SpecialLayers.Clear();
-            var values = Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>();
+            var values = Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>();
 
-            foreach (Level.SpecialLayer specialLayer in Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>())
+            foreach (SpecialLayer specialLayer in Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>())
             {
                 _level.SpecialLayers[specialLayer] = _level.Map.Layers[0];
                 Assert.AreEqual("true", _level.Map.Layers[0].Properties["Is" + specialLayer.ToString() + "Layer"]);
@@ -140,8 +140,8 @@ namespace Tests.Locations
         public void SpecialLayers_SettingASpecialLayerWhenTheSpecificSpecialLayerAlreadyExists_ThrowsException()
         {
             // Usually special layers requires quite a bit of processing by the framework. For example, processing the character layer sets up teams, NPCs, PCs etc. Once the processing is done for a special layer, there is no easy way currently to undo and redo processing for a new layer. We therefore throw an exception to prevent a special layer being reassigned to another layer.
-            _level.SpecialLayers[Level.SpecialLayer.Background] = _level.Map.Layers[0];
-            _level.SpecialLayers[Level.SpecialLayer.Background] = _level.Map.Layers[1];
+            _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[0];
+            _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[1];
         }
 
         [TestMethod]
@@ -149,9 +149,9 @@ namespace Tests.Locations
         {
             // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
             _level.SpecialLayers.Clear();
-            _level.SpecialLayers[Level.SpecialLayer.Background] = _level.Map.Layers[0];
+            _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[0];
 
-            Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[Level.SpecialLayer.Background]);
+            Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
         }
 
         [TestMethod]
@@ -159,9 +159,9 @@ namespace Tests.Locations
         {
             // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
             _level.SpecialLayers.Clear();
-            _level.SpecialLayers[Level.SpecialLayer.Character] = _level.Map.Layers[0];
+            _level.SpecialLayers[SpecialLayer.Character] = _level.Map.Layers[0];
 
-            Assert.IsNull(_level.SpecialLayers[Level.SpecialLayer.Background]);
+            Assert.IsNull(_level.SpecialLayers[SpecialLayer.Background]);
         }
 
         // -------

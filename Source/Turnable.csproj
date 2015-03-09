@@ -67,6 +67,7 @@
     <Compile Include="Locations\Level.cs" />
     <Compile Include="Locations\Movement.cs" />
     <Compile Include="Locations\MovementStatus.cs" />
+    <Compile Include="Locations\SpecialLayer.cs" />
     <Compile Include="Locations\Viewport.cs" />
     <Compile Include="Models\ModelManager.cs" />
     <Compile Include="Pathfinding\NodeList.cs" />

@@ -48,7 +48,7 @@ namespace Turnable.Locations
         {
             foreach (Layer layer in Map.Layers)
             {
-                foreach (Level.SpecialLayer specialLayer in Enum.GetValues(typeof(Level.SpecialLayer)).Cast<Level.SpecialLayer>())
+                foreach (SpecialLayer specialLayer in Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>())
                 {
                     string key = Level.SpecialLayerPropertyKey(specialLayer);
 
@@ -73,22 +73,14 @@ namespace Turnable.Locations
             return (collisionLayer.Tiles.ContainsKey(new Tuple<int, int>(position.X, position.Y)));
         }
 
-        public enum SpecialLayer
-        {
-            Background,
-            Collision,
-            Object,
-            Character
-        }
-
         public static string SpecialLayerPropertyKey(SpecialLayer specialLayer)
         {
             return "Is" + specialLayer.ToString() + "Layer";
         }
 
-        public class SpecialLayersCollection : Dictionary<Level.SpecialLayer, Layer>
+        public class SpecialLayersCollection : Dictionary<SpecialLayer, Layer>
         {
-            public new Layer this[Level.SpecialLayer index]
+            public new Layer this[SpecialLayer index]
             {
                 get
                 {

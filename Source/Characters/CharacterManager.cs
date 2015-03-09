@@ -31,14 +31,17 @@ namespace Turnable.Characters
         {
             Movement movement = new Movement();
             movement.Path = new List<Position>();
+            Position characterOrigin = character.Get<Position>();
 
-            movement.Path.Add(character.Get<Position>());
+            movement.Path.Add(characterOrigin);
 
             character.Remove<Position>();
             character.Add(destination);
             movement.Status = MovementStatus.Success;
 
             movement.Path.Add(destination);
+
+            Level.SpecialLayers[SpecialLayer.Character].MoveTile(characterOrigin, destination);
 
             return movement;
         }
