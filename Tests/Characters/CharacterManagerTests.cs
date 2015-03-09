@@ -139,7 +139,7 @@ namespace Tests.Characters
         {
             Entity character = _characterManager.Player;
             Position currentPosition = character.Get<Position>();
-            Position newPosition = new Position(currentPosition.X - 1, currentPosition.Y - 1);
+            Position newPosition = new Position(currentPosition.X - 1, currentPosition.Y);
 
             Movement movement = _characterManager.MoveCharacterTo(character, newPosition);
 

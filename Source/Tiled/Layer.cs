@@ -47,22 +47,55 @@ namespace Turnable.Tiled
 
         public void SetTile(Position position, uint globalId)
         {
-            throw new NotImplementedException();
+            if (Tiles.ContainsKey(new Tuple<int, int>(position.X, position.Y)))
+            {
+                throw new InvalidOperationException();
+            }
+
+            Tiles[new Tuple<int, int>(position.X, position.Y)] = new Tile((uint)globalId, position.X, position.Y);
         }
 
-        public void EraseTile(Position position)
+        public void RemoveTile(Position position)
         {
-            throw new NotImplementedException();
+            Tiles.Remove(new Tuple<int, int>(position.X, position.Y));
         }
 
         public void MoveTile(Position currentPosition, Position newPosition)
         {
-            throw new NotImplementedException();
+            if (!Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)))
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)))
+            {
+                throw new InvalidOperationException();
+            }
+
+            Tile existingTile = Tiles[new Tuple<int, int>(currentPosition.X, currentPosition.Y)];
+            Tile newTile = new Tile(existingTile.GlobalId, newPosition.X, newPosition.Y);
+            SetTile(newPosition, existingTile.GlobalId);
+            RemoveTile(currentPosition);
         }
 
         public void SwapTile(Position position1, Position position2)
         {
-            throw new NotImplementedException();
+            if (!Tiles.ContainsKey(new Tuple<int, int>(position1.X, position1.Y)))
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (!Tiles.ContainsKey(new Tuple<int, int>(position2.X, position2.Y)))
+            {
+                throw new InvalidOperationException();
+            }
+
+            Tile tile1 = Tiles[new Tuple<int, int>(position1.X, position1.Y)];
+            Tile tile2 = Tiles[new Tuple<int, int>(position2.X, position2.Y)];
+            RemoveTile(position1);
+            RemoveTile(position2);
+            SetTile(position1, tile2.GlobalId);
+            SetTile(position2, tile1.GlobalId);
         }
     }
 }

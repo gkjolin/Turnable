@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Tiled;
 using Tests.Factories;
 using System.Tuples;
+using Turnable.Components;
 
 namespace Tests.Tiled
 {
@@ -42,71 +43,135 @@ namespace Tests.Tiled
         // ************************
         // Layer Manipulation Tests
         // ************************
-        //[TestMethod]
-        //public void MoveTile_MovesATileToAnEmptyPositionInTheSameLayer()
-        //{
-        //    Layer layer = new Layer(TiledFactory.BuildLayerXElement());
+        [TestMethod]
+        public void MoveTile_MovesATileToAnEmptyPositionInTheSameLayer()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 
-        //    int tileCount = layer.Tiles.Count;
-        //    uint tileGlobalId = layer.Tiles[new Tuple<int, int>(8, 7)].Gid;
+            int tileCount = layer.Tiles.Count;
+            uint tileGlobalId = layer.Tiles[new Tuple<int, int>(6, 1)].GlobalId;
 
-        //    layer.MoveTile(new Position(8, 7), new Position(8, 8));
+            layer.MoveTile(new Position(6, 1), new Position(6, 2));
 
-        //    Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(8, 7)));
-        //    Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(8, 8)));
+            Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(6, 1)));
+            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(6, 2)));
 
-        //    // Make sure that the tileCount does not change
-        //    Assert.AreEqual(tileCount, layer.Tiles.Count);
+            // Make sure that the tileCount does not change
+            Assert.AreEqual(tileCount, layer.Tiles.Count);
 
-        //    // Make sure that the tile data is changed as well
-        //    Tile tile = layer.Tiles[new Tuple<int, int>(8, 8)];
-        //    Assert.AreEqual(8, tile.X);
-        //    Assert.AreEqual(8, tile.Y);
-        //    Assert.AreEqual(tileGid, tile.Gid);
-        //}
+            // Make sure that the tile data is changed as well
+            Tile tile = layer.Tiles[new Tuple<int, int>(6, 2)];
+            Assert.AreEqual(6, tile.X);
+            Assert.AreEqual(2, tile.Y);
+            Assert.AreEqual(tileGlobalId, tile.GlobalId);
+        }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(InvalidOperationException))]
-        //public void MoveATile_WhenNoTileExistsAtTheLayer_MovingANonExistantTile_Fails()
-        //{
-        //    Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void MoveTile_WhenNoTileExistsAtThePositionInTheLayer_ThrowsAnException()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 
-        //    layer.MoveTile(new Position(7, 2), new Position(7, 3));
-        //}
+            layer.MoveTile(new Position(7, 2), new Position(7, 3));
+        }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(InvalidOperationException))]
-        //public void Layer_MovingATileToAnOccupiedPosition_Fails()
-        //{
-        //    Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void MoveTile_WhenDestinationIsOccupied_ThrowsAnException()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 
-        //    layer.MoveTile(new Position(8, 7), new Position(7, 14));
-        //}
+            layer.MoveTile(new Position(6, 1), new Position(5, 13));
+        }
 
-        //[TestMethod]
-        //public void Layer_SettingATile_IsSuccessful()
-        //{
-        //    Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
+        [TestMethod]
+        public void SwapTile_SwapsTwoTilesInTheSameLayer()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 
-        //    layer.SetTile(new Position(7, 2), 200);
-        //    layer.SetTile(new Position(7, 3), 2108);
+            int tileCount = layer.Tiles.Count;
+            uint tile1GlobalId = layer.Tiles[new Tuple<int, int>(6, 1)].GlobalId;
+            uint tile2GlobalId = layer.Tiles[new Tuple<int, int>(5, 13)].GlobalId;
 
-        //    Assert.AreEqual((uint)200, layer.Tiles[new Tuple<int, int>(7, 2)].Gid);
-        //    Assert.AreEqual(7, layer.Tiles[new Tuple<int, int>(7, 2)].X);
-        //    Assert.AreEqual(2, layer.Tiles[new Tuple<int, int>(7, 2)].Y);
-        //    Assert.AreEqual((uint)2108, layer.Tiles[new Tuple<int, int>(7, 3)].Gid);
-        //    Assert.AreEqual(7, layer.Tiles[new Tuple<int, int>(7, 3)].X);
-        //    Assert.AreEqual(3, layer.Tiles[new Tuple<int, int>(7, 3)].Y);
-        //}
+            layer.SwapTile(new Position(6, 1), new Position(5, 13));
 
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException))]
-        //public void Layer_SettingATileThatIsAlreadySet_Fails()
-        //{
-        //    Layer layer = new Layer(TmxFactory.BuildLayerXElementWithProperties());
+            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(6, 1)));
+            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(5, 13)));
 
-        //    layer.SetTile(new Position(7, 2), 2107);
-        //    layer.SetTile(new Position(7, 2), 2107);
-        //}
+            // Make sure that the tileCount does not change
+            Assert.AreEqual(tileCount, layer.Tiles.Count);
+
+            // Make sure that the tile data is changed as well
+            Tile tile = layer.Tiles[new Tuple<int, int>(5, 13)];
+            Assert.AreEqual(5, tile.X);
+            Assert.AreEqual(13, tile.Y);
+            Assert.AreEqual(tile1GlobalId, tile.GlobalId);
+            tile = layer.Tiles[new Tuple<int, int>(6, 1)];
+            Assert.AreEqual(6, tile.X);
+            Assert.AreEqual(1, tile.Y);
+            Assert.AreEqual(tile2GlobalId, tile.GlobalId);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void SwapTile_WhenNoTileExistsInTheFirstPosition_ThrowsAnException()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            layer.SwapTile(new Position(7, 2), new Position(5, 13));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void SwapTile_WhenNoTileExistsInTheSecondPosition_ThrowsAnException()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            layer.SwapTile(new Position(6, 1), new Position(7, 2));
+        }
+
+        [TestMethod]
+        public void SetTile_SuccessfullySetsATileAtAnEmptyPosition()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            layer.SetTile(new Position(7, 2), 200);
+
+            Assert.AreEqual((uint)200, layer.Tiles[new Tuple<int, int>(7, 2)].GlobalId);
+            Assert.AreEqual(7, layer.Tiles[new Tuple<int, int>(7, 2)].X);
+            Assert.AreEqual(2, layer.Tiles[new Tuple<int, int>(7, 2)].Y);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void SetTile_WhenATileAlreadyExistsAtThePosition_ThrowsAnException()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            layer.SetTile(new Position(7, 2), 2107);
+            layer.SetTile(new Position(7, 2), 2107);
+        }
+
+        [TestMethod]
+        public void RemoveTile_GivenAPosition_RemovesTheTileThatExistsAtThatPosition()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            layer.SetTile(new Position(7, 2), 2107);
+            int tileCount = layer.Tiles.Count;
+            layer.RemoveTile(new Position(7, 2));
+
+            Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(7, 2)));
+            Assert.AreEqual(tileCount - 1, layer.Tiles.Count);
+        }
+
+        [TestMethod]
+        public void RemoveTile_GivenAPositionThatHasNoTileToRemove_FailsWithoutThrowingAnException()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            layer.RemoveTile(new Position(7, 2));
+            layer.RemoveTile(new Position(7, 2));
+        }
     }
 }

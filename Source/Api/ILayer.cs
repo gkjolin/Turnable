@@ -15,7 +15,7 @@ namespace Turnable.Api
 
         // Methods
         void SetTile(Position position, uint globalId);
-        void EraseTile(Position position);
+        void RemoveTile(Position position);
         void MoveTile(Position currentPosition, Position newPosition);
         void SwapTile(Position position1, Position position2);
 

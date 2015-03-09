@@ -31,6 +31,11 @@ namespace Tests.Factories
             return (XDocument.Load("../../Fixtures/MinimalBase64ZlibCompressed.tmx").Element("map").Elements("layer").First<XElement>());
         }
 
+        public static XElement BuildLayerXElementWithProperties()
+        {
+            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>());
+        }
+
         // Tilesets
         public static Tileset BuildTileset()
         {
