@@ -216,8 +216,9 @@ namespace Tests.Characters
         //}
 
         [TestMethod]
-        public void MoveCharacter_GivenACharacterAndADirection_DelegatesToMoveCharacter()
+        public void MoveCharacter_GivenACharacterAndADirection_DelegatesToMoveCharacterWithACharacterAndANewPosition()
         {
+            Assert.IsFalse(true);
             //Entity character = _characterManager.Characters[0];
             //Position currentPosition = character.Get<Position>();
             //Mock<CharacterManager> characterManagerMock = new Mock<CharacterManager>() { CallBase = true };

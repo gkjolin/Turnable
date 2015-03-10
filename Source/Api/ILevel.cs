@@ -38,5 +38,6 @@ namespace Turnable.Api
         void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height);
         void SetUpVisionCalculator();
         void SetUpCharacterManager();
+        void SetUpModelManager();
     }
 }

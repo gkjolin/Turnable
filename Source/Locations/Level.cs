@@ -6,6 +6,7 @@ using System.Tuples;
 using Turnable.Api;
 using Turnable.Characters;
 using Turnable.Components;
+using Turnable.Models;
 using Turnable.Tiled;
 using Turnable.Vision;
 
@@ -106,6 +107,9 @@ namespace Turnable.Locations
             }
         }
 
+        // -------------
+        // SetUp methods
+        // -------------
         public void SetUpViewport()
         {
             Viewport = new Viewport(this);
@@ -129,6 +133,11 @@ namespace Turnable.Locations
         public void SetUpCharacterManager()
         {
             CharacterManager = new CharacterManager(this);
+        }
+
+        public void SetUpModelManager()
+        {
+            ModelManager = new ModelManager(this);
         }
     }
 }

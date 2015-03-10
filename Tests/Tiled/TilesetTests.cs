@@ -22,7 +22,7 @@ namespace Tests.Tiled
 
             // Have all the special tiles been loaded?
             Assert.AreEqual(1, tileset.SpecialTiles.Count);
-            Assert.AreEqual(1, tileset.SpecialTiles[0].Properties.Count);
+            Assert.AreEqual(1, tileset.SpecialTiles[332].Properties.Count);
         }
     }
 }

@@ -227,6 +227,17 @@ namespace Tests.Locations
             Assert.IsNotNull(_level.CharacterManager);
             Assert.AreEqual(_level, _level.CharacterManager.Level);
         }
+
+        // ModelManager
+        [TestMethod]
+        public void SetUpModelManager_CreatesAModelManagerForTheLevel()
+        {
+            _level.SetUpModelManager();
+
+            Assert.IsNotNull(_level.ModelManager);
+            Assert.AreEqual(_level, _level.ModelManager.Level);
+        }
+
     }
 }
 
