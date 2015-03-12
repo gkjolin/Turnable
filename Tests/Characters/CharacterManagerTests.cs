@@ -24,7 +24,7 @@ namespace Tests.Characters
         {
             _level = LocationsFactory.BuildLevel();
             _characterManager = new CharacterManager(_level);
-            _characterManager.SetUpPlayer(2, 13);
+            _characterManager.SetUpPcs();
         }
 
         [TestMethod]
@@ -38,31 +38,14 @@ namespace Tests.Characters
         }
 
         [TestMethod]
-        public void SetUpPlayer_InitializesThePlayerEntity()
+        public void SetUpPcs_InitializesThePositionOfAllPcs()
         {
             CharacterManager characterManager = new CharacterManager(_level);
-            characterManager.SetUpPlayer(2, 13);
+            characterManager.SetUpPcs();
 
             Assert.IsNotNull(characterManager.Player);
-            Assert.AreEqual(new Position(2, 13), characterManager.Player.Get<Position>());
+            Assert.AreEqual(new Position(6, 1), characterManager.Player.Get<Position>());
         }
-
-        //[TestMethod]
-        //public void SettingUpPcs_InitializesThePositionsOfAllPcs()
-        //{
-        //    CharacterManager characterManager = new CharacterManager(_level);
-        //    characterManager.SetUpPcs(["Knight M"], 7, 1);
-
-        //    Assert.IsNotNull(characterManager.Player);
-        //    Assert.AreEqual(1, characterManager.Characters.Count);
-        //    Assert.AreEqual(new Position(7, 1), characterManager.Player.GetComponent<Position>());
-        //    Assert.AreEqual("Knight M", characterManager.Player.GetComponent<Model>().Name);
-        //    Assert.AreEqual(_levelWithoutCharacters, characterManager.Player.GetComponent<OnLevel>().Level);
-
-        //     Is a TurnQueue setup with the Player taking the first turn?
-        //    Assert.IsNotNull(characterManager.TurnQueue);
-        //    Assert.AreEqual(characterManager.Player, characterManager.TurnQueue[0]);
-        //}
 
         //private IWorld _world;
         //private ILevel _levelWithoutCharacters;

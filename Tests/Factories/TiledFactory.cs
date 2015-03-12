@@ -52,15 +52,10 @@ namespace Tests.Factories
         //    return (XDocument.Load("../../Fixtures/FullExampleWithExternalTilesetReference.tmx").Element("map").Elements("tileset").Last<XElement>());
         //}
 
-        //public static XElement BuildTilesetXElementWithSpecialTiles()
-        //{
-        //    return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>());
-        //}
-
-        //public static XElement BuildLayerXElementWithProperties()
-        //{
-        //    return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>());
-        //}
+        public static XElement BuildTilesetXElementWithSpecialTiles()
+        {
+            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>());
+        }
 
         // Data
         public static Data BuildDataWithNoTiles()

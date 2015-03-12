@@ -16,11 +16,12 @@ namespace Turnable.Api
         // Public interface
         // ----------------
 
-        // Method
-        void SetUpPlayer(int startingX, int startingY);
+        // Methods
         Movement MoveCharacter(Entity character, Position destination);
         Movement MoveCharacter(Entity character, Direction direction);
         Movement MovePlayer(Direction direction);
+        void SetUpPcs();
+        void SetUpNpcs();
 
         // Properties
         ILevel Level { get; set; }

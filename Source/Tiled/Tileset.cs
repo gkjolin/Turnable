@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Turnable.Api;
 
 namespace Turnable.Tiled
 {
-    public class Tileset : IElement
+    public class Tileset : IElement, ITileset
     {
         public string Name { get; private set; }
         public uint FirstGlobalId { get; private set; }
@@ -34,6 +35,19 @@ namespace Turnable.Tiled
 
                 SpecialTiles[specialTile.Id] = specialTile;
             }
+        }
+
+        public SpecialTile FindSpecialTile(string propertyName, string propertyValue)
+        {
+            foreach (SpecialTile specialTile in SpecialTiles.Values)
+            {
+                if (specialTile.Properties[propertyName] != null && specialTile.Properties[propertyName] == propertyValue)
+                {
+                    return specialTile;
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -24,6 +24,27 @@ namespace Tests.Tiled
             Assert.AreEqual(1, tileset.SpecialTiles.Count);
             Assert.AreEqual(1, tileset.SpecialTiles[332].Properties.Count);
         }
+
+        [TestMethod]
+        public void FindSpecialTile_FindsASpecialTileWithASpecificPropertyNameAndValue()
+        {
+            Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElementWithSpecialTiles());
+
+            SpecialTile specialTile = tileset.FindSpecialTile("IsPC", "true");
+
+            Assert.IsNotNull(specialTile);
+            Assert.AreEqual("true", specialTile.Properties["IsPC"]);
+        }
+
+        [TestMethod]
+        public void FindSpecialTile_WhenGivenAPropertyNameThatDoesNotExist_ReturnsNull()
+        {
+            Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElementWithSpecialTiles());
+
+            SpecialTile specialTile = tileset.FindSpecialTile("UnknownPropertyName", "true");
+
+            Assert.IsNull(specialTile);
+        }
     }
 }
 
