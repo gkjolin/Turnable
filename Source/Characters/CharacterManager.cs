@@ -62,7 +62,6 @@ namespace Turnable.Characters
             }
 
             // TODO: Test that a missing playerTile still allows SetUpPcs to succeed.
-
             foreach (Tile tile in Level.SpecialLayers[SpecialLayer.Character].Tiles.Values)
             {
                 if (tile.GlobalId == playerTile.GlobalId)
