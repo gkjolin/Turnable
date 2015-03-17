@@ -117,6 +117,19 @@ namespace Tests.Characters
         //    characterManager.SetUpPc("Missing Model", 1, 1);
         //}
 
+        private void AssertSuccessfulMovement(Movement movement, Entity character, Position startingPosition, Position newPosition)
+        {
+            Assert.AreEqual(MovementStatus.Success, movement.Status);
+            Assert.AreEqual(newPosition, character.Get<Position>());
+            Assert.AreEqual(2, movement.Path.Count);
+            Assert.AreEqual(startingPosition, movement.Path[0]);
+            Assert.AreEqual(newPosition, movement.Path[1]);
+
+            // Check to see if the tile in the map was moved as well
+            Assert.IsFalse(_level.SpecialLayers[SpecialLayer.Character].Tiles.ContainsKey(new Tuple<int, int>(startingPosition.X, startingPosition.Y)));
+            Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)));
+        }
+
         [TestMethod]
         public void MoveCharacter_GivenACharacterAndAPosition_MovesTheCharacterToTheNewPosition()
         {
@@ -126,15 +139,7 @@ namespace Tests.Characters
 
             Movement movement = _characterManager.MoveCharacter(character, newPosition);
 
-            Assert.AreEqual(MovementStatus.Success, movement.Status);
-            Assert.AreEqual(newPosition, character.Get<Position>());
-            Assert.AreEqual(2, movement.Path.Count);
-            Assert.AreEqual(currentPosition, movement.Path[0]);
-            Assert.AreEqual(newPosition, movement.Path[1]);
-
-            // Check to see if the tile in the map was moved as well
-            Assert.IsFalse(_level.SpecialLayers[SpecialLayer.Character].Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)));
-            Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)));
+            AssertSuccessfulMovement(movement, character, currentPosition, newPosition);
         }
 
         //[TestMethod]
@@ -199,56 +204,32 @@ namespace Tests.Characters
         //}
 
         [TestMethod]
-        public void MoveCharacter_GivenACharacterAndADirection_DelegatesToMoveCharacterWithACharacterAndANewPosition()
+        public void MoveCharacter_GivenACharacterAndADirection_MovesTheCharacterOneStepInTheGivenDirection()
         {
-            Assert.IsFalse(true);
-            //Entity character = _characterManager.Characters[0];
-            //Position currentPosition = character.Get<Position>();
-            //Mock<CharacterManager> characterManagerMock = new Mock<CharacterManager>() { CallBase = true };
-            //characterManagerMock.Setup(cm => cm.MoveCharacter(It.IsAny<Entity>(), It.IsAny<Position>()));
+            Entity character = _characterManager.Player;
+            Position currentPosition = character.Get<Position>();
 
-            //foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            //{
-
-            //}
-
-
-            //characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X - 1, currentPosition.Y)));
-
-            //characterManagerMock.Object.MoveCharacter(character, Direction.East);
-            //characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X + 1, currentPosition.Y)));
-
-            //characterManagerMock.Object.MoveCharacter(character, Direction.North);
-            //characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X, currentPosition.Y + 1)));
-
-            //characterManagerMock.Object.MoveCharacter(character, Direction.South);
-            //characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X, currentPosition.Y - 1)));
-
-            //characterManagerMock.Object.MoveCharacter(character, Direction.NorthWest);
-            //characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X - 1, currentPosition.Y + 1)));
-
-            //characterManagerMock.Object.MoveCharacter(character, Direction.NorthEast);
-            //characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X + 1, currentPosition.Y + 1)));
-
-            //characterManagerMock.Object.MoveCharacter(character, Direction.SouthWest);
-            //characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X - 1, currentPosition.Y - 1)));
-
-            //characterManagerMock.Object.MoveCharacter(character, Direction.SouthEast);
-            //characterManagerMock.Verify(cm => cm.MoveCharacterTo(character, new Position(currentPosition.X + 1, currentPosition.Y - 1)));
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                Movement movement = _characterManager.MoveCharacter(character, direction);
+                AssertSuccessfulMovement(movement, character, currentPosition, currentPosition.NeighboringPosition(direction));
+                currentPosition = character.Get<Position>();
+            }
         }
 
-        //[TestMethod]
-        //public void CharacterManager_TryingToMovePlayer_DelegatesToMoveCharacter()
-        //{
-        //    Entity player = _characterManager.Player;
-        //    Mock<CharacterManager> characterManagerMock = new Mock<CharacterManager>() { CallBase = true };
-        //    characterManagerMock.Setup(cm => cm.Player).Returns(player);
-        //    characterManagerMock.Setup(cm => cm.MoveCharacter(It.IsAny<Entity>(), It.IsAny<Direction>()));
+        [TestMethod]
+        public void MovePlayer_GivenADirectionMovesThePlayerOneStepInTheGivenDirection()
+        {
+            Entity character = _characterManager.Player;
+            Position currentPosition = character.Get<Position>();
 
-        //    characterManagerMock.Object.MovePlayer(Direction.South);
-
-        //    characterManagerMock.Verify(cm => cm.MoveCharacter(player, Direction.South));
-        //}
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                Movement movement = _characterManager.MovePlayer(direction);
+                AssertSuccessfulMovement(movement, character, currentPosition, currentPosition.NeighboringPosition(direction));
+                currentPosition = character.Get<Position>();
+            }
+        }
 
         //[TestMethod]
         //public void CharacterManager_CanDetermineIfThereIsACharacterAtALocation()

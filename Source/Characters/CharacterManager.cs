@@ -43,12 +43,12 @@ namespace Turnable.Characters
 
         public Movement MoveCharacter(Entity character, Direction direction)
         {
-            throw new NotImplementedException();
+            return MoveCharacter(character, character.Get<Position>().NeighboringPosition(direction));
         }
 
         public Movement MovePlayer(Direction direction)
         {
-            throw new NotImplementedException();
+            return MoveCharacter(Player, Player.Get<Position>().NeighboringPosition(direction));
         }
 
         public void SetUpPcs()
