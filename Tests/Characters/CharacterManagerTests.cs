@@ -18,6 +18,8 @@ namespace Tests.Characters
     {
         private ILevel _level;
         private ICharacterManager _characterManager;
+        private bool _characterMovedEventTriggeredFlag;
+        private CharacterMovedEventArgs _characterMovedEventArgs;
 
         [TestInitialize]
         public void Initialize()
@@ -231,6 +233,18 @@ namespace Tests.Characters
             }
         }
 
+        [TestMethod]
+        public void MoveCharacter_RaisesACharacterMovedEvent()
+        {
+            _characterManager.CharacterMoved += this.SetCharacterMovedEventTriggeredFlag;
+
+            _characterManager.MoveCharacter(_characterManager.Player, new Position(1, 1));
+
+            Assert.IsTrue(_characterMovedEventTriggeredFlag);
+            Assert.AreEqual(_characterMovedEventArgs.Character, _characterManager.Player);
+            Assert.IsNotNull(_characterMovedEventArgs.Movement);
+        }
+
         //[TestMethod]
         //public void CharacterManager_CanDetermineIfThereIsACharacterAtALocation()
         //{
@@ -249,27 +263,12 @@ namespace Tests.Characters
         //    Assert.AreEqual(firstCharacter, _characterManager.TurnQueue[_characterManager.TurnQueue.Count - 1]);
         //}
 
-        //private void SetEventTriggeredFlag(object sender, EventArgs e)
-        //{
-        //    _eventTriggeredFlag = true;
-        //    _eventArgs = (EntityEventArgs)e;
-        //}
-
         //[TestMethod]
         //public void CharacterManager_EndingTurn_RaisesACharacterTurnEndedEvent()
         //{
         //    // TODO: How do I check that the EntityEventArgs are correctly set?
         //    _characterManager.CharacterTurnEnded += this.SetEventTriggeredFlag;
         //    _characterManager.EndTurn();
-        //    Assert.IsTrue(_eventTriggeredFlag);
-        //}
-
-        //[TestMethod]
-        //public void CharacterManager_MovingCharacterToAPosition_RaisesACharacterMovedEvent()
-        //{
-        //    // TODO: How do I check that the EntityEventArgs are correctly set?
-        //    _characterManager.CharacterMoved += this.SetEventTriggeredFlag;
-        //    _characterManager.MoveCharacterTo(_characterManager.Characters[0], new Position(1, 1));
         //    Assert.IsTrue(_eventTriggeredFlag);
         //}
 
@@ -312,5 +311,10 @@ namespace Tests.Characters
         //    Assert.AreEqual(entityToDestroy, ((EntityEventArgs)_eventArgs).Entity);
         //}
 
+        private void SetCharacterMovedEventTriggeredFlag(object sender, CharacterMovedEventArgs e)
+        {
+            _characterMovedEventTriggeredFlag = true;
+            _characterMovedEventArgs = (CharacterMovedEventArgs)e;
+        }
     }
 }

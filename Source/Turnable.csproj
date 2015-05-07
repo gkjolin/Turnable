@@ -61,6 +61,7 @@
     <Compile Include="Api\ILevel.cs" />
     <Compile Include="Api\IPathfinder.cs" />
     <Compile Include="Characters\CharacterManager.cs" />
+    <Compile Include="Characters\CharacterMovedEventArgs.cs" />
     <Compile Include="Components\TeamMembership.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Locations\LevelSetupParameters.cs" />

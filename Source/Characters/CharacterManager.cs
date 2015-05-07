@@ -28,15 +28,16 @@ namespace Turnable.Characters
             movement.Path = new List<Position>();
             Position characterOrigin = character.Get<Position>();
 
-            movement.Path.Add(characterOrigin);
-
             character.Remove<Position>();
             character.Add(destination);
+            
             movement.Status = MovementStatus.Success;
-
+            movement.Path.Add(characterOrigin);
             movement.Path.Add(destination);
 
             Level.SpecialLayers[SpecialLayer.Character].MoveTile(characterOrigin, destination);
+            
+            OnCharacterMoved(new CharacterMovedEventArgs(character, movement));
 
             return movement;
         }
@@ -81,5 +82,15 @@ namespace Turnable.Characters
             Player = new Entity();
             Player.Add(new Position(startingX, startingY));
         }
+        
+        protected virtual void OnCharacterMoved(CharacterMovedEventArgs e)
+        {
+            if (CharacterMoved != null)
+            {
+                CharacterMoved(this, e);
+            }
+        }
+
+        public event EventHandler<CharacterMovedEventArgs> CharacterMoved;
     }
 }
