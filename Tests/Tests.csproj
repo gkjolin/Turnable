@@ -70,6 +70,7 @@
     <Compile Include="Components\PositionTests.cs" />
     <Compile Include="Factories\LocationsFactory.cs" />
     <Compile Include="Factories\TiledFactory.cs" />
+    <Compile Include="Inspectors\LevelInspectorTests.cs" />
     <Compile Include="Locations\LevelSetupParametersTests.cs" />
     <Compile Include="Locations\LevelTests.cs" />
     <Compile Include="Locations\ViewportTests.cs" />

@@ -64,6 +64,7 @@
     <Compile Include="Characters\CharacterMovedEventArgs.cs" />
     <Compile Include="Components\TeamMembership.cs" />
     <Compile Include="Components\Position.cs" />
+    <Compile Include="Inspectors\LevelInspector.cs" />
     <Compile Include="Locations\LevelSetupParameters.cs" />
     <Compile Include="Locations\Direction.cs" />
     <Compile Include="Locations\Level.cs" />
