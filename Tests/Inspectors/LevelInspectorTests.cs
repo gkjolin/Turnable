@@ -24,5 +24,7 @@ namespace Tests.Inspectors
 
             Assert.AreEqual(_level, levelInspector.Level);
         }
+
+        
     }
 }
