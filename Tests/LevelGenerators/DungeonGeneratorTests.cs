@@ -22,7 +22,7 @@ namespace Tests.LevelGenerators
         {
             Chunk initialChunk = new Chunk(new Position(0, 0), 100, 100);
 
-            BinaryTree<Chunk> chunkTree = _dungeonGenerator.GenerateFrom(initialChunk);
+            List<Chunk> randomChunks = _dungeonGenerator.GenerateFrom(initialChunk);
         }
     }
 }
