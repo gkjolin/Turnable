@@ -65,6 +65,9 @@
     <Compile Include="Components\TeamMembership.cs" />
     <Compile Include="Components\Position.cs" />
     <Compile Include="Inspectors\LevelInspector.cs" />
+    <Compile Include="LevelGenerators\Chunk.cs" />
+    <Compile Include="LevelGenerators\DungeonGenerator.cs" />
+    <Compile Include="LevelGenerators\SplitDirection.cs" />
     <Compile Include="Locations\LevelSetupParameters.cs" />
     <Compile Include="Locations\Direction.cs" />
     <Compile Include="Locations\Level.cs" />
