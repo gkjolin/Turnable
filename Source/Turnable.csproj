@@ -64,8 +64,10 @@
     <Compile Include="Characters\CharacterMovedEventArgs.cs" />
     <Compile Include="Components\TeamMembership.cs" />
     <Compile Include="Components\Position.cs" />
+    <Compile Include="DataStructures\BinaryTree.cs" />
     <Compile Include="Inspectors\LevelInspector.cs" />
     <Compile Include="LevelGenerators\Chunk.cs" />
+    <Compile Include="LevelGenerators\DungeonGenerationParamters.cs" />
     <Compile Include="LevelGenerators\DungeonGenerator.cs" />
     <Compile Include="LevelGenerators\SplitDirection.cs" />
     <Compile Include="Locations\LevelSetupParameters.cs" />
@@ -105,6 +107,7 @@
   <ItemGroup>
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "C:\git\PocketTales\Assets\Libraries"</PostBuildEvent>

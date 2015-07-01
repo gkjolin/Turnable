@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.LevelGenerators;
+using Turnable.Components;
+using System.Collections.Generic;
 
 namespace Tests.LevelGenerators
 {
@@ -9,9 +11,18 @@ namespace Tests.LevelGenerators
     {
         private DungeonGenerator _dungeonGenerator;
 
-        [TestMethod]
-        public void Chunk_GivenAStartingChunkOfTheMininumSizeAChunkCanBe_DoesNotCutItIntoChunks()
+        [TestInitialize]
+        public void Initialize()
         {
+            _dungeonGenerator = new DungeonGenerator();
+        }
+
+        [TestMethod]
+        public void GenerateFrom_GivenAnInitialChunk_BreaksUpThatChunkRandomly()
+        {
+            Chunk initialChunk = new Chunk(new Position(0, 0), 100, 100);
+
+            BinaryTree<Chunk> chunkTree = _dungeonGenerator.GenerateFrom(initialChunk);
         }
     }
 }
