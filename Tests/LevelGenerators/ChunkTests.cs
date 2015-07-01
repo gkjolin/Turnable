@@ -62,5 +62,21 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(2, newChunks[1].Height);
         }
 
+        [TestMethod]
+        public void SplitChunk_WhenAChunkCannotBeSplitVertically_ReturnsAnEmptyListOfChunks()
+        {
+            Chunk initialChunk = new Chunk(new Position(0, 0), 1, 3);
+            List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1);
+
+            Assert.AreEqual(2, newChunks.Count);
+            Assert.AreEqual(new Position(0, 0), newChunks[0].Position);
+            Assert.AreEqual(7, newChunks[0].Width);
+            Assert.AreEqual(1, newChunks[0].Height);
+            Assert.AreEqual(new Position(0, 1), newChunks[1].Position);
+            Assert.AreEqual(7, newChunks[1].Width);
+            Assert.AreEqual(2, newChunks[1].Height);
+        }
+
+
     }
 }
