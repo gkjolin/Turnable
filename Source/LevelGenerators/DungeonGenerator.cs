@@ -20,16 +20,6 @@ namespace Turnable.LevelGenerators
 
             CollectLeafNodes(tree.Root);
 
-
-            randomChunks
-                  if(node == NULL)       
-    return 0;
-  if(node->left == NULL && node->right==NULL)      
-    return 1;            
-  else
-    return getLeafCount(node->left)+
-           getLeafCount(node->right); 
-
             return _randomChunks;
         }
 
@@ -39,19 +29,22 @@ namespace Turnable.LevelGenerators
             {
                 return;
             }
-            if (node.
-
-              if(t == NULL)       
-                return;
-               if(t.left == NULL && t.right==NULL)      
-                  System.out.println(t.element); 
-               printLeafNodes(t.left); 
-               printLeafNodes(t.right);      
+            if (node.Left == null && node.Right == null) 
+            {
+                _randomChunks.Add(node.Value);
+            }
+            CollectLeafNodes(node.Left);
+            CollectLeafNodes(node.Right);
         }
 
         private void RecursivelyChunkFrom(BinaryTreeNode<Chunk> parentChunk)
         {
-            List<Chunk> splitChunks = parentChunk.Value.Split(SplitDirection.Horizontal, 1);
+            // TODO: Put this in the RNG?
+            Array values = Enum.GetValues(typeof(SplitDirection));
+            Random random = new Random();
+            SplitDirection randomSplitDirection = (SplitDirection)values.GetValue(random.Next(values.Length));
+
+            List<Chunk> splitChunks = parentChunk.Value.Split(randomSplitDirection, random.Next(1, 10), 2);
 
             if (splitChunks.Count != 0)
             {

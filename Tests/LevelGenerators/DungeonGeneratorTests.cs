@@ -23,6 +23,8 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(new Position(0, 0), 100, 100);
 
             List<Chunk> randomChunks = _dungeonGenerator.GenerateFrom(initialChunk);
+
+            Assert.AreEqual(1, randomChunks.Count);
         }
     }
 }
