@@ -11,7 +11,7 @@ namespace Tests.Tiled
     public class TileTests
     {
         [TestMethod]
-        public void Constructor_SuccessfullyInitializesAllProperties()
+        public void Constructor_InitializesAllProperties()
         {
             Tile tile = new Tile(32, 1, 2);
 

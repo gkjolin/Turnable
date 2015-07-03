@@ -23,7 +23,7 @@ namespace Tests.Vision
         }
 
         [TestMethod]
-        public void Constructor_SuccessfullyInitializesAllProperties()
+        public void Constructor_InitializesAllProperties()
         {
             IVisionCalculator visionCalculator = new VisionCalculator(_level);
 

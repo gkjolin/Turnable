@@ -18,7 +18,7 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        public void Constructor_GivenAPathToAMinimalBase64GzipCompressedTmxFile_SuccessfullyDecodesTheDataInTheFile()
+        public void Constructor_GivenAPathToAMinimalBase64GzipCompressedTmxFile_DecodesTheDataInTheFile()
         {
             Load("../../Fixtures/MinimalBase64GzipCompressed.tmx");
 
@@ -31,7 +31,7 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        public void Constructor_GivenAPathToAMinimalBase64ZlibCompressedTmxFile_SuccessfullyDecodesTheDataInTheFile()
+        public void Constructor_GivenAPathToAMinimalBase64ZlibCompressedTmxFile_DecodesTheDataInTheFile()
         {
             Load("../../Fixtures/MinimalBase64ZlibCompressed.tmx");
 
