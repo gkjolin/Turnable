@@ -13,6 +13,5 @@ namespace Tests.LevelGenerators
         {
             Assert.IsInstanceOfType(new DungeonGenerationParameters(), typeof(ISetupParameters));
         }
-
     }
 }

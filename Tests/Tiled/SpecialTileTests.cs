@@ -42,7 +42,7 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        public void GlobalId_IsSuccessfullyCalculatedFromTheId()
+        public void GlobalId_IsCalculatedFromTheId()
         {
             SpecialTile specialTile = new SpecialTile(_tileset, 1);
 

@@ -19,7 +19,7 @@ namespace Tests.Skills
         }
 
         [TestMethod]
-        public void Constructor_SuccessfullyInitializesAllProperties()
+        public void Constructor_InitializesAllProperties()
         {
             Skill skill = new Skill("Melee Attack");
 
@@ -33,7 +33,7 @@ namespace Tests.Skills
         }
 
         [TestMethod]
-        public void Constructor_GivenInitialValues_SuccessfullyInitializesAllProperties()
+        public void Constructor_GivenInitialValues_InitializesAllProperties()
         {
             Skill skill = new Skill("Melee Attack", RangeType.DirectLine, TargetType.InAnotherTeam, 1, 2);
 

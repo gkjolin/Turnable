@@ -19,7 +19,7 @@ namespace Tests.Tmx
         }
 
         [TestMethod]
-        public void Constructor_SuccessfullyLoadsUpAllProperties()
+        public void Constructor_LoadsUpAllProperties()
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
 

@@ -21,7 +21,7 @@ namespace Tests.Tiled
         }
         
         [TestMethod]
-        public void Constructor_GivenALayerXElement_SuccessfullyInitializesLayerIncludingPropertiesAndTiles()
+        public void Constructor_GivenALayerXElement_InitializesLayerIncludingPropertiesAndTiles()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElement());
 
@@ -131,7 +131,7 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        public void SetTile_SuccessfullySetsATileAtAnEmptyPosition()
+        public void SetTile_SetsATileAtAnEmptyPosition()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 

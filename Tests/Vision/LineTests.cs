@@ -22,7 +22,7 @@ namespace Tests.Vision
         }
 
         [TestMethod]
-        public void Constructor_GivenTwoAdjacentPositions_SuccessfullyCreatesALineWith2Points()
+        public void Constructor_GivenTwoAdjacentPositions_CreatesALineWith2Points()
         {
             Position start = new Position(1, 1);
 
@@ -39,7 +39,7 @@ namespace Tests.Vision
         }
 
         [TestMethod]
-        public void Constructor_GivenTwoDistantPoints_SuccessfullyCreatesALine()
+        public void Constructor_GivenTwoDistantPoints_CreatesALine()
         {
             Position start = new Position(1, 1);
             Position end = new Position(2, 6);

@@ -28,14 +28,30 @@ namespace Turnable.Characters
             movement.Path = new List<Position>();
             Position characterOrigin = character.Get<Position>();
 
-            character.Remove<Position>();
-            character.Add(destination);
-            
-            movement.Status = MovementStatus.Success;
+            if (Level.IsCollidable(destination))
+            {
+                movement.Status = MovementStatus.HitObstacle;
+            }
+            else
+            {
+                character.Remove<Position>();
+                character.Add(destination);
+                movement.Status = MovementStatus.Success;
+                Level.SpecialLayers[SpecialLayer.Character].MoveTile(characterOrigin, destination);
+            }
+
+            //if (!(new Node(Level, destination.X, destination.Y).IsWithinBounds()))
+            //{
+            //    returnValue.Status = MoveResultStatus.OutOfBounds;
+            //}
+            //else if (Level.IsCharacterAt(destination.X, destination.Y))
+            //{
+            //    returnValue.Status = MoveResultStatus.HitCharacter;
+            //}
+
+            // This is the complete path that the character moved OR attempted
             movement.Path.Add(characterOrigin);
             movement.Path.Add(destination);
-
-            Level.SpecialLayers[SpecialLayer.Character].MoveTile(characterOrigin, destination);
             
             OnCharacterMoved(new CharacterMovedEventArgs(character, movement));
 

@@ -21,7 +21,7 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Constructor_GivenALevel_SuccessfullyCreatesAViewportWithMapOriginAtZerpAndSameSizeAsTheLevel()
+        public void Constructor_GivenALevel_CreatesAViewportWithMapOriginAtZerpAndSameSizeAsTheLevel()
         {
             Viewport viewport = new Viewport(_level);
 
@@ -32,7 +32,7 @@ namespace Tests.Locations
             Assert.AreEqual(_level.Map.Height, viewport.Height);
         }
         [TestMethod]
-        public void Constructor_GivenALevelAndSize_SuccessfullyInitializesAllProperties()
+        public void Constructor_GivenALevelAndSize_InitializesAllProperties()
         {
             Viewport viewport = new Viewport(_level, 16, 16);
 
@@ -42,7 +42,7 @@ namespace Tests.Locations
         }
 
         [TestMethod]
-        public void Constructor_GivenALevelMapOriginAndSize_SuccessfullyInitializesAllProperties()
+        public void Constructor_GivenALevelMapOriginAndSize_InitializesAllProperties()
         {
             Viewport viewport = new Viewport(_level, 54, 53, 16, 16);
 

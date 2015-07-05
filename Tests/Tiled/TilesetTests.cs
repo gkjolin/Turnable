@@ -9,7 +9,7 @@ namespace Tests.Tiled
     public class TilesetTests
     {
         [TestMethod]
-        public void Constructor_GivenATilesetXElement_SuccessfullyInitializesAllProperties()
+        public void Constructor_GivenATilesetXElement_InitializesAllProperties()
         {
             Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElement());
 

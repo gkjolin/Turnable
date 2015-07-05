@@ -38,7 +38,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void BuildStat_SuccessfullyBuildsANewStatWithMinimumValue0AndMaximumValue100()
+        public void BuildStat_BuildsANewStatWithMinimumValue0AndMaximumValue100()
         {
             Stat stat = _statManager.BuildStat("Health", 100);
 
@@ -50,7 +50,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void BuildStat_GivenMinimumAndMaximumValuesForStat_SuccessfullyBuildsNewStat()
+        public void BuildStat_GivenMinimumAndMaximumValuesForStat_BuildsNewStat()
         {
             Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
             Assert.AreEqual(10, stat.Value);

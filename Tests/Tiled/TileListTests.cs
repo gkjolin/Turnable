@@ -20,7 +20,7 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        public void Constructor_GivenDataWithNoTiles_SuccessfullyCreatesAnEmptyTileList()
+        public void Constructor_GivenDataWithNoTiles_CreatesAnEmptyTileList()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
 
@@ -28,7 +28,7 @@ namespace Tests.Tiled
         }
         
         [TestMethod]
-        public void Constructor_GivenDataWithTiles_SuccessfullyCreatesAllTiles()
+        public void Constructor_GivenDataWithTiles_CreatesAllTiles()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
 

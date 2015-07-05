@@ -17,7 +17,7 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        public void Add_SuccessfullyAddsElementThatCanBeReferencedByIndexOrName()
+        public void Add_AddsElementThatCanBeReferencedByIndexOrName()
         {
             Layer layer = TiledFactory.BuildLayer();
 
