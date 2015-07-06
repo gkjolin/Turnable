@@ -53,7 +53,7 @@ namespace Tests.Locations
             Assert.AreEqual(16, viewport.Height);
         }
 
-        //// Testing to see if a viewport's MapOrigin is valid
+        // Testing to see if a viewport's MapOrigin is valid
         //[TestMethod]
         //public void Viewport_MapOriginOutOfBounds_IsInvalid()
         //{
