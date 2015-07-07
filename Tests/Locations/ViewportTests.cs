@@ -82,6 +82,8 @@ namespace Tests.Locations
         [TestMethod]
         public void Move_WhenViewportRemainsFullyWithinBounds_MovesTheMapOriginInTheDirection()
         {
+            // Move MapOrigin so that the viewport does not hit the bounds of the Map.
+            _viewport.MapOrigin = new Position(3, 3);
             Position currentMapOrigin = _viewport.MapOrigin;
 
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
@@ -122,14 +124,14 @@ namespace Tests.Locations
             // Viewport at top right of the Map
             _viewport.MapOrigin = new Position(10, 10);
 
-            _viewport.Move(Direction.East);
+            _viewport.Move(Direction.North);
             Assert.AreEqual(new Position(10, 10), _viewport.MapOrigin);
             _viewport.Move(Direction.NorthEast);
             Assert.AreEqual(new Position(10, 10), _viewport.MapOrigin);
-            _viewport.Move(Direction.SouthEast);
-            Assert.AreEqual(new Position(9, 9), _viewport.MapOrigin);
-            _viewport.Move(Direction.North);
+            _viewport.Move(Direction.East);
             Assert.AreEqual(new Position(10, 10), _viewport.MapOrigin);
+            _viewport.Move(Direction.SouthEast);
+            Assert.AreEqual(new Position(10, 9), _viewport.MapOrigin);
 
             // Viewport at top left of the Map
             _viewport.MapOrigin = new Position(0, 10);
@@ -248,53 +250,53 @@ namespace Tests.Locations
         //    Assert.AreEqual(1, _level.Viewport.MapOrigin.Y);
         //}
 
-        //// Centering a viewport
-        //[TestMethod]
-        //public void Viewport_WithEvenSizeWhenCenteringOnAPositionWithPlentyOfSpaceAroundTheCenter_IsSuccessful()
-        //{
-        //    _level.SetUpViewport(6, 6);
+        // Centering a viewport
+        [TestMethod]
+        public void CenterAt_WithEvenViewportWidthAndViewportHeightAndEnoughSpaceAroundCenter_CentersViewportAtPosition()
+        {
+            _level.SetUpViewport(6, 6);
 
-        //    _level.Viewport.CenterOn(new Position(5, 5));
+            _level.Viewport.CenterAt(new Position(5, 5));
 
-        //    Assert.AreEqual(2, _level.Viewport.MapOrigin.X);
-        //    Assert.AreEqual(2, _level.Viewport.MapOrigin.Y);
-        //}
+            Assert.AreEqual(2, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(2, _level.Viewport.MapOrigin.Y);
+        }
 
-        //[TestMethod]
-        //public void Viewport_WithOddSizeWhenCenteringOnAPositionWithPlentyOfSpaceAroundTheCenter_IsSuccessful()
-        //{
-        //    _level.SetUpViewport(5, 5);
+        [TestMethod]
+        public void CenterAt_WithOddViewportWidthAndViewportHeightAndEnoughSpaceAroundCenter_CentersViewportAtPosition()
+        {
+            _level.SetUpViewport(5, 5);
 
-        //    _level.Viewport.CenterOn(new Position(5, 5));
+            _level.Viewport.CenterAt(new Position(5, 5));
 
-        //    Assert.AreEqual(3, _level.Viewport.MapOrigin.X);
-        //    Assert.AreEqual(3, _level.Viewport.MapOrigin.Y);
-        //}
+            Assert.AreEqual(3, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(3, _level.Viewport.MapOrigin.Y);
+        }
 
-        //[TestMethod]
-        //public void Viewport_WhenCenteringOnAPositionWithNotEnoughSpaceAroundCenter_IsSuccessful()
-        //{
-        //    _level.SetUpViewport(5, 5);
+        [TestMethod]
+        public void CenterAt_WhenThereIsNotEnoughSpaceAroundCenter_CentersViewportAsMuchAsPossible()
+        {
+            _level.SetUpViewport(5, 5);
 
-        //    // Bottom left
-        //    _level.Viewport.CenterOn(new Position(0, 0));
-        //    Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
-        //    Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
+            // Bottom left
+            _level.Viewport.CenterAt(new Position(0, 0));
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
 
-        //    // Bottom right
-        //    _level.Viewport.CenterOn(new Position(_level.Map.Width - 1, 0));
-        //    Assert.AreEqual(_level.Map.Width - _level.Viewport.Width, _level.Viewport.MapOrigin.X);
-        //    Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
+            // Bottom right
+            _level.Viewport.CenterAt(new Position(_level.Map.Width - 1, 0));
+            Assert.AreEqual(_level.Map.Width - _level.Viewport.Width, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
 
-        //    // Top right
-        //    _level.Viewport.CenterOn(new Position(_level.Map.Width - 1, _level.Map.Height - 1));
-        //    Assert.AreEqual(_level.Map.Width - _level.Viewport.Width, _level.Viewport.MapOrigin.X, _level.Viewport.MapOrigin.X);
-        //    Assert.AreEqual(_level.Map.Height - _level.Viewport.Height, _level.Viewport.MapOrigin.Y);
+            // Top right
+            _level.Viewport.CenterAt(new Position(_level.Map.Width - 1, _level.Map.Height - 1));
+            Assert.AreEqual(_level.Map.Width - _level.Viewport.Width, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(_level.Map.Height - _level.Viewport.Height, _level.Viewport.MapOrigin.Y);
 
-        //    // Top left
-        //    _level.Viewport.CenterOn(new Position(0, _level.Map.Height - 1));
-        //    Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
-        //    Assert.AreEqual(_level.Map.Height - _level.Viewport.Height, _level.Viewport.MapOrigin.Y);
-        //}
+            // Top left
+            _level.Viewport.CenterAt(new Position(0, _level.Map.Height - 1));
+            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
+            Assert.AreEqual(_level.Map.Height - _level.Viewport.Height, _level.Viewport.MapOrigin.Y);
+        }
     }
 }

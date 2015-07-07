@@ -18,6 +18,7 @@ namespace Turnable.Api
         // Methods
         bool IsMapOriginValid();
         void Move(Direction direction);
+        void CenterAt(Position center);
 
         // Properties
         ILevel Level { get; set; }

@@ -46,13 +46,13 @@ namespace Turnable.Locations
             // Example: The left edge of a Viewport is flush against the left edge of the Map. Trying to move the Viewport NW should still move the Viewport North.
 
             // If MapOrigin.X is invalid, reset it
-            if (MapOrigin.X < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1))
+            if (MapOrigin.X < 0 || (MapOrigin.X + Width) > Level.Map.Width)
             {
                 MapOrigin = new Position(oldMapOrigin.X, MapOrigin.Y);
             }
 
             // If MapOrigin.Y is invalid, reset it
-            if (MapOrigin.Y < 0 || (MapOrigin.Y + Height) > (Level.Map.Height - 1))
+            if (MapOrigin.Y < 0 || (MapOrigin.Y + Height) > Level.Map.Height)
             {
                 MapOrigin = new Position(MapOrigin.X, oldMapOrigin.Y);
             }
@@ -64,32 +64,32 @@ namespace Turnable.Locations
             return !(MapOrigin.X < 0 || MapOrigin.Y < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1) || (MapOrigin.Y + Height) > (Level.Map.Height - 1));
         }
 
-        //public void CenterOn(Position center)
-        //{
-        //    int x, y;
+        public void CenterAt(Position center)
+        {
+            int x, y;
 
-        //    x = center.X - Width / 2;
-        //    y = center.Y - Height / 2;
+            x = center.X - Width / 2;
+            y = center.Y - Height / 2;
 
-        //    if ((Width / 2 + center.X) > Level.Map.Width)
-        //    {
-        //        x -= (Width / 2 - (Level.Map.Width - center.X - 1));
-        //    }
-        //    if ((Height / 2 + center.Y) > Level.Map.Height)
-        //    {
-        //        y -= (Height / 2 - (Level.Map.Height - center.Y - 1));
-        //    }
+            // When parts of the viewport are out of bounds of the Map, move the new MapOrigin to compensate
+            if ((Width / 2 + center.X) > Level.Map.Width)
+            {
+                x -= (Width / 2 - (Level.Map.Width - center.X - 1));
+            }
+            if ((Height / 2 + center.Y) > Level.Map.Height)
+            {
+                y -= (Height / 2 - (Level.Map.Height - center.Y - 1));
+            }
+            if (x < 0)
+            {
+                x = 0;
+            }
+            if (y < 0)
+            {
+                y = 0;
+            }
 
-        //    if (x < 0)
-        //    {
-        //        x = 0;
-        //    }
-        //    if (y < 0)
-        //    {
-        //        y = 0;
-        //    }
-
-        //    MapOrigin = new Position(x, y);
-        //}
+            MapOrigin = new Position(x, y);
+        }
     }
 }
