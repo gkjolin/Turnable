@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Turnable.Api;
 using Turnable.Components;
+using Turnable.Pathfinding;
 
 namespace Turnable.Locations
 {
@@ -36,31 +37,32 @@ namespace Turnable.Locations
             MapOrigin = new Position(mapOriginX, mapOriginY);
         }
 
-        //public void Move(Direction direction)
-        //{
-        //    Position oldMapOrigin = MapOrigin.DeepClone();
+        public void Move(Direction direction)
+        {
+            Position oldMapOrigin = MapOrigin.Copy();
+            MapOrigin = MapOrigin.NeighboringPosition(direction);
 
-        //    MapOrigin = MapOrigin.InDirection(direction);
+            // The viewport should be able to move in a certain direction as much as possible while still staying within bounds.
+            // Example: The left edge of a Viewport is flush against the left edge of the Map. Trying to move the Viewport NW should still move the Viewport North.
 
-        //    // The code below will allow a MapOrigin to "slide" and move as much as possible. 
-        //    // For example let's say the left edge of a Viewport is flush against the left edge of the Map.
-        //    // Trying to move the Viewport NW should still move the Viewport North
-        //    // If MapOrigin.X is invalid, reset it
-        //    if (MapOrigin.X < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1))
-        //    {
-        //        MapOrigin.X = oldMapOrigin.X;
-        //    }
-        //    // If MapOrigin.Y is invalid, reset it
-        //    if (MapOrigin.Y < 0 || (MapOrigin.Y + Height) > (Level.Map.Height - 1))
-        //    {
-        //        MapOrigin.Y = oldMapOrigin.Y;
-        //    }
-        //}
+            // If MapOrigin.X is invalid, reset it
+            if (MapOrigin.X < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1))
+            {
+                MapOrigin = new Position(oldMapOrigin.X, MapOrigin.Y);
+            }
 
-        //public bool IsMapOriginValid()
-        //{
-        //    return !(MapOrigin.X < 0 || MapOrigin.Y < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1) || (MapOrigin.Y + Height) > (Level.Map.Height - 1));
-        //}
+            // If MapOrigin.Y is invalid, reset it
+            if (MapOrigin.Y < 0 || (MapOrigin.Y + Height) > (Level.Map.Height - 1))
+            {
+                MapOrigin = new Position(MapOrigin.X, oldMapOrigin.Y);
+            }
+        }
+
+        public bool IsMapOriginValid()
+        {
+            // The MapOrigin should be located so that the entire Viewport will fit within the current Map. Otherwise the MapOrigin is considered to be invalid.
+            return !(MapOrigin.X < 0 || MapOrigin.Y < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1) || (MapOrigin.Y + Height) > (Level.Map.Height - 1));
+        }
 
         //public void CenterOn(Position center)
         //{

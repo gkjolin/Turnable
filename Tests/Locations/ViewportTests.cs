@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests.Factories;
 using Turnable.Api;
 using Turnable.Locations;
+using System.Collections.Generic;
+using Turnable.Components;
 
 namespace Tests.Locations
 {
@@ -10,14 +12,14 @@ namespace Tests.Locations
     public class ViewportTests
     {
         private ILevel _level;
-        // private IViewport _viewport;
+        private IViewport _viewport;
 
         [TestInitialize]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
-            //_level.SetUpViewport(8, 8, 5, 5);
-            //_viewport = new Viewport(_level, 8, 8, 5, 5);
+            _level.SetUpViewport(8, 8, 5, 5);
+            _viewport = new Viewport(_level, 8, 8, 5, 5);
         }
 
         [TestMethod]
@@ -53,136 +55,94 @@ namespace Tests.Locations
             Assert.AreEqual(16, viewport.Height);
         }
 
-        // Testing to see if a viewport's MapOrigin is valid
-        //[TestMethod]
-        //public void Viewport_MapOriginOutOfBounds_IsInvalid()
-        //{
-        //    // Viewport's bottom left corner out of bounds
-        //    _viewport.MapOrigin.X = -1;
-        //    _viewport.MapOrigin.Y = 0;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
-        //    _viewport.MapOrigin.X = 0;
-        //    _viewport.MapOrigin.Y = -1;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
-        //    _viewport.MapOrigin.X = -1;
-        //    _viewport.MapOrigin.Y = -1;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
+        [TestMethod]
+        public void IsMapOriginValid_WhenViewportHasAMapOriginThatIsOutOfBounds_ReturnsFalse()
+        {
+            List<Position> invalidMapOrigins = new List<Position>();
+            invalidMapOrigins.Add(new Position(-1, 0));
+            invalidMapOrigins.Add(new Position(0, -1));
+            invalidMapOrigins.Add(new Position(11, 0));
+            invalidMapOrigins.Add(new Position(10, -1));
+            invalidMapOrigins.Add(new Position(10, 11));
+            invalidMapOrigins.Add(new Position(11, 10));
+            invalidMapOrigins.Add(new Position(-1, 11));
+            invalidMapOrigins.Add(new Position(0, 11));
 
-        //    // Viewport out of bounds on its bottom right corner
-        //    _viewport.MapOrigin.X = 11;
-        //    _viewport.MapOrigin.Y = 0;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
-        //    _viewport.MapOrigin.X = 10;
-        //    _viewport.MapOrigin.Y = -1;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
+            foreach (Position position in invalidMapOrigins) 
+            {
+                _viewport.MapOrigin = position;
+                Assert.IsFalse(_viewport.IsMapOriginValid());
+            }
+        }
 
-        //    // Viewport out of bounds on its top right side
-        //    _viewport.MapOrigin.X = 10;
-        //    _viewport.MapOrigin.Y = 11;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
-        //    _viewport.MapOrigin.X = 11;
-        //    _viewport.MapOrigin.Y = 10;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
+        // -------------------
+        // Move viewport tests
+        // -------------------
 
-        //    // Viewport out of bounds on its top left side
-        //    _viewport.MapOrigin.X = -1;
-        //    _viewport.MapOrigin.Y = 11;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
-        //    _viewport.MapOrigin.X = 0;
-        //    _viewport.MapOrigin.Y = 11;
-        //    Assert.IsFalse(_viewport.IsMapOriginValid());
-        //}
+        [TestMethod]
+        public void Move_WhenViewportRemainsFullyWithinBounds_MovesTheMapOriginInTheDirection()
+        {
+            Position currentMapOrigin = _viewport.MapOrigin;
 
-        //// Moving the viewport (Changing the MapOrigin)
-        //[TestMethod]
-        //public void Viewport_MovingViewportInADirection_MovesTheMapOriginInThatDirection()
-        //{
-        //    _viewport.Move(Direction.North);
-        //    Assert.AreEqual(new Position(8, 9), _viewport.MapOrigin);
-        //    _viewport.Move(Direction.South);
-        //    Assert.AreEqual(new Position(8, 8), _viewport.MapOrigin);
-        //    _viewport.Move(Direction.East);
-        //    Assert.AreEqual(new Position(9, 8), _viewport.MapOrigin);
-        //    _viewport.Move(Direction.West);
-        //    Assert.AreEqual(new Position(8, 8), _viewport.MapOrigin);
-        //    _viewport.Move(Direction.NorthWest);
-        //    Assert.AreEqual(new Position(7, 9), _viewport.MapOrigin);
-        //    _viewport.Move(Direction.NorthEast);
-        //    Assert.AreEqual(new Position(8, 10), _viewport.MapOrigin);
-        //    _viewport.Move(Direction.SouthWest);
-        //    Assert.AreEqual(new Position(7, 9), _viewport.MapOrigin);
-        //    _viewport.Move(Direction.SouthEast);
-        //    Assert.AreEqual(new Position(8, 8), _viewport.MapOrigin);
-        //}
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                _viewport.Move(direction);
+                Assert.AreEqual(currentMapOrigin.NeighboringPosition(direction), _viewport.MapOrigin);
+                currentMapOrigin = _viewport.MapOrigin;
+            }
+        }
 
-        //[TestMethod]
-        //public void Viewport_MovingTheMapOriginOutOfBounds_MovesAsMuchAsPossible()
-        //{
-        //    _viewport.MapOrigin.X = 0;
-        //    _viewport.MapOrigin.Y = 0;
+        [TestMethod]
+        public void Viewport_MovingTheMapOriginOutOfBounds_MovesAsMuchAsPossible()
+        {
+            // Viewport at lower left of the Map
+            _viewport.MapOrigin = new Position(0, 0);
 
-        //    // Viewport at lower left of the Map
-        //    _viewport.Move(Direction.West);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.NorthWest);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(1, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.SouthWest);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.South);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.West);
+            Assert.AreEqual(new Position(0, 0), _viewport.MapOrigin);
+            _viewport.Move(Direction.NorthWest);
+            Assert.AreEqual(new Position(0, 1), _viewport.MapOrigin);
+            _viewport.Move(Direction.SouthWest);
+            Assert.AreEqual(new Position(0, 0), _viewport.MapOrigin);
+            _viewport.Move(Direction.South);
+            Assert.AreEqual(new Position(0, 0), _viewport.MapOrigin);
 
-        //    // Viewport at bottom right of the Map
-        //    _viewport.MapOrigin.X = 10;
-        //    _viewport.MapOrigin.Y = 0;
-        //    _viewport.Move(Direction.East);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.NorthEast);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(1, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.SouthEast);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.South);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.Y);
+            // Viewport at bottom right of the Map
+            _viewport.MapOrigin = new Position(10, 0);
 
-        //    // Viewport at top right of the Map
-        //    _viewport.MapOrigin.X = 10;
-        //    _viewport.MapOrigin.Y = 10;
-        //    _viewport.Move(Direction.East);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.NorthEast);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.SouthEast);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(9, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.North);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.Y);
+            _viewport.Move(Direction.East);
+            Assert.AreEqual(new Position(10, 0), _viewport.MapOrigin);
+            _viewport.Move(Direction.NorthEast);
+            Assert.AreEqual(new Position(10, 1), _viewport.MapOrigin);
+            _viewport.Move(Direction.SouthEast);
+            Assert.AreEqual(new Position(10, 0), _viewport.MapOrigin);
+            _viewport.Move(Direction.South);
+            Assert.AreEqual(new Position(10, 0), _viewport.MapOrigin);
 
-        //    // Viewport at top left of the Map
-        //    _viewport.MapOrigin.X = 0;
-        //    _viewport.MapOrigin.Y = 10;
-        //    _viewport.Move(Direction.West);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.NorthWest);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.SouthWest);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(9, _viewport.MapOrigin.Y);
-        //    _viewport.Move(Direction.North);
-        //    Assert.AreEqual(0, _viewport.MapOrigin.X);
-        //    Assert.AreEqual(10, _viewport.MapOrigin.Y);
-        //}
+            // Viewport at top right of the Map
+            _viewport.MapOrigin = new Position(10, 10);
+
+            _viewport.Move(Direction.East);
+            Assert.AreEqual(new Position(10, 10), _viewport.MapOrigin);
+            _viewport.Move(Direction.NorthEast);
+            Assert.AreEqual(new Position(10, 10), _viewport.MapOrigin);
+            _viewport.Move(Direction.SouthEast);
+            Assert.AreEqual(new Position(9, 9), _viewport.MapOrigin);
+            _viewport.Move(Direction.North);
+            Assert.AreEqual(new Position(10, 10), _viewport.MapOrigin);
+
+            // Viewport at top left of the Map
+            _viewport.MapOrigin = new Position(0, 10);
+
+            _viewport.Move(Direction.West);
+            Assert.AreEqual(new Position(0, 10), _viewport.MapOrigin);
+            _viewport.Move(Direction.NorthWest);
+            Assert.AreEqual(new Position(0, 10), _viewport.MapOrigin);
+            _viewport.Move(Direction.SouthWest);
+            Assert.AreEqual(new Position(0, 9), _viewport.MapOrigin);
+            _viewport.Move(Direction.North);
+            Assert.AreEqual(new Position(0, 10), _viewport.MapOrigin);
+        }
 
         //// Testing the automatic movement of MapOrigin when the player moves
         //// Enough space on all sides to allow movement of MapOrigin

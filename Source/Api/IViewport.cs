@@ -16,6 +16,8 @@ namespace Turnable.Api
         // ----------------
 
         // Methods
+        bool IsMapOriginValid();
+        void Move(Direction direction);
 
         // Properties
         ILevel Level { get; set; }
