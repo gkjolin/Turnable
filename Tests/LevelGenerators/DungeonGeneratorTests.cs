@@ -18,13 +18,17 @@ namespace Tests.LevelGenerators
         }
 
         [TestMethod]
-        public void GenerateFrom_GivenAnInitialChunk_BreaksUpThatChunkRandomly()
+        public void Chunkify_GivenAnInitialChunk_RandomlyBreaksUpTheChunk()
         {
             Chunk initialChunk = new Chunk(new Position(0, 0), 100, 100);
 
-            List<Chunk> randomChunks = _dungeonGenerator.GenerateFrom(initialChunk);
+            List<Chunk> randomChunks = _dungeonGenerator.Chunkify(initialChunk);
 
-            //Assert.AreEqual(1, randomChunks.Count);
+            // TODO: How can I check if the chunk has been broken into multiple random sized chunks?
+            Assert.IsTrue(randomChunks.Count > 10);
         }
+
+        [TestMethod]
+
     }
 }

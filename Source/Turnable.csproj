@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IDungeonGenerator.cs" />
     <Compile Include="Api\ILayer.cs" />
     <Compile Include="Api\ITileset.cs" />
     <Compile Include="Api\IVisionCalculator.cs" />

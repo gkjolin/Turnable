@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Turnable.Api;
 
 namespace Turnable.LevelGenerators
 {
     // http://www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
-    public class DungeonGenerator
+    public class DungeonGenerator : IDungeonGenerator
     {
         private List<Chunk> _randomChunks;
 
-        public List<Chunk> GenerateFrom(Chunk initialChunk)
+        public List<Chunk> Chunkify(Chunk initialChunk)
         {
             BinaryTree<Chunk> tree = new BinaryTree<Chunk>();
             tree.Root = new BinaryTreeNode<Chunk>(initialChunk);
@@ -24,7 +25,7 @@ namespace Turnable.LevelGenerators
             return _randomChunks;
         }
 
-        public void CollectLeafNodes(BinaryTreeNode<Chunk> node)
+        private void CollectLeafNodes(BinaryTreeNode<Chunk> node)
         {
             if (node == null)
             {
@@ -45,7 +46,7 @@ namespace Turnable.LevelGenerators
             Random random = new Random();
             SplitDirection randomSplitDirection = (SplitDirection)values.GetValue(random.Next(values.Length));
 
-            List<Chunk> splitChunks = parentChunk.Value.Split(randomSplitDirection, random.Next(1, 10), 2);
+            List<Chunk> splitChunks = parentChunk.Value.Split(randomSplitDirection, random.Next(2, 10), 2);
 
             if (splitChunks.Count != 0)
             {
