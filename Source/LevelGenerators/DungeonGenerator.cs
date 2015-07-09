@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Turnable.LevelGenerators
 {
+    // http://www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
     public class DungeonGenerator
     {
         private List<Chunk> _randomChunks;
