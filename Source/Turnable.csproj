@@ -68,6 +68,8 @@
     <Compile Include="DataStructures\BinaryTree.cs" />
     <Compile Include="Inspectors\LevelInspector.cs" />
     <Compile Include="LevelGenerators\Chunk.cs" />
+    <Compile Include="LevelGenerators\Segment.cs" />
+    <Compile Include="LevelGenerators\Room.cs" />
     <Compile Include="LevelGenerators\DungeonGenerationParamters.cs" />
     <Compile Include="LevelGenerators\DungeonGenerator.cs" />
     <Compile Include="LevelGenerators\SplitDirection.cs" />

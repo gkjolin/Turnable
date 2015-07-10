@@ -39,14 +39,26 @@ namespace Turnable.LevelGenerators
             CollectLeafNodes(node.Right);
         }
 
+        public List<Room> PlaceRooms(List<Chunk> chunks)
+        {
+            List<Room> rooms = new List<Room>();
+
+            foreach (Chunk chunk in chunks)
+            {
+                rooms.Add(new Room(chunk));    
+            }
+
+            return rooms;
+        }
+
         private void RecursivelyChunkFrom(BinaryTreeNode<Chunk> parentChunk)
         {
-            // TODO: Put this in the RNG?
+            // TODO: Put the ability to select randomly from an Enum into the RNG?
             Array values = Enum.GetValues(typeof(SplitDirection));
             Random random = new Random();
             SplitDirection randomSplitDirection = (SplitDirection)values.GetValue(random.Next(values.Length));
 
-            List<Chunk> splitChunks = parentChunk.Value.Split(randomSplitDirection, random.Next(2, 10), 2);
+            List<Chunk> splitChunks = parentChunk.Value.Split(randomSplitDirection, random.Next(2, 11), 2);
 
             if (splitChunks.Count != 0)
             {

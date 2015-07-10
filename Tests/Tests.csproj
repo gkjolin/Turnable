@@ -72,6 +72,9 @@
     <Compile Include="Factories\TiledFactory.cs" />
     <Compile Include="Inspectors\LevelInspectorTests.cs" />
     <Compile Include="LevelGenerators\ChunkTests.cs" />
+    <Compile Include="LevelGenerators\SegmentTests.cs" />
+    <Compile Include="LevelGenerators\CorridorTests.cs" />
+    <Compile Include="LevelGenerators\RoomTests.cs" />
     <Compile Include="LevelGenerators\DungeonGenerationParametersTests.cs" />
     <Compile Include="LevelGenerators\DungeonGeneratorTests.cs" />
     <Compile Include="Locations\LevelSetupParametersTests.cs" />

@@ -29,6 +29,19 @@ namespace Tests.LevelGenerators
         }
 
         [TestMethod]
+        public void PlaceRooms_GivenASetOfChunks_PlacesRandomSizedRoomsWithinEachChunk()
+        {
+            Chunk initialChunk = new Chunk(new Position(0, 0), 100, 100);
+            List<Chunk> randomChunks = _dungeonGenerator.Chunkify(initialChunk);
 
+            List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
+
+            Assert.AreEqual(randomRooms.Count, randomChunks.Count);
+
+            foreach (Room room in randomRooms)
+            {
+
+            }
+        }
     }
 }
