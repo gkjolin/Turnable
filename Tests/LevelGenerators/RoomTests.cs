@@ -10,14 +10,16 @@ namespace Tests.LevelGenerators
     public class RoomTests
     {
         [TestMethod]
+
+        [TestMethod]
         public void Constructor_InitializesAllProperties()
         {
             Chunk chunk = new Chunk(new Position(0, 0), 7, 5);
-            Room room = new Room(chunk, new Position(1, 1), new Position(2, 2));
+            Rectangle bounds = new Rectangle(new Position(1, 1), new Position(2, 2));
+            Room room = new Room(chunk, bounds);
 
             Assert.AreEqual(chunk, room.ParentChunk);
-            Assert.AreEqual(new Position(1, 1), room.TopLeft);
-            Assert.AreEqual(new Position(2, 2), room.BottomRight);
+            Assert.AreEqual(bounds, room.Bounds);
         }
 
         // TODO: Test that any corners are out of the chunk, but use a BoundsChecker. 

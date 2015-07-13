@@ -83,11 +83,11 @@ namespace Tests.Utilities
             Assert.IsTrue(Rectangle.AreTouching(firstRectangle, secondRectangle));
 
             // First rectangle to right of second rectangle
-            // .....*****
-            // .....*****
-            // .....*****
-            // .....*****
-            // .....*****
+            // :::::*****
+            // :::::*****
+            // :::::*****
+            // :::::*****
+            // :::::*****
             Assert.IsTrue(Rectangle.AreTouching(secondRectangle, firstRectangle));
 
             // First rectangle above second rectangle
@@ -96,22 +96,22 @@ namespace Tests.Utilities
             // *****
             // *****
             // *****
-            // .....
-            // .....
-            // .....
-            // .....
-            // .....
-            firstRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
-            secondRectangle = new Rectangle(new Position(0, 5), new Position(4, 9));
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            firstRectangle = new Rectangle(new Position(0, 5), new Position(4, 9));
+            secondRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
             Assert.IsTrue(Rectangle.AreTouching(firstRectangle, secondRectangle));
 
             // First rectangle below second rectangle
-            // .....
-            // .....
-            // .....
-            // .....
-            // .....
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            // :::::
             // *****
             // *****
             // *****
@@ -127,72 +127,173 @@ namespace Tests.Utilities
             // *****
             // *****
             // *****
-            // *****.....
-            //      .....
-            //      .....
-            //      .....
-            //      .....
+            // *****:::::
+            //      :::::
+            //      :::::
+            //      :::::
+            //      :::::
             // First rectangle to left and above second rectangle
             Rectangle firstRectangle = new Rectangle(new Position(0, 8), new Position(4, 4));
-            Rectangle secondRectangle = new Rectangle(new Position(5, 8), new Position(9, 4));
+            Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(5, 4));
 
             Assert.IsTrue(Rectangle.AreTouching(firstRectangle, secondRectangle));
 
-            // First rectangle to right of second rectangle
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            // :::::*****
+            //      *****
+            //      *****
+            //      *****
+            //      *****
+            // First rectangle to right and below second rectangle
             Assert.IsTrue(Rectangle.AreTouching(secondRectangle, firstRectangle));
 
-            // First rectangle above second rectangle
-            firstRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
-            secondRectangle = new Rectangle(new Position(0, 5), new Position(4, 9));
+            // First rectangle to right and above second rectangle
+            //      *****
+            //      *****
+            //      *****
+            //      *****
+            // :::::*****
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            firstRectangle = new Rectangle(new Position(5, 8), new Position(9, 4));
+            secondRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.IsTrue(Rectangle.AreTouching(firstRectangle, secondRectangle));
+            Assert.IsTrue(Rectangle.AreTouching(secondRectangle, firstRectangle));
 
-            // First rectangle below second rectangle
+            // First rectangle to left and below second rectangle
+            //      :::::
+            //      :::::
+            //      :::::
+            //      :::::
+            // *****:::::
+            // *****
+            // *****
+            // *****
+            // *****
             Assert.IsTrue(Rectangle.AreTouching(secondRectangle, firstRectangle));
         }
 
         [TestMethod]
         public void AreTouching_GivenTwoRectanglesThatAreDiagonallyPlacedToEachOtherWithNotEvenOnePointTouchingAlongAEdge_ReturnsFalse()
         {
-            // First rectangle to left of second rectangle
-            Rectangle firstRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
-            Rectangle secondRectangle = new Rectangle(new Position(5, 5), new Position(9, 4));
+            // *****
+            // *****
+            // *****
+            // *****
+            // *****
+            //      :::::
+            //      :::::
+            //      :::::
+            //      :::::
+            //      :::::
+            // First rectangle to left and above second rectangle
+            Rectangle firstRectangle = new Rectangle(new Position(0, 9), new Position(4, 5));
+            Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(9, 4));
 
-            Assert.IsTrue(Rectangle.AreTouching(firstRectangle, secondRectangle));
+            Assert.IsFalse(Rectangle.AreTouching(firstRectangle, secondRectangle));
 
-            // First rectangle to right of second rectangle
-            Assert.IsTrue(Rectangle.AreTouching(secondRectangle, firstRectangle));
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            //      *****
+            //      *****
+            //      *****
+            //      *****
+            //      *****
+            // First rectangle to right and below second rectangle
+            Assert.IsFalse(Rectangle.AreTouching(secondRectangle, firstRectangle));
 
-            // First rectangle above second rectangle
-            firstRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
-            secondRectangle = new Rectangle(new Position(0, 5), new Position(4, 9));
+            // First rectangle to right and above second rectangle
+            //      *****
+            //      *****
+            //      *****
+            //      *****
+            //      *****
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            firstRectangle = new Rectangle(new Position(5, 9), new Position(9, 5));
+            secondRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.IsTrue(Rectangle.AreTouching(firstRectangle, secondRectangle));
+            Assert.IsFalse(Rectangle.AreTouching(secondRectangle, firstRectangle));
 
-            // First rectangle below second rectangle
-            Assert.IsTrue(Rectangle.AreTouching(secondRectangle, firstRectangle));
+            // First rectangle to left and below second rectangle
+            //      :::::
+            //      :::::
+            //      :::::
+            //      :::::
+            //      :::::
+            // *****
+            // *****
+            // *****
+            // *****
+            // *****
+            Assert.IsFalse(Rectangle.AreTouching(secondRectangle, firstRectangle));
         }
 
         [TestMethod]
         public void AreTouching_GivenTwoRectanglesThatAreSeparatedByAtleastOnePointFromEachOther_ReturnsFalse()
         {
+            // * First rectangle 
+            // : Second rectangle
             // First rectangle to left of second rectangle
+            // ***** :::::
+            // ***** :::::
+            // ***** ::::: 
+            // ***** :::::
+            // ***** :::::
             Rectangle firstRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
-            Rectangle secondRectangle = new Rectangle(new Position(5, 5), new Position(9, 4));
+            Rectangle secondRectangle = new Rectangle(new Position(6, 0), new Position(10, 4));
 
-            Assert.IsTrue(Rectangle.AreTouching(firstRectangle, secondRectangle));
+            Assert.IsFalse(Rectangle.AreTouching(firstRectangle, secondRectangle));
 
             // First rectangle to right of second rectangle
-            Assert.IsTrue(Rectangle.AreTouching(secondRectangle, firstRectangle));
+            // ::::: *****
+            // ::::: *****
+            // ::::: *****
+            // ::::: *****
+            // ::::: *****
+            Assert.IsFalse(Rectangle.AreTouching(secondRectangle, firstRectangle));
 
             // First rectangle above second rectangle
-            firstRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
-            secondRectangle = new Rectangle(new Position(0, 5), new Position(4, 9));
+            // *****
+            // *****
+            // *****
+            // *****
+            // *****
+            // 
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            firstRectangle = new Rectangle(new Position(0, 6), new Position(4, 10));
+            secondRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.IsTrue(Rectangle.AreTouching(firstRectangle, secondRectangle));
+            Assert.IsFalse(Rectangle.AreTouching(firstRectangle, secondRectangle));
 
             // First rectangle below second rectangle
-            Assert.IsTrue(Rectangle.AreTouching(secondRectangle, firstRectangle));
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            // :::::
+            // 
+            // *****
+            // *****
+            // *****
+            // *****
+            // *****
+            Assert.IsFalse(Rectangle.AreTouching(secondRectangle, firstRectangle));
         }
     }
 }

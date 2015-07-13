@@ -42,7 +42,18 @@ namespace Turnable.Utilities
             int xOverlap = Math.Abs(Math.Min(firstRectangle.BottomRight.X, secondRectangle.BottomRight.X) - Math.Max(firstRectangle.TopLeft.X, secondRectangle.TopLeft.X));
             int yOverlap = Math.Abs(Math.Min(firstRectangle.BottomRight.Y, secondRectangle.BottomRight.Y) - Math.Max(firstRectangle.TopLeft.Y, secondRectangle.TopLeft.Y));
 
-            return (xOverlap == 1 || yOverlap == 1);
+            // Rectangles diagonal to each other
+            if (xOverlap == 1 && yOverlap == 1)
+            {
+                return false;
+            }
+
+            if (xOverlap == 1 || yOverlap == 1)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

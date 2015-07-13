@@ -12,7 +12,7 @@ namespace Turnable.LevelGenerators
         public Position TopLeft { get; set; }
         public Position BottomRight { get; set; }
 
-        public Room(Chunk parentChunk, Position firstCorner = null, Position secondCorner = null)
+        public Room(Chunk parentChunk, Rectangle bounds)
         {
             ParentChunk = parentChunk;
             Random random = new Random();
