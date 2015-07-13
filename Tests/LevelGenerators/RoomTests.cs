@@ -20,44 +20,6 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(new Position(2, 2), room.BottomRight);
         }
 
-        [TestMethod]
-        public void Constructor_GivenAnyTwoCorners_CorrectlyCalculatesTopLeftAndBottomRightCorner()
-        {
-            Chunk chunk = new Chunk(new Position(0, 0), 7, 4);
-
-            // TopLeft, BottomRight corners. Handled by default.
-
-            // TopRight, BottomLeft
-            Room room = new Room(chunk, new Position(3, 1), new Position(1, 4));
-
-            Assert.AreEqual(new Position(1, 1), room.TopLeft);
-            Assert.AreEqual(new Position(3, 4), room.BottomRight);
-
-            // BottomRight, TopLeft corners
-            room = new Room(chunk, new Position(2, 2), new Position(1, 1));
-
-            Assert.AreEqual(new Position(1, 1), room.TopLeft);
-            Assert.AreEqual(new Position(2, 2), room.BottomRight);
-
-            // BottomLeft, TopRight
-            room = new Room(chunk, new Position(1, 4), new Position(4, 1));
-
-            Assert.AreEqual(new Position(1, 1), room.TopLeft);
-            Assert.AreEqual(new Position(4, 4), room.BottomRight);
-
-            // Rooms with a width of 1
-            room = new Room(chunk, new Position(4, 4), new Position(4, 1));
-
-            Assert.AreEqual(new Position(4, 1), room.TopLeft);
-            Assert.AreEqual(new Position(4, 4), room.BottomRight);
-
-            // Rooms with a height of 1
-            room = new Room(chunk, new Position(4, 3), new Position(1, 3));
-
-            Assert.AreEqual(new Position(1, 3), room.TopLeft);
-            Assert.AreEqual(new Position(4, 3), room.BottomRight);
-        }
-
         // TODO: Test that any corners are out of the chunk, but use a BoundsChecker. 
 
         [TestMethod]

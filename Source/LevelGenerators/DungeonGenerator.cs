@@ -72,5 +72,15 @@ namespace Turnable.LevelGenerators
                 RecursivelyChunkFrom(parentChunk.Right);
             }
         }
+
+        public Corridor JoinRooms(Room firstRoom, Room secondRoom)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Components.Position> GetCorridorOrigins(Room firstRoom, Room secondRoom)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

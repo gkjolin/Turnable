@@ -98,6 +98,7 @@
     <Compile Include="Tiled\TileListTests.cs" />
     <Compile Include="Tiled\TilesetTests.cs" />
     <Compile Include="Tiled\TileTests.cs" />
+    <Compile Include="Utilities\RectangleTests.cs" />
     <Compile Include="Vision\LineTests.cs" />
     <Compile Include="Vision\VisionCalculatorTests.cs" />
   </ItemGroup>

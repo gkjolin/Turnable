@@ -43,5 +43,14 @@ namespace Tests.LevelGenerators
 
             }
         }
+
+        // -------------
+        // Joining Rooms
+        // -------------
+
+
+        [TestMethod]
+        public void JoinRooms_JoiningTwoRoomsThatTouch_ReturnsANullCorridor()
+        { }
     }
 }
