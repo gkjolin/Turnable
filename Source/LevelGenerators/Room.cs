@@ -2,32 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Turnable.Api;
 using Turnable.Components;
+using Turnable.Utilities;
 
 namespace Turnable.LevelGenerators
 {
-    public class Room
+    public class Room : IBounded
     {
         public Chunk ParentChunk { get; set; }
+        public Rectangle Bounds { get; set; } 
         public Position TopLeft { get; set; }
         public Position BottomRight { get; set; }
 
         public Room(Chunk parentChunk, Rectangle bounds)
         {
             ParentChunk = parentChunk;
-            Random random = new Random();
-
-            if (firstCorner == null)
-            {
-                firstCorner = new Position(random.Next(0, parentChunk.Width), random.Next(0, parentChunk.Height));
-            }
-            if (secondCorner == null)
-            {
-                secondCorner = new Position(random.Next(0, parentChunk.Width), random.Next(0, parentChunk.Height));
-            }
-
-            TopLeft = new Position(Math.Min(firstCorner.X, secondCorner.X), Math.Min(firstCorner.Y, secondCorner.Y));
-            BottomRight = new Position(Math.Max(firstCorner.X, secondCorner.X), Math.Max(firstCorner.Y, secondCorner.Y));
+            Bounds = bounds;
         }
     }
 }

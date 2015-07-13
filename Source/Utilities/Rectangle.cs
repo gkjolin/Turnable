@@ -55,5 +55,10 @@ namespace Turnable.Utilities
 
             return false;
         }
+
+        public bool IsValid()
+        {
+            return (Height >= 0 && Width >= 0);
+        }
     }
 }

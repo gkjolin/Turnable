@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.LevelGenerators;
 using Turnable.Components;
 using System.Collections.Generic;
+using Turnable.Utilities;
 
 namespace Tests.LevelGenerators
 {
@@ -20,7 +21,8 @@ namespace Tests.LevelGenerators
         [TestMethod]
         public void Chunkify_GivenAnInitialChunk_RandomlyBreaksUpTheChunk()
         {
-            Chunk initialChunk = new Chunk(new Position(0, 0), 100, 100);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk initialChunk = new Chunk(bounds);
 
             List<Chunk> randomChunks = _dungeonGenerator.Chunkify(initialChunk);
 
@@ -31,7 +33,8 @@ namespace Tests.LevelGenerators
         [TestMethod]
         public void PlaceRooms_GivenASetOfChunks_PlacesRandomSizedRoomsWithinEachChunk()
         {
-            Chunk initialChunk = new Chunk(new Position(0, 0), 100, 100);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> randomChunks = _dungeonGenerator.Chunkify(initialChunk);
 
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);

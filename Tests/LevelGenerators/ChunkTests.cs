@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Components;
 using Turnable.LevelGenerators;
 using System.Collections.Generic;
+using Turnable.Api;
+using Turnable.Utilities;
 
 namespace Tests.LevelGenerators
 {
@@ -10,13 +12,21 @@ namespace Tests.LevelGenerators
     public class ChunkTests
     {
         [TestMethod]
+        public void Chunk_ImplementsTheIBoundedInterface()
+        {
+            Rectangle bounds = new Rectangle(new Position(0, 0), 7, 5);
+            Chunk chunk = new Chunk(bounds);
+
+            Assert.IsInstanceOfType(chunk, typeof(IBounded));
+        }
+
+        [TestMethod]
         public void Constructor_InitializesAllProperties()
         {
-            Chunk chunk = new Chunk(new Position(0, 0), 5, 3);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 5, 3);
+            Chunk chunk = new Chunk(bounds);
 
-            Assert.AreEqual(new Position(0, 0), chunk.Position);
-            Assert.AreEqual(5, chunk.Width);
-            Assert.AreEqual(3, chunk.Height);
+            Assert.AreEqual(chunk.Bounds, bounds);
         }
 
         [TestMethod]
@@ -28,16 +38,17 @@ namespace Tests.LevelGenerators
             // New chunks
             // ***|****
             // ***|****
-            Chunk initialChunk = new Chunk(new Position(0, 0), 7, 2);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 7, 2);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 3);
 
             Assert.AreEqual(2, newChunks.Count);
-            Assert.AreEqual(new Position(0, 0), newChunks[0].Position);
-            Assert.AreEqual(3, newChunks[0].Width);
-            Assert.AreEqual(2, newChunks[0].Height);
-            Assert.AreEqual(new Position(3, 0), newChunks[1].Position);
-            Assert.AreEqual(4, newChunks[1].Width);
-            Assert.AreEqual(2, newChunks[1].Height);
+            Assert.AreEqual(new Position(0, 0), newChunks[0].Bounds.TopLeft);
+            Assert.AreEqual(3, newChunks[0].Bounds.Width);
+            Assert.AreEqual(2, newChunks[0].Bounds.Height);
+            Assert.AreEqual(new Position(3, 0), newChunks[1].Bounds.TopLeft);
+            Assert.AreEqual(4, newChunks[1].Bounds.Width);
+            Assert.AreEqual(2, newChunks[1].Bounds.Height);
         }
 
         [TestMethod]
@@ -52,16 +63,17 @@ namespace Tests.LevelGenerators
             // -------
             // *******
             // *******
-            Chunk initialChunk = new Chunk(new Position(0, 0), 7, 3);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 7, 3);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1);
 
             Assert.AreEqual(2, newChunks.Count);
-            Assert.AreEqual(new Position(0, 0), newChunks[0].Position);
-            Assert.AreEqual(7, newChunks[0].Width);
-            Assert.AreEqual(1, newChunks[0].Height);
-            Assert.AreEqual(new Position(0, 1), newChunks[1].Position);
-            Assert.AreEqual(7, newChunks[1].Width);
-            Assert.AreEqual(2, newChunks[1].Height);
+            Assert.AreEqual(new Position(0, 0), newChunks[0].Bounds.TopLeft);
+            Assert.AreEqual(7, newChunks[0].Bounds.Width);
+            Assert.AreEqual(1, newChunks[0].Bounds.Height);
+            Assert.AreEqual(new Position(0, 1), newChunks[1].Bounds.TopLeft);
+            Assert.AreEqual(7, newChunks[1].Bounds.Width);
+            Assert.AreEqual(2, newChunks[1].Bounds.Height);
         }
 
         [TestMethod]
@@ -69,7 +81,8 @@ namespace Tests.LevelGenerators
         {
             // Initial Chunk
             // *******
-            Chunk initialChunk = new Chunk(new Position(0, 0), 7, 1);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 7, 1);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1);
 
             Assert.AreEqual(0, newChunks.Count);
@@ -82,7 +95,8 @@ namespace Tests.LevelGenerators
             // *
             // *
             // *
-            Chunk initialChunk = new Chunk(new Position(0, 0), 1, 3);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 1, 3);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 1);
 
             Assert.AreEqual(0, newChunks.Count);
@@ -95,7 +109,8 @@ namespace Tests.LevelGenerators
             // *******
             // *******
             // *******
-            Chunk initialChunk = new Chunk(new Position(0, 0), 7, 3);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 7, 3);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 2, 2);
 
             Assert.AreEqual(0, newChunks.Count);
@@ -108,7 +123,8 @@ namespace Tests.LevelGenerators
             // ***
             // ***
             // ***
-            Chunk initialChunk = new Chunk(new Position(0, 0), 3, 3);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 3, 3);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 2, 2);
 
             Assert.AreEqual(0, newChunks.Count);
@@ -123,7 +139,8 @@ namespace Tests.LevelGenerators
             // *******
             // *******
             // *******
-            Chunk initialChunk = new Chunk(new Position(0, 0), 7, 4);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 7, 4);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1, 2);
         }
 
@@ -135,7 +152,8 @@ namespace Tests.LevelGenerators
             // ****
             // ****
             // ****
-            Chunk initialChunk = new Chunk(new Position(0, 0), 4, 3);
+            Rectangle bounds = new Rectangle(new Position(0, 0), 4, 3);
+            Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 1, 2);
         }
     }
