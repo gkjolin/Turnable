@@ -56,9 +56,9 @@ namespace Turnable.Utilities
             return false;
         }
 
-        public bool IsValid()
+        public bool Contains(Position position)
         {
-            return (Height >= 0 && Width >= 0);
+            return (position.X >= TopLeft.X && position.Y >= TopLeft.Y && position.X <= BottomRight.X && position.Y <= BottomRight.Y);
         }
     }
 }

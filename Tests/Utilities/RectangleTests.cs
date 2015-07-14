@@ -67,6 +67,66 @@ namespace Tests.Utilities
         }
 
         [TestMethod]
+        public void Contains_GivenAPositionWithinTheRectangleIncludingTheEdgesOfTheRectangle_ReturnsTrue()
+        {
+            Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
+
+            Assert.IsTrue(rectangle.Contains(new Position(2, 3)));
+            Assert.IsTrue(rectangle.Contains(new Position(1, 1)));
+            Assert.IsTrue(rectangle.Contains(new Position(5, 1)));
+            Assert.IsTrue(rectangle.Contains(new Position(1, 4)));
+            Assert.IsTrue(rectangle.Contains(new Position(5, 4)));
+        }
+
+        [TestMethod]
+        public void Contains_GivenAPositionOutsideTheRectangle_ReturnsFalse()
+        {
+            Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
+
+            Assert.IsFalse(rectangle.Contains(new Position(0, 0)));
+            Assert.IsFalse(rectangle.Contains(new Position(0, 1)));
+            Assert.IsFalse(rectangle.Contains(new Position(6, 1)));
+            Assert.IsFalse(rectangle.Contains(new Position(1, 5)));
+            Assert.IsFalse(rectangle.Contains(new Position(5, 6)));
+        }
+
+        [TestMethod]
+        public void Contains_GivenARectangleThatFitsIntoTheOtherRectangleEvenIfSomeEdgesOfBothRectangleTouch_ReturnsTrue()
+        {
+            Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
+
+            Assert.IsTrue(rectangle.Contains(new Position(2, 3)));
+            Assert.IsTrue(rectangle.Contains(new Position(1, 1)));
+            Assert.IsTrue(rectangle.Contains(new Position(5, 1)));
+            Assert.IsTrue(rectangle.Contains(new Position(1, 4)));
+            Assert.IsTrue(rectangle.Contains(new Position(5, 4)));
+        }
+
+        [TestMethod]
+        public void Contains_GivenARectangleThatOverlapsTheOtherRectangle_ReturnsFalse()
+        {
+            Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
+
+            Assert.IsFalse(rectangle.Contains(new Position(0, 0)));
+            Assert.IsFalse(rectangle.Contains(new Position(0, 1)));
+            Assert.IsFalse(rectangle.Contains(new Position(6, 1)));
+            Assert.IsFalse(rectangle.Contains(new Position(1, 5)));
+            Assert.IsFalse(rectangle.Contains(new Position(5, 6)));
+        }
+
+        [TestMethod]
+        public void Contains_GivenARectangleThatIsOutsideTheOtherRectangle_ReturnsFalse()
+        {
+            Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
+
+            Assert.IsFalse(rectangle.Contains(new Position(0, 0)));
+            Assert.IsFalse(rectangle.Contains(new Position(0, 1)));
+            Assert.IsFalse(rectangle.Contains(new Position(6, 1)));
+            Assert.IsFalse(rectangle.Contains(new Position(1, 5)));
+            Assert.IsFalse(rectangle.Contains(new Position(5, 6)));
+        }
+
+        [TestMethod]
         public void AreTouching_GivenTwoRectanglesThatAreTouchingEachOtherAlongOneWholeEdge_ReturnsTrue()
         {
             // * First rectangle 
