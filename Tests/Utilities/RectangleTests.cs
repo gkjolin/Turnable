@@ -95,17 +95,32 @@ namespace Tests.Utilities
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
 
-            Assert.IsTrue(rectangle.Contains(new Position(2, 3)));
-            Assert.IsTrue(rectangle.Contains(new Position(1, 1)));
-            Assert.IsTrue(rectangle.Contains(new Position(5, 1)));
-            Assert.IsTrue(rectangle.Contains(new Position(1, 4)));
-            Assert.IsTrue(rectangle.Contains(new Position(5, 4)));
+            // A rectangle totally within the first rectangle
+            Rectangle otherRectangle = new Rectangle(new Position(2, 2), 2, 1);
+            Assert.IsTrue(rectangle.Contains(otherRectangle));
+
+            // Rectangles that share some of the edges of the first rectangle
+            otherRectangle = new Rectangle(new Position(1, 1), 2, 1);
+            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            otherRectangle = new Rectangle(new Position(3, 1), 2, 1);
+            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            otherRectangle = new Rectangle(new Position(3, 4), 2, 1);
+            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            otherRectangle = new Rectangle(new Position(1, 4), 2, 1);
+            Assert.IsTrue(rectangle.Contains(otherRectangle));
+
+            // Rectangle that is the exact size of the first rectangle
+            otherRectangle = new Rectangle(new Position(1, 1), 5, 4);
+            Assert.IsTrue(rectangle.Contains(otherRectangle));
         }
 
         [TestMethod]
-        public void Contains_GivenARectangleThatOverlapsTheOtherRectangle_ReturnsFalse()
+        public void Contains_GivenARectangleThatIsOutsideButOverlapsTheOtherRectangle_ReturnsFalse()
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
+
+            Rectangle otherRectangle = new Rectangle(new Position(0, 1), 2, 1);
+            Assert.IsFalse(rectangle.Contains(otherRectangle));
 
             Assert.IsFalse(rectangle.Contains(new Position(0, 0)));
             Assert.IsFalse(rectangle.Contains(new Position(0, 1)));
@@ -115,7 +130,7 @@ namespace Tests.Utilities
         }
 
         [TestMethod]
-        public void Contains_GivenARectangleThatIsOutsideTheOtherRectangle_ReturnsFalse()
+        public void Contains_GivenARectangleThatIsCompletelyOutsideTheOtherRectangle_ReturnsFalse()
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
 

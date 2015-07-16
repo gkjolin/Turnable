@@ -60,5 +60,10 @@ namespace Turnable.Utilities
         {
             return (position.X >= TopLeft.X && position.Y >= TopLeft.Y && position.X <= BottomRight.X && position.Y <= BottomRight.Y);
         }
+
+        public bool Contains(Rectangle rectangle)
+        {
+            return false;
+        }
     }
 }
