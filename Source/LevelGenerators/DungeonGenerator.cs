@@ -80,18 +80,6 @@ namespace Turnable.LevelGenerators
             throw new NotImplementedException();
         }
 
-        public List<Position> GetCorridorOrigins(Room firstRoom, Room secondRoom)
-        {
-            List<Position> corridorOrigins = new List<Position>();
-
-            if (firstRoom.Bounds.IsTouching(secondRoom.Bounds))
-            {
-                return corridorOrigins;
-            }
-
-            return corridorOrigins;
-        }
-
         public Corridor GetCorridor(Room firstRoom, Room secondRoom)
         {
             Corridor corridor = new Corridor(null);
@@ -100,6 +88,8 @@ namespace Turnable.LevelGenerators
             {
                 return null;
             }
+
+
 
             return corridor;
         }

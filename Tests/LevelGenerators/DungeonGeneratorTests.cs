@@ -52,6 +52,11 @@ namespace Tests.LevelGenerators
         [TestMethod]
         public void GetCorridor_GivenTwoRoomsThatTouch_ReturnsANullCorridor()
         { 
+            // Example of two rooms that touch
+            // ****::::
+            // ****::::
+            //     ::::
+
             Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
             Chunk chunk = new Chunk(bounds);
             Room firstRoom = new Room(chunk, new Rectangle(new Position(0, 0), 10, 10));
@@ -60,6 +65,70 @@ namespace Tests.LevelGenerators
             Corridor corridor = _dungeonGenerator.GetCorridor(firstRoom, secondRoom);
 
             Assert.IsNull(corridor);
+        }
+
+        [TestMethod]
+        public void GetCorridor_GivenTwoRoomsSeparatedByASpaceAndOnlyOnePossibleCorridorBetweenThem_ReturnsThatCorridor()
+        {
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk chunk = new Chunk(bounds);
+
+            // Only one possible corridor between the rooms
+            // First room to left of second room (. signifies the corridor)
+            // ****.::::
+            //      ::::
+            //      ::::
+            Room firstRoom = new Room(chunk, new Rectangle(new Position(0, 2), 4, 1));
+            Room secondRoom = new Room(chunk, new Rectangle(new Position(5, 0), 4, 3));
+
+            Corridor corridor = _dungeonGenerator.GetCorridor(firstRoom, secondRoom);
+
+            Assert.AreEqual(1, corridor.Segments);
+            Assert.AreEqual(new Position(4, 2), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(4, 2), corridor.Segments[1].End);
+
+            // First room to right of second room (. signifies the corridor)
+            // ::::.****
+            // ::::
+            // ::::
+            corridor = _dungeonGenerator.GetCorridor(secondRoom, firstRoom);
+
+            Assert.AreEqual(1, corridor.Segments);
+            Assert.AreEqual(new Position(4, 2), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(4, 2), corridor.Segments[1].End);
+
+            // First room above second room (. signifies the corridor)
+            // *
+            // *
+            // *
+            // *
+            // .
+            // ::::
+            // ::::
+            // ::::
+            firstRoom = new Room(chunk, new Rectangle(new Position(0,4), 1, 4));
+            secondRoom = new Room(chunk, new Rectangle(new Position(5, 0), 4, 3));
+
+            corridor = _dungeonGenerator.GetCorridor(firstRoom, secondRoom);
+
+            Assert.AreEqual(1, corridor.Segments);
+            Assert.AreEqual(new Position(0, 3), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(0, 3), corridor.Segments[1].End);
+
+            // First room below second room (. signifies the corridor)
+            // ::::
+            // ::::
+            // ::::
+            // .
+            // *
+            // *
+            // *
+            // *
+            corridor = _dungeonGenerator.GetCorridor(secondRoom, firstRoom);
+
+            Assert.AreEqual(1, corridor.Segments);
+            Assert.AreEqual(new Position(0, 3), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(0, 3), corridor.Segments[1].End);
         }
     }
 }

@@ -32,7 +32,6 @@ namespace Turnable.Api
         List<Chunk> Chunkify(Chunk initialChunk);
         List<Room> PlaceRooms(List<Chunk> chunks);
         Corridor JoinRooms(Room firstRoom, Room secondRoom);
-        List<Position> GetCorridorOrigins(Room firstRoom, Room secondRoom);
 
         // Properties
 
