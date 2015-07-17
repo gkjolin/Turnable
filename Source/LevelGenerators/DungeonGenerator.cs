@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Turnable.Api;
+using Turnable.Components;
+using Turnable.Utilities;
 
 namespace Turnable.LevelGenerators
 {
@@ -45,7 +47,7 @@ namespace Turnable.LevelGenerators
 
             foreach (Chunk chunk in chunks)
             {
-                // rooms.Add(new Room(chunk));    
+                rooms.Add(new Room(chunk, Rectangle.BuildRandomRectangle(chunk.Bounds)));
             }
 
             return rooms;
@@ -78,9 +80,28 @@ namespace Turnable.LevelGenerators
             throw new NotImplementedException();
         }
 
-        public List<Components.Position> GetCorridorOrigins(Room firstRoom, Room secondRoom)
+        public List<Position> GetCorridorOrigins(Room firstRoom, Room secondRoom)
         {
-            throw new NotImplementedException();
+            List<Position> corridorOrigins = new List<Position>();
+
+            if (firstRoom.Bounds.IsTouching(secondRoom.Bounds))
+            {
+                return corridorOrigins;
+            }
+
+            return corridorOrigins;
+        }
+
+        public Corridor GetCorridor(Room firstRoom, Room secondRoom)
+        {
+            Corridor corridor = new Corridor(null);
+
+            if (firstRoom.Bounds.IsTouching(secondRoom.Bounds))
+            {
+                return null;
+            }
+
+            return corridor;
         }
     }
 }

@@ -40,20 +40,26 @@ namespace Tests.LevelGenerators
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
             Assert.AreEqual(randomRooms.Count, randomChunks.Count);
-
             foreach (Room room in randomRooms)
             {
-
+                Assert.IsTrue(room.ParentChunk.Bounds.Contains(room.Bounds));
             }
         }
 
         // -------------
         // Joining Rooms
         // -------------
-
-
         [TestMethod]
-        public void JoinRooms_JoiningTwoRoomsThatTouch_ReturnsANullCorridor()
-        { }
+        public void GetCorridor_GivenTwoRoomsThatTouch_ReturnsANullCorridor()
+        { 
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk chunk = new Chunk(bounds);
+            Room firstRoom = new Room(chunk, new Rectangle(new Position(0, 0), 10, 10));
+            Room secondRoom = new Room(chunk, new Rectangle(new Position(10, 0), 10, 10));
+
+            Corridor corridor = _dungeonGenerator.GetCorridor(firstRoom, secondRoom);
+
+            Assert.IsNull(corridor);
+        }
     }
 }

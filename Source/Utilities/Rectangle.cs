@@ -37,10 +37,10 @@ namespace Turnable.Utilities
             }
         }
 
-        public static bool AreTouching(Rectangle firstRectangle, Rectangle secondRectangle)
+        public bool IsTouching(Rectangle other)
         {
-            int xOverlap = Math.Abs(Math.Min(firstRectangle.BottomRight.X, secondRectangle.BottomRight.X) - Math.Max(firstRectangle.TopLeft.X, secondRectangle.TopLeft.X));
-            int yOverlap = Math.Abs(Math.Min(firstRectangle.BottomRight.Y, secondRectangle.BottomRight.Y) - Math.Max(firstRectangle.TopLeft.Y, secondRectangle.TopLeft.Y));
+            int xOverlap = Math.Abs(Math.Min(BottomRight.X, other.BottomRight.X) - Math.Max(TopLeft.X, other.TopLeft.X));
+            int yOverlap = Math.Abs(Math.Min(BottomRight.Y, other.BottomRight.Y) - Math.Max(TopLeft.Y, other.TopLeft.Y));
 
             // Rectangles diagonal to each other
             if (xOverlap == 1 && yOverlap == 1)
@@ -61,9 +61,19 @@ namespace Turnable.Utilities
             return (position.X >= TopLeft.X && position.Y >= TopLeft.Y && position.X <= BottomRight.X && position.Y <= BottomRight.Y);
         }
 
-        public bool Contains(Rectangle rectangle)
+        public bool Contains(Rectangle other)
         {
-            return false;
+            return (Contains(other.TopLeft) && Contains(other.BottomRight));
+        }
+
+        public static Rectangle BuildRandomRectangle(Rectangle bounds)
+        {
+            Random random = new Random();
+
+            Position firstCorner = new Position(random.Next(bounds.TopLeft.X, bounds.BottomRight.X), random.Next(bounds.TopLeft.Y, bounds.BottomRight.Y));
+            Position secondCorner = new Position(random.Next(bounds.TopLeft.X, bounds.BottomRight.X), random.Next(bounds.TopLeft.Y, bounds.BottomRight.Y));
+
+            return new Rectangle(firstCorner, secondCorner);
         }
     }
 }
