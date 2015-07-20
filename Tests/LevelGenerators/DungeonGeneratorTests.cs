@@ -27,7 +27,7 @@ namespace Tests.LevelGenerators
             List<Chunk> randomChunks = _dungeonGenerator.Chunkify(initialChunk);
 
             // TODO: How can I check if the chunk has been broken into multiple random sized chunks?
-            Assert.IsTrue(randomChunks.Count > 10);
+            Assert.IsTrue(randomChunks.Count > 1);
         }
 
         [TestMethod]
@@ -50,85 +50,206 @@ namespace Tests.LevelGenerators
         // Joining Rooms
         // -------------
         [TestMethod]
-        public void GetCorridor_GivenTwoRoomsThatTouch_ReturnsANullCorridor()
-        { 
-            // Example of two rooms that touch
-            // ****::::
-            // ****::::
-            //     ::::
+        public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyOrVerticallyByOneSpace_ReturnsACorridorWithOneLineSegment()
+        {
+            // A corridor is always built excluding the start and end positions.
+            // The reason for this is because the start and end positions of most corridors are chosen from the edges of two rooms.
+            // Therefore the start and end positions are NOT part of the corridor.
+            // S - Start position, E - End position, . - corridor
 
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk chunk = new Chunk(bounds);
-            Room firstRoom = new Room(chunk, new Rectangle(new Position(0, 0), 10, 10));
-            Room secondRoom = new Room(chunk, new Rectangle(new Position(10, 0), 10, 10));
+            // S.E
+            Position start = new Position(0, 0);
+            Position end = new Position(2, 0);
 
-            Corridor corridor = _dungeonGenerator.GetCorridor(firstRoom, secondRoom);
+            Corridor corridor = Corridor.Build(start, end);
 
-            Assert.IsNull(corridor);
+            Assert.AreEqual(1, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].End);
+
+            // E.S
+            corridor = Corridor.Build(end, start);
+
+            Assert.AreEqual(1, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].End);
+
+            // S
+            // .
+            // E
+            start = new Position(0, 2);
+            end = new Position(0, 0);
+            
+            corridor = Corridor.Build(start, end);
+
+            Assert.AreEqual(1, corridor.Segments.Count);
+            Assert.AreEqual(new Position(0, 1), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(0, 1), corridor.Segments[0].End);
+
+            // E
+            // .
+            // S
+            corridor = Corridor.Build(end, start);
+
+            Assert.AreEqual(1, corridor.Segments.Count);
+            Assert.AreEqual(new Position(0, 1), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(0, 1), corridor.Segments[0].End);
         }
 
         [TestMethod]
-        public void GetCorridor_GivenTwoRoomsSeparatedByASpaceAndOnlyOnePossibleCorridorBetweenThem_ReturnsThatCorridor()
+        public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyOrVerticallyByMoreThanOneSpace_ReturnsACorridorWithOneLineSegment()
         {
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk chunk = new Chunk(bounds);
+            // A corridor is always built excluding the start and end positions.
+            // The reason for this is because the start and end positions of most corridors are chosen from the edges of two rooms.
+            // Therefore the start and end positions are NOT part of the corridor.
+            // S - Start position, E - End position, . - corridor
 
-            // Only one possible corridor between the rooms
-            // First room to left of second room (. signifies the corridor)
-            // ****.::::
-            //      ::::
-            //      ::::
-            Room firstRoom = new Room(chunk, new Rectangle(new Position(0, 2), 4, 1));
-            Room secondRoom = new Room(chunk, new Rectangle(new Position(5, 0), 4, 3));
+            // S...E
+            Position start = new Position(0, 0);
+            Position end = new Position(4, 0);
+            
+            Corridor corridor = Corridor.Build(start, end);
 
-            Corridor corridor = _dungeonGenerator.GetCorridor(firstRoom, secondRoom);
+            Assert.AreEqual(1, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(3, 0), corridor.Segments[0].End);
 
-            Assert.AreEqual(1, corridor.Segments);
-            Assert.AreEqual(new Position(4, 2), corridor.Segments[0].Start);
-            Assert.AreEqual(new Position(4, 2), corridor.Segments[1].End);
+            // E...S
+            corridor = Corridor.Build(end, start);
 
-            // First room to right of second room (. signifies the corridor)
-            // ::::.****
-            // ::::
-            // ::::
-            corridor = _dungeonGenerator.GetCorridor(secondRoom, firstRoom);
+            Assert.AreEqual(1, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(3, 0), corridor.Segments[0].End);
 
-            Assert.AreEqual(1, corridor.Segments);
-            Assert.AreEqual(new Position(4, 2), corridor.Segments[0].Start);
-            Assert.AreEqual(new Position(4, 2), corridor.Segments[1].End);
-
-            // First room above second room (. signifies the corridor)
-            // *
-            // *
-            // *
-            // *
+            // S
             // .
-            // ::::
-            // ::::
-            // ::::
-            firstRoom = new Room(chunk, new Rectangle(new Position(0,4), 1, 4));
-            secondRoom = new Room(chunk, new Rectangle(new Position(5, 0), 4, 3));
-
-            corridor = _dungeonGenerator.GetCorridor(firstRoom, secondRoom);
-
-            Assert.AreEqual(1, corridor.Segments);
-            Assert.AreEqual(new Position(0, 3), corridor.Segments[0].Start);
-            Assert.AreEqual(new Position(0, 3), corridor.Segments[1].End);
-
-            // First room below second room (. signifies the corridor)
-            // ::::
-            // ::::
-            // ::::
             // .
-            // *
-            // *
-            // *
-            // *
-            corridor = _dungeonGenerator.GetCorridor(secondRoom, firstRoom);
+            // .
+            // E
+            start = new Position(0, 4);
+            end = new Position(0, 0);
+            
+            corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(1, corridor.Segments);
+            Assert.AreEqual(1, corridor.Segments.Count);
             Assert.AreEqual(new Position(0, 3), corridor.Segments[0].Start);
-            Assert.AreEqual(new Position(0, 3), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(0, 1), corridor.Segments[0].End);
+
+            // E
+            // .
+            // .
+            // .
+            // S
+            corridor = Corridor.Build(end, start);
+
+            Assert.AreEqual(1, corridor.Segments.Count);
+            Assert.AreEqual(new Position(0, 1), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(0, 3), corridor.Segments[0].End);
+        }
+
+        [TestMethod]
+        public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByMoreThanOneSpace_ReturnsACorridorTODO()
+        {
+            // S.
+            //  .E
+        }
+
+        [TestMethod]
+        public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByTwoHorizontalAndVerticalSpaces_ReturnsALShapedCorridor()
+        {
+            // S.. 
+            //   .E
+            Position start = new Position(0, 1);
+            Position end = new Position(3, 0);
+
+            Corridor corridor = Corridor.Build(start, end);
+
+            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].End);
+
+            // E.. 
+            //   .S
+            corridor = Corridor.Build(end, start);
+
+            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].End);
+
+            //   .E
+            // S..
+            start = new Position(0, 0);
+            end = new Position(3, 1);
+            corridor = Corridor.Build(end, start);
+
+            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].End);
+
+            //   .S
+            // E..
+            corridor = Corridor.Build(start, end);
+
+            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].End);
+        }
+
+        [TestMethod]
+        public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByMoreThanTwoHorizontalAndVerticalSpaces_ReturnsAZShapedCorridor()
+        {
+            // S.. 
+            //   ..E
+            Position start = new Position(0, 1);
+            Position end = new Position(4, 0);
+
+            Corridor corridor = Corridor.Build(start, end);
+
+            Assert.AreEqual(3, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(3, 0), corridor.Segments[1].End);
+
+            // E.. 
+            //   ..S
+            corridor = Corridor.Build(end, start);
+
+            Assert.AreEqual(3, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(3, 0), corridor.Segments[1].End);
+
+            //   ..E
+            // S..
+            start = new Position(0, 0);
+            end = new Position(3, 1);
+            corridor = Corridor.Build(end, start);
+
+            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].End);
+
+            //   ..S
+            // E..
+            corridor = Corridor.Build(start, end);
+
+            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].End);
         }
     }
 }

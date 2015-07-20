@@ -10,6 +10,14 @@ namespace Tests.LevelGenerators
     public class CorridorTests
     {
         [TestMethod]
+        public void DefaulyConstructor_InitializesAllProperties()
+        {
+            Corridor corridor = new Corridor();
+
+            Assert.IsNotNull(corridor.Segments);
+        }
+
+        [TestMethod]
         public void Constructor_InitializesAllProperties()
         {
             List<Segment> segments = new List<Segment>();
