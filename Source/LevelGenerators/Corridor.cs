@@ -22,9 +22,6 @@ namespace Turnable.LevelGenerators
 
         public static Corridor Build(Position start, Position end)
         {
-            // Note that this algorithm favors going horizontally and then vertically.
-            // TODO: Should I just use the PathFinder here? 
-
             Corridor corridor = new Corridor();
             // TODO: Use a utility class to reorder these positions as well as the positions in construction of a Rectangle
             // Reorder the start and end points of the corridor so that the start is always to left of the end point
@@ -33,51 +30,28 @@ namespace Turnable.LevelGenerators
                 Swap(ref start, ref end);
             }
 
-            //// Start and end positions are in the same horizontal line
-            //if (start.Y == end.Y)
-            //{
-            //    Position segmentStart = new Position(start.X + 1, start.Y);
-            //    Position segmentEnd = new Position(end.X - 1, end.Y);
-            //    corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
-            //}
-
-            //// Start and end positions are in the same vertical line
-            //if (start.X == end.X)
-            //{
-            //    Position segmentStart = new Position(start.X, start.Y + 1);
-            //    Position segmentEnd = new Position(end.X, end.Y - 1);
-            //    corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
-            //}
-
-            //// L shape corridors
-            //if (start.X != end.X && start.Y != end.Y)
-            //{
-            //    // First horizontal segment
-            //    Position segmentStart = new Position(start.X + 1, start.Y);
-            //    Position segmentEnd = new Position(end.X - 1, start.Y);
-            //    corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
-
-            //    // Second vertical segment
-            //    if (end.Y > start.Y)
-            //    {
-            //        segmentStart = new Position(end.X - 1, start.Y + 1);
-            //        segmentEnd = new Position(end.X - 1, end.Y);
-            //    }
-            //    else
-            //    {
-            //        segmentStart = new Position(end.X - 1, start.Y - 1);
-            //        segmentEnd = new Position(end.X - 1, end.Y);
-            //    }
-            //    corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
-            //}
             Position segmentStart = null;
             Position segmentEnd = null;
 
             // Move right first (if needed)
+            // In order to form a Z shaped corridor, we need to stop moving right about halfway.
+            // We use the following calculation which gives these results (horizontal separation between start and end, how far to stop moving right): (2: 1, 3: 2, 4: 2, 5:3, 6:4, 7: 4, 8:4)
             if (start.X != end.X)
             {
-                segmentStart = new Position(start.X + 1, start.Y);
-                segmentEnd = new Position(end.X - 1, start.Y);
+                if (start.Y == end.Y)
+                {
+                    // No need to turn the corridor halfway
+                    segmentStart = new Position(start.X + 1, start.Y);
+                    segmentEnd = new Position(end.X - 1, start.Y);
+                }
+                else
+                {
+                    // Turn the corridor halfway
+                    int segmentStartTurnDistance = (int)(Math.Ceiling(((double)end.X - (double)start.X - 1.0d) / 2.0d));
+                    segmentStart = new Position(start.X + 1, start.Y);
+                    segmentEnd = new Position(segmentStartTurnDistance, start.Y);
+                }
+
                 corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
             }
 
@@ -111,6 +85,17 @@ namespace Turnable.LevelGenerators
                 }
                 corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
             }
+
+            // If the corridor now reaches to the end, return it.
+            if (segmentEnd.X == end.X && (Math.Abs(segmentEnd.Y - end.Y) == 1) || segmentEnd.Y == end.Y && (Math.Abs(segmentEnd.X - end.X) == 1))
+            {
+                return corridor;
+            }
+
+            // Move right again
+            segmentStart = new Position(segmentEnd.X + 1, segmentEnd.Y);
+            segmentEnd = new Position(end.X - 1, end.Y);
+            corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
 
             return corridor;
         }

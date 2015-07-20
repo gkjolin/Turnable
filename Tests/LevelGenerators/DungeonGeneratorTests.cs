@@ -157,50 +157,59 @@ namespace Tests.LevelGenerators
         [TestMethod]
         public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByTwoHorizontalAndVerticalSpaces_ReturnsALShapedCorridor()
         {
-            // S.. 
-            //   .E
+            // The algorithm actually returns a z type corridor with the segment going to the right being just one space long.
+            // S. 
+            //  ..E
             Position start = new Position(0, 1);
             Position end = new Position(3, 0);
 
             Corridor corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(3, corridor.Segments.Count);
             Assert.AreEqual(new Position(1, 1), corridor.Segments[0].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.Segments[0].End);
-            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[2].Start);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[2].End);
 
-            // E.. 
-            //   .S
+            // E. 
+            //  ..S
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(3, corridor.Segments.Count);
             Assert.AreEqual(new Position(1, 1), corridor.Segments[0].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.Segments[0].End);
-            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[2].Start);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[2].End);
 
-            //   .E
-            // S..
+            //  ..E
+            // S.
             start = new Position(0, 0);
             end = new Position(3, 1);
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(3, corridor.Segments.Count);
             Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.Segments[0].End);
-            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[2].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[2].End);
 
-            //   .S
-            // E..
+            //  ..S
+            // E.
             corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(3, corridor.Segments.Count);
             Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.Segments[0].End);
-            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(1, 0), corridor.Segments[0].End);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[1].Start);
+            Assert.AreEqual(new Position(1, 1), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[2].Start);
+            Assert.AreEqual(new Position(2, 1), corridor.Segments[2].End);
         }
 
         [TestMethod]
@@ -217,7 +226,9 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(new Position(1, 1), corridor.Segments[0].Start);
             Assert.AreEqual(new Position(2, 1), corridor.Segments[0].End);
             Assert.AreEqual(new Position(2, 0), corridor.Segments[1].Start);
-            Assert.AreEqual(new Position(3, 0), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(3, 0), corridor.Segments[2].Start);
+            Assert.AreEqual(new Position(3, 0), corridor.Segments[2].End);
 
             // E.. 
             //   ..S
@@ -227,7 +238,9 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(new Position(1, 1), corridor.Segments[0].Start);
             Assert.AreEqual(new Position(2, 1), corridor.Segments[0].End);
             Assert.AreEqual(new Position(2, 0), corridor.Segments[1].Start);
-            Assert.AreEqual(new Position(3, 0), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(2, 0), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(3, 0), corridor.Segments[2].Start);
+            Assert.AreEqual(new Position(3, 0), corridor.Segments[2].End);
 
             //   ..E
             // S..
@@ -235,21 +248,25 @@ namespace Tests.LevelGenerators
             end = new Position(3, 1);
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(3, corridor.Segments.Count);
             Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
             Assert.AreEqual(new Position(2, 0), corridor.Segments[0].End);
             Assert.AreEqual(new Position(2, 1), corridor.Segments[1].Start);
             Assert.AreEqual(new Position(2, 1), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(3, 1), corridor.Segments[2].Start);
+            Assert.AreEqual(new Position(3, 1), corridor.Segments[2].End);
 
             //   ..S
             // E..
             corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(2, corridor.Segments.Count);
+            Assert.AreEqual(3, corridor.Segments.Count);
             Assert.AreEqual(new Position(1, 0), corridor.Segments[0].Start);
             Assert.AreEqual(new Position(2, 0), corridor.Segments[0].End);
             Assert.AreEqual(new Position(2, 1), corridor.Segments[1].Start);
             Assert.AreEqual(new Position(2, 1), corridor.Segments[1].End);
+            Assert.AreEqual(new Position(3, 1), corridor.Segments[2].Start);
+            Assert.AreEqual(new Position(3, 1), corridor.Segments[2].End);
         }
     }
 }
