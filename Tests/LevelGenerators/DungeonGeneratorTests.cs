@@ -245,7 +245,7 @@ namespace Tests.LevelGenerators
             //   ..E
             // S..
             start = new Position(0, 0);
-            end = new Position(3, 1);
+            end = new Position(4, 1);
             corridor = Corridor.Build(end, start);
 
             Assert.AreEqual(3, corridor.Segments.Count);

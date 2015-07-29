@@ -6,6 +6,7 @@ using Turnable.Tiled;
 using Tests.Factories;
 using System.Tuples;
 using Turnable.Components;
+using Turnable.Utilities;
 
 namespace Tests.Tiled
 {
@@ -143,14 +144,19 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void SetTile_WhenATileAlreadyExistsAtThePosition_ThrowsAnException()
+        public void SetTile_WhenATileAlreadyExistsAtThePosition_Succeeds()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 
             layer.SetTile(new Position(7, 2), 2107);
-            layer.SetTile(new Position(7, 2), 2107);
+            layer.SetTile(new Position(7, 2), 2106);
+
+            Assert.AreEqual((uint)2106, layer.Tiles[new Tuple<int, int>(7, 2)].GlobalId);
+            Assert.AreEqual(7, layer.Tiles[new Tuple<int, int>(7, 2)].X);
+            Assert.AreEqual(2, layer.Tiles[new Tuple<int, int>(7, 2)].Y);
         }
+
+        // TODO: Setting a tile outside the bounds of the Layer is illegal, write unit test for this
 
         [TestMethod]
         public void RemoveTile_GivenAPosition_RemovesTheTileThatExistsAtThatPosition()
@@ -172,6 +178,42 @@ namespace Tests.Tiled
 
             layer.RemoveTile(new Position(7, 2));
             layer.RemoveTile(new Position(7, 2));
+        }
+
+        [TestMethod]
+        public void Fill_GivenAGlobalId_FillsTheEntireLayerWithTiles()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            layer.Fill(1);
+
+            for (int col = 0; col < layer.Width; col++)
+            {
+                for (int row = 0; row < layer.Height; row++)
+                {
+                    Assert.AreEqual((uint)1, layer.Tiles[new Tuple<int, int>(col, row)].GlobalId);
+                    Assert.AreEqual(col, layer.Tiles[new Tuple<int, int>(col, row)].X);
+                    Assert.AreEqual(row, layer.Tiles[new Tuple<int, int>(col, row)].Y);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Fill_GivenARectangleWithinItsBounds_FillsTheRectangleWithTiles()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            layer.Fill(new Rectangle(new Position(1, 1), new Position(2, 2)), (uint)1);
+
+            for (int col = 1; col <= 2; col++)
+            {
+                for (int row = 1; row <= 2; row++)
+                {
+                    Assert.AreEqual((uint)1, layer.Tiles[new Tuple<int, int>(col, row)].GlobalId);
+                    Assert.AreEqual(col, layer.Tiles[new Tuple<int, int>(col, row)].X);
+                    Assert.AreEqual(row, layer.Tiles[new Tuple<int, int>(col, row)].Y);
+                }
+            }
         }
     }
 }

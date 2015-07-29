@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Turnable.Components;
 using Turnable.Tiled;
+using Turnable.Utilities;
 
 namespace Turnable.Api
 {
@@ -18,6 +19,8 @@ namespace Turnable.Api
         void RemoveTile(Position position);
         void MoveTile(Position currentPosition, Position newPosition);
         void SwapTile(Position position1, Position position2);
+        void Fill(uint globalId);
+        void Fill(Rectangle bounds, uint globalId);
 
         // -----------------
         // Private interface

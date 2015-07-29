@@ -6,6 +6,7 @@ using System.Tuples;
 using System.Xml.Linq;
 using Turnable.Api;
 using Turnable.Components;
+using Turnable.Utilities;
 
 namespace Turnable.Tiled
 {
@@ -47,11 +48,6 @@ namespace Turnable.Tiled
 
         public void SetTile(Position position, uint globalId)
         {
-            if (Tiles.ContainsKey(new Tuple<int, int>(position.X, position.Y)))
-            {
-                throw new InvalidOperationException();
-            }
-
             Tiles[new Tuple<int, int>(position.X, position.Y)] = new Tile((uint)globalId, position.X, position.Y);
         }
 
@@ -96,6 +92,22 @@ namespace Turnable.Tiled
             RemoveTile(position2);
             SetTile(position1, tile2.GlobalId);
             SetTile(position2, tile1.GlobalId);
+        }
+
+        public void Fill(uint globalId)
+        {
+            Fill(new Rectangle(new Position(0, 0), new Position(Width - 1, Height - 1)), globalId);
+        }
+
+        public void Fill(Rectangle bounds, uint globalId)
+        {
+            for (int col = bounds.TopLeft.X; col <= bounds.BottomRight.X; col++)
+            {
+                for (int row = bounds.TopLeft.Y; row <= bounds.BottomRight.Y; row++)
+                {
+                    SetTile(new Position(col, row), globalId);
+                }
+            }
         }
     }
 }
