@@ -19,6 +19,7 @@ namespace Turnable.Api
         // ----------------
 
         // Methods
+        Level Generate();
 
         // Properties
 

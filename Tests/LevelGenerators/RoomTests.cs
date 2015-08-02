@@ -34,21 +34,6 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(roomBounds, room.Bounds);
         }
 
-        // TODO: Test that any corners are out of the chunk, but use a BoundsChecker. 
-
-        //[TestMethod]
-        //public void Constructor_GivenOnlyAParentChunk_ConstructsARandomlySizedRoom()
-        //{
-        //    Chunk chunk = new Chunk(new Position(0, 0), 7, 4);
-
-        //    Room room = new Room(chunk);
-
-        //    Assert.IsNotNull(room.TopLeft);
-        //    Assert.IsTrue(room.TopLeft.X >= 0 && room.TopLeft.X <= 6);
-        //    Assert.IsTrue(room.TopLeft.Y >= 0 && room.TopLeft.Y <= 4);
-        //    Assert.IsNotNull(room.BottomRight);
-        //    Assert.IsTrue(room.BottomRight.X >= 0 && room.BottomRight.X <= 6);
-        //    Assert.IsTrue(room.BottomRight.Y >= 0 && room.BottomRight.Y <= 4);
-        //}
+        // TODO: Test that if any corners are out of the chunk, the construction is invalid (use the bounds checking feature of parent chunk)
     }
 }

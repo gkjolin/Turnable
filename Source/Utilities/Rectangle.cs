@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Turnable.Components;
+using Turnable.LevelGenerators;
 
 namespace Turnable.Utilities
 {
@@ -10,11 +11,19 @@ namespace Turnable.Utilities
     {
         public Position TopLeft { get; private set; }
         public Position BottomRight { get; private set; }
+        public List<Segment> Edges { get; private set; }
 
         public Rectangle(Position firstCorner, Position secondCorner)
         {
             TopLeft = new Position(Math.Min(firstCorner.X, secondCorner.X), Math.Min(firstCorner.Y, secondCorner.Y));
             BottomRight = new Position(Math.Max(firstCorner.X, secondCorner.X), Math.Max(firstCorner.Y, secondCorner.Y));
+
+            // Intialize the edges
+            Edges = new List<Segment>();
+            Edges.Add(new Segment(new Position(TopLeft.X, TopLeft.Y), new Position(BottomRight.X, TopLeft.Y)));
+            Edges.Add(new Segment(new Position(BottomRight.X, TopLeft.Y), new Position(BottomRight.X, BottomRight.Y)));
+            Edges.Add(new Segment(new Position(BottomRight.X, BottomRight.Y), new Position(TopLeft.X, BottomRight.Y)));
+            Edges.Add(new Segment(new Position(TopLeft.X, BottomRight.Y), new Position(TopLeft.X, TopLeft.Y)));
         }
 
         public Rectangle(Position topLeft, int width, int height)

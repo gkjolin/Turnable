@@ -50,6 +50,21 @@ namespace Tests.LevelGenerators
         // Joining Rooms
         // -------------
         [TestMethod]
+        public void GetRandomCorridorOrigins_GivenTwoRooms_FindsTwoRandomCorridorOriginPointsThatAreOnFacingSides()
+        {
+            // * - First Room, : - Second Room, o - Origins
+            // Note that these are just examples, since the origins have random locations.
+            // ***o   ::::
+            // ****   ::::
+            // ****   o:::
+
+
+            // ::::   o***
+            // ::::   ****
+            // :::o   **** 
+        }
+
+        [TestMethod]
         public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyOrVerticallyByOneSpace_ReturnsACorridorWithOneLineSegment()
         {
             // A corridor is always built excluding the start and end positions.

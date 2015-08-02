@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Turnable.Api;
 using Turnable.Components;
+using Turnable.Locations;
 using Turnable.Utilities;
 
 namespace Turnable.LevelGenerators
@@ -89,9 +90,12 @@ namespace Turnable.LevelGenerators
                 return null;
             }
 
-
-
             return corridor;
+        }
+
+        public Level Generate()
+        {
+            throw new NotImplementedException();
         }
     }
 }

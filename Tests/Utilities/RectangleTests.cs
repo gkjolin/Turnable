@@ -17,6 +17,18 @@ namespace Tests.Utilities
             Assert.AreEqual(new Position(4, 4), rectangle.BottomRight);
             Assert.AreEqual(5, rectangle.Width);
             Assert.AreEqual(5, rectangle.Height);
+
+            // Check if four edges (one for each edge of the rectangle) are initialized.
+            // Also check to see if the edges are ordered clockwise.
+            Assert.AreEqual(4, rectangle.Edges.Count);
+            Assert.AreEqual(new Position(0, 0), rectangle.Edges[0].Start);
+            Assert.AreEqual(new Position(4, 0), rectangle.Edges[0].End);
+            Assert.AreEqual(new Position(4, 0), rectangle.Edges[1].Start);
+            Assert.AreEqual(new Position(4, 4), rectangle.Edges[1].End);
+            Assert.AreEqual(new Position(4, 4), rectangle.Edges[2].Start);
+            Assert.AreEqual(new Position(0, 4), rectangle.Edges[2].End);
+            Assert.AreEqual(new Position(0, 4), rectangle.Edges[3].Start);
+            Assert.AreEqual(new Position(0, 0), rectangle.Edges[3].End);
         }
 
         [TestMethod]
