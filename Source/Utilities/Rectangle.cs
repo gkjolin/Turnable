@@ -15,8 +15,8 @@ namespace Turnable.Utilities
 
         public Rectangle(Position firstCorner, Position secondCorner)
         {
-            TopLeft = new Position(Math.Min(firstCorner.X, secondCorner.X), Math.Min(firstCorner.Y, secondCorner.Y));
-            BottomRight = new Position(Math.Max(firstCorner.X, secondCorner.X), Math.Max(firstCorner.Y, secondCorner.Y));
+            TopLeft = new Position(Math.Min(firstCorner.X, secondCorner.X), Math.Max(firstCorner.Y, secondCorner.Y));
+            BottomRight = new Position(Math.Max(firstCorner.X, secondCorner.X), Math.Min(firstCorner.Y, secondCorner.Y));
 
             // Intialize the edges
             Edges = new List<Segment>();
@@ -83,6 +83,33 @@ namespace Turnable.Utilities
             Position secondCorner = new Position(random.Next(bounds.TopLeft.X, bounds.BottomRight.X), random.Next(bounds.TopLeft.Y, bounds.BottomRight.Y));
 
             return new Rectangle(firstCorner, secondCorner);
+        }
+
+        public List<Segment> GetFacingEdges(Rectangle other)
+        {
+            List<Segment> facingEdges = new List<Segment>();
+            int shortestDistance = Int16.MaxValue;
+
+            foreach (Segment edge in Edges)
+            {
+                foreach (Segment otherEdge in other.Edges)
+                {
+                    if (edge.IsParallelTo(otherEdge)) // Only check the distance between two parallel edges.
+                    {
+                        int parallelDistance = edge.DistanceBetween(otherEdge);
+
+                        if (parallelDistance < shortestDistance)
+                        {
+                            shortestDistance = parallelDistance;
+                            facingEdges.Clear();
+                            facingEdges.Add(edge);
+                            facingEdges.Add(otherEdge);
+                        }
+                    }
+                }
+            }
+
+            return facingEdges;
         }
     }
 }

@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Components;
 using Turnable.Utilities;
+using Turnable.LevelGenerators;
+using System.Collections.Generic;
 
 namespace Tests.Utilities
 {
@@ -13,8 +15,8 @@ namespace Tests.Utilities
         {
             Rectangle rectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.AreEqual(new Position(0, 0), rectangle.TopLeft);
-            Assert.AreEqual(new Position(4, 4), rectangle.BottomRight);
+            Assert.AreEqual(new Position(0, 4), rectangle.TopLeft);
+            Assert.AreEqual(new Position(4, 0), rectangle.BottomRight);
             Assert.AreEqual(5, rectangle.Width);
             Assert.AreEqual(5, rectangle.Height);
 
@@ -401,6 +403,44 @@ namespace Tests.Utilities
             // *****
             // *****
             Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+        }
+
+        [TestMethod]
+        public void GetFacingEdges_GivenTwoRectangles_ReturnsTheTwoEdgesThatAreClosestAndParallelToEachOther()
+        {
+            // * First rectangle, : Second Rectangle, F Facing edge
+            // **F
+            // **F
+            // **F  F::
+            // **F  F::
+            // **F  F::
+            Rectangle firstRectangle = new Rectangle(new Position(0, 0), new Position(2, 4));
+            Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(5, 2));
+
+            List<Segment> facingEdges = firstRectangle.GetFacingEdges(secondRectangle);
+
+            Assert.AreEqual(2, facingEdges.Count);
+            Assert.AreEqual(new Position(2, 4), facingEdges[0].Start);
+            Assert.AreEqual(new Position(2, 0), facingEdges[0].End);
+            Assert.AreEqual(new Position(5, 0), facingEdges[1].Start);
+            Assert.AreEqual(new Position(5, 2), facingEdges[1].End);
+
+            // * First rectangle, : Second Rectangle, F Facing edge
+            // *****
+            // *****
+            // FFFFF
+            //      FFFF
+            //      ::::
+            firstRectangle = new Rectangle(new Position(0, 2), new Position(4, 4));
+            secondRectangle = new Rectangle(new Position(5, 0), new Position(8, 1));
+
+            facingEdges = firstRectangle.GetFacingEdges(secondRectangle);
+
+            Assert.AreEqual(2, facingEdges.Count);
+            Assert.AreEqual(new Position(2, 4), facingEdges[0].Start);
+            Assert.AreEqual(new Position(2, 0), facingEdges[0].End);
+            Assert.AreEqual(new Position(5, 0), facingEdges[1].Start);
+            Assert.AreEqual(new Position(5, 2), facingEdges[1].End);
         }
     }
 }
