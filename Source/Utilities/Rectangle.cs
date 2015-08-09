@@ -141,6 +141,35 @@ namespace Turnable.Utilities
 
             if (facingEdges.Count == 0) // No two parallel edges were found that would work, try edges that are not parallel to each other
             {
+                shortestDistance = Int16.MaxValue;
+
+                foreach (LineSegment edge in Edges)
+                {
+                    foreach (LineSegment otherEdge in other.Edges)
+                    {
+                        if (!edge.IsParallelTo(otherEdge)) // Only check the distance between two parallel edges.
+                        {
+                            intersectionLine = new LineSegment(edge.GetMidpoint(), otherEdge.GetMidpoint());
+                            int distance = intersectionLine.Points.Count();
+
+                            if (distance < shortestDistance) 
+                            {
+                                // If the line between the midpoints of the edges intersects either rectangle, then this isn't a good candidate for the closest edges.
+
+                                if (intersectionLine.Intersects(this, true) || intersectionLine.Intersects(other, true))
+                                {
+                                }
+                                else
+                                {
+                                    shortestDistance = distance;
+                                    facingEdges.Clear();
+                                    facingEdges.Add(edge);
+                                    facingEdges.Add(otherEdge);
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             return facingEdges;

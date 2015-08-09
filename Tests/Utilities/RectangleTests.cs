@@ -554,14 +554,24 @@ namespace Tests.Utilities
         [TestMethod]
         public void GetClosestEdges_GivenTwoRectanglesWithNoSuitableParallelEdges_ReturnsTheClosesNonParallelEdges()
         {
-            // **C
-            // **C
-            // **C  
-            // **C  
-            // **C  
-            //    CCC
-            //    :::
-            //    :::
+            // ***
+            // ***
+            // ***  
+            // ***  
+            // CCC  
+            //    C::
+            //    C::
+            //    C::
+            Rectangle firstRectangle = new Rectangle(new Position(0, 3), new Position(2, 7));
+            Rectangle secondRectangle = new Rectangle(new Position(3, 0), new Position(5, 2));
+
+            List<LineSegment> closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
+
+            Assert.AreEqual(2, closestEdges.Count);
+            Assert.AreEqual(new Position(0, 3), closestEdges[0].Start);
+            Assert.AreEqual(new Position(2, 3), closestEdges[0].End);
+            Assert.AreEqual(new Position(3, 2), closestEdges[1].Start);
+            Assert.AreEqual(new Position(3, 0), closestEdges[1].End);
         }
     }
 }
