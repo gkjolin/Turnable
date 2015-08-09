@@ -72,7 +72,6 @@
     <Compile Include="Factories\TiledFactory.cs" />
     <Compile Include="Inspectors\LevelInspectorTests.cs" />
     <Compile Include="LevelGenerators\ChunkTests.cs" />
-    <Compile Include="LevelGenerators\SegmentTests.cs" />
     <Compile Include="LevelGenerators\CorridorTests.cs" />
     <Compile Include="LevelGenerators\RoomTests.cs" />
     <Compile Include="LevelGenerators\DungeonGenerationParametersTests.cs" />
@@ -99,7 +98,7 @@
     <Compile Include="Tiled\TilesetTests.cs" />
     <Compile Include="Tiled\TileTests.cs" />
     <Compile Include="Utilities\RectangleTests.cs" />
-    <Compile Include="Vision\LineTests.cs" />
+    <Compile Include="Vision\LineSegmentTests.cs" />
     <Compile Include="Vision\VisionCalculatorTests.cs" />
   </ItemGroup>
   <ItemGroup>

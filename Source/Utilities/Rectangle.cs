@@ -4,26 +4,27 @@ using System.Linq;
 using System.Text;
 using Turnable.Components;
 using Turnable.LevelGenerators;
+using Turnable.Vision;
 
 namespace Turnable.Utilities
 {
     public class Rectangle
     {
-        public Position TopLeft { get; private set; }
-        public Position BottomRight { get; private set; }
-        public List<Segment> Edges { get; private set; }
+        public Position BottomLeft { get; private set; }
+        public Position TopRight { get; private set; }
+        public List<LineSegment> Edges { get; private set; }
 
         public Rectangle(Position firstCorner, Position secondCorner)
         {
-            TopLeft = new Position(Math.Min(firstCorner.X, secondCorner.X), Math.Max(firstCorner.Y, secondCorner.Y));
-            BottomRight = new Position(Math.Max(firstCorner.X, secondCorner.X), Math.Min(firstCorner.Y, secondCorner.Y));
+            BottomLeft = new Position(Math.Min(firstCorner.X, secondCorner.X), Math.Min(firstCorner.Y, secondCorner.Y));
+            TopRight = new Position(Math.Max(firstCorner.X, secondCorner.X), Math.Max(firstCorner.Y, secondCorner.Y));
 
             // Intialize the edges
-            Edges = new List<Segment>();
-            Edges.Add(new Segment(new Position(TopLeft.X, TopLeft.Y), new Position(BottomRight.X, TopLeft.Y)));
-            Edges.Add(new Segment(new Position(BottomRight.X, TopLeft.Y), new Position(BottomRight.X, BottomRight.Y)));
-            Edges.Add(new Segment(new Position(BottomRight.X, BottomRight.Y), new Position(TopLeft.X, BottomRight.Y)));
-            Edges.Add(new Segment(new Position(TopLeft.X, BottomRight.Y), new Position(TopLeft.X, TopLeft.Y)));
+            Edges = new List<LineSegment>();
+            Edges.Add(new LineSegment(new Position(BottomLeft.X, BottomLeft.Y), new Position(TopRight.X, BottomLeft.Y)));
+            Edges.Add(new LineSegment(new Position(TopRight.X, BottomLeft.Y), new Position(TopRight.X, TopRight.Y)));
+            Edges.Add(new LineSegment(new Position(TopRight.X, TopRight.Y), new Position(BottomLeft.X, TopRight.Y)));
+            Edges.Add(new LineSegment(new Position(BottomLeft.X, TopRight.Y), new Position(BottomLeft.X, BottomLeft.Y)));
         }
 
         public Rectangle(Position topLeft, int width, int height)
@@ -34,7 +35,7 @@ namespace Turnable.Utilities
         public int Width { 
             get 
             {
-                return (BottomRight.X - TopLeft.X + 1);
+                return (TopRight.X - BottomLeft.X + 1);
             }
         }
 
@@ -42,71 +43,104 @@ namespace Turnable.Utilities
         {
             get
             {
-                return (BottomRight.Y - TopLeft.Y + 1);
+                return (TopRight.Y - BottomLeft.Y + 1);
             }
         }
 
         public bool IsTouching(Rectangle other)
         {
-            int xOverlap = Math.Abs(Math.Min(BottomRight.X, other.BottomRight.X) - Math.Max(TopLeft.X, other.TopLeft.X));
-            int yOverlap = Math.Abs(Math.Min(BottomRight.Y, other.BottomRight.Y) - Math.Max(TopLeft.Y, other.TopLeft.Y));
+            bool isTouching = false;
 
-            // Rectangles diagonal to each other
-            if (xOverlap == 1 && yOverlap == 1)
+            // If any two edges of the rectangles are touching, the rectangles are touching.
+            foreach (LineSegment edge in Edges)
             {
-                return false;
+                foreach (LineSegment otherEdge in other.Edges)
+                {
+                    if (edge.IsTouching(otherEdge))
+                    {
+                        isTouching = true;
+                        break;
+                    }
+                }
+
+                if (isTouching)
+                {
+                    break;
+                }
             }
 
-            if (xOverlap == 1 || yOverlap == 1)
-            {
-                return true;
-            }
-
-            return false;
+            return isTouching;
         }
 
         public bool Contains(Position position)
         {
-            return (position.X >= TopLeft.X && position.Y >= TopLeft.Y && position.X <= BottomRight.X && position.Y <= BottomRight.Y);
+            return (position.X >= BottomLeft.X && position.Y >= BottomLeft.Y && position.X <= TopRight.X && position.Y <= TopRight.Y);
         }
 
         public bool Contains(Rectangle other)
         {
-            return (Contains(other.TopLeft) && Contains(other.BottomRight));
+            return (Contains(other.BottomLeft) && Contains(other.TopRight));
         }
 
         public static Rectangle BuildRandomRectangle(Rectangle bounds)
         {
             Random random = new Random();
 
-            Position firstCorner = new Position(random.Next(bounds.TopLeft.X, bounds.BottomRight.X), random.Next(bounds.TopLeft.Y, bounds.BottomRight.Y));
-            Position secondCorner = new Position(random.Next(bounds.TopLeft.X, bounds.BottomRight.X), random.Next(bounds.TopLeft.Y, bounds.BottomRight.Y));
+            Position firstCorner = new Position(random.Next(bounds.BottomLeft.X, bounds.TopRight.X), random.Next(bounds.BottomLeft.Y, bounds.TopRight.Y));
+            Position secondCorner = new Position(random.Next(bounds.BottomLeft.X, bounds.TopRight.X), random.Next(bounds.BottomLeft.Y, bounds.TopRight.Y));
 
             return new Rectangle(firstCorner, secondCorner);
         }
 
-        public List<Segment> GetFacingEdges(Rectangle other)
+        public List<LineSegment> GetClosestEdges(Rectangle other)
         {
-            List<Segment> facingEdges = new List<Segment>();
+            // This method finds the closest edges for two rectangles.
+            // This is mostly used to join the two rectangles with a corridor. 
+            LineSegment intersectionLine;
+            List<LineSegment> facingEdges = new List<LineSegment>();
             int shortestDistance = Int16.MaxValue;
 
-            foreach (Segment edge in Edges)
+            // Are there two parallel edges that can work?
+            foreach (LineSegment edge in Edges)
             {
-                foreach (Segment otherEdge in other.Edges)
+                foreach (LineSegment otherEdge in other.Edges)
                 {
                     if (edge.IsParallelTo(otherEdge)) // Only check the distance between two parallel edges.
                     {
                         int parallelDistance = edge.DistanceBetween(otherEdge);
 
-                        if (parallelDistance < shortestDistance)
+                        if (parallelDistance < shortestDistance && parallelDistance != 0) // parallelDistance = 0 indicates that the two line segments are on the same line which makes the two edges bad candidates for the closest edges.
                         {
-                            shortestDistance = parallelDistance;
-                            facingEdges.Clear();
-                            facingEdges.Add(edge);
-                            facingEdges.Add(otherEdge);
+                            // If the line between the midpoints of the edges intersects either rectangle, then this isn't a good candidate for the closest edges.
+                            intersectionLine = new LineSegment(edge.GetMidpoint(), otherEdge.GetMidpoint());
+
+                            if (parallelDistance == 1 && this.IsTouching(other)) // If the two rectangles are touching, then return the two touching edges
+                            {
+                                shortestDistance = parallelDistance;
+                                facingEdges.Clear();
+                                facingEdges.Add(edge);
+                                facingEdges.Add(otherEdge);
+                            }
+                            else
+                            {
+                                if (intersectionLine.Intersects(this, true) || intersectionLine.Intersects(other, true)) // If the parallelDistance is equal to 1, these two edges are touching each other which is a suitable candidate for the closest edges.
+                                {
+                                }
+                                else
+                                {
+                                    shortestDistance = parallelDistance;
+                                    facingEdges.Clear();
+                                    facingEdges.Add(edge);
+                                    facingEdges.Add(otherEdge);
+                                }
+                            }
                         }
                     }
                 }
+            }
+
+            if (facingEdges.Count == 0) // No two parallel edges were found that would work, try edges that are not parallel to each other
+            {
             }
 
             return facingEdges;

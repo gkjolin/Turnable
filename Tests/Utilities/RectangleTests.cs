@@ -4,6 +4,7 @@ using Turnable.Components;
 using Turnable.Utilities;
 using Turnable.LevelGenerators;
 using System.Collections.Generic;
+using Turnable.Vision;
 
 namespace Tests.Utilities
 {
@@ -15,13 +16,13 @@ namespace Tests.Utilities
         {
             Rectangle rectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.AreEqual(new Position(0, 4), rectangle.TopLeft);
-            Assert.AreEqual(new Position(4, 0), rectangle.BottomRight);
+            Assert.AreEqual(new Position(0, 0), rectangle.BottomLeft);
+            Assert.AreEqual(new Position(4, 4), rectangle.TopRight);
             Assert.AreEqual(5, rectangle.Width);
             Assert.AreEqual(5, rectangle.Height);
 
             // Check if four edges (one for each edge of the rectangle) are initialized.
-            // Also check to see if the edges are ordered clockwise.
+            // Also check to see if the edges are ordered counter-clockwise.
             Assert.AreEqual(4, rectangle.Edges.Count);
             Assert.AreEqual(new Position(0, 0), rectangle.Edges[0].Start);
             Assert.AreEqual(new Position(4, 0), rectangle.Edges[0].End);
@@ -34,12 +35,12 @@ namespace Tests.Utilities
         }
 
         [TestMethod]
-        public void Constructor_GivenTheTopLeftCornerAndTheWidthAndTheHeight_InitializesAllProperties()
+        public void Constructor_GivenTheBottomLeftCornerAndTheWidthAndTheHeight_InitializesAllProperties()
         {
             Rectangle rectangle = new Rectangle(new Position(0, 0), 5, 5);
 
-            Assert.AreEqual(new Position(0, 0), rectangle.TopLeft);
-            Assert.AreEqual(new Position(4, 4), rectangle.BottomRight);
+            Assert.AreEqual(new Position(0, 0), rectangle.BottomLeft);
+            Assert.AreEqual(new Position(4, 4), rectangle.TopRight);
             Assert.AreEqual(5, rectangle.Width);
             Assert.AreEqual(5, rectangle.Height);
         }
@@ -56,39 +57,39 @@ namespace Tests.Utilities
         }
 
         [TestMethod]
-        public void Constructor_GivenAnyTwoCorners_CorrectlyCalculatesTopLeftAndBottomRightCorner()
+        public void Constructor_GivenAnyTwoCorners_CorrectlyCalculatesBottomLeftAndTopRightCorners()
         {
-            // TopLeft, BottomRight corners. Handled by default.
+            // BottomLeft, TopRight corners. Handled by default.
 
-            // TopRight, BottomLeft
+            // BottomRight, TopLeft
             Rectangle rectangle = new Rectangle(new Position(3, 1), new Position(1, 4));
 
-            Assert.AreEqual(new Position(1, 1), rectangle.TopLeft);
-            Assert.AreEqual(new Position(3, 4), rectangle.BottomRight);
+            Assert.AreEqual(new Position(1, 1), rectangle.BottomLeft);
+            Assert.AreEqual(new Position(3, 4), rectangle.TopRight);
 
-            // BottomRight, TopLeft corners
-            rectangle = new Rectangle(new Position(2, 2), new Position(1, 1));
+            // TopRight, BottomLeft
+            rectangle = new Rectangle(new Position(4, 4), new Position(1, 1));
 
-            Assert.AreEqual(new Position(1, 1), rectangle.TopLeft);
-            Assert.AreEqual(new Position(2, 2), rectangle.BottomRight);
+            Assert.AreEqual(new Position(1, 1), rectangle.BottomLeft);
+            Assert.AreEqual(new Position(4, 4), rectangle.TopRight);
 
-            // BottomLeft, TopRight
-            rectangle = new Rectangle(new Position(1, 4), new Position(4, 1));
+            // TopLeft, BottomRight
+            rectangle = new Rectangle(new Position(1, 4), new Position(3, 1));
 
-            Assert.AreEqual(new Position(1, 1), rectangle.TopLeft);
-            Assert.AreEqual(new Position(4, 4), rectangle.BottomRight);
+            Assert.AreEqual(new Position(1, 1), rectangle.BottomLeft);
+            Assert.AreEqual(new Position(3, 4), rectangle.TopRight);
 
             // Rectangles with a width of 1
             rectangle = new Rectangle(new Position(4, 4), new Position(4, 1));
 
-            Assert.AreEqual(new Position(4, 1), rectangle.TopLeft);
-            Assert.AreEqual(new Position(4, 4), rectangle.BottomRight);
+            Assert.AreEqual(new Position(4, 1), rectangle.BottomLeft);
+            Assert.AreEqual(new Position(4, 4), rectangle.TopRight);
 
             // Rectangles with a height of 1
             rectangle = new Rectangle(new Position(4, 3), new Position(1, 3));
 
-            Assert.AreEqual(new Position(1, 3), rectangle.TopLeft);
-            Assert.AreEqual(new Position(4, 3), rectangle.BottomRight);
+            Assert.AreEqual(new Position(1, 3), rectangle.BottomLeft);
+            Assert.AreEqual(new Position(4, 3), rectangle.TopRight);
         }
 
         [TestMethod]
@@ -176,7 +177,7 @@ namespace Tests.Utilities
         }
 
         [TestMethod]
-        public void AreTouching_GivenTwoRectanglesThatAreTouchingEachOtherAlongOneWholeEdge_ReturnsTrue()
+        public void IsTouching_GivenTwoRectanglesThatAreTouchingEachOtherAlongOneWholeEdge_ReturnsTrue()
         {
             // * First rectangle 
             // : Second rectangle
@@ -230,7 +231,7 @@ namespace Tests.Utilities
         }
 
         [TestMethod]
-        public void AreTouching_GivenTwoRectanglesThatAreTouchingEachOtherAtLeastAtOnePointAlongOneEdge_ReturnsTrue()
+        public void IsTouching_GivenTwoRectanglesThatAreTouchingEachOtherAtLeastAtOnePointAlongOneEdge_ReturnsTrue()
         {
             // *****
             // *****
@@ -288,7 +289,7 @@ namespace Tests.Utilities
         }
 
         [TestMethod]
-        public void AreTouching_GivenTwoRectanglesThatAreDiagonallyPlacedToEachOtherWithNotEvenOnePointTouchingAlongAEdge_ReturnsFalse()
+        public void IsTouching_GivenTwoRectanglesThatAreDiagonallyPlacedToEachOtherWithNotEvenOnePointTouchingAlongAEdge_ReturnsFalse()
         {
             // *****
             // *****
@@ -350,7 +351,7 @@ namespace Tests.Utilities
         }
 
         [TestMethod]
-        public void AreTouching_GivenTwoRectanglesThatAreSeparatedByAtleastOnePointFromEachOther_ReturnsFalse()
+        public void IsTouching_GivenTwoRectanglesThatAreSeparatedByAtleastOnePointFromEachOther_ReturnsFalse()
         {
             // * First rectangle 
             // : Second rectangle
@@ -403,44 +404,164 @@ namespace Tests.Utilities
             // *****
             // *****
             Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+
+            // ***
+            // ***
+            // ***  
+            // ***  
+            // ***  
+            //      :::
+            //      :::
+            //      :::
+            firstRectangle = new Rectangle(new Position(0, 3), new Position(2, 7));
+            secondRectangle = new Rectangle(new Position(5, 0), new Position(7, 2));
+            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
         }
 
         [TestMethod]
-        public void GetFacingEdges_GivenTwoRectangles_ReturnsTheTwoEdgesThatAreClosestAndParallelToEachOther()
+        public void GetClosestEdges_GivenTwoRectanglesWithSuitableParallelEdges_ReturnsTwoEdgesThatAreClosestAndParallelToEachOther()
+        {
+            // * First rectangle, : Second Rectangle, C Closest edge
+            // **C
+            // **C
+            // **C  C::
+            // **C  C::
+            // **C  C::
+            Rectangle firstRectangle = new Rectangle(new Position(0, 0), new Position(2, 4));
+            Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(7, 2));
+
+            List<LineSegment> closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
+
+            Assert.AreEqual(2, closestEdges.Count);
+            Assert.AreEqual(new Position(2, 0), closestEdges[0].Start);
+            Assert.AreEqual(new Position(2, 4), closestEdges[0].End);
+            Assert.AreEqual(new Position(5, 2), closestEdges[1].Start);
+            Assert.AreEqual(new Position(5, 0), closestEdges[1].End);
+
+            // * First rectangle, : Second Rectangle, F Facing edge
+            // ::C
+            // ::C
+            // ::C  C**
+            // ::C  C**
+            // ::C  C**
+            closestEdges = secondRectangle.GetClosestEdges(firstRectangle);
+
+            Assert.AreEqual(2, closestEdges.Count);
+            Assert.AreEqual(new Position(5, 2), closestEdges[0].Start);
+            Assert.AreEqual(new Position(5, 0), closestEdges[0].End);
+            Assert.AreEqual(new Position(2, 0), closestEdges[1].Start);
+            Assert.AreEqual(new Position(2, 4), closestEdges[1].End);
+
+            // *****
+            // *****
+            // CCCCC
+            //
+            //
+            // CCCC
+            // ::::
+            firstRectangle = new Rectangle(new Position(0, 4), new Position(4, 6));
+            secondRectangle = new Rectangle(new Position(0, 0), new Position(3, 1));
+
+            closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
+
+            Assert.AreEqual(2, closestEdges.Count);
+            Assert.AreEqual(new Position(0, 4), closestEdges[0].Start);
+            Assert.AreEqual(new Position(4, 4), closestEdges[0].End);
+            Assert.AreEqual(new Position(3, 1), closestEdges[1].Start);
+            Assert.AreEqual(new Position(0, 1), closestEdges[1].End);
+
+            // :::::
+            // :::::
+            // CCCCC
+            //
+            //
+            // CCCC
+            // ****
+            closestEdges = secondRectangle.GetClosestEdges(firstRectangle);
+
+            Assert.AreEqual(2, closestEdges.Count);
+            Assert.AreEqual(new Position(3, 1), closestEdges[0].Start);
+            Assert.AreEqual(new Position(0, 1), closestEdges[0].End);
+            Assert.AreEqual(new Position(0, 4), closestEdges[1].Start);
+            Assert.AreEqual(new Position(4, 4), closestEdges[1].End);
+        }
+
+        [TestMethod]
+        public void GetClosestEdges_GivenTwoRectanglesWithParallelEdgesThatAreTouching_ReturnsThoseParallelEdges()
+        {
+            // * First rectangle, : Second Rectangle, C Closest edge
+            // **C
+            // **C
+            // **CC::
+            // **CC::
+            // **CC::
+            Rectangle firstRectangle = new Rectangle(new Position(0, 0), new Position(2, 4));
+            Rectangle secondRectangle = new Rectangle(new Position(3, 0), new Position(5, 2));
+
+            List<LineSegment> closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
+
+            Assert.AreEqual(2, closestEdges.Count);
+            Assert.AreEqual(new Position(2, 0), closestEdges[0].Start);
+            Assert.AreEqual(new Position(2, 4), closestEdges[0].End);
+            Assert.AreEqual(new Position(3, 2), closestEdges[1].Start);
+            Assert.AreEqual(new Position(3, 0), closestEdges[1].End);
+
+            // * First rectangle, : Second Rectangle, C Closest edge
+            // ***
+            // ***
+            // ***
+            // ***
+            // CCC
+            //   CCC
+            //   :::
+            //   :::
+            firstRectangle = new Rectangle(new Position(0, 3), new Position(2, 7));
+            secondRectangle = new Rectangle(new Position(2, 0), new Position(4, 2));
+
+            closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
+
+            Assert.AreEqual(2, closestEdges.Count);
+            Assert.AreEqual(new Position(0, 3), closestEdges[0].Start);
+            Assert.AreEqual(new Position(2, 3), closestEdges[0].End);
+            Assert.AreEqual(new Position(4, 2), closestEdges[1].Start);
+            Assert.AreEqual(new Position(2, 2), closestEdges[1].End);
+        }
+
+        [TestMethod]
+        public void GetClosestEdges_GivenTwoRectanglesWithSuitableParallelAndNonParallelEdges_PrefersToReturnTheParallelEdges()
         {
             // * First rectangle, : Second Rectangle, F Facing edge
-            // **F
-            // **F
-            // **F  F::
-            // **F  F::
-            // **F  F::
-            Rectangle firstRectangle = new Rectangle(new Position(0, 0), new Position(2, 4));
-            Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(5, 2));
+            // **C
+            // **C
+            // **C  
+            // **C  
+            // **C  
+            //      C::
+            //      C::
+            //      C::
+            Rectangle firstRectangle = new Rectangle(new Position(0, 3), new Position(2, 7));
+            Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(7, 2));
 
-            List<Segment> facingEdges = firstRectangle.GetFacingEdges(secondRectangle);
+            List<LineSegment> closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
 
-            Assert.AreEqual(2, facingEdges.Count);
-            Assert.AreEqual(new Position(2, 4), facingEdges[0].Start);
-            Assert.AreEqual(new Position(2, 0), facingEdges[0].End);
-            Assert.AreEqual(new Position(5, 0), facingEdges[1].Start);
-            Assert.AreEqual(new Position(5, 2), facingEdges[1].End);
+            Assert.AreEqual(2, closestEdges.Count);
+            Assert.AreEqual(new Position(2, 3), closestEdges[0].Start);
+            Assert.AreEqual(new Position(2, 7), closestEdges[0].End);
+            Assert.AreEqual(new Position(5, 2), closestEdges[1].Start);
+            Assert.AreEqual(new Position(5, 0), closestEdges[1].End);
+        }
 
-            // * First rectangle, : Second Rectangle, F Facing edge
-            // *****
-            // *****
-            // FFFFF
-            //      FFFF
-            //      ::::
-            firstRectangle = new Rectangle(new Position(0, 2), new Position(4, 4));
-            secondRectangle = new Rectangle(new Position(5, 0), new Position(8, 1));
-
-            facingEdges = firstRectangle.GetFacingEdges(secondRectangle);
-
-            Assert.AreEqual(2, facingEdges.Count);
-            Assert.AreEqual(new Position(2, 4), facingEdges[0].Start);
-            Assert.AreEqual(new Position(2, 0), facingEdges[0].End);
-            Assert.AreEqual(new Position(5, 0), facingEdges[1].Start);
-            Assert.AreEqual(new Position(5, 2), facingEdges[1].End);
+        [TestMethod]
+        public void GetClosestEdges_GivenTwoRectanglesWithNoSuitableParallelEdges_ReturnsTheClosesNonParallelEdges()
+        {
+            // **C
+            // **C
+            // **C  
+            // **C  
+            // **C  
+            //    CCC
+            //    :::
+            //    :::
         }
     }
 }

@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Turnable.Components;
+using Turnable.Vision;
 
 namespace Turnable.LevelGenerators
 {
     public class Corridor
     {
-        public List<Segment> Segments { get; set; }
+        public List<LineSegment> Segments { get; set; }
 
         public Corridor()
         {
-            Segments = new List<Segment>();
+            Segments = new List<LineSegment>();
         }
 
-        public Corridor(List<Segment> segments)
+        public Corridor(List<LineSegment> segments)
         {
             Segments = segments;
         }
@@ -52,7 +53,7 @@ namespace Turnable.LevelGenerators
                     segmentEnd = new Position(segmentStartTurnDistance, start.Y);
                 }
 
-                corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
+                corridor.Segments.Add(new LineSegment(segmentStart, segmentEnd));
             }
 
             // Then move up
@@ -68,7 +69,7 @@ namespace Turnable.LevelGenerators
                     segmentStart = new Position(segmentEnd.X, segmentStart.Y + 1);
                     segmentEnd = new Position(segmentEnd.X, end.Y);
                 }
-                corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
+                corridor.Segments.Add(new LineSegment(segmentStart, segmentEnd));
             }
             // or down
             if (start.Y > end.Y)
@@ -83,7 +84,7 @@ namespace Turnable.LevelGenerators
                     segmentStart = new Position(segmentEnd.X, segmentStart.Y - 1);
                     segmentEnd = new Position(segmentEnd.X, end.Y);
                 }
-                corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
+                corridor.Segments.Add(new LineSegment(segmentStart, segmentEnd));
             }
 
             // If the corridor now reaches to the end, return it.
@@ -95,7 +96,7 @@ namespace Turnable.LevelGenerators
             // Move right again
             segmentStart = new Position(segmentEnd.X + 1, segmentEnd.Y);
             segmentEnd = new Position(end.X - 1, end.Y);
-            corridor.Segments.Add(new Segment(segmentStart, segmentEnd));
+            corridor.Segments.Add(new LineSegment(segmentStart, segmentEnd));
 
             return corridor;
         }

@@ -43,10 +43,10 @@ namespace Tests.LevelGenerators
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 3);
 
             Assert.AreEqual(2, newChunks.Count);
-            Assert.AreEqual(new Position(0, 0), newChunks[0].Bounds.TopLeft);
+            Assert.AreEqual(new Position(0, 0), newChunks[0].Bounds.BottomLeft);
             Assert.AreEqual(3, newChunks[0].Bounds.Width);
             Assert.AreEqual(2, newChunks[0].Bounds.Height);
-            Assert.AreEqual(new Position(3, 0), newChunks[1].Bounds.TopLeft);
+            Assert.AreEqual(new Position(3, 0), newChunks[1].Bounds.BottomLeft);
             Assert.AreEqual(4, newChunks[1].Bounds.Width);
             Assert.AreEqual(2, newChunks[1].Bounds.Height);
         }
@@ -68,10 +68,10 @@ namespace Tests.LevelGenerators
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1);
 
             Assert.AreEqual(2, newChunks.Count);
-            Assert.AreEqual(new Position(0, 0), newChunks[0].Bounds.TopLeft);
+            Assert.AreEqual(new Position(0, 0), newChunks[0].Bounds.BottomLeft);
             Assert.AreEqual(7, newChunks[0].Bounds.Width);
             Assert.AreEqual(1, newChunks[0].Bounds.Height);
-            Assert.AreEqual(new Position(0, 1), newChunks[1].Bounds.TopLeft);
+            Assert.AreEqual(new Position(0, 1), newChunks[1].Bounds.BottomLeft);
             Assert.AreEqual(7, newChunks[1].Bounds.Width);
             Assert.AreEqual(2, newChunks[1].Bounds.Height);
         }

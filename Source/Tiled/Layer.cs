@@ -101,9 +101,9 @@ namespace Turnable.Tiled
 
         public void Fill(Rectangle bounds, uint globalId)
         {
-            for (int col = bounds.TopLeft.X; col <= bounds.BottomRight.X; col++)
+            for (int col = bounds.BottomLeft.X; col <= bounds.TopRight.X; col++)
             {
-                for (int row = bounds.TopLeft.Y; row <= bounds.BottomRight.Y; row++)
+                for (int row = bounds.BottomLeft.Y; row <= bounds.TopRight.Y; row++)
                 {
                     SetTile(new Position(col, row), globalId);
                 }

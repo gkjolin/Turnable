@@ -29,9 +29,9 @@ namespace Turnable.LevelGenerators
                     // The splitDistance is equal to the Width of the chunk to be split, so return an empty list of split chunks
                     if (splitDistance == Bounds.Width) return splitChunks;
 
-                    Rectangle firstChunkBounds = new Rectangle(Bounds.TopLeft, splitDistance, Bounds.Height);
+                    Rectangle firstChunkBounds = new Rectangle(Bounds.BottomLeft, splitDistance, Bounds.Height);
                     splitChunks.Add(new Chunk(firstChunkBounds));
-                    Rectangle secondChunkBounds = new Rectangle(new Position(Bounds.TopLeft.X + splitDistance, Bounds.TopLeft.Y), Bounds.Width - splitDistance, Bounds.Height);
+                    Rectangle secondChunkBounds = new Rectangle(new Position(Bounds.BottomLeft.X + splitDistance, Bounds.BottomLeft.Y), Bounds.Width - splitDistance, Bounds.Height);
                     splitChunks.Add(new Chunk(secondChunkBounds));
 
                     // If any of the new chunks does not meet the minimumSplitChunkSize requirement, return an empty list.
@@ -46,9 +46,9 @@ namespace Turnable.LevelGenerators
                     // The splitDistance is equal to the Height of the chunk to be split, so return an empty list of split chunks
                     if (splitDistance == Bounds.Height) return splitChunks;
 
-                    firstChunkBounds = new Rectangle(Bounds.TopLeft, Bounds.Width, splitDistance);
+                    firstChunkBounds = new Rectangle(Bounds.BottomLeft, Bounds.Width, splitDistance);
                     splitChunks.Add(new Chunk(firstChunkBounds));
-                    secondChunkBounds = new Rectangle(new Position(Bounds.TopLeft.X, Bounds.TopLeft.Y + splitDistance), Bounds.Width, Bounds.Height - splitDistance);
+                    secondChunkBounds = new Rectangle(new Position(Bounds.BottomLeft.X, Bounds.BottomLeft.Y + splitDistance), Bounds.Width, Bounds.Height - splitDistance);
                     splitChunks.Add(new Chunk(secondChunkBounds));
 
                     // If any of the new chunks does not meet the minimumSplitChunkSize requirement, return an empty list.
