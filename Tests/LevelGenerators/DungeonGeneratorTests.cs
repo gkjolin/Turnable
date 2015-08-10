@@ -24,7 +24,8 @@ namespace Tests.LevelGenerators
             Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
             Chunk initialChunk = new Chunk(bounds);
 
-            List<Chunk> randomChunks = _dungeonGenerator.Chunkify(initialChunk);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectChunks(tree);
 
             // TODO: How can I check if the chunk has been broken into multiple random sized chunks?
             Assert.IsTrue(randomChunks.Count > 1);
@@ -35,7 +36,8 @@ namespace Tests.LevelGenerators
         {
             Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
             Chunk initialChunk = new Chunk(bounds);
-            List<Chunk> randomChunks = _dungeonGenerator.Chunkify(initialChunk);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectChunks(tree);
 
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
@@ -51,10 +53,11 @@ namespace Tests.LevelGenerators
         {
             Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
             Chunk initialChunk = new Chunk(bounds);
-            List<Chunk> randomChunks = _dungeonGenerator.Chunkify(initialChunk);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectChunks(tree);
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
-            List<Corridor> corridors = _dungeonGenerator.JoinRooms(randomRooms);
+            List<Corridor> corridors = _dungeonGenerator.JoinRooms(tree);
 
             Assert.AreEqual(randomChunks.Count / 2, corridors.Count);
         }

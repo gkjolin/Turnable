@@ -12,30 +12,24 @@ namespace Turnable.LevelGenerators
     // http://www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
     public class DungeonGenerator : IDungeonGenerator
     {
-        public List<Chunk> Chunkify(Chunk initialChunk)
+        // TODO: This code feels like it could be improved. The way that the code uses tree and passes it around feels off.
+        // However, this code is not a part of the public interface so this is not high priority.
+        public BinaryTree<Chunk> Chunkify(Chunk initialChunk)
         {
-            List<Chunk> randomChunks = new List<Chunk>();
             BinaryTree<Chunk> tree = new BinaryTree<Chunk>();
             tree.Root = new BinaryTreeNode<Chunk>(initialChunk);
 
             RecursivelyChunkFrom(tree.Root);
-            CollectChunks(randomChunks, tree.Root);
 
-            return randomChunks;
+            return tree;
         }
 
-        private void CollectChunks(List<Chunk> chunks, BinaryTreeNode<Chunk> node)
+        public List<Chunk> CollectChunks(BinaryTree<Chunk> tree)
         {
-            if (node == null)
-            {
-                return;
-            }
-            if (node.Left == null && node.Right == null) 
-            {
-                chunks.Add(node.Value);
-            }
-            CollectChunks(chunks, node.Left);
-            CollectChunks(chunks, node.Right);
+            List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes();
+            List<Chunk> chunks = leafNodes.Select<BinaryTreeNode<Chunk>, Chunk>(btn => btn.Value).ToList<Chunk>();
+
+            return chunks;
         }
 
         public List<Room> PlaceRooms(List<Chunk> chunks)
@@ -72,10 +66,10 @@ namespace Turnable.LevelGenerators
             }
         }
 
-        public List<Corridor> JoinRooms(List<Room> rooms)
+        public List<Corridor> JoinRooms(BinaryTree<Chunk> tree)
         {
-            // TODO: This code feels like it could be improved.
-
+            List<Chunk> chunks = CollectChunks(tree);
+            
             throw new NotImplementedException();
         }
 

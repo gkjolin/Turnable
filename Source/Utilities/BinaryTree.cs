@@ -1,5 +1,6 @@
 ﻿// https://msdn.microsoft.com/en-us/library/ms379572?f=255&MSPPError=-2147217396
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Turnable.Utilities
@@ -141,6 +142,30 @@ namespace Turnable.Utilities
             {
                 root = value;
             }
+        }
+
+        public List<BinaryTreeNode<T>> CollectLeafNodes()
+        {
+            List<BinaryTreeNode<T>> leafNodes = new List<BinaryTreeNode<T>>();
+
+            RecursivelyCollectLeafNodes(leafNodes, Root);
+
+            return leafNodes;
+        }
+
+        private void RecursivelyCollectLeafNodes(List<BinaryTreeNode<T>> nodes, BinaryTreeNode<T> node)
+        {
+            if (node == null)
+            {
+                return;
+            }
+            if (node.Left == null && node.Right == null)
+            {
+                nodes.Add(node);
+            }
+
+            RecursivelyCollectLeafNodes(nodes, node.Left);
+            RecursivelyCollectLeafNodes(nodes, node.Right);
         }
     }
 }

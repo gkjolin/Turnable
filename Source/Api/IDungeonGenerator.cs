@@ -9,6 +9,7 @@ using Turnable.Characters;
 using Turnable.Components;
 using Turnable.LevelGenerators;
 using Turnable.Locations;
+using Turnable.Utilities;
 
 namespace Turnable.Api
 {
@@ -30,9 +31,10 @@ namespace Turnable.Api
         // -----------------
 
         // Methods
-        List<Chunk> Chunkify(Chunk initialChunk);
+        BinaryTree<Chunk> Chunkify(Chunk initialChunk);
+        List<Chunk> CollectChunks(BinaryTree<Chunk> tree);
         List<Room> PlaceRooms(List<Chunk> chunks);
-        List<Corridor> JoinRooms(List<Room> rooms);
+        List<Corridor> JoinRooms(BinaryTree<Chunk> tree);
 
         // Properties
 
