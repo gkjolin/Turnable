@@ -71,11 +71,13 @@ namespace Turnable.LevelGenerators
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes();
             List<BinaryTreeNode<Chunk>> processedLeafNodes = new List<BinaryTreeNode<Chunk>>();
 
-            foreach (BinaryTreeNode<Chunk> node in leafNodes)
-            {
-            }
-            
-            throw new NotImplementedException();
+            RecursivelyJoinRooms(tree.Root);
+
+            return null;
+        }
+
+        private void RecursivelyJoinRooms(BinaryTreeNode<Chunk> node)
+        {
         }
 
         public Corridor GetCorridor(Room firstRoom, Room secondRoom)

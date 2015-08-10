@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Turnable.Utilities
 {
+    // TODO: Unit test
     public class Node<T>
     {
         // Private member-variables
@@ -159,13 +160,18 @@ namespace Turnable.Utilities
             {
                 return;
             }
-            if (node.Left == null && node.Right == null)
+            if (IsLeaf(node))
             {
                 nodes.Add(node);
             }
 
             RecursivelyCollectLeafNodes(nodes, node.Left);
             RecursivelyCollectLeafNodes(nodes, node.Right);
+        }
+
+        public bool IsLeaf(BinaryTreeNode<T> node)
+        {
+            return (node.Left == null && node.Right == null);
         }
     }
 }
