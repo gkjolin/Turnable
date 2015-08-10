@@ -5,6 +5,7 @@ using System.Text;
 using Turnable.Api;
 using Turnable.Components;
 using Turnable.Utilities;
+using Turnable.Vision;
 
 namespace Turnable.LevelGenerators
 {
@@ -19,6 +20,21 @@ namespace Turnable.LevelGenerators
         {
             ParentChunk = parentChunk;
             Bounds = bounds;
+        }
+
+        public Corridor Join(Room secondRoom)
+        {
+            if (Bounds.IsTouching(secondRoom.Bounds))
+            {
+                return null;
+            }
+
+            List<LineSegment> closestEdges = Bounds.GetClosestEdges(secondRoom.Bounds);
+            Corridor corridor = Corridor.Build(closestEdges[0].GetMidpoint(), closestEdges[1].GetMidpoint());
+            corridor.ConnectedRooms.Add(this);
+            corridor.ConnectedRooms.Add(secondRoom);
+
+            return corridor;
         }
     }
 }

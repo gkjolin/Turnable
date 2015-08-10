@@ -76,14 +76,15 @@ namespace Turnable.LevelGenerators
             }
         }
 
-        public Corridor JoinRooms(Room firstRoom, Room secondRoom)
+        public List<Corridor> JoinRooms(List<Room> rooms)
         {
+
             throw new NotImplementedException();
         }
 
         public Corridor GetCorridor(Room firstRoom, Room secondRoom)
         {
-            Corridor corridor = new Corridor(null);
+            Corridor corridor = new Corridor(firstRoom, secondRoom, null);
 
             if (firstRoom.Bounds.IsTouching(secondRoom.Bounds))
             {
