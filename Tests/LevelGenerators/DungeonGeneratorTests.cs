@@ -113,7 +113,7 @@ namespace Tests.LevelGenerators
         }
 
         [TestMethod]
-        public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyOrVerticallyByMoreThanOneSpace_ReturnsACorridorWithOneLineSegment()
+        public void BuildCorridor_GivenTwoPositionsSeparatedHorizontallyOrVerticallyByMoreThanOneSpace_ReturnsACorridorWithOneLineSegment()
         {
             // A corridor is always built excluding the start and end positions.
             // The reason for this is because the start and end positions of most corridors are chosen from the edges of two rooms.

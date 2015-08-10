@@ -68,7 +68,12 @@ namespace Turnable.LevelGenerators
 
         public List<Corridor> JoinRooms(BinaryTree<Chunk> tree)
         {
-            List<Chunk> chunks = CollectChunks(tree);
+            List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes();
+            List<BinaryTreeNode<Chunk>> processedLeafNodes = new List<BinaryTreeNode<Chunk>>();
+
+            foreach (BinaryTreeNode<Chunk> node in leafNodes)
+            {
+            }
             
             throw new NotImplementedException();
         }
