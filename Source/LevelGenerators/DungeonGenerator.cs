@@ -12,23 +12,19 @@ namespace Turnable.LevelGenerators
     // http://www.roguebasin.com/index.php?title=Basic_BSP_Dungeon_generation
     public class DungeonGenerator : IDungeonGenerator
     {
-        private List<Chunk> _randomChunks;
-
         public List<Chunk> Chunkify(Chunk initialChunk)
         {
+            List<Chunk> randomChunks = new List<Chunk>();
             BinaryTree<Chunk> tree = new BinaryTree<Chunk>();
             tree.Root = new BinaryTreeNode<Chunk>(initialChunk);
 
             RecursivelyChunkFrom(tree.Root);
+            CollectChunks(randomChunks, tree.Root);
 
-            _randomChunks = new List<Chunk>();
-
-            CollectLeafNodes(tree.Root);
-
-            return _randomChunks;
+            return randomChunks;
         }
 
-        private void CollectLeafNodes(BinaryTreeNode<Chunk> node)
+        private void CollectChunks(List<Chunk> chunks, BinaryTreeNode<Chunk> node)
         {
             if (node == null)
             {
@@ -36,10 +32,10 @@ namespace Turnable.LevelGenerators
             }
             if (node.Left == null && node.Right == null) 
             {
-                _randomChunks.Add(node.Value);
+                chunks.Add(node.Value);
             }
-            CollectLeafNodes(node.Left);
-            CollectLeafNodes(node.Right);
+            CollectChunks(chunks, node.Left);
+            CollectChunks(chunks, node.Right);
         }
 
         public List<Room> PlaceRooms(List<Chunk> chunks)
@@ -78,6 +74,7 @@ namespace Turnable.LevelGenerators
 
         public List<Corridor> JoinRooms(List<Room> rooms)
         {
+            // TODO: This code feels like it could be improved.
 
             throw new NotImplementedException();
         }
