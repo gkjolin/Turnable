@@ -20,6 +20,7 @@ namespace Turnable.LevelGenerators
         {
             ParentChunk = parentChunk;
             Bounds = bounds;
+            parentChunk.Room = this;
         }
 
         public Corridor Join(Room secondRoom)

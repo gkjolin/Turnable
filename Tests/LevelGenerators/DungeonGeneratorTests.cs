@@ -25,7 +25,7 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(bounds);
 
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
-            List<Chunk> randomChunks = _dungeonGenerator.CollectChunks(tree);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
 
             // TODO: How can I check if the chunk has been broken into multiple random sized chunks?
             Assert.IsTrue(randomChunks.Count > 1);
@@ -37,7 +37,7 @@ namespace Tests.LevelGenerators
             Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
             Chunk initialChunk = new Chunk(bounds);
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
-            List<Chunk> randomChunks = _dungeonGenerator.CollectChunks(tree);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
 
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
@@ -54,12 +54,40 @@ namespace Tests.LevelGenerators
             Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
             Chunk initialChunk = new Chunk(bounds);
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
-            List<Chunk> randomChunks = _dungeonGenerator.CollectChunks(tree);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
             List<Corridor> corridors = _dungeonGenerator.JoinRooms(tree);
 
             Assert.AreEqual(randomChunks.Count / 2, corridors.Count);
+        }
+
+        [TestMethod]
+        public void GetRooms_GivenTheRootOfABinaryTree_ReturnsAllRooms()
+        {
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk initialChunk = new Chunk(bounds);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
+            List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
+
+            List<Room> rooms = _dungeonGenerator.GetRooms(tree, tree.Root);
+
+            Assert.AreEqual(randomChunks.Count, rooms.Count);
+        }
+
+        [TestMethod]
+        public void GetRooms_GivenANodeOtherThanTheRootOfABinaryTree_ReturnsAllRoomsOfTheSubtreeWithTheNodeAsItsRoot()
+        {
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk initialChunk = new Chunk(bounds);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
+            List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
+
+            List<Room> rooms = _dungeonGenerator.GetRooms(tree, tree.Root.Right);
+
+            Assert.AreEqual(randomChunks.Count, rooms.Count);
         }
 
         // -------------

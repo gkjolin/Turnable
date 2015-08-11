@@ -32,7 +32,7 @@ namespace Turnable.Api
 
         // Methods
         BinaryTree<Chunk> Chunkify(Chunk initialChunk);
-        List<Chunk> CollectChunks(BinaryTree<Chunk> tree);
+        List<Chunk> CollectLeafChunks(BinaryTree<Chunk> tree);
         List<Room> PlaceRooms(List<Chunk> chunks);
         List<Corridor> JoinRooms(BinaryTree<Chunk> tree);
 

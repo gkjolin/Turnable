@@ -24,7 +24,7 @@ namespace Turnable.LevelGenerators
             return tree;
         }
 
-        public List<Chunk> CollectChunks(BinaryTree<Chunk> tree)
+        public List<Chunk> CollectLeafChunks(BinaryTree<Chunk> tree)
         {
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes();
             List<Chunk> chunks = leafNodes.Select<BinaryTreeNode<Chunk>, Chunk>(btn => btn.Value).ToList<Chunk>();
@@ -44,25 +44,33 @@ namespace Turnable.LevelGenerators
             return rooms;
         }
 
-        private void RecursivelyChunkFrom(BinaryTreeNode<Chunk> parentChunk)
+        private void RecursivelyChunkFrom(BinaryTreeNode<Chunk> parentNode)
         {
             // TODO: Put the ability to select randomly from an Enum into the RNG?
             Array values = Enum.GetValues(typeof(SplitDirection));
             Random random = new Random();
             SplitDirection randomSplitDirection = (SplitDirection)values.GetValue(random.Next(values.Length));
+            List<Chunk> splitChunks = null;
 
-            List<Chunk> splitChunks = parentChunk.Value.Split(randomSplitDirection, random.Next(2, 11), 2);
+            if (randomSplitDirection == SplitDirection.Vertical)
+            {
+                splitChunks = parentNode.Value.Split(randomSplitDirection, random.Next(2, parentNode.Value.Bounds.Width), 2);
+            }
+            if (randomSplitDirection == SplitDirection.Horizontal)
+            {
+                splitChunks = parentNode.Value.Split(randomSplitDirection, random.Next(2, parentNode.Value.Bounds.Height), 2);
+            }
 
             if (splitChunks.Count != 0)
             {
-                parentChunk.Left = new BinaryTreeNode<Chunk>();
-                parentChunk.Right = new BinaryTreeNode<Chunk>();
+                parentNode.Left = new BinaryTreeNode<Chunk>();
+                parentNode.Right = new BinaryTreeNode<Chunk>();
 
-                parentChunk.Left.Value = splitChunks[0];
-                parentChunk.Right.Value = splitChunks[1];
+                parentNode.Left.Value = splitChunks[0];
+                parentNode.Right.Value = splitChunks[1];
 
-                RecursivelyChunkFrom(parentChunk.Left);
-                RecursivelyChunkFrom(parentChunk.Right);
+                RecursivelyChunkFrom(parentNode.Left);
+                RecursivelyChunkFrom(parentNode.Right);
             }
         }
 
@@ -95,6 +103,14 @@ namespace Turnable.LevelGenerators
         public Level Generate()
         {
             throw new NotImplementedException();
+        }
+
+        public List<Room> GetRooms(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode)
+        {
+            List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(startingRootNode);
+            List<Room> rooms = leafNodes.Select<BinaryTreeNode<Chunk>, Room>(btn => btn.Value.Room).ToList<Room>();
+
+            return rooms;
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Tests.LevelGenerators
 
             Assert.AreEqual(chunk, room.ParentChunk);
             Assert.AreEqual(roomBounds, room.Bounds);
+            Assert.AreEqual(room, chunk.Room);
         }
 
         // TODO: Test that if any corners are out of the chunk, the construction is invalid (use the bounds checking feature of parent chunk)

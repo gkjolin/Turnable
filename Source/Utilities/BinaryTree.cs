@@ -145,11 +145,18 @@ namespace Turnable.Utilities
             }
         }
 
-        public List<BinaryTreeNode<T>> CollectLeafNodes()
+        public List<BinaryTreeNode<T>> CollectLeafNodes(BinaryTreeNode<T> startingRootNode = null)
         {
             List<BinaryTreeNode<T>> leafNodes = new List<BinaryTreeNode<T>>();
 
-            RecursivelyCollectLeafNodes(leafNodes, Root);
+            if (startingRootNode == null)
+            {
+                RecursivelyCollectLeafNodes(leafNodes, Root);
+            }
+            else
+            {
+                RecursivelyCollectLeafNodes(leafNodes, startingRootNode);
+            }
 
             return leafNodes;
         }

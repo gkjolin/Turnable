@@ -11,6 +11,7 @@ namespace Turnable.LevelGenerators
     public class Chunk : IBounded
     {
         public Rectangle Bounds { get; set; }
+        public Room Room { get; set; }
 
         public Chunk(Rectangle bounds)
         {
