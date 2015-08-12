@@ -112,5 +112,10 @@ namespace Turnable.LevelGenerators
 
             return rooms;
         }
+
+        public List<Room> ChooseRoomsToJoin(List<Room> firstListOfRooms, List<Room> secondListOfRooms)
+        {
+            return new List<Room> { firstListOfRooms[0], secondListOfRooms[0] };
+        }
     }
 }

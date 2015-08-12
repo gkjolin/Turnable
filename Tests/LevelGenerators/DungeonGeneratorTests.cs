@@ -315,7 +315,7 @@ namespace Tests.LevelGenerators
         }
 
         [TestMethod]
-        public void JoinRoom_GivenTwoRoomsThatAreTouchingEachOther_DoesNotCreateACorridorBetweenThem()
+        public void Join_GivenTwoRoomsThatAreTouchingEachOther_DoesNotCreateACorridorBetweenThem()
         {
             // * First Room; : Second Room
             // *****:::::
@@ -334,7 +334,7 @@ namespace Tests.LevelGenerators
         }
 
         [TestMethod]
-        public void JoinRoom_GivenTwoRoomsThatAreNotTouchingEachOther_CreatesACorridorBetweenTheMidpointsOfTheirClosestEdges()
+        public void Join_GivenTwoRoomsThatAreNotTouchingEachOther_CreatesACorridorBetweenTheMidpointsOfTheirClosestEdges()
         {
             // * First Room; : Second Room; . Corridor
             // *****  :::::
@@ -356,5 +356,53 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(firstRoom, corridor.ConnectedRooms[0]);
             Assert.AreEqual(secondRoom, corridor.ConnectedRooms[1]);
         }
+
+        [TestMethod]
+        public void ChooseRoomsToJoin_GivenTwoListsOfRoomsWithOneRoomEach_ReturnsThoseTwoRooms()
+        {
+            // * First Room; : Second Room 
+            // *****  :::::
+            // *****  :::::
+            // *****  :::::
+            // *****  :::::
+            // *****  :::::
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk initialChunk = new Chunk(bounds);
+            List<Room> firstListOfRooms = new List<Room>() { new Room(initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))) };
+            List<Room> secondListOfRooms = new List<Room>() { new Room(initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4))) };
+
+            List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
+
+            Assert.AreEqual(2, roomsToJoin.Count);
+            Assert.AreEqual(firstListOfRooms[0], roomsToJoin[0]);
+            Assert.AreEqual(secondListOfRooms[0], roomsToJoin[1]);
+        }
+
+        [TestMethod]
+        public void ChooseRoomsToJoin_GivenTwoListsOfRoomsWithTwoRoomsInFirstListAndOneRoomInSecondList_ReturnsTheTwoRoomsWithTheClosestEdges()
+        {
+            // * First Room; # Second Room; : Third Room
+            // *****  :::::
+            // *****  :::::
+            // *****  :::::   ####
+            // *****  :::::   ####
+            // *****  :::::
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk initialChunk = new Chunk(bounds);
+            List<Room> firstListOfRooms = new List<Room>() { 
+                new Room(initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))) 
+            };
+            List<Room> secondListOfRooms = new List<Room>() { 
+                new Room(initialChunk, new Rectangle(new Position(15, 1), new Position(18, 2))),
+                new Room(initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4)))
+            };
+
+            List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
+
+            Assert.AreEqual(2, roomsToJoin.Count);
+            Assert.AreEqual(firstListOfRooms[0], roomsToJoin[0]);
+            Assert.AreEqual(secondListOfRooms[1], roomsToJoin[1]);
+        }
+
     }
 }
