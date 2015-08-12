@@ -86,8 +86,9 @@ namespace Tests.LevelGenerators
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
             List<Room> rooms = _dungeonGenerator.GetRooms(tree, tree.Root.Right);
+            List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(tree.Root.Right);
 
-            Assert.AreEqual(randomChunks.Count, rooms.Count);
+            Assert.AreEqual(leafNodes.Count, rooms.Count);
         }
 
         // -------------
