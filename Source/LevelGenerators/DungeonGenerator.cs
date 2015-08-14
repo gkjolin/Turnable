@@ -6,6 +6,7 @@ using Turnable.Api;
 using Turnable.Components;
 using Turnable.Locations;
 using Turnable.Utilities;
+using Turnable.Vision;
 
 namespace Turnable.LevelGenerators
 {
@@ -24,9 +25,9 @@ namespace Turnable.LevelGenerators
             return tree;
         }
 
-        public List<Chunk> CollectLeafChunks(BinaryTree<Chunk> tree)
+        public List<Chunk> CollectLeafChunks(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode = null)
         {
-            List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes();
+            List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(startingRootNode);
             List<Chunk> chunks = leafNodes.Select<BinaryTreeNode<Chunk>, Chunk>(btn => btn.Value).ToList<Chunk>();
 
             return chunks;
@@ -78,14 +79,26 @@ namespace Turnable.LevelGenerators
         {
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes();
             List<BinaryTreeNode<Chunk>> processedLeafNodes = new List<BinaryTreeNode<Chunk>>();
+            List<Corridor> corridors = new List<Corridor>();
 
-            RecursivelyJoinRooms(tree.Root);
+            RecursivelyJoinRooms(tree, tree.Root, corridors);
 
             return null;
         }
 
-        private void RecursivelyJoinRooms(BinaryTreeNode<Chunk> node)
+        private void RecursivelyJoinRooms(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> node, List<Corridor> corridors)
         {
+            if (tree.IsLeaf(node))
+            {
+                return;
+            }
+
+            RecursivelyJoinRooms(tree, node.Left, corridors);
+            RecursivelyJoinRooms(tree, node.Right, corridors);
+
+            List<Room> firstListOfRooms = CollectLeafChunks(tree, node.Left).Select<Chunk, Room>(c => c.Room).ToList<Room>();
+            List<Room> secondListOfRooms = CollectLeafChunks(tree, node.Right).Select<Chunk, Room>(c => c.Room).ToList<Room>();
+            JoinRooms(
         }
 
         public Corridor GetCorridor(Room firstRoom, Room secondRoom)
@@ -115,7 +128,26 @@ namespace Turnable.LevelGenerators
 
         public List<Room> ChooseRoomsToJoin(List<Room> firstListOfRooms, List<Room> secondListOfRooms)
         {
-            return new List<Room> { firstListOfRooms[0], secondListOfRooms[0] };
+            List<Room> roomsToJoin = new List<Room>();
+            List<LineSegment> closestEdges;
+            int shortestDistance = int.MaxValue;
+
+            foreach (Room roomFromFirstList in firstListOfRooms)
+            {
+                foreach (Room roomFromSecondList in secondListOfRooms)
+                {
+                    closestEdges = roomFromFirstList.Bounds.GetClosestEdges(roomFromSecondList.Bounds);
+                    if (closestEdges[0].DistanceBetween(closestEdges[1]) <= shortestDistance)
+                    {
+                        shortestDistance = closestEdges[0].DistanceBetween(closestEdges[1]);
+                        roomsToJoin.Clear();
+                        roomsToJoin.Add(roomFromFirstList);
+                        roomsToJoin.Add(roomFromSecondList);
+                    }
+                }
+            }
+
+            return roomsToJoin;
         }
     }
 }

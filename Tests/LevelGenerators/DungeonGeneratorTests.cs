@@ -404,5 +404,31 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(secondListOfRooms[1], roomsToJoin[1]);
         }
 
+        [TestMethod]
+        public void ChooseRoomsToJoin_GivenTwoListsOfRoomsWithTwoRoomsInEachList_ReturnsTheTwoRoomsWithTheClosestEdges()
+        {
+            // * First Room; : Second Room; + Third Room; # Fourth Room
+            // *****  :::::
+            // *****  :::::
+            // *****  :::::   ####  ++++
+            // *****  :::::   ####  ++++
+            // *****  :::::         ++++
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            Chunk initialChunk = new Chunk(bounds);
+            List<Room> firstListOfRooms = new List<Room>() { 
+                new Room(initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))),
+                new Room(initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4)))
+            };
+            List<Room> secondListOfRooms = new List<Room>() { 
+                new Room(initialChunk, new Rectangle(new Position(21, 0), new Position(24, 2))),
+                new Room(initialChunk, new Rectangle(new Position(15, 1), new Position(18, 2)))
+            };
+
+            List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
+
+            Assert.AreEqual(2, roomsToJoin.Count);
+            Assert.AreEqual(firstListOfRooms[1], roomsToJoin[0]);
+            Assert.AreEqual(secondListOfRooms[1], roomsToJoin[1]);
+        }
     }
 }

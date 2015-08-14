@@ -13,8 +13,6 @@ namespace Turnable.LevelGenerators
     {
         public Chunk ParentChunk { get; set; }
         public Rectangle Bounds { get; set; } 
-        public Position TopLeft { get; set; }
-        public Position BottomRight { get; set; }
 
         public Room(Chunk parentChunk, Rectangle bounds)
         {
@@ -36,6 +34,11 @@ namespace Turnable.LevelGenerators
             corridor.ConnectedRooms.Add(secondRoom);
 
             return corridor;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("BottomLeft: {0}; TopRight: {1}", Bounds.BottomLeft.ToString(), Bounds.TopRight.ToString());
         }
     }
 }

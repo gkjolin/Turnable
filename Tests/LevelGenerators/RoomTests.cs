@@ -35,6 +35,15 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(room, chunk.Room);
         }
 
+        [TestMethod]
+        public void ToString_DisplaysBottomLeftAndTopLeftCorners()
+        {
+            Chunk parentChunk = new Chunk(new Rectangle(new Position(0, 0), new Position(100, 100)));
+            Room room = new Room(parentChunk, new Rectangle(new Position(0, 0), new Position(10, 10)));
+
+            Assert.AreEqual("BottomLeft: (0, 0); TopRight: (10, 10)", room.ToString());
+        }
+
         // TODO: Test that if any corners are out of the chunk, the construction is invalid (use the bounds checking feature of parent chunk)
     }
 }
