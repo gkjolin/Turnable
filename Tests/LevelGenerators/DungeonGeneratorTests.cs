@@ -4,13 +4,14 @@ using Turnable.LevelGenerators;
 using Turnable.Components;
 using System.Collections.Generic;
 using Turnable.Utilities;
+using Turnable.Api;
 
 namespace Tests.LevelGenerators
 {
     [TestClass]
     public class DungeonGeneratorTests
     {
-        private DungeonGenerator _dungeonGenerator;
+        private IDungeonGenerator _dungeonGenerator;
 
         [TestInitialize]
         public void Initialize()
@@ -59,11 +60,14 @@ namespace Tests.LevelGenerators
 
             List<Corridor> corridors = _dungeonGenerator.JoinRooms(tree);
 
-            Assert.AreEqual(randomChunks.Count / 2, corridors.Count);
+            // TODO: Test that all rooms are reachable
+            // There should atleast be corridors between each set of 2 rooms, so there should atleast be (number of rooms / 2) corridors.
+            Assert.IsTrue(corridors.Count > (randomChunks.Count / 2));
+
         }
 
         [TestMethod]
-        public void GetRooms_GivenTheRootOfABinaryTree_ReturnsAllRooms()
+        public void CollectRooms_GivenTheRootOfABinaryTree_ReturnsAllRooms()
         {
             Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
             Chunk initialChunk = new Chunk(bounds);
@@ -71,7 +75,7 @@ namespace Tests.LevelGenerators
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
-            List<Room> rooms = _dungeonGenerator.GetRooms(tree, tree.Root);
+            List<Room> rooms = _dungeonGenerator.CollectRooms(tree, tree.Root);
 
             Assert.AreEqual(randomChunks.Count, rooms.Count);
         }
@@ -85,7 +89,7 @@ namespace Tests.LevelGenerators
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
-            List<Room> rooms = _dungeonGenerator.GetRooms(tree, tree.Root.Right);
+            List<Room> rooms = _dungeonGenerator.CollectRooms(tree, tree.Root.Right);
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(tree.Root.Right);
 
             Assert.AreEqual(leafNodes.Count, rooms.Count);

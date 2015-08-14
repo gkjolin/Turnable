@@ -83,7 +83,7 @@ namespace Turnable.LevelGenerators
 
             RecursivelyJoinRooms(tree, tree.Root, corridors);
 
-            return null;
+            return corridors;
         }
 
         private void RecursivelyJoinRooms(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> node, List<Corridor> corridors)
@@ -98,7 +98,9 @@ namespace Turnable.LevelGenerators
 
             List<Room> firstListOfRooms = CollectLeafChunks(tree, node.Left).Select<Chunk, Room>(c => c.Room).ToList<Room>();
             List<Room> secondListOfRooms = CollectLeafChunks(tree, node.Right).Select<Chunk, Room>(c => c.Room).ToList<Room>();
-            JoinRooms(
+            List<Room> roomsToJoin = ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
+            Corridor corridor = roomsToJoin[0].Join(roomsToJoin[1]);
+            corridors.Add(corridor);
         }
 
         public Corridor GetCorridor(Room firstRoom, Room secondRoom)
@@ -118,7 +120,7 @@ namespace Turnable.LevelGenerators
             throw new NotImplementedException();
         }
 
-        public List<Room> GetRooms(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode)
+        public List<Room> CollectRooms(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode)
         {
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(startingRootNode);
             List<Room> rooms = leafNodes.Select<BinaryTreeNode<Chunk>, Room>(btn => btn.Value.Room).ToList<Room>();
