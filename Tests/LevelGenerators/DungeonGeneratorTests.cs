@@ -63,7 +63,6 @@ namespace Tests.LevelGenerators
             // TODO: Test that all rooms are reachable
             // There should atleast be corridors between each set of 2 rooms, so there should atleast be (number of rooms / 2) corridors.
             Assert.IsTrue(corridors.Count > (randomChunks.Count / 2));
-
         }
 
         [TestMethod]

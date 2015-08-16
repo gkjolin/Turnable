@@ -173,5 +173,63 @@ namespace Turnable.Vision
         {
             return (Start.Y == End.Y);
         }
+
+        public bool Equals(LineSegment other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return (this.Start == other.Start && this.End == other.End || this.Start == other.End && this.End == other.Start);
+        }
+
+        public override bool Equals(Object other)
+        {
+            LineSegment otherLineSegment = other as LineSegment;
+
+            if (otherLineSegment == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(otherLineSegment);
+            }
+        }
+
+        public static bool operator ==(LineSegment lineSegment1, LineSegment lineSegment2)
+        {
+            if ((object)lineSegment1 == null || ((object)lineSegment2) == null)
+            {
+                return Object.Equals(lineSegment1, lineSegment2);
+            }
+
+            return lineSegment1.Equals(lineSegment2);
+        }
+
+        public static bool operator !=(LineSegment lineSegment1, LineSegment lineSegment2)
+        {
+            if ((object)lineSegment1 == null || ((object)lineSegment2) == null)
+            {
+                return !Object.Equals(lineSegment1, lineSegment2);
+            }
+
+            return !(lineSegment1.Equals(lineSegment2));
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = (int)2166136261;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 16777619 ^ Start.GetHashCode();
+                hash = hash * 16777619 ^ End.GetHashCode();
+
+                return hash;
+            }
+        }
+
     }
 }

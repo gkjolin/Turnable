@@ -434,6 +434,122 @@ namespace Tests.Vision
             //    *
             Assert.IsFalse(second.IsTouching(first));
         }
+
+        // Equals Tests
+        [TestMethod]
+        public void Equals_FromIEquatableTInterface_CanCompareLineSegments()
+        {
+            LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+            LineSegment lineSegment2 = new LineSegment(new Position(0, 0), new Position(1, 1));
+
+            Assert.IsTrue(lineSegment.Equals(lineSegment2));
+
+            lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+            lineSegment2 = new LineSegment(new Position(1, 1), new Position(0, 0));
+
+            Assert.IsTrue(lineSegment.Equals(lineSegment2));
+
+            lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+            lineSegment2 = new LineSegment(new Position(0, 2), new Position(2, 2));
+
+            Assert.IsFalse(lineSegment.Equals(lineSegment2));
+        }
+
+        [TestMethod]
+        public void Equals_FromIEquatableTInterface_CanCompareLineSegmentToNull()
+        {
+            LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+
+            Assert.IsFalse(lineSegment.Equals((Position)null));
+        }
+
+        [TestMethod]
+        public void Equals_OverridenFromObjectEquals_CanCompareLineSegments()
+        {
+            Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+            Object lineSegment2 = new LineSegment(new Position(0, 0), new Position(1, 1));
+
+            Assert.IsTrue(lineSegment.Equals(lineSegment2));
+
+            lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+            lineSegment2 = new LineSegment(new Position(1, 1), new Position(0, 0));
+
+            Assert.IsTrue(lineSegment.Equals(lineSegment2));
+
+            lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+            lineSegment2 = new LineSegment(new Position(0, 2), new Position(2, 2));
+
+            Assert.IsFalse(lineSegment.Equals(lineSegment2));
+        }
+
+        [TestMethod]
+        public void Equals_OverridenFromObjectEquals_CanCompareLineSegmentToNull()
+        {
+            Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+
+            Assert.IsFalse(lineSegment.Equals(null));
+        }
+
+        [TestMethod]
+        public void Equals_OverridenFromObjectEquals_ReturnsFalseIfOtherObjectIsNotALineSegment()
+        {
+            Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+
+            Assert.IsFalse(lineSegment.Equals(new Object()));
+        }
+
+        [TestMethod]
+        public void EqualityOperator_IsImplemented()
+        {
+            LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+            LineSegment lineSegment2 = new LineSegment(new Position(0, 0), new Position(1, 1));
+
+            Assert.IsTrue(lineSegment == lineSegment2);
+        }
+
+        [TestMethod]
+        public void InequalityOperator_IsImplemented()
+        {
+            LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
+            LineSegment lineSegment2 = new LineSegment(new Position(0, 0), new Position(2, 2));
+
+            Assert.IsTrue(lineSegment != lineSegment2);
+        }
+
+        [TestMethod]
+        public void EqualityOperator_CanCompareLineSegmentToNull()
+        {
+            LineSegment lineSegment = null;
+
+            Assert.IsTrue(lineSegment == null);
+        }
+
+        [TestMethod]
+        public void InequalityOperator_CanCompareLineSegmentToNull()
+        {
+            LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1)); ;
+
+            Assert.IsTrue(lineSegment != null);
+        }
+
+        [TestMethod]
+        public void GetHashCode_IsOverridenToReturnASuitableHashCode()
+        {
+            LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1)); ;
+            int calculatedHash;
+
+            // http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = (int)2166136261;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 16777619 ^ lineSegment.Start.GetHashCode();
+                hash = hash * 16777619 ^ lineSegment.End.GetHashCode();
+                calculatedHash = hash;
+            }
+
+            Assert.AreEqual(calculatedHash, lineSegment.GetHashCode());
+        }
     }
 }
 
