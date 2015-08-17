@@ -5,6 +5,8 @@ using Turnable.Components;
 using System.Collections.Generic;
 using Turnable.Utilities;
 using Turnable.Api;
+using Turnable.Locations;
+using Moq;
 
 namespace Tests.LevelGenerators
 {
@@ -92,6 +94,28 @@ namespace Tests.LevelGenerators
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(tree.Root.Right);
 
             Assert.AreEqual(leafNodes.Count, rooms.Count);
+        }
+
+        [TestMethod]
+        public void Generate_GivenAStartingChunk_GeneratesARandomDungeon()
+        {
+            Rectangle bounds = new Rectangle(new Position(0, 0), 15, 15);
+            Chunk initialChunk = new Chunk(bounds);
+            BinaryTree<Chunk> tree = new BinaryTree<Chunk>(); ;
+            List<Chunk> randomChunks = new List<Chunk>();
+            Mock<DungeonGenerator> mockDungeonGenerator = new Mock<DungeonGenerator>();
+            mockDungeonGenerator.CallBase = true;
+            mockDungeonGenerator.Setup(dg => dg.Chunkify(initialChunk)).Returns(tree);
+            mockDungeonGenerator.Setup(dg => dg.CollectLeafChunks(tree, null)).Returns(randomChunks);
+            mockDungeonGenerator.Setup(dg => dg.PlaceRooms(randomChunks));
+            mockDungeonGenerator.Setup(dg => dg.JoinRooms(tree));
+
+            Level randomLevel = mockDungeonGenerator.Object.Generate(initialChunk, out tree);
+
+            mockDungeonGenerator.Verify(dg => dg.Chunkify(initialChunk));
+            mockDungeonGenerator.Verify(dg => dg.CollectLeafChunks(tree, null));
+            mockDungeonGenerator.Verify(dg => dg.PlaceRooms(randomChunks));
+            mockDungeonGenerator.Verify(dg => dg.JoinRooms(tree));
         }
 
         // -------------
@@ -358,6 +382,8 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(new Position(6, 2), corridor.LineSegments[0].End);
             Assert.AreEqual(firstRoom, corridor.ConnectedRooms[0]);
             Assert.AreEqual(secondRoom, corridor.ConnectedRooms[1]);
+            Assert.AreEqual(corridor, firstRoom.Corridors[0]);
+            Assert.AreEqual(corridor, secondRoom.Corridors[0]);
         }
 
         [TestMethod]

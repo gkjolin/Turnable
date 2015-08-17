@@ -15,7 +15,7 @@ namespace Turnable.LevelGenerators
     {
         // TODO: This code feels like it could be improved. The way that the code uses tree and passes it around feels off.
         // However, this code is not a part of the public interface so this is not high priority.
-        public BinaryTree<Chunk> Chunkify(Chunk initialChunk)
+        public virtual BinaryTree<Chunk> Chunkify(Chunk initialChunk)
         {
             BinaryTree<Chunk> tree = new BinaryTree<Chunk>();
             tree.Root = new BinaryTreeNode<Chunk>(initialChunk);
@@ -25,7 +25,7 @@ namespace Turnable.LevelGenerators
             return tree;
         }
 
-        public List<Chunk> CollectLeafChunks(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode = null)
+        public virtual List<Chunk> CollectLeafChunks(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode = null)
         {
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(startingRootNode);
             List<Chunk> chunks = leafNodes.Select<BinaryTreeNode<Chunk>, Chunk>(btn => btn.Value).ToList<Chunk>();
@@ -33,7 +33,7 @@ namespace Turnable.LevelGenerators
             return chunks;
         }
 
-        public List<Room> PlaceRooms(List<Chunk> chunks)
+        public virtual List<Room> PlaceRooms(List<Chunk> chunks)
         {
             List<Room> rooms = new List<Room>();
 
@@ -75,7 +75,7 @@ namespace Turnable.LevelGenerators
             }
         }
 
-        public List<Corridor> JoinRooms(BinaryTree<Chunk> tree)
+        public virtual List<Corridor> JoinRooms(BinaryTree<Chunk> tree)
         {
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes();
             List<BinaryTreeNode<Chunk>> processedLeafNodes = new List<BinaryTreeNode<Chunk>>();
@@ -115,9 +115,14 @@ namespace Turnable.LevelGenerators
             return corridor;
         }
 
-        public Level Generate()
+        public virtual Level Generate(Chunk initialChunk, out BinaryTree<Chunk> tree)
         {
-            throw new NotImplementedException();
+            tree = Chunkify(initialChunk);
+            List<Chunk> randomChunks = CollectLeafChunks(tree);
+            PlaceRooms(randomChunks);
+            JoinRooms(tree);
+
+            return null;
         }
 
         public List<Room> CollectRooms(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode)

@@ -20,7 +20,7 @@ namespace Turnable.Api
         // ----------------
 
         // Methods
-        Level Generate();
+        Level Generate(Chunk initialChunk, out BinaryTree<Chunk> tree);
 
         // Properties
 
