@@ -33,6 +33,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(chunk, room.ParentChunk);
             Assert.AreEqual(roomBounds, room.Bounds);
             Assert.AreEqual(room, chunk.Room);
+            Assert.IsNotNull(room.Corridors);
         }
 
         [TestMethod]

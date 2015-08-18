@@ -14,20 +14,20 @@ namespace Tests.LevelGenerators
     public class DungeonGeneratorTests
     {
         private IDungeonGenerator _dungeonGenerator;
+        private Chunk _initialChunk;
 
         [TestInitialize]
         public void Initialize()
         {
             _dungeonGenerator = new DungeonGenerator();
+            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
+            _initialChunk = new Chunk(bounds);
         }
 
         [TestMethod]
         public void Chunkify_GivenAnInitialChunk_RandomlyBreaksUpTheChunk()
         {
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
-
-            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
 
             // TODO: How can I check if the chunk has been broken into multiple random sized chunks?
@@ -37,9 +37,7 @@ namespace Tests.LevelGenerators
         [TestMethod]
         public void PlaceRooms_GivenASetOfChunks_PlacesRandomSizedRoomsWithinEachChunk()
         {
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
-            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
 
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
@@ -54,9 +52,7 @@ namespace Tests.LevelGenerators
         [TestMethod]
         public void JoinRooms_GivenASetOfRoomsWithinChunks_JoinsTheRoomsSoThatAllRoomsAreReachable()
         {
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
-            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
@@ -70,9 +66,7 @@ namespace Tests.LevelGenerators
         [TestMethod]
         public void CollectRooms_GivenTheRootOfABinaryTree_ReturnsAllRooms()
         {
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
-            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
@@ -84,9 +78,7 @@ namespace Tests.LevelGenerators
         [TestMethod]
         public void GetRooms_GivenANodeOtherThanTheRootOfABinaryTree_ReturnsAllRoomsOfTheSubtreeWithTheNodeAsItsRoot()
         {
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
-            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(initialChunk);
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
@@ -97,22 +89,34 @@ namespace Tests.LevelGenerators
         }
 
         [TestMethod]
+        public void DrawLevel_GivenATreeWithASetOfRandomRoomsJoinedTogether_WritesTheTreeToANewLevel()
+        {
+            BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
+            List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
+            List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
+            _dungeonGenerator.JoinRooms(tree);
+            Level level = new Level();
+
+            _dungeonGenerator.DrawLevel(tree, out level);
+
+            Assert.IsNotNull(level.SpecialLayers[SpecialLayer.Collision]);
+        }
+
+        [TestMethod]
         public void Generate_GivenAStartingChunk_GeneratesARandomDungeon()
         {
-            Rectangle bounds = new Rectangle(new Position(0, 0), 15, 15);
-            Chunk initialChunk = new Chunk(bounds);
             BinaryTree<Chunk> tree = new BinaryTree<Chunk>(); ;
             List<Chunk> randomChunks = new List<Chunk>();
             Mock<DungeonGenerator> mockDungeonGenerator = new Mock<DungeonGenerator>();
             mockDungeonGenerator.CallBase = true;
-            mockDungeonGenerator.Setup(dg => dg.Chunkify(initialChunk)).Returns(tree);
+            mockDungeonGenerator.Setup(dg => dg.Chunkify(_initialChunk)).Returns(tree);
             mockDungeonGenerator.Setup(dg => dg.CollectLeafChunks(tree, null)).Returns(randomChunks);
             mockDungeonGenerator.Setup(dg => dg.PlaceRooms(randomChunks));
             mockDungeonGenerator.Setup(dg => dg.JoinRooms(tree));
 
-            Level randomLevel = mockDungeonGenerator.Object.Generate(initialChunk, out tree);
+            Level randomLevel = mockDungeonGenerator.Object.Generate(_initialChunk, out tree);
 
-            mockDungeonGenerator.Verify(dg => dg.Chunkify(initialChunk));
+            mockDungeonGenerator.Verify(dg => dg.Chunkify(_initialChunk));
             mockDungeonGenerator.Verify(dg => dg.CollectLeafChunks(tree, null));
             mockDungeonGenerator.Verify(dg => dg.PlaceRooms(randomChunks));
             mockDungeonGenerator.Verify(dg => dg.JoinRooms(tree));
@@ -350,10 +354,8 @@ namespace Tests.LevelGenerators
             // *****:::::
             // *****:::::
             // *****:::::
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
-            Room firstRoom = new Room(initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4)));
-            Room secondRoom = new Room(initialChunk, new Rectangle(new Position(5, 0), new Position(9, 4)));
+            Room firstRoom = new Room(_initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4)));
+            Room secondRoom = new Room(_initialChunk, new Rectangle(new Position(5, 0), new Position(9, 4)));
 
             Corridor corridor = firstRoom.Join(secondRoom);
 
@@ -369,10 +371,8 @@ namespace Tests.LevelGenerators
             // *****..:::::
             // *****  :::::
             // *****  :::::
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
-            Room firstRoom = new Room(initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4)));
-            Room secondRoom = new Room(initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4)));
+            Room firstRoom = new Room(_initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4)));
+            Room secondRoom = new Room(_initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4)));
 
             Corridor corridor = firstRoom.Join(secondRoom);
 
@@ -395,10 +395,8 @@ namespace Tests.LevelGenerators
             // *****  :::::
             // *****  :::::
             // *****  :::::
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
-            List<Room> firstListOfRooms = new List<Room>() { new Room(initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))) };
-            List<Room> secondListOfRooms = new List<Room>() { new Room(initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4))) };
+            List<Room> firstListOfRooms = new List<Room>() { new Room(_initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))) };
+            List<Room> secondListOfRooms = new List<Room>() { new Room(_initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4))) };
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
 
@@ -416,14 +414,12 @@ namespace Tests.LevelGenerators
             // *****  :::::   ####
             // *****  :::::   ####
             // *****  :::::
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
             List<Room> firstListOfRooms = new List<Room>() { 
-                new Room(initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))) 
+                new Room(_initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))) 
             };
             List<Room> secondListOfRooms = new List<Room>() { 
-                new Room(initialChunk, new Rectangle(new Position(15, 1), new Position(18, 2))),
-                new Room(initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4)))
+                new Room(_initialChunk, new Rectangle(new Position(15, 1), new Position(18, 2))),
+                new Room(_initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4)))
             };
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
@@ -442,15 +438,13 @@ namespace Tests.LevelGenerators
             // *****  :::::   ####  ++++
             // *****  :::::   ####  ++++
             // *****  :::::         ++++
-            Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);
-            Chunk initialChunk = new Chunk(bounds);
             List<Room> firstListOfRooms = new List<Room>() { 
-                new Room(initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))),
-                new Room(initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4)))
+                new Room(_initialChunk, new Rectangle(new Position(0, 0), new Position(4, 4))),
+                new Room(_initialChunk, new Rectangle(new Position(7, 0), new Position(11, 4)))
             };
             List<Room> secondListOfRooms = new List<Room>() { 
-                new Room(initialChunk, new Rectangle(new Position(21, 0), new Position(24, 2))),
-                new Room(initialChunk, new Rectangle(new Position(15, 1), new Position(18, 2)))
+                new Room(_initialChunk, new Rectangle(new Position(21, 0), new Position(24, 2))),
+                new Room(_initialChunk, new Rectangle(new Position(15, 1), new Position(18, 2)))
             };
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
