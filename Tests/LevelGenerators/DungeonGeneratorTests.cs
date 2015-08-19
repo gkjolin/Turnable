@@ -100,6 +100,25 @@ namespace Tests.LevelGenerators
             _dungeonGenerator.DrawLevel(tree, out level);
 
             Assert.IsNotNull(level.SpecialLayers[SpecialLayer.Collision]);
+            List<Room> rooms = _dungeonGenerator.CollectRooms(tree);
+            foreach (Room room in rooms)
+            {
+                // Check if the room is written to level
+                int col, row;
+
+                for (col = room.Bounds.BottomLeft.X; col <= room.Bounds.TopRight.X; col++)
+                {
+                    for (row = room.Bounds.BottomLeft.Y; row <= room.Bounds.TopRight.Y; row++)
+                    {
+                    }
+                }
+
+                foreach (Corridor corridor in room.Corridors)
+                {
+                    // Check if each corridor is written to the level as a 0
+                }
+            }
+
         }
 
         [TestMethod]

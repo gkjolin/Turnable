@@ -156,5 +156,10 @@ namespace Turnable.LevelGenerators
 
             return roomsToJoin;
         }
+
+        public void DrawLevel(BinaryTree<Chunk> tree, out Level level)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
