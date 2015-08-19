@@ -89,7 +89,7 @@ namespace Tests.LevelGenerators
         }
 
         [TestMethod]
-        public void DrawLevel_GivenATreeWithASetOfRandomRoomsJoinedTogether_WritesTheTreeToANewLevel()
+        public void DrawLevel_GivenATreeWithASetOfRandomRoomsJoinedTogether_WritesTheRoomsAndCorridorsInTheTreeToALevel()
         {
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
