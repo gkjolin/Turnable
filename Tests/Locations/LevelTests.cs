@@ -29,11 +29,11 @@ namespace Tests.Locations
             ILevel level = new Level();
 
             // TODO: Uncomment these out as we implement these systems
-            Assert.IsNull(level.Map);
+            Assert.IsNotNull(level.Map);
+            Assert.IsNotNull(level.SpecialLayers);
             Assert.IsNull(level.Pathfinder);
             Assert.IsNull(level.CharacterManager);
             Assert.IsNull(level.ModelManager);
-            Assert.IsNotNull(level.SpecialLayers);
             //Assert.IsNull(level.World);
             //Assert.IsNull(level.VisionCalculator);
             //Assert.IsNull(level.Viewport);
@@ -162,6 +162,32 @@ namespace Tests.Locations
             _level.SpecialLayers[SpecialLayer.Character] = _level.Map.Layers[0];
 
             Assert.IsNull(_level.SpecialLayers[SpecialLayer.Background]);
+        }
+
+        // Map Manipulation Tests
+        [TestMethod]
+        public void SetLayer_GivenASpecialLayerEnumValue_CreatesANewSpecialLayer()
+        {
+            // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
+            _level.Map.Layers.Clear();
+            _level.SpecialLayers.Clear();
+
+            _level.SetLayer("Layer 1", 48, 64, SpecialLayer.Character);
+
+            Assert.AreEqual(1, _level.Map.Layers.Count);
+            Assert.IsNotNull(_level.SpecialLayers[SpecialLayer.Character]);
+        }
+
+        // Map Manipulation Tests
+        [TestMethod]
+        public void SetLayer_ForANewlyConstructedLevel_StillWorksCorrectly()
+        {
+            Level level = new Level();
+
+            level.SetLayer("Layer 1", 48, 64, SpecialLayer.Character);
+
+            Assert.AreEqual(1, level.Map.Layers.Count);
+            Assert.IsNotNull(level.SpecialLayers[SpecialLayer.Character]);
         }
 
         // -------

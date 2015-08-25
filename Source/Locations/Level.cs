@@ -25,6 +25,7 @@ namespace Turnable.Locations
 
         public Level()
         {
+            Map = new Map();
             SpecialLayers = new SpecialLayersCollection();
         }
 
@@ -138,6 +139,15 @@ namespace Turnable.Locations
         public void SetUpModelManager()
         {
             ModelManager = new ModelManager(this);
+        }
+
+        // The reason why ILevel has this method definition instead of Map is because the concept of a special layer is a Turnable Framework concept and
+        // not a Tiled concept.
+        public void SetLayer(string name, int width, int height, SpecialLayer specialLayer)
+        {
+            Layer layer = new Layer(name, width, height);
+            SpecialLayers[specialLayer] = layer;
+            Map.Layers.Add(layer);
         }
     }
 }

@@ -21,21 +21,24 @@ namespace Turnable.Tiled
         {
             uint tileGlobalId = 0;
 
-            using (BinaryReader reader = new BinaryReader(data.Contents))
+            if (data != null)
             {
-                for (int row = 0; row < height; row++)
+                using (BinaryReader reader = new BinaryReader(data.Contents))
                 {
-                    for (int col = 0; col < width; col++)
+                    for (int row = 0; row < height; row++)
                     {
-                        tileGlobalId = reader.ReadUInt32();
-
-                        // The .tmx format uses 0 to indicate a tile that hasn't been set in the editor
-                        if (tileGlobalId != 0)
+                        for (int col = 0; col < width; col++)
                         {
-                            // The .tmx format uses an origin that starts at the top left with Y increasing going South
-                            // However most libraries use an origin that starts at the bottom left with Y increasing going North
-                            // So Y is "flipped" using (height - row - 1)
-                            Add(new Tuple<int, int>(col, (height - row - 1)), new Tile(tileGlobalId, col, (height - row - 1)));
+                            tileGlobalId = reader.ReadUInt32();
+
+                            // The .tmx format uses 0 to indicate a tile that hasn't been set in the editor
+                            if (tileGlobalId != 0)
+                            {
+                                // The .tmx format uses an origin that starts at the top left with Y increasing going South
+                                // However most libraries use an origin that starts at the bottom left with Y increasing going North
+                                // So Y is "flipped" using (height - row - 1)
+                                Add(new Tuple<int, int>(col, (height - row - 1)), new Tile(tileGlobalId, col, (height - row - 1)));
+                            }
                         }
                     }
                 }

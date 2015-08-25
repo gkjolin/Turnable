@@ -37,7 +37,7 @@ namespace Turnable.Api
         List<Room> PlaceRooms(List<Chunk> chunks);
         List<Corridor> JoinRooms(BinaryTree<Chunk> tree);
         List<Room> ChooseRoomsToJoin(List<Room> firstListOfRooms, List<Room> secondListOfRooms);
-        void DrawLevel(BinaryTree<Chunk> tree, out Level level);
+        void DrawLevel(BinaryTree<Chunk> tree, Level level);
 
         // Properties
 

@@ -22,14 +22,22 @@ namespace Turnable.Tiled
         public TileList Tiles { get; set; }
         public PropertyDictionary Properties { get; set; }
 
-        public Layer(XElement xLayer)
+        public Layer(string name, int width, int height)
         {
-            Name = (string)xLayer.Attribute("name");
+            Name = name;
+            Opacity = 1.0;
+            IsVisible = true;
+            Width = width;
+            Height = height;
+            Properties = new PropertyDictionary();
+            Tiles = new TileList(width, height, null);
+        }
+
+        public Layer(XElement xLayer) : this((string)xLayer.Attribute("name"), (int)xLayer.Attribute("width"), (int)xLayer.Attribute("height"))
+        {
             Opacity = (double?)xLayer.Attribute("opacity") ?? 1.0;
             IsVisible = (bool?)xLayer.Attribute("visible") ?? true;
-            Width = (int)xLayer.Attribute("width");
-            Height = (int)xLayer.Attribute("height");
-
+ 
             // Load up the Tiles in this layer
             Data data = new Data(xLayer.Element("data"));
             Tiles = new TileList(Width, Height, data);
@@ -39,10 +47,6 @@ namespace Turnable.Tiled
             {
                 IEnumerable<XElement> xProperties = xLayer.Element("properties").Elements("property");
                 Properties = new PropertyDictionary(xProperties);
-            }
-            else
-            {
-                Properties = new PropertyDictionary();
             }
         }
 
@@ -108,6 +112,16 @@ namespace Turnable.Tiled
                     SetTile(new Position(col, row), globalId);
                 }
             }
+        }
+
+        public Tile GetTile(Position position)
+        {
+            if (Tiles.Keys.Contains<Tuple<int, int>>(new Tuple<int, int>(position.X, position.Y)))
+            {
+                return Tiles[new Tuple<int, int>(position.X, position.Y)];
+            }
+
+            return null;
         }
     }
 }

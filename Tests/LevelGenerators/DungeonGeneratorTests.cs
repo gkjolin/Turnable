@@ -7,6 +7,8 @@ using Turnable.Utilities;
 using Turnable.Api;
 using Turnable.Locations;
 using Moq;
+using Turnable.Tiled;
+using Turnable.Vision;
 
 namespace Tests.LevelGenerators
 {
@@ -96,11 +98,13 @@ namespace Tests.LevelGenerators
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
             _dungeonGenerator.JoinRooms(tree);
             Level level = new Level();
+            List<Position> emptyPositions = new List<Position>();
 
-            _dungeonGenerator.DrawLevel(tree, out level);
+            _dungeonGenerator.DrawLevel(tree, level);
 
-            Assert.IsNotNull(level.SpecialLayers[SpecialLayer.Collision]);
             List<Room> rooms = _dungeonGenerator.CollectRooms(tree);
+            Assert.IsNotNull(level.SpecialLayers[SpecialLayer.Collision]);
+            Layer drawnLayer = level.SpecialLayers[SpecialLayer.Collision];
             foreach (Room room in rooms)
             {
                 // Check if the room is written to level
@@ -110,15 +114,44 @@ namespace Tests.LevelGenerators
                 {
                     for (row = room.Bounds.BottomLeft.Y; row <= room.Bounds.TopRight.Y; row++)
                     {
+                        Tile tile = drawnLayer.GetTile(new Position(col, row));
+                        Assert.IsNotNull(tile);
+                        Assert.AreEqual((uint)0, tile.GlobalId);
+                        emptyPositions.Add(new Position(col, row));
                     }
                 }
 
                 foreach (Corridor corridor in room.Corridors)
                 {
                     // Check if each corridor is written to the level as a 0
+                    foreach (LineSegment lineSegment in corridor.LineSegments)
+                    {
+                        foreach (Position point in lineSegment.Points)
+                        {
+                            Tile tile = drawnLayer.GetTile(point);
+                            Assert.IsNotNull(tile);
+                            Assert.AreEqual((uint)0, tile.GlobalId);
+                            emptyPositions.Add(point);
+                        }
+                    }
                 }
-            }
 
+                // All the positions that have been added to emptyPositions have a tile with a 0 global id.
+                // The rest of the layer should all have tiles with a value of 1, since the level is in essence being carved out of a solid block.
+                for (col = tree.Root.Value.Bounds.BottomLeft.X; col <= tree.Root.Value.Bounds.TopRight.X; col++)
+                {
+                    for (row = tree.Root.Value.Bounds.BottomLeft.Y; row <= tree.Root.Value.Bounds.TopRight.Y; row++)
+                    {
+                        if (!emptyPositions.Contains(new Position(col, row)))
+                        {
+                            Tile tile = drawnLayer.GetTile(new Position(col, row));
+                            Assert.IsNotNull(tile);
+                            Assert.AreEqual((uint)1, tile.GlobalId);
+                        }
+                    }
+                }
+
+            }
         }
 
         [TestMethod]

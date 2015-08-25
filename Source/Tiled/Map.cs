@@ -21,6 +21,7 @@ namespace Turnable.Tiled
 
         public Map()
         {
+            Layers = new ElementList<Layer>();
         }
 
         public Map(string tmxFullFilePath) : this()
@@ -37,7 +38,6 @@ namespace Turnable.Tiled
             Version = (string)xMap.Attribute("version");
 
             // Load up all the Layers in this Map.
-            Layers = new ElementList<Layer>();
             foreach (XElement xLayer in xMap.Elements("layer"))
             {
                 Layers.Add(new Layer(xLayer));

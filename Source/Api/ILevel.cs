@@ -39,5 +39,6 @@ namespace Turnable.Api
         void SetUpVisionCalculator();
         void SetUpCharacterManager();
         void SetUpModelManager();
+        void SetLayer(string name, int width, int height, SpecialLayer specialLayer);
     }
 }

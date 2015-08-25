@@ -14,11 +14,25 @@ namespace Tests.Tiled
     public class LayerTests
     {
         [TestMethod]
+        public void Constructor_GivenAWidthAndHeight_InitializesLayerCorrectly()
+        {
+            Layer layer = new Layer("Layer 1", 48, 64);
+
+            Assert.AreEqual("Layer 1", layer.Name);
+            Assert.AreEqual(48, layer.Width);
+            Assert.AreEqual(64, layer.Height);
+            Assert.AreEqual(1.0, layer.Opacity);
+            Assert.AreEqual(true, layer.IsVisible);
+            Assert.IsNotNull(layer.Properties);
+        }
+
+        [TestMethod]
         public void Constructor_GivenALayerXElementWithNoProperties_InitializesAnEmptyPropertiesCollection()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithNoProperties());
 
             Assert.IsNotNull(layer.Properties);
+            Assert.IsNotNull(layer.Tiles);
         }
         
         [TestMethod]
@@ -44,6 +58,27 @@ namespace Tests.Tiled
         // ************************
         // Layer Manipulation Tests
         // ************************
+        [TestMethod]
+        public void GetTile_GivenAPositionWithNoTile_ReturnsNull()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            Assert.IsNull(layer.GetTile(new Position(7, 2)));
+        }
+
+        [TestMethod]
+        public void GetTile_GivenAPositionWithATile_ReturnsTheTile()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+            layer.SetTile(new Position(7, 2), 2107);
+
+            Tile tile = layer.GetTile(new Position(7, 2));
+
+            Assert.AreEqual((uint)2107, tile.GlobalId);
+            Assert.AreEqual(7, tile.X);
+            Assert.AreEqual(2, tile.Y);
+        }
+
         [TestMethod]
         public void MoveTile_MovesATileToAnEmptyPositionInTheSameLayer()
         {

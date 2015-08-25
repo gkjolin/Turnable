@@ -5,6 +5,7 @@ using System.Text;
 using Turnable.Api;
 using Turnable.Components;
 using Turnable.Locations;
+using Turnable.Tiled;
 using Turnable.Utilities;
 using Turnable.Vision;
 
@@ -125,7 +126,7 @@ namespace Turnable.LevelGenerators
             return null;
         }
 
-        public List<Room> CollectRooms(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode)
+        public List<Room> CollectRooms(BinaryTree<Chunk> tree, BinaryTreeNode<Chunk> startingRootNode = null)
         {
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(startingRootNode);
             List<Room> rooms = leafNodes.Select<BinaryTreeNode<Chunk>, Room>(btn => btn.Value.Room).ToList<Room>();
@@ -157,9 +158,40 @@ namespace Turnable.LevelGenerators
             return roomsToJoin;
         }
 
-        public void DrawLevel(BinaryTree<Chunk> tree, out Level level)
+        public void DrawLevel(BinaryTree<Chunk> tree, Level level)
         {
-            throw new NotImplementedException();
+            level.SetLayer("Random Layer", tree.Root.Value.Bounds.Width, tree.Root.Value.Bounds.Height, SpecialLayer.Collision);
+
+            List<Room> rooms = CollectRooms(tree, null);
+            Layer layerToDrawOn = level.SpecialLayers[SpecialLayer.Collision];
+            
+            // Fill the entire layer with tiles with the value 1. The rest of this function carves out the level by replacing tiles with new tiles 
+            // with the value 0.
+            layerToDrawOn.Fill(1);
+
+            foreach (Room room in rooms)
+            {
+                int col, row;
+
+                for (col = room.Bounds.BottomLeft.X; col <= room.Bounds.TopRight.X; col++)
+                {
+                    for (row = room.Bounds.BottomLeft.Y; row <= room.Bounds.TopRight.Y; row++)
+                    {
+                        layerToDrawOn.SetTile(new Position(col, row), 0);
+                    }
+                }
+
+                foreach (Corridor corridor in room.Corridors)
+                {
+                    foreach (LineSegment lineSegment in corridor.LineSegments)
+                    {
+                        foreach (Position point in lineSegment.Points)
+                        {
+                            layerToDrawOn.SetTile(point, 0);
+                        }
+                    }
+                }
+            }
         }
     }
 }

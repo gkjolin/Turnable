@@ -20,6 +20,14 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
+        public void Constructor_GivenNullData_CreatesAnEmptyTileList()
+        {
+            TileList tileList = new TileList(15, 15, null);
+
+            Assert.AreEqual(0, tileList.Count);
+        }
+
+        [TestMethod]
         public void Constructor_GivenDataWithNoTiles_CreatesAnEmptyTileList()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());

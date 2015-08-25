@@ -29,8 +29,8 @@ namespace Tests.Tiled
             Assert.AreEqual(0, map.Height);
             Assert.AreEqual(RenderOrder.RightDown, map.RenderOrder);
             Assert.AreEqual(Orientation.Orthogonal, map.Orientation);
+            Assert.IsNotNull(map.Layers);
             Assert.IsNull(map.Version);
-            Assert.IsNull(map.Layers);
         }
 
         [TestMethod]
