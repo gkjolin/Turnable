@@ -10,6 +10,7 @@ namespace Turnable.Stats
     public class StatManager : IStatManager, IComponent
     {
         public Dictionary<string, Stat> Stats { get; set; }
+        public Entity Owner { get; set; }
 
         public StatManager()
         {

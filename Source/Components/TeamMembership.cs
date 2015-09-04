@@ -10,6 +10,7 @@ namespace Turnable.Components
     public class TeamMembership : IComponent
     {
         public string TeamName { get; private set; }
+        public Entity Owner { get; set; }
 
         public TeamMembership()
         {

@@ -13,6 +13,7 @@ namespace Turnable.Components
     {
         public int X { get; private set; }
         public int Y { get; private set; }
+        public Entity Owner { get; set; }
 
         public Position()
         {
