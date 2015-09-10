@@ -15,6 +15,7 @@ namespace Turnable.Api
         // ----------------
 
         // Methods
+        bool IsTileAt(Position position);
         Tile GetTile(Position position);
         void SetTile(Position position, uint globalId);
         void RemoveTile(Position position);

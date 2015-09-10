@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Tuples;
+using Turnable.Components;
 
 namespace Turnable.Tiled
 {
@@ -42,6 +43,19 @@ namespace Turnable.Tiled
                         }
                     }
                 }
+            }
+        }
+
+        public Tile this[Position position]
+        {
+            get 
+            {
+                if (ContainsKey(new Tuple<int, int>(position.X, position.Y)))
+                {
+                    return this[new Tuple<int, int>(position.X, position.Y)];
+                }
+
+                return null;
             }
         }
     }

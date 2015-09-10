@@ -127,8 +127,8 @@ namespace Tests.Characters
             Assert.AreEqual(newPosition, movement.Path[1]);
 
             // Check to see if the tile in the map was moved as well
-            Assert.IsFalse(_level.SpecialLayers[SpecialLayer.Character].Tiles.ContainsKey(new Tuple<int, int>(startingPosition.X, startingPosition.Y)));
-            Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)));
+            Assert.IsFalse(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(startingPosition));
+            Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition));
         }
 
         [TestMethod]
@@ -160,8 +160,8 @@ namespace Tests.Characters
             Assert.AreEqual(new Position(6, 0), movement.Path[1]);
 
             // Check to see if the tile in the map was NOT moved
-            Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)));
-            Assert.IsFalse(_level.SpecialLayers[SpecialLayer.Character].Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)));
+            Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(currentPosition));
+            Assert.IsFalse(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition));
         }
 
         //[TestMethod]

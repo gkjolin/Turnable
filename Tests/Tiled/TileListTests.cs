@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Tiled;
 using Tests.Factories;
 using System.Tuples;
+using Turnable.Components;
 
 namespace Tests.Tiled
 {
@@ -49,6 +50,30 @@ namespace Tests.Tiled
             Assert.AreEqual((uint)2107, tileList[new Tuple<int, int>(6, 1)].GlobalId);
             Assert.AreEqual(6, tileList[new Tuple<int, int>(6, 1)].X);
             Assert.AreEqual(1, tileList[new Tuple<int, int>(6, 1)].Y);
+        }
+
+        [TestMethod]
+        public void Indexer_GivenAPositionWithATileAtThatPosition_ReturnsTheTile()
+        {
+            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
+
+            // Test to see if one tile is loaded up correctly. 
+            Tile tile = tileList[new Position(6, 1)];
+
+            Assert.AreEqual((uint)2107, tile.GlobalId);
+            Assert.AreEqual(6, tile.X);
+            Assert.AreEqual(1, tile.Y);
+        }
+
+        [TestMethod]
+        public void Indexer_GivenAPositionWithNoTileAtThatPosition_ReturnsNull()
+        {
+            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
+
+            // Test to see if one tile is loaded up correctly. 
+            Tile tile = tileList[new Position(7, 1)];
+
+            Assert.IsNull(tile);
         }
     }
 }

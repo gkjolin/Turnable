@@ -59,6 +59,23 @@ namespace Tests.Tiled
         // Layer Manipulation Tests
         // ************************
         [TestMethod]
+        public void IsTileAt_GivenAPositionWhereATileExists_ReturnsTrue()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+            layer.SetTile(new Position(7, 2), 2107);
+
+            Assert.IsTrue(layer.IsTileAt(new Position(7, 2)));
+        }
+
+        [TestMethod]
+        public void IsTileAt_GivenAPositionWhereATileDoesNotExist_ReturnsFalse()
+        {
+            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+
+            Assert.IsFalse(layer.IsTileAt(new Position(7, 2)));
+        }
+
+        [TestMethod]
         public void GetTile_GivenAPositionWithNoTile_ReturnsNull()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -89,8 +106,8 @@ namespace Tests.Tiled
 
             layer.MoveTile(new Position(6, 1), new Position(6, 2));
 
-            Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(6, 1)));
-            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(6, 2)));
+            Assert.IsFalse(layer.IsTileAt(new Position(6, 1)));
+            Assert.IsTrue(layer.IsTileAt(new Position(6, 2)));
 
             // Make sure that the tileCount does not change
             Assert.AreEqual(tileCount, layer.Tiles.Count);
@@ -131,8 +148,8 @@ namespace Tests.Tiled
 
             layer.SwapTile(new Position(6, 1), new Position(5, 13));
 
-            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(6, 1)));
-            Assert.IsTrue(layer.Tiles.ContainsKey(new Tuple<int, int>(5, 13)));
+            Assert.IsTrue(layer.IsTileAt(new Position(6, 1)));
+            Assert.IsTrue(layer.IsTileAt(new Position(5, 13)));
 
             // Make sure that the tileCount does not change
             Assert.AreEqual(tileCount, layer.Tiles.Count);
@@ -202,7 +219,7 @@ namespace Tests.Tiled
             int tileCount = layer.Tiles.Count;
             layer.RemoveTile(new Position(7, 2));
 
-            Assert.IsFalse(layer.Tiles.ContainsKey(new Tuple<int, int>(7, 2)));
+            Assert.IsFalse(layer.IsTileAt(new Position(7, 2)));
             Assert.AreEqual(tileCount - 1, layer.Tiles.Count);
         }
 

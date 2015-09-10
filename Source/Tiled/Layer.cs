@@ -116,12 +116,17 @@ namespace Turnable.Tiled
 
         public Tile GetTile(Position position)
         {
-            if (Tiles.Keys.Contains<Tuple<int, int>>(new Tuple<int, int>(position.X, position.Y)))
+            if (IsTileAt(position))
             {
                 return Tiles[new Tuple<int, int>(position.X, position.Y)];
             }
 
             return null;
+        }
+
+        public bool IsTileAt(Position position)
+        {
+            return Tiles.Keys.Contains<Tuple<int, int>>(new Tuple<int, int>(position.X, position.Y));
         }
     }
 }
