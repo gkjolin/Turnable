@@ -16,6 +16,18 @@
     <property name="Model" value="Knight M"/>
    </properties>
   </tile>
+  <tile id="1">
+   <properties>
+    <property name="IsPC" value="true"/>
+    <property name="Model" value="Thief M"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="IsPC" value="true"/>
+    <property name="Model" value="Ranger M"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Background" width="15" height="15">
   <properties>
@@ -46,7 +58,7 @@
    <property name="IsCharacterLayer" value="true"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgoB6I5WRgiOOEsJOh7FhOKlowCkbBAABrDtqaDwDGR1wzhAMAAA==
+   H4sIAAAAAAAAC2NgoB6I5WRgiOOEsJOh7FhOKlowQMCWY2DstRkge0cBKrCmcTwAAKSDR1SEAwAA
   </data>
  </layer>
 </map>

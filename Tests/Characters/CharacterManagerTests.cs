@@ -35,18 +35,23 @@ namespace Tests.Characters
             CharacterManager characterManager = new CharacterManager(_level);
 
             Assert.AreEqual(_level, characterManager.Level);
-            Assert.IsNotNull(characterManager.Characters);
-            Assert.IsInstanceOfType(characterManager.Characters, typeof(List<Entity>));
+            Assert.IsNotNull(characterManager.Pcs);
+            Assert.IsInstanceOfType(characterManager.Pcs, typeof(List<Entity>));
+            Assert.IsNotNull(characterManager.Npcs);
+            Assert.IsInstanceOfType(characterManager.Npcs, typeof(List<Entity>));
         }
 
         [TestMethod]
-        public void SetUpPcs_InitializesThePositionOfAllPcs()
+        public void SetUpPcs_InitializesTheLocationOfAllPcs()
         {
             CharacterManager characterManager = new CharacterManager(_level);
             characterManager.SetUpPcs();
 
-            Assert.IsNotNull(characterManager.Player);
-            Assert.AreEqual(new Position(6, 1), characterManager.Player.Get<Position>());
+            Assert.IsNotNull(characterManager.Pcs);
+            Assert.AreEqual(3, characterManager.Pcs.Count);
+            Assert.AreEqual(new Position(13, 10), characterManager.Pcs[0].Get<Position>());
+            Assert.AreEqual(new Position(13, 8), characterManager.Pcs[1].Get<Position>());
+            Assert.AreEqual(new Position(6, 1), characterManager.Pcs[2].Get<Position>());
         }
 
         //private IWorld _world;
@@ -135,7 +140,7 @@ namespace Tests.Characters
         [TestMethod]
         public void MoveCharacter_GivenACharacterAndAPosition_MovesTheCharacterToTheNewPosition()
         {
-            Entity character = _characterManager.Player;
+            Entity character = _characterManager.Pcs[0];
             Position currentPosition = character.Get<Position>();
             Position newPosition = new Position(currentPosition.X - 1, currentPosition.Y);
 
@@ -147,7 +152,7 @@ namespace Tests.Characters
         [TestMethod]
         public void MoveCharacter_GivenACharacterAndAPositionOccupiedByAnObstacle_ReturnsHitObstacleMoveResultAndPositionOfObstacle()
         {
-            Entity character = _characterManager.Player;
+            Entity character = _characterManager.Pcs[2];
             Position currentPosition = character.Get<Position>();
             Position newPosition = new Position(currentPosition.X, currentPosition.Y - 1);
 
@@ -208,8 +213,7 @@ namespace Tests.Characters
         [TestMethod]
         public void MoveCharacter_GivenACharacterAndADirection_MovesTheCharacterOneStepInTheGivenDirection()
         {
-            // TODO: Use a character here instead of the player again
-            Entity character = _characterManager.Player;
+            Entity character = _characterManager.Pcs[2];
 
             // Move character north twice so that there are no obstacles nearby
             _characterManager.MoveCharacter(character, Direction.North);
@@ -226,33 +230,14 @@ namespace Tests.Characters
         }
 
         [TestMethod]
-        public void MovePlayer_GivenADirectionMovesThePlayerOneStepInTheGivenDirection()
-        {
-            Entity character = _characterManager.Player;
-
-            // Move player north twice so that there are no obstacles nearby
-            _characterManager.MoveCharacter(character, Direction.North);
-            _characterManager.MoveCharacter(character, Direction.North);
-
-            Position currentPosition = character.Get<Position>();
-
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-            {
-                Movement movement = _characterManager.MovePlayer(direction);
-                AssertSuccessfulMovement(movement, character, currentPosition, currentPosition.NeighboringPosition(direction));
-                currentPosition = character.Get<Position>();
-            }
-        }
-
-        [TestMethod]
         public void MoveCharacter_RaisesACharacterMovedEvent()
         {
             _characterManager.CharacterMoved += this.SetCharacterMovedEventTriggeredFlag;
 
-            _characterManager.MoveCharacter(_characterManager.Player, new Position(1, 1));
+            _characterManager.MoveCharacter(_characterManager.Pcs[0], new Position(1, 1));
 
             Assert.IsTrue(_characterMovedEventTriggeredFlag);
-            Assert.AreEqual(_characterMovedEventArgs.Character, _characterManager.Player);
+            Assert.AreEqual(_characterMovedEventArgs.Character, _characterManager.Pcs[0]);
             Assert.IsNotNull(_characterMovedEventArgs.Movement);
         }
 

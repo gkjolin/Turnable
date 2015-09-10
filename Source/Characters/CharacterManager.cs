@@ -13,13 +13,15 @@ namespace Turnable.Characters
     public class CharacterManager : ICharacterManager
     {
         public ILevel Level { get; set; }
-        public IList<Entity> Characters { get; set; }
+        public IList<Entity> Pcs { get; set; }
+        public IList<Entity> Npcs { get; set; }
         public Entity Player { get; set; }
 
         public CharacterManager(ILevel level)
         {
             Level = level;
-            Characters = new List<Entity>();
+            Pcs = new List<Entity>();
+            Npcs = new List<Entity>();
         }
 
         public Movement MoveCharacter(Entity character, Position destination)
@@ -70,20 +72,22 @@ namespace Turnable.Characters
 
         public void SetUpPcs()
         {
-            SpecialTile playerTile = null;
+            List<SpecialTile> pcTiles = null;
 
-            // TODO: Slightly inefficient code here, there is no reason to call FindSpecialTile within the if
             foreach (Tileset tileset in Level.Map.Tilesets) 
             {
-                playerTile = tileset.FindSpecialTile("IsPC", "true");
+                pcTiles = tileset.FindSpecialTiles("IsPC", "true");
             }
 
-            // TODO: Test that a missing playerTile still allows SetUpPcs to succeed.
+            // TODO: Test that missing playerTiles still allows SetUpPcs to succeed.
             foreach (Tile tile in Level.SpecialLayers[SpecialLayer.Character].Tiles.Values)
             {
-                if (tile.GlobalId == playerTile.GlobalId)
+                foreach (SpecialTile pcTile in pcTiles)
                 {
-                    SetUpPlayer(tile.X, tile.Y);
+                    if (tile.GlobalId == pcTile.GlobalId)
+                    {
+                        SetUpPc(new Position(tile.X, tile.Y));
+                    }
                 }
             }
         }
@@ -93,10 +97,11 @@ namespace Turnable.Characters
             throw new NotImplementedException();
         }
 
-        private void SetUpPlayer(int startingX, int startingY)
+        private void SetUpPc(Position startingPosition)
         {
-            Player = new Entity();
-            Player.Add(new Position(startingX, startingY));
+            Entity pc = new Entity();
+            pc.Add(startingPosition);
+            Pcs.Add(pc);
         }
         
         protected virtual void OnCharacterMoved(CharacterMovedEventArgs e)

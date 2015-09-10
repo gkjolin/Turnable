@@ -37,17 +37,19 @@ namespace Turnable.Tiled
             }
         }
 
-        public SpecialTile FindSpecialTile(string propertyName, string propertyValue)
+        public List<SpecialTile> FindSpecialTiles(string propertyName, string propertyValue)
         {
+            List<SpecialTile> specialTiles = new List<SpecialTile>();
+
             foreach (SpecialTile specialTile in SpecialTiles.Values)
             {
                 if (specialTile.Properties[propertyName] != null && specialTile.Properties[propertyName] == propertyValue)
                 {
-                    return specialTile;
+                    specialTiles.Add(specialTile);
                 }
             }
 
-            return null;
+            return specialTiles;
         }
     }
 }

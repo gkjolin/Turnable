@@ -20,14 +20,13 @@ namespace Turnable.Api
         // Methods
         Movement MoveCharacter(Entity character, Position destination);
         Movement MoveCharacter(Entity character, Direction direction);
-        Movement MovePlayer(Direction direction);
         void SetUpPcs();
         void SetUpNpcs();
 
         // Properties
         ILevel Level { get; set; }
-        IList<Entity> Characters { get; set; }
-        Entity Player { get; set; }
+        IList<Entity> Pcs { get; set; }
+        IList<Entity> Npcs { get; set; }
 
         // Events
         event EventHandler<CharacterMovedEventArgs> CharacterMoved;

@@ -13,7 +13,7 @@ namespace Turnable.Api
         // ----------------
 
         // Methods
-        SpecialTile FindSpecialTile(string propertyName, string propertyValue);
+        List<SpecialTile> FindSpecialTiles(string propertyName, string propertyValue);
 
         // -----------------
         // Private interface

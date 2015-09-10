@@ -27,7 +27,7 @@ namespace Tests.Models
             Assert.AreEqual(_level, modelManager.Level);
             Assert.IsNotNull(modelManager.Models);
             Assert.IsInstanceOfType(modelManager.Models, typeof(IDictionary<string, SpecialTile>));
-            Assert.AreEqual(1, modelManager.Models.Count);
+            Assert.AreEqual(3, modelManager.Models.Count);
             // Is the right SpecialTile associated with the model name?
             SpecialTile specialTile = modelManager.Models["Knight M"];
             Assert.AreEqual((uint)0, specialTile.Id);

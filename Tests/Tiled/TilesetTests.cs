@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests.Factories;
 using Turnable.Tiled;
+using System.Collections.Generic;
 
 namespace Tests.Tiled
 {
@@ -26,24 +27,27 @@ namespace Tests.Tiled
         }
 
         [TestMethod]
-        public void FindSpecialTile_FindsASpecialTileWithASpecificPropertyNameAndValue()
+        public void FindSpecialTiles_GivenAPropertyNameAndValue_FindsAllSpecialTilesThatMatch()
         {
             Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElementWithSpecialTiles());
 
-            SpecialTile specialTile = tileset.FindSpecialTile("IsPC", "true");
+            List<SpecialTile> specialTiles = tileset.FindSpecialTiles("IsPC", "true");
 
-            Assert.IsNotNull(specialTile);
-            Assert.AreEqual("true", specialTile.Properties["IsPC"]);
+            Assert.AreEqual(3, specialTiles.Count);
+            foreach (SpecialTile specialTile in specialTiles)
+            {
+                Assert.AreEqual("true", specialTile.Properties["IsPC"]);
+            }
         }
 
         [TestMethod]
-        public void FindSpecialTile_WhenGivenAPropertyNameThatDoesNotExist_ReturnsNull()
+        public void FindSpecialTiles_WhenGivenAPropertyNameThatDoesNotExist_ReturnsAnEmptyList()
         {
             Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElementWithSpecialTiles());
 
-            SpecialTile specialTile = tileset.FindSpecialTile("UnknownPropertyName", "true");
+            List<SpecialTile> specialTiles = tileset.FindSpecialTiles("UnknownPropertyName", "true");
 
-            Assert.IsNull(specialTile);
+            Assert.AreEqual(0, specialTiles.Count);
         }
     }
 }
