@@ -54,12 +54,6 @@ namespace Tests.Characters
             Assert.AreEqual(new Position(6, 1), characterManager.Pcs[2].Get<Position>());
         }
 
-        //private IWorld _world;
-        //private ILevel _levelWithoutCharacters;
-        //private CharacterManager _characterManager;
-        //private bool _eventTriggeredFlag;
-        //private EntityEventArgs _eventArgs;
-
         //[TestMethod]
         //public void CharacterManager_SettingUpNpcs_IsSuccessful()
         //{
