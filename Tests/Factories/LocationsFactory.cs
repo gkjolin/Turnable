@@ -12,7 +12,7 @@ namespace Tests.Factories
     // Use Tiled to view the fixture levels used for testing.
     public static class LocationsFactory
     {
-        public static ILevel BuildLevel(string tmxFullFilePath = "Fixtures/FullExample.tmx")
+        public static ILevel BuildLevel(string tmxFullFilePath = "c:/git/Turnable/Tests/Fixtures/FullExample.tmx")
         {
             ILevel level = new Level();
 

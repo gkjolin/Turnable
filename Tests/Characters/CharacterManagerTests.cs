@@ -44,11 +44,11 @@ namespace Tests.Characters
             CharacterManager characterManager = new CharacterManager(_level);
             characterManager.SetUpPcs();
 
-            Assert.IsNotNull(characterManager.Pcs);
-            Assert.AreEqual(3, characterManager.Pcs.Count);
-            Assert.AreEqual(new Position(13, 10), characterManager.Pcs[0].Get<Position>());
-            Assert.AreEqual(new Position(13, 8), characterManager.Pcs[1].Get<Position>());
-            Assert.AreEqual(new Position(6, 1), characterManager.Pcs[2].Get<Position>());
+            Assert.That(characterManager.Pcs, Is.Not.Null);
+            Assert.That(characterManager.Pcs.Count, Is.EqualTo(3));
+            Assert.That(characterManager.Pcs[0].Get<Position>(), Is.EqualTo(new Position(13, 10)));
+            Assert.That(characterManager.Pcs[1].Get<Position>(), Is.EqualTo(new Position(13, 8)));
+            Assert.That(characterManager.Pcs[2].Get<Position>(), Is.EqualTo(new Position(6, 1)));
         }
 
         //[TestMethod]
@@ -117,15 +117,15 @@ namespace Tests.Characters
 
         private void AssertSuccessfulMovement(Movement movement, Entity character, Position startingPosition, Position newPosition)
         {
-            Assert.AreEqual(MovementStatus.Success, movement.Status);
-            Assert.AreEqual(newPosition, character.Get<Position>());
-            Assert.AreEqual(2, movement.Path.Count);
-            Assert.AreEqual(startingPosition, movement.Path[0]);
-            Assert.AreEqual(newPosition, movement.Path[1]);
+            Assert.That(movement.Status, Is.EqualTo(MovementStatus.Success));
+            Assert.That(character.Get<Position>(), Is.EqualTo(newPosition));
+            Assert.That(movement.Path.Count, Is.EqualTo(2));
+            Assert.That(movement.Path[0], Is.EqualTo(startingPosition));
+            Assert.That(movement.Path[1], Is.EqualTo(newPosition));
 
             // Check to see if the tile in the map was moved as well
-            Assert.IsFalse(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(startingPosition));
-            Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition));
+            Assert.That(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(startingPosition), Is.False);
+            Assert.That(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition), Is.True);
         }
 
         [Test]
@@ -150,15 +150,15 @@ namespace Tests.Characters
             Movement movement = _characterManager.MoveCharacter(character, newPosition);
 
             // Make sure that character was NOT moved
-            Assert.AreEqual(MovementStatus.HitObstacle, movement.Status);
-            Assert.AreEqual(currentPosition, character.Get<Position>());
-            Assert.AreEqual(2, movement.Path.Count);
-            Assert.AreEqual(currentPosition, movement.Path[0]);
-            Assert.AreEqual(new Position(6, 0), movement.Path[1]);
+            Assert.That(movement.Status, Is.EqualTo(MovementStatus.HitObstacle));
+            Assert.That(character.Get<Position>(), Is.EqualTo(currentPosition));
+            Assert.That(movement.Path.Count, Is.EqualTo(2));
+            Assert.That(movement.Path[0], Is.EqualTo(currentPosition));
+            Assert.That(movement.Path[1], Is.EqualTo(new Position(6, 0)));
 
             // Check to see if the tile in the map was NOT moved
-            Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(currentPosition));
-            Assert.IsFalse(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition));
+            Assert.That(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(currentPosition), Is.True);
+            Assert.That(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition), Is.False);
         }
 
         //[TestMethod]
@@ -227,9 +227,9 @@ namespace Tests.Characters
 
             _characterManager.MoveCharacter(_characterManager.Pcs[0], new Position(1, 1));
 
-            Assert.IsTrue(_characterMovedEventTriggeredFlag);
-            Assert.AreEqual(_characterMovedEventArgs.Character, _characterManager.Pcs[0]);
-            Assert.IsNotNull(_characterMovedEventArgs.Movement);
+            Assert.That(_characterMovedEventTriggeredFlag, Is.True);
+            Assert.That(_characterMovedEventArgs.Character, Is.EqualTo(_characterManager.Pcs[0]));
+            Assert.That(_characterMovedEventArgs.Movement, Is.Not.Null);
         }
 
         //[TestMethod]
