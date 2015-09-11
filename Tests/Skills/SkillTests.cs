@@ -69,8 +69,8 @@ namespace Tests.Skills
         //    TargetMap targetMap = skill.CalculateTargetMap(_level, new Position(6, 14));
 
         //    Assert.AreEqual(1, targetMap.Count);
-        //    Assert.IsTrue(targetMap.ContainsKey(new Tuple<int, int>(7, 1)));
-        //    HashSet<Position> originMap = targetMap[new Tuple<int, int>(7, 1)];
+        //    Assert.IsTrue(targetMap.ContainsKey(new <int, int>(7, 1)));
+        //    HashSet<Position> originMap = targetMap[new <int, int>(7, 1)];
         //    Assert.AreEqual(originMap.Count, skill.OriginMapCalculator.Calculate(_level, new Position(6, 14), new Position(7, 1), skill.Range).Count);
         //}
 

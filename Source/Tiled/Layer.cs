@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Tuples;
 using System.Xml.Linq;
 using Turnable.Api;
 using Turnable.Components;
@@ -57,7 +56,7 @@ namespace Turnable.Tiled
 
         public void RemoveTile(Position position)
         {
-            Tiles.Remove(new Tuple<int, int>(position.X, position.Y));
+            Tiles.Remove(position);
         }
 
         public void MoveTile(Position currentPosition, Position newPosition)
@@ -116,17 +115,12 @@ namespace Turnable.Tiled
 
         public Tile GetTile(Position position)
         {
-            if (IsTileAt(position))
-            {
-                return Tiles[new Tuple<int, int>(position.X, position.Y)];
-            }
-
-            return null;
+            return Tiles[position];
         }
 
         public bool IsTileAt(Position position)
         {
-            return Tiles.Keys.Contains<Tuple<int, int>>(new Tuple<int, int>(position.X, position.Y));
+            return Tiles[position] != null;
         }
     }
 }

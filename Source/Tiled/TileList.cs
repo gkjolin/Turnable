@@ -38,7 +38,7 @@ namespace Turnable.Tiled
                                 // The .tmx format uses an origin that starts at the top left with Y increasing going South
                                 // However most libraries use an origin that starts at the bottom left with Y increasing going North
                                 // So Y is "flipped" using (height - row - 1)
-                                Add(new Tuple<int, int>(col, (height - row - 1)), new Tile(tileGlobalId, col, (height - row - 1)));
+                                this[new Position(col, (height - row - 1))] = new Tile(tileGlobalId, col, (height - row - 1));
                             }
                         }
                     }
@@ -67,6 +67,11 @@ namespace Turnable.Tiled
 
                 Add(new Tuple<int, int>(position.X, position.Y), value);
             }
+        }
+
+        public void Remove(Position position)
+        {
+            Remove(new Tuple<int, int>(position.X, position.Y));
         }
     }
 }

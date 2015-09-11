@@ -9,25 +9,7 @@ using Turnable.Tiled;
 
 namespace Tests.Factories
 {
-    // Fixtures/FullExample.tmx
-    // XXXXXXXXXXXXXXX
-    // X...EE.EEE..X.X
-    // X...........X.X
-    // X...........XXX
-    // X.............X
-    // X.............X
-    // X.............X
-    // X.........XXXXX
-    // X.........X...X
-    // X.....X...X...X
-    // X.............X
-    // X.........X...X
-    // X.........X...X
-    // X.....P...X...X
-    // XXXXXXXXXXXXXXX
-    //
-    // X - Obstacles (Collision Layer), P - Player (Character Layer), E - Enemies (Character Layer)
-
+    // Use Tiled to view the fixture levels used for testing.
     public static class LocationsFactory
     {
         public static ILevel BuildLevel(string tmxFullFilePath = "../../Fixtures/FullExample.tmx")

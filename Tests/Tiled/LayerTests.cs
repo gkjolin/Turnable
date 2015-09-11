@@ -4,7 +4,6 @@ using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Tiled;
 using Tests.Factories;
-using System.Tuples;
 using Turnable.Components;
 using Turnable.Utilities;
 

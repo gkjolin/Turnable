@@ -90,9 +90,8 @@ namespace Tests.Tiled
             Assert.AreEqual(1, tile.Y);
         }
 
-
         [TestMethod]
-        public void Indexer_GivenAPositionThatAlreadyHasAtile_OverwritesTilesAtThePosition()
+        public void Indexer_GivenAPositionThatAlreadyHasATile_OverwritesTilesAtThePosition()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
 
@@ -107,5 +106,26 @@ namespace Tests.Tiled
             Assert.AreEqual(1, tile.Y);
         }
 
+        [TestMethod]
+        public void Remove_GivenAPositionThatHasATile_RemovesTileAtThatPosition()
+        {
+            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
+            Tile tile = new Tile(2107, 6, 1);
+            tileList[new Position(6, 1)] = tile;
+
+            tileList.Remove(new Position(6, 1));
+
+            Assert.IsNull(tileList[new Position(6, 1)]);
+        }
+
+        [TestMethod]
+        public void Remove_GivenAPositionThatHasNoTile_DoesNotDoAnything()
+        {
+            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
+
+            tileList.Remove(new Position(6, 1));
+
+            Assert.IsNull(tileList[new Position(6, 1)]);
+        }
     }
 }
