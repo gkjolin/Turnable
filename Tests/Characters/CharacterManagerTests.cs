@@ -1,18 +1,16 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests.Factories;
 using System.Collections.Generic;
-using Entropy;
-using Moq;
 using Turnable.Characters;
 using Turnable.Api;
 using Entropy.Core;
 using Turnable.Components;
 using Turnable.Locations;
+using NUnit.Framework;
 
 namespace Tests.Characters
 {
-    [TestClass]
+    [TestFixture]
     public class CharacterManagerTests
     {
         private ILevel _level;
@@ -20,7 +18,7 @@ namespace Tests.Characters
         private bool _characterMovedEventTriggeredFlag;
         private CharacterMovedEventArgs _characterMovedEventArgs;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
@@ -28,19 +26,19 @@ namespace Tests.Characters
             _characterManager.SetUpPcs();
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             CharacterManager characterManager = new CharacterManager(_level);
 
-            Assert.AreEqual(_level, characterManager.Level);
-            Assert.IsNotNull(characterManager.Pcs);
-            Assert.IsInstanceOfType(characterManager.Pcs, typeof(List<Entity>));
-            Assert.IsNotNull(characterManager.Npcs);
-            Assert.IsInstanceOfType(characterManager.Npcs, typeof(List<Entity>));
+            Assert.That(_level, Is.EqualTo(characterManager.Level));
+            Assert.That(characterManager.Pcs, Is.Not.Null);
+            Assert.That(characterManager.Pcs, Is.InstanceOf<List<Entity>>());
+            Assert.That(characterManager.Npcs, Is.Not.Null);
+            Assert.That(characterManager.Npcs, Is.InstanceOf<List<Entity>>());
         }
 
-        [TestMethod]
+        [Test]
         public void SetUpPcs_InitializesTheLocationOfAllPcs()
         {
             CharacterManager characterManager = new CharacterManager(_level);
@@ -130,7 +128,7 @@ namespace Tests.Characters
             Assert.IsTrue(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition));
         }
 
-        [TestMethod]
+        [Test]
         public void MoveCharacter_GivenACharacterAndAPosition_MovesTheCharacterToTheNewPosition()
         {
             Entity character = _characterManager.Pcs[0];
@@ -142,7 +140,7 @@ namespace Tests.Characters
             AssertSuccessfulMovement(movement, character, currentPosition, newPosition);
         }
 
-        [TestMethod]
+        [Test]
         public void MoveCharacter_GivenACharacterAndAPositionOccupiedByAnObstacle_ReturnsHitObstacleMoveResultAndPositionOfObstacle()
         {
             Entity character = _characterManager.Pcs[2];
@@ -203,7 +201,7 @@ namespace Tests.Characters
         //    Assert.IsTrue(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
         //}
 
-        [TestMethod]
+        [Test]
         public void MoveCharacter_GivenACharacterAndADirection_MovesTheCharacterOneStepInTheGivenDirection()
         {
             Entity character = _characterManager.Pcs[2];
@@ -222,7 +220,7 @@ namespace Tests.Characters
             }
         }
 
-        [TestMethod]
+        [Test]
         public void MoveCharacter_RaisesACharacterMovedEvent()
         {
             _characterManager.CharacterMoved += this.SetCharacterMovedEventTriggeredFlag;

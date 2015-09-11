@@ -45,6 +45,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Source\packages\Moq.4.2.1409.1722\lib\net35\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.core.engine, Version=3.0.5610.33198, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\Source\packages\NUnit3TestAdapter.3.0.4-ctp-4\lib\nunit.core.engine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.0.5715.30858, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\Source\packages\NUnit.3.0.0-beta-4\lib\net20\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NUnit3.TestAdapter, Version=3.0.2.0, Culture=neutral, PublicKeyToken=4cb40d35494691ac, processorArchitecture=MSIL">
+      <HintPath>..\Source\packages\NUnit3TestAdapter.3.0.4-ctp-4\lib\NUnit3.TestAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Tuples">
       <HintPath>..\Dependencies\System.Tuples.dll</HintPath>
@@ -60,7 +72,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -102,11 +116,17 @@
     <Compile Include="Vision\VisionCalculatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fixtures\FullExample.tmx" />
+    <None Include="Fixtures\FullExample.tmx">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Fixtures\MinimalBase64GzipCompressed.tmx">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Fixtures\MinimalBase64ZlibCompressed.tmx" />
+    <None Include="Fixtures\MinimalBase64ZlibCompressed.tmx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
