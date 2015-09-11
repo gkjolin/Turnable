@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Tuples;
 using Turnable.Api;
 using Turnable.Characters;
 using Turnable.Components;
@@ -72,7 +71,7 @@ namespace Turnable.Locations
                 return false;
             }
 
-            return (collisionLayer.Tiles.ContainsKey(new Tuple<int, int>(position.X, position.Y)));
+            return (collisionLayer.Tiles[position] != null);
         }
 
         public static string SpecialLayerPropertyKey(SpecialLayer specialLayer)

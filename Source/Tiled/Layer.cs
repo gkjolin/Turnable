@@ -52,7 +52,7 @@ namespace Turnable.Tiled
 
         public void SetTile(Position position, uint globalId)
         {
-            Tiles[new Tuple<int, int>(position.X, position.Y)] = new Tile((uint)globalId, position.X, position.Y);
+            Tiles[position] = new Tile(globalId, position.X, position.Y);
         }
 
         public void RemoveTile(Position position)
@@ -62,17 +62,17 @@ namespace Turnable.Tiled
 
         public void MoveTile(Position currentPosition, Position newPosition)
         {
-            if (!Tiles.ContainsKey(new Tuple<int, int>(currentPosition.X, currentPosition.Y)))
+            if (Tiles[currentPosition] == null)
             {
                 throw new InvalidOperationException();
             }
 
-            if (Tiles.ContainsKey(new Tuple<int, int>(newPosition.X, newPosition.Y)))
+            if (Tiles[newPosition] != null)
             {
                 throw new InvalidOperationException();
             }
 
-            Tile existingTile = Tiles[new Tuple<int, int>(currentPosition.X, currentPosition.Y)];
+            Tile existingTile = Tiles[currentPosition];
             Tile newTile = new Tile(existingTile.GlobalId, newPosition.X, newPosition.Y);
             SetTile(newPosition, existingTile.GlobalId);
             RemoveTile(currentPosition);
@@ -80,18 +80,18 @@ namespace Turnable.Tiled
 
         public void SwapTile(Position position1, Position position2)
         {
-            if (!Tiles.ContainsKey(new Tuple<int, int>(position1.X, position1.Y)))
+            if (Tiles[position1] == null)
             {
                 throw new InvalidOperationException();
             }
 
-            if (!Tiles.ContainsKey(new Tuple<int, int>(position2.X, position2.Y)))
+            if (Tiles[position2] == null)
             {
                 throw new InvalidOperationException();
             }
 
-            Tile tile1 = Tiles[new Tuple<int, int>(position1.X, position1.Y)];
-            Tile tile2 = Tiles[new Tuple<int, int>(position2.X, position2.Y)];
+            Tile tile1 = Tiles[position1];
+            Tile tile2 = Tiles[position2];
             RemoveTile(position1);
             RemoveTile(position2);
             SetTile(position1, tile2.GlobalId);

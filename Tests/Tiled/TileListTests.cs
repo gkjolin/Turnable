@@ -4,7 +4,6 @@ using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Turnable.Tiled;
 using Tests.Factories;
-using System.Tuples;
 using Turnable.Components;
 
 namespace Tests.Tiled
@@ -47,9 +46,10 @@ namespace Tests.Tiled
             // The Tiled(.tmx) format uses an origin that starts at the top left with Y increasing going down
             // However most libraries use an origin that starts at the bottom left with Y increasing going up
             // So we need to test that Y is "flipped" using (height - row - 1)
-            Assert.AreEqual((uint)2107, tileList[new Tuple<int, int>(6, 1)].GlobalId);
-            Assert.AreEqual(6, tileList[new Tuple<int, int>(6, 1)].X);
-            Assert.AreEqual(1, tileList[new Tuple<int, int>(6, 1)].Y);
+            Tile tile = tileList[new Position(6, 1)];
+            Assert.AreEqual((uint)2107, tile.GlobalId);
+            Assert.AreEqual(6, tile.X);
+            Assert.AreEqual(1, tile.Y);
         }
 
         [TestMethod]
@@ -75,5 +75,37 @@ namespace Tests.Tiled
 
             Assert.IsNull(tile);
         }
+
+        [TestMethod]
+        public void Indexer_GivenAPositionAndValue_SetsTileAtThePosition()
+        {
+            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
+
+            Tile tile = new Tile(2107, 6, 1);
+            tileList[new Position(6, 1)] = tile;
+
+            tile = tileList[new Position(6, 1)];
+            Assert.AreEqual((uint)2107, tile.GlobalId);
+            Assert.AreEqual(6, tile.X);
+            Assert.AreEqual(1, tile.Y);
+        }
+
+
+        [TestMethod]
+        public void Indexer_GivenAPositionThatAlreadyHasAtile_OverwritesTilesAtThePosition()
+        {
+            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
+
+            Tile tile = new Tile(2107, 6, 1);
+            tileList[new Position(6, 1)] = tile;
+            tile = new Tile(2106, 6, 1);
+            tileList[new Position(6, 1)] = tile;
+
+            tile = tileList[new Position(6, 1)];
+            Assert.AreEqual((uint)2106, tile.GlobalId);
+            Assert.AreEqual(6, tile.X);
+            Assert.AreEqual(1, tile.Y);
+        }
+
     }
 }

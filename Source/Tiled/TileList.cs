@@ -57,6 +57,16 @@ namespace Turnable.Tiled
 
                 return null;
             }
+
+            set
+            {
+                if (this[position] != null) // Always overwrite tile at a certain position
+                {
+                    Remove(new Tuple<int, int>(position.X, position.Y));
+                }
+
+                Add(new Tuple<int, int>(position.X, position.Y), value);
+            }
         }
     }
 }

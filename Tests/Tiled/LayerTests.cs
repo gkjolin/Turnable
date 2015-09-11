@@ -102,7 +102,7 @@ namespace Tests.Tiled
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 
             int tileCount = layer.Tiles.Count;
-            uint tileGlobalId = layer.Tiles[new Tuple<int, int>(6, 1)].GlobalId;
+            uint tileGlobalId = layer.Tiles[new Position(6, 1)].GlobalId;
 
             layer.MoveTile(new Position(6, 1), new Position(6, 2));
 
@@ -113,7 +113,7 @@ namespace Tests.Tiled
             Assert.AreEqual(tileCount, layer.Tiles.Count);
 
             // Make sure that the tile data is changed as well
-            Tile tile = layer.Tiles[new Tuple<int, int>(6, 2)];
+            Tile tile = layer.Tiles[new Position(6, 2)];
             Assert.AreEqual(6, tile.X);
             Assert.AreEqual(2, tile.Y);
             Assert.AreEqual(tileGlobalId, tile.GlobalId);
@@ -143,8 +143,8 @@ namespace Tests.Tiled
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 
             int tileCount = layer.Tiles.Count;
-            uint tile1GlobalId = layer.Tiles[new Tuple<int, int>(6, 1)].GlobalId;
-            uint tile2GlobalId = layer.Tiles[new Tuple<int, int>(5, 13)].GlobalId;
+            uint tile1GlobalId = layer.Tiles[new Position(6, 1)].GlobalId;
+            uint tile2GlobalId = layer.Tiles[new Position(5, 13)].GlobalId;
 
             layer.SwapTile(new Position(6, 1), new Position(5, 13));
 
@@ -155,11 +155,11 @@ namespace Tests.Tiled
             Assert.AreEqual(tileCount, layer.Tiles.Count);
 
             // Make sure that the tile data is changed as well
-            Tile tile = layer.Tiles[new Tuple<int, int>(5, 13)];
+            Tile tile = layer.Tiles[new Position(5, 13)];
             Assert.AreEqual(5, tile.X);
             Assert.AreEqual(13, tile.Y);
             Assert.AreEqual(tile1GlobalId, tile.GlobalId);
-            tile = layer.Tiles[new Tuple<int, int>(6, 1)];
+            tile = layer.Tiles[new Position(6, 1)];
             Assert.AreEqual(6, tile.X);
             Assert.AreEqual(1, tile.Y);
             Assert.AreEqual(tile2GlobalId, tile.GlobalId);
@@ -190,9 +190,10 @@ namespace Tests.Tiled
 
             layer.SetTile(new Position(7, 2), 200);
 
-            Assert.AreEqual((uint)200, layer.Tiles[new Tuple<int, int>(7, 2)].GlobalId);
-            Assert.AreEqual(7, layer.Tiles[new Tuple<int, int>(7, 2)].X);
-            Assert.AreEqual(2, layer.Tiles[new Tuple<int, int>(7, 2)].Y);
+            Tile tile = layer.Tiles[new Position(7, 2)];
+            Assert.AreEqual((uint)200, tile.GlobalId);
+            Assert.AreEqual(7, tile.X);
+            Assert.AreEqual(2, tile.Y);
         }
 
         [TestMethod]
@@ -203,9 +204,10 @@ namespace Tests.Tiled
             layer.SetTile(new Position(7, 2), 2107);
             layer.SetTile(new Position(7, 2), 2106);
 
-            Assert.AreEqual((uint)2106, layer.Tiles[new Tuple<int, int>(7, 2)].GlobalId);
-            Assert.AreEqual(7, layer.Tiles[new Tuple<int, int>(7, 2)].X);
-            Assert.AreEqual(2, layer.Tiles[new Tuple<int, int>(7, 2)].Y);
+            Tile tile = layer.Tiles[new Position(7, 2)];
+            Assert.AreEqual((uint)2106, tile.GlobalId);
+            Assert.AreEqual(7, tile.X);
+            Assert.AreEqual(2, tile.Y);
         }
 
         // TODO: Setting a tile outside the bounds of the Layer is illegal, write unit test for this
@@ -243,9 +245,10 @@ namespace Tests.Tiled
             {
                 for (int row = 0; row < layer.Height; row++)
                 {
-                    Assert.AreEqual((uint)1, layer.Tiles[new Tuple<int, int>(col, row)].GlobalId);
-                    Assert.AreEqual(col, layer.Tiles[new Tuple<int, int>(col, row)].X);
-                    Assert.AreEqual(row, layer.Tiles[new Tuple<int, int>(col, row)].Y);
+                    Tile tile = layer.Tiles[new Position(col, row)];
+                    Assert.AreEqual((uint)1, tile.GlobalId);
+                    Assert.AreEqual(col, tile.X);
+                    Assert.AreEqual(row, tile.Y);
                 }
             }
         }
@@ -261,9 +264,10 @@ namespace Tests.Tiled
             {
                 for (int row = 1; row <= 2; row++)
                 {
-                    Assert.AreEqual((uint)1, layer.Tiles[new Tuple<int, int>(col, row)].GlobalId);
-                    Assert.AreEqual(col, layer.Tiles[new Tuple<int, int>(col, row)].X);
-                    Assert.AreEqual(row, layer.Tiles[new Tuple<int, int>(col, row)].Y);
+                    Tile tile = layer.Tiles[new Position(col, row)];
+                    Assert.AreEqual((uint)1, tile.GlobalId);
+                    Assert.AreEqual(col, tile.X);
+                    Assert.AreEqual(row, tile.Y);
                 }
             }
         }

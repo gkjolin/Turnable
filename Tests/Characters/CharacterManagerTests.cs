@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests.Factories;
 using System.Collections.Generic;
-using System.Tuples;
 using Entropy;
 using Moq;
 using Turnable.Characters;
