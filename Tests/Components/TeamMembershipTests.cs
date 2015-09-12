@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Entropy;
 using Tests.Factories;
 using Turnable.Api;
@@ -9,31 +9,31 @@ using Entropy.Core;
 
 namespace Tests.Components
 {
-    [TestClass]
+    [TestFixture]
     public class TeamMembershipTests
     {
-        [TestMethod]
+        [Test]
         public void TeamMembership_IsAnEntropyComponent()
         {
             TeamMembership teamMembership = new TeamMembership();
 
-            Assert.IsInstanceOfType(teamMembership, typeof(IComponent));
+            Assert.That(teamMembership, Is.InstanceOf<IComponent>());
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultConstructor_InitializesTeamNameToNull()
         {
             TeamMembership teamMembership = new TeamMembership();
 
-            Assert.IsNull(teamMembership.TeamName);
+            Assert.That(teamMembership.TeamName, Is.Null);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesTeamName()
         {
             TeamMembership teamMembership = new TeamMembership("Team Name");
 
-            Assert.AreEqual("Team Name", teamMembership.TeamName);
+            Assert.That(teamMembership.TeamName, Is.EqualTo("Team Name"));
         }
     }
 }

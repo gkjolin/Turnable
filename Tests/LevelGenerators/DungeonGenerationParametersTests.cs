@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Api;
 using Turnable.LevelGenerators;
 
 namespace Tests.LevelGenerators
 {
-    [TestClass]
+    [TestFixture]
     public class DungeonGenerationParametersTests
     {
-        [TestMethod]
+        [Test]
         public void DungeonGenerationParameters_ImplementsTheISetupParametersInterface()
         {
             Assert.IsInstanceOfType(new DungeonGenerationParameters(), typeof(ISetupParameters));

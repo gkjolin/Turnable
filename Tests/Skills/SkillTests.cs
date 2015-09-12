@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Collections.Generic;
 using Tests.Factories;
 using Moq;
@@ -9,15 +9,15 @@ using Turnable.Api;
 
 namespace Tests.Skills
 {
-    [TestClass]
+    [TestFixture]
     public class SkillTests
     {
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             Skill skill = new Skill("Melee Attack");
@@ -31,7 +31,7 @@ namespace Tests.Skills
             Assert.AreEqual(0, skill.Cost);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenInitialValues_InitializesAllProperties()
         {
             Skill skill = new Skill("Melee Attack", RangeType.DirectLine, TargetType.InAnotherTeam, 1, 2);
@@ -44,7 +44,7 @@ namespace Tests.Skills
         }
 
 
-        //[TestMethod]
+        //[Test]
         //public void Skill_Construction_CreatesAnOriginMapCalculatorOfTheCorrectType()
         //{
         //    Skill skill = new Skill("Melee Attack", RangeType.DirectLine, TargetType.InAnotherTeam, 5);
@@ -61,7 +61,7 @@ namespace Tests.Skills
 
         // Testing the generation of a skill's Target Map
         // A Target Map is the set of nodes from which an enemy can use the skill on the player
-        //[TestMethod]
+        //[Test]
         //public void Skill_WithARangeOfAdjacentNodes_GeneratesTheCorrectTargetMap()
         //{
         //    Skill skill = new Skill("Melee Attack") { RangeType = RangeType.Adjacent, TargetType = TargetType.InAnotherTeam };
@@ -74,7 +74,7 @@ namespace Tests.Skills
         //    Assert.AreEqual(originMap.Count, skill.OriginMapCalculator.Calculate(_level, new Position(6, 14), new Position(7, 1), skill.Range).Count);
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void Skill_Applying_AppliesAllEffectsToTheTarget()
         //{
         //    Mock<IEffect> effect1 = new Mock<IEffect>();
@@ -92,7 +92,7 @@ namespace Tests.Skills
         //    effect3.Verify(e => e.Apply(_skillUser, _target));
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void Skill_Applying_RaisesAnAppliedEvent()
         //{
         //    _skill.Applied += SetEventTriggeredFlag;

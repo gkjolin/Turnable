@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Tests.Factories;
 using System.Collections.Generic;
 using Turnable.Pathfinding;
@@ -8,14 +8,14 @@ using System.Linq;
 
 namespace Tests.Pathfinding
 {
-    [TestClass]
+    [TestFixture]
     public class NodeListTests
     {
         private Node[] _nodes;
         private NodeList _nodeList;
         private ILevel _level;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
@@ -26,7 +26,7 @@ namespace Tests.Pathfinding
             _nodeList = new NodeList();
         }
 
-        [TestMethod]
+        [Test]
         public void Add_AddsNode()
         {
             _nodeList.Add(_nodes[0]);
@@ -35,14 +35,14 @@ namespace Tests.Pathfinding
             Assert.AreEqual(_nodes[0], _nodeList[0]);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(NotImplementedException))]
         public void Insert_ThrowsException_InOrderToPreventOutOfOrderInsertion()
         {
             _nodeList.Insert(0, _nodes[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Add_AddsNodesSortedByPathScore()
         {
             _nodes[0].EstimatedMovementCost = 10;
@@ -60,7 +60,7 @@ namespace Tests.Pathfinding
             Assert.AreEqual(_nodes[0], _nodeList[2]);
         }
 
-        [TestMethod]
+        [Test]
         public void Add_WhenAddingNodesWithSamePathScore_Succeeds()
         {
             _nodes[0].ActualMovementCost = 5;

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Tiled;
 using System.IO;
 
 namespace Tests.Tiled
 {
-    [TestClass]
+    [TestFixture]
     public class DataTests
     {
         private XElement _data;
@@ -17,7 +17,7 @@ namespace Tests.Tiled
             _data = XDocument.Load(tmxFullFilePath).Element("map").Elements("layer").First<XElement>().Element("data");
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenAPathToAMinimalBase64GzipCompressedTmxFile_DecodesTheDataInTheFile()
         {
             Load("../../Fixtures/MinimalBase64GzipCompressed.tmx");
@@ -30,7 +30,7 @@ namespace Tests.Tiled
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenAPathToAMinimalBase64ZlibCompressedTmxFile_DecodesTheDataInTheFile()
         {
             Load("../../Fixtures/MinimalBase64ZlibCompressed.tmx");

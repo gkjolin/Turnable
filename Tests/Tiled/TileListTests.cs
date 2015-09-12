@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Tiled;
 using Tests.Factories;
 using Turnable.Components;
 
 namespace Tests.Tiled
 {
-    [TestClass]
+    [TestFixture]
     public class TileListTests
     {
-        [TestMethod]
+        [Test]
         public void Constructor_CreatesAnEmptyTileList()
         {
             TileList tileList = new TileList();
@@ -19,7 +19,7 @@ namespace Tests.Tiled
             Assert.AreEqual(0, tileList.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenNullData_CreatesAnEmptyTileList()
         {
             TileList tileList = new TileList(15, 15, null);
@@ -27,7 +27,7 @@ namespace Tests.Tiled
             Assert.AreEqual(0, tileList.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenDataWithNoTiles_CreatesAnEmptyTileList()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
@@ -35,7 +35,7 @@ namespace Tests.Tiled
             Assert.AreEqual(0, tileList.Count);
         }
         
-        [TestMethod]
+        [Test]
         public void Constructor_GivenDataWithTiles_CreatesAllTiles()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
@@ -52,7 +52,7 @@ namespace Tests.Tiled
             Assert.AreEqual(1, tile.Y);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_GivenAPositionWithATileAtThatPosition_ReturnsTheTile()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
@@ -65,7 +65,7 @@ namespace Tests.Tiled
             Assert.AreEqual(1, tile.Y);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_GivenAPositionWithNoTileAtThatPosition_ReturnsNull()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
@@ -76,7 +76,7 @@ namespace Tests.Tiled
             Assert.IsNull(tile);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_GivenAPositionAndValue_SetsTileAtThePosition()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
@@ -90,7 +90,7 @@ namespace Tests.Tiled
             Assert.AreEqual(1, tile.Y);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_GivenAPositionThatAlreadyHasATile_OverwritesTilesAtThePosition()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
@@ -106,7 +106,7 @@ namespace Tests.Tiled
             Assert.AreEqual(1, tile.Y);
         }
 
-        [TestMethod]
+        [Test]
         public void Remove_GivenAPositionThatHasATile_RemovesTileAtThatPosition()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
@@ -118,7 +118,7 @@ namespace Tests.Tiled
             Assert.IsNull(tileList[new Position(6, 1)]);
         }
 
-        [TestMethod]
+        [Test]
         public void Remove_GivenAPositionThatHasNoTile_DoesNotDoAnything()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());

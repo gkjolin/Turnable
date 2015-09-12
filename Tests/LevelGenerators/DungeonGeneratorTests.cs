@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.LevelGenerators;
 using Turnable.Components;
 using System.Collections.Generic;
@@ -12,13 +12,13 @@ using Turnable.Vision;
 
 namespace Tests.LevelGenerators
 {
-    [TestClass]
+    [TestFixture]
     public class DungeonGeneratorTests
     {
         private IDungeonGenerator _dungeonGenerator;
         private Chunk _initialChunk;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _dungeonGenerator = new DungeonGenerator();
@@ -26,7 +26,7 @@ namespace Tests.LevelGenerators
             _initialChunk = new Chunk(bounds);
         }
 
-        [TestMethod]
+        [Test]
         public void Chunkify_GivenAnInitialChunk_RandomlyBreaksUpTheChunk()
         {
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
@@ -36,7 +36,7 @@ namespace Tests.LevelGenerators
             Assert.IsTrue(randomChunks.Count > 1);
         }
 
-        [TestMethod]
+        [Test]
         public void PlaceRooms_GivenASetOfChunks_PlacesRandomSizedRoomsWithinEachChunk()
         {
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
@@ -51,7 +51,7 @@ namespace Tests.LevelGenerators
             }
         }
 
-        [TestMethod]
+        [Test]
         public void JoinRooms_GivenASetOfRoomsWithinChunks_JoinsTheRoomsSoThatAllRoomsAreReachable()
         {
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
@@ -65,7 +65,7 @@ namespace Tests.LevelGenerators
             Assert.IsTrue(corridors.Count > (randomChunks.Count / 2));
         }
 
-        [TestMethod]
+        [Test]
         public void CollectRooms_GivenTheRootOfABinaryTree_ReturnsAllRooms()
         {
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
@@ -77,7 +77,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(randomChunks.Count, rooms.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void GetRooms_GivenANodeOtherThanTheRootOfABinaryTree_ReturnsAllRoomsOfTheSubtreeWithTheNodeAsItsRoot()
         {
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
@@ -90,7 +90,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(leafNodes.Count, rooms.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void DrawLevel_GivenATreeWithASetOfRandomRoomsJoinedTogether_WritesTheRoomsAndCorridorsInTheTreeToALevel()
         {
             BinaryTree<Chunk> tree = _dungeonGenerator.Chunkify(_initialChunk);
@@ -154,7 +154,7 @@ namespace Tests.LevelGenerators
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Generate_GivenAStartingChunk_GeneratesARandomDungeon()
         {
             BinaryTree<Chunk> tree = new BinaryTree<Chunk>(); ;
@@ -177,7 +177,7 @@ namespace Tests.LevelGenerators
         // -------------
         // Joining Rooms
         // -------------
-        [TestMethod]
+        [Test]
         public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyOrVerticallyByOneSpace_ReturnsACorridorWithOneLineSegment()
         {
             // A corridor is always built excluding the start and end positions.
@@ -224,7 +224,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(new Position(0, 1), corridor.LineSegments[0].End);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildCorridor_GivenTwoPositionsSeparatedHorizontallyOrVerticallyByMoreThanOneSpace_ReturnsACorridorWithOneLineSegment()
         {
             // A corridor is always built excluding the start and end positions.
@@ -275,14 +275,14 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(new Position(0, 3), corridor.LineSegments[0].End);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByMoreThanOneSpace_ReturnsACorridorTODO()
         {
             // S.
             //  .E
         }
 
-        [TestMethod]
+        [Test]
         public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByTwoHorizontalAndVerticalSpaces_ReturnsALShapedCorridor()
         {
             // The algorithm actually returns a z type corridor with the segment going to the right being just one space long.
@@ -340,7 +340,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(new Position(2, 1), corridor.LineSegments[2].End);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByMoreThanTwoHorizontalAndVerticalSpaces_ReturnsAZShapedCorridor()
         {
             // S.. 
@@ -397,7 +397,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(new Position(3, 1), corridor.LineSegments[2].End);
         }
 
-        [TestMethod]
+        [Test]
         public void Join_GivenTwoRoomsThatAreTouchingEachOther_DoesNotCreateACorridorBetweenThem()
         {
             // * First Room; : Second Room
@@ -414,7 +414,7 @@ namespace Tests.LevelGenerators
             Assert.IsNull(corridor);
         }
 
-        [TestMethod]
+        [Test]
         public void Join_GivenTwoRoomsThatAreNotTouchingEachOther_CreatesACorridorBetweenTheMidpointsOfTheirClosestEdges()
         {
             // * First Room; : Second Room; . Corridor
@@ -438,7 +438,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(corridor, secondRoom.Corridors[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void ChooseRoomsToJoin_GivenTwoListsOfRoomsWithOneRoomEach_ReturnsThoseTwoRooms()
         {
             // * First Room; : Second Room 
@@ -457,7 +457,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(secondListOfRooms[0], roomsToJoin[1]);
         }
 
-        [TestMethod]
+        [Test]
         public void ChooseRoomsToJoin_GivenTwoListsOfRoomsWithTwoRoomsInFirstListAndOneRoomInSecondList_ReturnsTheTwoRoomsWithTheClosestEdges()
         {
             // * First Room; # Second Room; : Third Room
@@ -481,7 +481,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(secondListOfRooms[1], roomsToJoin[1]);
         }
 
-        [TestMethod]
+        [Test]
         public void ChooseRoomsToJoin_GivenTwoListsOfRoomsWithTwoRoomsInEachList_ReturnsTheTwoRoomsWithTheClosestEdges()
         {
             // * First Room; : Second Room; + Third Room; # Fourth Room

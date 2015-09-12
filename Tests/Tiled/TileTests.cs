@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Tiled;
 using System.IO;
 
 namespace Tests.Tiled
 {
-    [TestClass]
+    [TestFixture]
     public class TileTests
     {
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             Tile tile = new Tile(32, 1, 2);

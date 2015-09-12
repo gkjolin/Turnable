@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Components;
 using Turnable.LevelGenerators;
 using System.Collections.Generic;
@@ -8,28 +8,28 @@ using Turnable.Utilities;
 
 namespace Tests.LevelGenerators
 {
-    [TestClass]
+    [TestFixture]
     public class ChunkTests
     {
-        [TestMethod]
+        [Test]
         public void Chunk_ImplementsTheIBoundedInterface()
         {
             Rectangle bounds = new Rectangle(new Position(0, 0), 7, 5);
             Chunk chunk = new Chunk(bounds);
 
-            Assert.IsInstanceOfType(chunk, typeof(IBounded));
+            Assert.That(chunk, Is.InstanceOf<IBounded>());
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             Rectangle bounds = new Rectangle(new Position(0, 0), 5, 3);
             Chunk chunk = new Chunk(bounds);
 
-            Assert.AreEqual(chunk.Bounds, bounds);
+            Assert.That(chunk.Bounds, Is.EqualTo(bounds));
         }
 
-        [TestMethod]
+        [Test]
         public void SplitChunk_WhenSplittingVertically_SplitsTheChunkIntoTwoChunksAlongAVerticalLineAtTheGivenDistance()
         {
             // Initial Chunk
@@ -42,16 +42,16 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 3);
 
-            Assert.AreEqual(2, newChunks.Count);
-            Assert.AreEqual(new Position(0, 0), newChunks[0].Bounds.BottomLeft);
-            Assert.AreEqual(3, newChunks[0].Bounds.Width);
-            Assert.AreEqual(2, newChunks[0].Bounds.Height);
-            Assert.AreEqual(new Position(3, 0), newChunks[1].Bounds.BottomLeft);
-            Assert.AreEqual(4, newChunks[1].Bounds.Width);
-            Assert.AreEqual(2, newChunks[1].Bounds.Height);
+            Assert.That(newChunks.Count, Is.EqualTo(2));
+            Assert.That(newChunks[0].Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
+            Assert.That(newChunks[0].Bounds.Width, Is.EqualTo(3));
+            Assert.That(newChunks[0].Bounds.Height, Is.EqualTo(2));
+            Assert.That(newChunks[1].Bounds.BottomLeft, Is.EqualTo(new Position(3, 0)));
+            Assert.That(newChunks[1].Bounds.Width, Is.EqualTo(4));
+            Assert.That(newChunks[1].Bounds.Height, Is.EqualTo(2));
         }
 
-        [TestMethod]
+        [Test]
         public void SplitChunk_WhenSplittingHorizontally_SplitsTheChunkIntoTwoChunksAlongAHorizontalLineAtTheGivenDistance()
         {
             // Initial Chunk
@@ -67,16 +67,16 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1);
 
-            Assert.AreEqual(2, newChunks.Count);
-            Assert.AreEqual(new Position(0, 0), newChunks[0].Bounds.BottomLeft);
-            Assert.AreEqual(7, newChunks[0].Bounds.Width);
+            Assert.That(newChunks.Count, Is.EqualTo(2));
+            Assert.That(newChunks[0].Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
+            Assert.That(newChunks[0].Bounds.Width, Is.EqualTo(7));
             Assert.AreEqual(1, newChunks[0].Bounds.Height);
             Assert.AreEqual(new Position(0, 1), newChunks[1].Bounds.BottomLeft);
             Assert.AreEqual(7, newChunks[1].Bounds.Width);
             Assert.AreEqual(2, newChunks[1].Bounds.Height);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitChunk_WhenAChunkCannotBeSplitHorizontally_ReturnsAnEmptyListOfChunks()
         {
             // Initial Chunk
@@ -88,7 +88,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(0, newChunks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitChunk_WhenAChunkCannotBeSplitVertically_ReturnsAnEmptyListOfChunks()
         {
             // Initial Chunk
@@ -102,7 +102,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(0, newChunks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitChunk_GivenAMinimumHeightWhenBothSplitChunksCannotMeetRequirement_ReturnsAnEmptyListOfChunks()
         {
             // Initial Chunk
@@ -116,7 +116,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(0, newChunks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitChunk_GivenAMinimumWidthRequirementWhenBothSplitChunksCannotMeetRequirementReturnsAnEmptyListOfChunks()
         {
             // Initial Chunk
@@ -130,7 +130,7 @@ namespace Tests.LevelGenerators
             Assert.AreEqual(0, newChunks.Count);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void SplitChunk_GivenAMinimumHeightWhenDistanceIsLessThanThisRequirement_ThrowsAnException()
         {
@@ -144,7 +144,7 @@ namespace Tests.LevelGenerators
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1, 2);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void SplitChunk_GivenAMinimumWidthRequirementWhenDistanceIsLessThanThisRequirement_ThrowsAnException()
         {

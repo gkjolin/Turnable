@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Tests.Factories;
 using Turnable.Api;
 using Turnable.Models;
@@ -8,18 +8,18 @@ using Turnable.Tiled;
 
 namespace Tests.Models
 {
-    [TestClass]
+    [TestFixture]
     public class ModelManagerTests
     {
         private ILevel _level;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             IModelManager modelManager = new ModelManager(_level);

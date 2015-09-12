@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Tiled;
 using Tests.Factories;
 
 namespace Tests.Tmx
 {
-    [TestClass]
+    [TestFixture]
     public class PropertyDictionaryTests
     {
-        [TestMethod]
+        [Test]
         public void DefaultConstructor_Exists()
         {
             PropertyDictionary properties = new PropertyDictionary();
@@ -18,7 +18,7 @@ namespace Tests.Tmx
             Assert.AreEqual(0, properties.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_LoadsUpAllProperties()
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
@@ -27,7 +27,7 @@ namespace Tests.Tmx
             Assert.AreEqual("true", properties["IsBackgroundLayer"]);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_WhenGettingAValue_IgnoresCaseOfPropertyName()
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
@@ -35,7 +35,7 @@ namespace Tests.Tmx
             Assert.AreEqual("true", properties["isbackgroundlayer"]);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_WhenPropertyDoesNotExist_ReturnsNull()
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
@@ -43,7 +43,7 @@ namespace Tests.Tmx
             Assert.IsNull(properties["DoesNotExist"]);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_SetsProperty()
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
@@ -52,7 +52,7 @@ namespace Tests.Tmx
             Assert.AreEqual("New Value", properties["New Property"]);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_UpdatingPreexistingProperty_SetsNewValue()
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
@@ -62,7 +62,7 @@ namespace Tests.Tmx
             Assert.AreEqual("New Value 2", properties["New Property"]);
         }
 
-        [TestMethod]
+        [Test]
         public void Indexer_UpdatingPreexistingProperty_IgnoresCaseOfPropertyName()
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());

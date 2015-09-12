@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Entropy.Core;
 using Turnable.Locations;
 using Turnable.Tiled;
@@ -12,18 +12,18 @@ using Moq;
 
 namespace Tests.Locations
 {
-    [TestClass]
+    [TestFixture]
     public class LevelTests
     {
         private ILevel _level;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultConstructor_InitializesAllProperties()
         {
             ILevel level = new Level();
@@ -39,7 +39,7 @@ namespace Tests.Locations
             //Assert.IsNull(level.Viewport);
         }
 
-        [TestMethod]
+        [Test]
         public void Setup_GivenParametersWithATmxFullFilePath_InitializesTheTiledMap()
         {
             LevelSetupParameters levelSetupParameters = new LevelSetupParameters();
@@ -52,7 +52,7 @@ namespace Tests.Locations
             Assert.AreEqual(4, level.Map.Layers.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void IsCollidable_ReturnsTrueIfThereIsAnyTileInTheCollisionSpecialLayerForTheLevel()
         {
             // The example level has a "wall" around the entire 15x15 level
@@ -64,7 +64,7 @@ namespace Tests.Locations
             Assert.IsFalse(_level.IsCollidable(new Position(9, 1)));
         }
 
-        [TestMethod]
+        [Test]
         public void IsCollidable_IfThereIsNoCollisionLayer_AlwaysReturnsFalse()
         {
             // The example level has a "wall" around the entire 15x15 level
@@ -77,7 +77,7 @@ namespace Tests.Locations
         }
 
         // Special layer tests
-        [TestMethod]
+        [Test]
         public void Map_WhenSet_CallsInitializeSpecialLayers()
         {
             Mock<Level> mockLevel = new Mock<Level>();
@@ -89,7 +89,7 @@ namespace Tests.Locations
             mockLevel.Verify(l => l.InitializeSpecialLayers());
         }
 
-        [TestMethod]
+        [Test]
         public void SpecialLayerPropertyKey_ReturnsTheRightPropertyName()
         {
             foreach (SpecialLayer specialLayer in Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>())
@@ -98,7 +98,7 @@ namespace Tests.Locations
             }
         }
 
-        [TestMethod]
+        [Test]
         public void InitializeSpecialLayers_SetsAllTheSpecialLayersPresentInTheMap()
         {
             // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
@@ -111,7 +111,7 @@ namespace Tests.Locations
             Assert.AreEqual(_level.Map.Layers[3], _level.SpecialLayers[SpecialLayer.Character]);
         }
 
-        [TestMethod]
+        [Test]
         public void Level_SpecialLayerEnum_Defines4DifferentSpecialLayers()
         {
             Assert.AreEqual(4, Enum.GetValues(typeof(SpecialLayer)).Length);
@@ -121,7 +121,7 @@ namespace Tests.Locations
             Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Character"));
         }
 
-        [TestMethod]
+        [Test]
         public void SpecialLayers_AllowsSettingASpecialLayerUsingTheSpecialLayerEnumAsKey()
         {
             // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
@@ -135,7 +135,7 @@ namespace Tests.Locations
             }
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void SpecialLayers_SettingASpecialLayerWhenTheSpecificSpecialLayerAlreadyExists_ThrowsException()
         {
@@ -144,7 +144,7 @@ namespace Tests.Locations
             _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[1];
         }
 
-        [TestMethod]
+        [Test]
         public void SpecialLayers_WhenASpecialLayerExists_ReturnsTheLayer()
         {
             // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
@@ -154,7 +154,7 @@ namespace Tests.Locations
             Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
         }
 
-        [TestMethod]
+        [Test]
         public void SpecialLayers_WhenASpecialLayerDoesNotExist_ReturnsNull()
         {
             // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
@@ -165,7 +165,7 @@ namespace Tests.Locations
         }
 
         // Map Manipulation Tests
-        [TestMethod]
+        [Test]
         public void SetLayer_GivenASpecialLayerEnumValue_CreatesANewSpecialLayer()
         {
             // The Special Layers are already setup which will cause this test to fail unless we clear out the SpecialLayers collection
@@ -179,7 +179,7 @@ namespace Tests.Locations
         }
 
         // Map Manipulation Tests
-        [TestMethod]
+        [Test]
         public void SetLayer_ForANewlyConstructedLevel_StillWorksCorrectly()
         {
             Level level = new Level();
@@ -195,7 +195,7 @@ namespace Tests.Locations
         // -------
 
         // Viewport
-        [TestMethod]
+        [Test]
         public void SetUpViewport_GivenNoParamters_CreatesAViewportTheSameSizeAsTheLevel()
         {
             _level.SetUpViewport();
@@ -208,7 +208,7 @@ namespace Tests.Locations
             Assert.AreEqual(_level.Map.Height, _level.Viewport.Height);
         }
 
-        [TestMethod]
+        [Test]
         public void SetUpViewport_GivenAWidthAndHeight_CreatesAViewportForTheLevel()
         {
             _level.SetUpViewport(5, 6);
@@ -221,7 +221,7 @@ namespace Tests.Locations
             Assert.AreEqual(6, _level.Viewport.Height);
         }
 
-        [TestMethod]
+        [Test]
         public void SetUpViewport_GivenAMapOriginWidthAndHeight_CreatesAViewportForTheLevel()
         {
             _level.SetUpViewport(8, 8, 5, 5);
@@ -235,7 +235,7 @@ namespace Tests.Locations
         }
 
         // VisionCalculator
-        [TestMethod]
+        [Test]
         public void SetUpVisionCalculator_CreatesAVisionCalculatorForTheLevel()
         {
             _level.SetUpVisionCalculator();
@@ -245,7 +245,7 @@ namespace Tests.Locations
         }
 
         // CharacterManager
-        [TestMethod]
+        [Test]
         public void SetUpCharacterManager_CreatesACharacterManagerForTheLevel()
         {
             _level.SetUpCharacterManager();
@@ -255,7 +255,7 @@ namespace Tests.Locations
         }
 
         // ModelManager
-        [TestMethod]
+        [Test]
         public void SetUpModelManager_CreatesAModelManagerForTheLevel()
         {
             _level.SetUpModelManager();
@@ -269,7 +269,7 @@ namespace Tests.Locations
 
 //namespace Tests.Locations
 //{
-//    [TestClass]
+//    [TestFixture]
 //    public class LevelTests
 //    {
 //        // The sample level:
@@ -297,7 +297,7 @@ namespace Tests.Locations
 //        //private bool _eventTriggeredFlag;
 //        //private EventArgs _eventArgs;
 
-//        [TestInitialize]
+//        [SetUp]
 //        public void Initialize()
 //        {
 //            //_eventTriggeredFlag = false;
@@ -306,12 +306,12 @@ namespace Tests.Locations
 //            _mockCharacterManager = new Mock<ICharacterManager>();
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_Construction_IsSuccessful()
 //        {
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_SettingUpCharacters_DelegatesToTheCharacterManager()
 //        {
 //            Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
@@ -326,7 +326,7 @@ namespace Tests.Locations
 //            characterManagerMock.Verify(cm => cm.SetUpPc("Knight M", 7, 2));
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_SettingUpNpcs_DelegatesToTheCharacterManager()
 //        {
 //            Mock<ICharacterManager> characterManagerMock = new Mock<ICharacterManager>();
@@ -340,7 +340,7 @@ namespace Tests.Locations
 //        }
 
 //        // Setup methods
-//        [TestMethod]
+//        [Test]
 //        public void Level_SettingUpAPathfinder_IsSuccessful()
 //        {
 //            _level.SetUpPathfinder();
@@ -350,7 +350,7 @@ namespace Tests.Locations
 //            Assert.AreEqual(_level, _level.PathFinder.Level);
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_SettingUpAPathfinderThatAllowsDiagonalMovement_IsSuccessful()
 //        {
 //            _level.SetUpPathfinder(true);
@@ -360,7 +360,7 @@ namespace Tests.Locations
 //            Assert.AreEqual(_level, _level.PathFinder.Level);
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_SettingUpTransitionPoints_IsSuccessful()
 //        {
 //            _level.SetUpTransitionPoints();
@@ -373,7 +373,7 @@ namespace Tests.Locations
 
 
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_SettingUpAMap_IsSuccessful()
 //        {
 //            _level.SetUpMap("../../Fixtures/FullExample.tmx");
@@ -383,7 +383,7 @@ namespace Tests.Locations
 
 
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_CalculatingAllWalkablePositions_ReturnsAListOfAllWalkablePositionsInTheLevel()
 //        {
 //            List<Position> allWalkablePositions = _level.CalculateWalkablePositions();
@@ -397,7 +397,7 @@ namespace Tests.Locations
 //        }
 
 //        // Facade implementation tests
-//        [TestMethod]
+//        [Test]
 //        public void Level_DeterminingIfCharacterIsAtAPosition_DelegatesToCharacterManager()
 //        {
 //            _level.CharacterManager = _mockCharacterManager.Object;
@@ -406,7 +406,7 @@ namespace Tests.Locations
 //            _mockCharacterManager.Verify(cm => cm.IsCharacterAt(0, 0));
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_MovingAPlayer_DelegatesToCharacterManager()
 //        {
 //            Entity player = _world.CreateEntity();
@@ -419,7 +419,7 @@ namespace Tests.Locations
 //            _mockCharacterManager.Verify(cm => cm.MovePlayer(Direction.South));
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Level_MovingACharacterToAPosition_DelegatesToCharacterManager()
 //        {
 //            _level.CharacterManager = _mockCharacterManager.Object;

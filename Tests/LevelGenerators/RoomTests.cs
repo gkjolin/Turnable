@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Components;
 using Turnable.LevelGenerators;
 using System.Collections.Generic;
@@ -8,10 +8,10 @@ using Turnable.Api;
 
 namespace Tests.LevelGenerators
 {
-    [TestClass]
+    [TestFixture]
     public class RoomTests
     {
-        [TestMethod]
+        [Test]
         public void Room_ImplementsTheIBoundedInterface()
         {
             Rectangle chunkBounds = new Rectangle(new Position(0, 0), 7, 5);
@@ -22,7 +22,7 @@ namespace Tests.LevelGenerators
             Assert.IsInstanceOfType(room, typeof(IBounded));
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             Rectangle chunkBounds = new Rectangle(new Position(0, 0), 7, 5);
@@ -36,7 +36,7 @@ namespace Tests.LevelGenerators
             Assert.IsNotNull(room.Corridors);
         }
 
-        [TestMethod]
+        [Test]
         public void ToString_DisplaysBottomLeftAndTopLeftCorners()
         {
             Chunk parentChunk = new Chunk(new Rectangle(new Position(0, 0), new Position(100, 100)));

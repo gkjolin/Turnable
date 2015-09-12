@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Collections.Generic;
 using Entropy;
 using Turnable.Stats;
@@ -10,20 +10,20 @@ using Turnable.Api;
 
 namespace Tests
 {
-    [TestClass]
+    [TestFixture]
     public class StatManagerTests
     {
         private IStatManager _statManager;
         private bool _eventTriggeredFlag;
         private StatChangedEventArgs _statChangedEventArgs;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _statManager = new StatManager();
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             StatManager statManager = new StatManager();
@@ -31,13 +31,13 @@ namespace Tests
             Assert.IsNotNull(statManager.Stats);
         }
 
-        [TestMethod]
+        [Test]
         public void StatManager_IsAnEntropyComponent()
         {
             Assert.IsInstanceOfType(_statManager, typeof(IComponent));
         }
 
-        [TestMethod]
+        [Test]
         public void BuildStat_BuildsANewStatWithMinimumValue0AndMaximumValue100()
         {
             Stat stat = _statManager.BuildStat("Health", 100);
@@ -49,7 +49,7 @@ namespace Tests
             Assert.AreEqual(100, stat.MaximumValue);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildStat_GivenMinimumAndMaximumValuesForStat_BuildsNewStat()
         {
             Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
@@ -58,7 +58,7 @@ namespace Tests
             Assert.AreEqual(95, stat.MaximumValue);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void BuildStat_BuildingAStatThatAlreadyExists_ThrowsException()
         {
@@ -66,7 +66,7 @@ namespace Tests
             _statManager.BuildStat("Health", 100);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void BuildStat_BuildingAStatThatAlreadyExistsDifferingByCaseForName_ThrowsException()
         {
@@ -74,7 +74,7 @@ namespace Tests
             _statManager.BuildStat("HEALTH", 100);
         }
 
-        [TestMethod]
+        [Test]
         public void GetStat_GivenAStatName_FindsStat()
         {
             _statManager.BuildStat("Health", 100);
@@ -84,7 +84,7 @@ namespace Tests
             Assert.AreEqual("Health", stat.Name);
         }
 
-        [TestMethod]
+        [Test]
         public void GetStat_GivenAStatNameThatDiffersByCase_FindsStat()
         {
             _statManager.BuildStat("Health", 100);
@@ -94,7 +94,7 @@ namespace Tests
             Assert.AreEqual("Health", stat.Name);
         }
 
-        [TestMethod]
+        [Test]
         public void GetStat_GivenANameThatDoesNotExist_ReturnsNull()
         {
             _statManager.BuildStat("Health", 100);
@@ -104,7 +104,7 @@ namespace Tests
             Assert.IsNull(stat);
         }
 
-        [TestMethod]
+        [Test]
         public void StatManager_WhenAnyStatIsChanged_RaisesAStatChangedEvent()
         {
             _statManager.BuildStat("Health", 100);
@@ -126,7 +126,7 @@ namespace Tests
             _statChangedEventArgs = e;
         }
 
-        //[TestMethod]
+        //[Test]
         //public void StatManager_WhenAHealthStatIsReducedToZero_AsksForTheCharacterToBeDestroyed()
         //{
         //    ILevel level = LocationsFactory.BuildLevel();

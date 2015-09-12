@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Tiled;
 using System.Linq;
 using Moq;
@@ -7,18 +7,18 @@ using Turnable.Api;
 
 namespace Tests.Tiled
 {
-    [TestClass]
+    [TestFixture]
     public class MapTests
     {
         private Map _fullMap;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _fullMap = new Map("../../Fixtures/FullExample.tmx");
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             Map map = new Map();
@@ -33,7 +33,7 @@ namespace Tests.Tiled
             Assert.IsNull(map.Version);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenAPathToAFullExample_CorrectlyInitializesAllProperties()
         {
             Map map = new Map("../../Fixtures/FullExample.tmx");

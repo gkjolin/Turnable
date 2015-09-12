@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Components;
 using Turnable.LevelGenerators;
 using System.Collections.Generic;
@@ -8,10 +8,10 @@ using Turnable.Utilities;
 
 namespace Tests.LevelGenerators
 {
-    [TestClass]
+    [TestFixture]
     public class CorridorTests
     {
-        [TestMethod]
+        [Test]
         public void DefaultConstructor_InitializesAllProperties()
         {
             Corridor corridor = new Corridor();
@@ -20,7 +20,7 @@ namespace Tests.LevelGenerators
             Assert.IsNotNull(corridor.ConnectedRooms);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             Chunk chunk = new Chunk(new Rectangle(new Position(0, 0), new Position(100, 100)));

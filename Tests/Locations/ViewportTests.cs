@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Tests.Factories;
 using Turnable.Api;
 using Turnable.Locations;
@@ -8,13 +8,13 @@ using Turnable.Components;
 
 namespace Tests.Locations
 {
-    [TestClass]
+    [TestFixture]
     public class ViewportTests
     {
         private ILevel _level;
         private IViewport _viewport;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
@@ -22,7 +22,7 @@ namespace Tests.Locations
             _viewport = new Viewport(_level, 8, 8, 5, 5);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenALevel_CreatesAViewportWithMapOriginAtZerpAndSameSizeAsTheLevel()
         {
             Viewport viewport = new Viewport(_level);
@@ -33,7 +33,7 @@ namespace Tests.Locations
             Assert.AreEqual(_level.Map.Width, viewport.Width);
             Assert.AreEqual(_level.Map.Height, viewport.Height);
         }
-        [TestMethod]
+        [Test]
         public void Constructor_GivenALevelAndSize_InitializesAllProperties()
         {
             Viewport viewport = new Viewport(_level, 16, 16);
@@ -43,7 +43,7 @@ namespace Tests.Locations
             Assert.AreEqual(16, viewport.Height);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenALevelMapOriginAndSize_InitializesAllProperties()
         {
             Viewport viewport = new Viewport(_level, 54, 53, 16, 16);
@@ -55,7 +55,7 @@ namespace Tests.Locations
             Assert.AreEqual(16, viewport.Height);
         }
 
-        [TestMethod]
+        [Test]
         public void IsMapOriginValid_WhenViewportHasAMapOriginThatIsOutOfBounds_ReturnsFalse()
         {
             List<Position> invalidMapOrigins = new List<Position>();
@@ -79,7 +79,7 @@ namespace Tests.Locations
         // Move viewport tests
         // -------------------
 
-        [TestMethod]
+        [Test]
         public void Move_WhenViewportRemainsFullyWithinBounds_MovesTheMapOriginInTheDirection()
         {
             // Move MapOrigin so that the viewport does not hit the bounds of the Map.
@@ -94,7 +94,7 @@ namespace Tests.Locations
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Viewport_MovingTheMapOriginOutOfBounds_MovesAsMuchAsPossible()
         {
             // Viewport at lower left of the Map
@@ -149,7 +149,7 @@ namespace Tests.Locations
         //// Testing the automatic movement of MapOrigin when the player moves
         //// Enough space on all sides to allow movement of MapOrigin
         //// Viewport with odd height and width
-        //[TestMethod]
+        //[Test]
         //public void Viewport_MovingPlayerLocateadAtTheExactCenterOfTheViewport_MovesTheMapOriginOfViewportInThatSameDirection()
         //{
         //    _level.SetUpViewport(5, 1, 5, 5);
@@ -168,7 +168,7 @@ namespace Tests.Locations
         //    }
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void Viewport_MovingPlayerWhenLocatedAtTheCentralRowInAnyColumnOfTheViewport_MovesTheMapOriginCorrectly()
         //{
         //    _level.SetUpViewport(5, 1, 5, 5);
@@ -192,7 +192,7 @@ namespace Tests.Locations
         //    Assert.AreEqual(1, _level.Viewport.MapOrigin.Y);
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void Viewport_MovingPlayerWhenLocatedAtTheCentralColumnInAnyRowOfTheViewport_MovesTheMapOriginCorrectly()
         //{
         //    _level.SetUpViewport(5, 1, 5, 5);
@@ -218,7 +218,7 @@ namespace Tests.Locations
 
         //// Enough space on all sides to allow movement of MapOrigin
         //// Test Viewport with even height and width
-        //[TestMethod]
+        //[Test]
         //public void Viewport_MovingPlayerWhenLocatedAtTheCenterOfAViewportWithEvenWidthAndHeight_MovesTheMapOriginCorrectly()
         //{
         //    _level.SetUpViewport(3, 4, 6, 6);
@@ -238,7 +238,7 @@ namespace Tests.Locations
         //}
 
         //// Test Viewport does not move when player hits obstacle or player hits character
-        //[TestMethod]
+        //[Test]
         //public void Viewport_WhenAMovingPlayerHitsAnObstacleOrCharacter_DoesNotMoveItself()
         //{
         //    _level.SetUpViewport(4, 1, 6, 6);
@@ -251,7 +251,7 @@ namespace Tests.Locations
         //}
 
         // Centering a viewport
-        [TestMethod]
+        [Test]
         public void CenterAt_WithEvenViewportWidthAndViewportHeightAndEnoughSpaceAroundCenter_CentersViewportAtPosition()
         {
             _level.SetUpViewport(6, 6);
@@ -262,7 +262,7 @@ namespace Tests.Locations
             Assert.AreEqual(2, _level.Viewport.MapOrigin.Y);
         }
 
-        [TestMethod]
+        [Test]
         public void CenterAt_WithOddViewportWidthAndViewportHeightAndEnoughSpaceAroundCenter_CentersViewportAtPosition()
         {
             _level.SetUpViewport(5, 5);
@@ -273,7 +273,7 @@ namespace Tests.Locations
             Assert.AreEqual(3, _level.Viewport.MapOrigin.Y);
         }
 
-        [TestMethod]
+        [Test]
         public void CenterAt_WhenThereIsNotEnoughSpaceAroundCenter_CentersViewportAsMuchAsPossible()
         {
             _level.SetUpViewport(5, 5);

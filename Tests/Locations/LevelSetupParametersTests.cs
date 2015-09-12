@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Entropy.Core;
 using Turnable.Locations;
 using Turnable.Tiled;
@@ -12,18 +12,18 @@ using Moq;
 
 namespace Tests.Locations
 {
-    [TestClass]
+    [TestFixture]
     public class LevelSetupParametersTests
     {
         private LevelSetupParameters _levelSetupParameters; 
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _levelSetupParameters = new LevelSetupParameters();
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultConstructor_InitializesAllProperties()
         {
             LevelSetupParameters levelSetupParameters = new LevelSetupParameters();
@@ -31,7 +31,7 @@ namespace Tests.Locations
             Assert.IsNull(levelSetupParameters.TmxFullFilePath);
         }
 
-        [TestMethod]
+        [Test]
         public void LevelSetupParameters_ImplementsTheISetupParametersInterface()
         {
             Assert.IsInstanceOfType(_levelSetupParameters, typeof(ISetupParameters));

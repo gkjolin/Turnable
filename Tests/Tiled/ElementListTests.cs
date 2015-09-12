@@ -1,22 +1,22 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Tests.Factories;
 using Turnable.Tiled;
 
 namespace Tests.Tiled
 {
-    [TestClass]
+    [TestFixture]
     public class ElementListTests
     {
         private ElementList<Layer> _elementList;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _elementList = new ElementList<Layer>();
         }
 
-        [TestMethod]
+        [Test]
         public void Add_AddsElementThatCanBeReferencedByIndexOrName()
         {
             Layer layer = TiledFactory.BuildLayer();
@@ -27,7 +27,7 @@ namespace Tests.Tiled
             Assert.AreEqual(layer, _elementList[layer.Name]);
         }
 
-        [TestMethod]
+        [Test]
         public void Add_WhenMultipleElementsAreAdded_KeepsTheOrderInWhichTheElementsAreAdded()
         {
             Layer[] layers = new Layer[3];
@@ -45,7 +45,7 @@ namespace Tests.Tiled
             }
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void Add_WhenAnElementWithTheSameNameAlreadyExists_ThrowsAnException()
         {

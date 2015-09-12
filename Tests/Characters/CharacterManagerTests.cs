@@ -51,7 +51,7 @@ namespace Tests.Characters
             Assert.That(characterManager.Pcs[2].Get<Position>(), Is.EqualTo(new Position(6, 1)));
         }
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_SettingUpNpcs_IsSuccessful()
         //{
         //    // TODO: Check that the position of the characters is set correctly
@@ -79,7 +79,7 @@ namespace Tests.Characters
         //    }
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_SettingUpNpcs_IgnoresCharacterTilesThatHaveNoModelPropertySet()
         //{
         //    CharacterManager characterManager = new CharacterManager(_levelWithoutCharacters);
@@ -99,7 +99,7 @@ namespace Tests.Characters
         //    }
         //}
 
-        //[TestMethod]
+        //[Test]
         //[ExpectedException(typeof(ArgumentException))]
         //public void CharacterManager_SettingUpWithAnInvalidStartingPosition_Fails()
         //{
@@ -107,7 +107,7 @@ namespace Tests.Characters
         //    characterManager.SetUpPc("Knight M", -1, -1);
         //}
 
-        //[TestMethod]
+        //[Test]
         //[ExpectedException(typeof(ArgumentException))]
         //public void CharacterManager_SettingUpWithAnInvalidPlayerModel_Fails()
         //{
@@ -161,7 +161,7 @@ namespace Tests.Characters
             Assert.That(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition), Is.False);
         }
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_MovingCharacterToAPositionOccupiedByAnotherCharacter_ReturnsHitCharacterMoveResultAndPositionOfOtherCharacterToIndicateFailure()
         //{
         //    Entity character = _characterManager.Characters[0];
@@ -181,7 +181,7 @@ namespace Tests.Characters
         //    Assert.IsTrue(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_MovingCharacterToAPositionOutOfBoundsOfTheMap_ReturnsOutOfBoundsMoveResultAndPositionOfOutOfBoundsLocationToIndicateFailure()
         //{
         //    Entity character = _characterManager.Characters[0];
@@ -232,13 +232,13 @@ namespace Tests.Characters
             Assert.That(_characterMovedEventArgs.Movement, Is.Not.Null);
         }
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_CanDetermineIfThereIsACharacterAtALocation()
         //{
         //    Assert.IsTrue(_characterManager.IsCharacterAt(_characterManager.Characters[0].GetComponent<Position>().X, _characterManager.Characters[0].GetComponent<Position>().Y));
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_EndingTurn_MovesTheCurrentCharacterToTheEndOfTheTurnQueue()
         //{
         //    Entity firstCharacter = _characterManager.TurnQueue[0];
@@ -250,7 +250,7 @@ namespace Tests.Characters
         //    Assert.AreEqual(firstCharacter, _characterManager.TurnQueue[_characterManager.TurnQueue.Count - 1]);
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_EndingTurn_RaisesACharacterTurnEndedEvent()
         //{
         //    // TODO: How do I check that the EntityEventArgs are correctly set?
@@ -259,7 +259,7 @@ namespace Tests.Characters
         //    Assert.IsTrue(_eventTriggeredFlag);
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_DestroyingACharacter_RaisesACharacterDestroyedEvent()
         //{
         //    Entity characterToDestroy = _characterManager.Characters[0];
@@ -271,7 +271,7 @@ namespace Tests.Characters
         //    Assert.AreEqual(characterToDestroy, ((EntityEventArgs)_eventArgs).Entity);
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_DestroyingACharacter_RemovesItFromCharactersAndTheTurnQueue()
         //{
         //    Entity characterToDestroy = _characterManager.Characters[0];
@@ -284,7 +284,7 @@ namespace Tests.Characters
         //    Assert.IsFalse(_world.EntityManager.Entities.Contains(characterToDestroy));
         //}
 
-        //[TestMethod]
+        //[Test]
         //public void CharacterManager_WhenAHealthStatIsReducedToZero_RaisesTheCharacterDestroyedEventCorrectly()
         //{
         //    Entity entityToDestroy = _level.CharacterManager.Characters[0];

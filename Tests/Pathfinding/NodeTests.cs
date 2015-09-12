@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Api;
 using Turnable.Locations;
 using Turnable.Pathfinding;
@@ -9,20 +9,20 @@ using System.Collections.Generic;
 
 namespace Tests.Pathfinding
 {
-    [TestClass]
+    [TestFixture]
     public class NodeTests
     {
         private Node _node;
         private ILevel _level;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _level = LocationsFactory.BuildLevel();
             _node = new Node(_level, 0, 0);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_ForNodeWithoutParentNode_InitializesNode()
         {
             Node node = new Node(_level, 0, 0);
@@ -33,7 +33,7 @@ namespace Tests.Pathfinding
             Assert.IsNull(node.Parent);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_ForNodeWithParentNode_InitializesNode()
         {
             Node parentNode = new Node(_level, 0, 0);
@@ -45,7 +45,7 @@ namespace Tests.Pathfinding
             Assert.AreEqual(parentNode, node.Parent);           
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_ForNodeWithParentNodeAndPosition_InitializesNode()
         {
             Node parentNode = new Node(_level, 0, 0);
@@ -58,7 +58,7 @@ namespace Tests.Pathfinding
         }
 
         // Calculating values for A* algorithm (PathScore, EstimatedMovementCost and ActualMovementCost)
-        [TestMethod]
+        [Test]
         public void PathScore_IsCalculatedAsTheSumOfActualMovementCostAndEstimatedMovementCost()
         {
             _node.ActualMovementCost = 4;
@@ -67,19 +67,19 @@ namespace Tests.Pathfinding
             Assert.AreEqual(_node.ActualMovementCost + _node.EstimatedMovementCost, _node.PathScore);
         }
 
-        [TestMethod]
+        [Test]
         public void ActualMovementCost_ForANodeWithoutAParent_Is0()
         {
             Assert.AreEqual(0, _node.ActualMovementCost);
         }
 
-        [TestMethod]
+        [Test]
         public void EstimatedMovementCost_ForANodeWithoutAParent_Is0()
         {
             Assert.AreEqual(0, _node.EstimatedMovementCost);
         }
 
-        [TestMethod]
+        [Test]
         public void ActualMovementCost_WithOrthogonalParentNode_HasAnOrthogonalMovementCost()
         {
             Node parent = new Node(_level, 5, 5);
@@ -93,7 +93,7 @@ namespace Tests.Pathfinding
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ActualMovementCost_WithDiagonalParentNode_HasADiagonalMovementCost()
         {
             Node parent = new Node(_level, 5, 5);
@@ -107,7 +107,7 @@ namespace Tests.Pathfinding
             }
         }
 
-        [TestMethod]
+        [Test]
         public void EstimatedMovementCost_CanBeSetToAValue()
         {
             _node.EstimatedMovementCost = 10;
@@ -115,7 +115,7 @@ namespace Tests.Pathfinding
             Assert.AreEqual(10, _node.EstimatedMovementCost);
         }
 
-        [TestMethod]
+        [Test]
         public void EstimatedMovementCost_IsCalculatedAsTheManhattanDistanceBetweenTwoPositions()
         {
             // Manhattan distance = (Simple sum of the horizontal and vertical components) * OrthogonalMovementCost
@@ -131,7 +131,7 @@ namespace Tests.Pathfinding
             Assert.AreEqual(10, node.EstimatedMovementCost);
         }
 
-        [TestMethod]
+        [Test]
         public void IsOrthogonalTo_ReturnsWhetherOtherNodeIsOrthogonalToTheNode()
         {
             Node node = new Node(_level, 5, 5);
@@ -146,7 +146,7 @@ namespace Tests.Pathfinding
             Assert.IsFalse(node.IsOrthogonalTo(node2));
         }
 
-        [TestMethod]
+        [Test]
         public void IsDiagonalTo_ReturnsWhetherOtherNodeIsDiagonalToTheNode()
         {
             Node node = new Node(_level, 5, 5);
@@ -161,7 +161,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(node.IsDiagonalTo(node2));
         }
 
-        [TestMethod]
+        [Test]
         public void IsWithinBounds_ReturnsWhetherTheNodeIsPositionedWithinTheBoundsOfTheLevel()
         {
             Node node = new Node(_level, 7, 7);
@@ -183,7 +183,7 @@ namespace Tests.Pathfinding
             Assert.IsFalse(node.IsWithinBounds());
         }
 
-        [TestMethod]
+        [Test]
         public void GetAdjacentNodes_FindsAllAdjacentNodes()
         {
             Node node = new Node(_level, 5, 5);
@@ -201,7 +201,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 6)));
         }
 
-        [TestMethod]
+        [Test]
         public void GetAdjacentNodes_DisregardsNodesThatAreOutOfBound()
         {
             _node = new Node(_level, 0, 0);
@@ -214,7 +214,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 1)));
         }
 
-        [TestMethod]
+        [Test]
         public void GetAdjacentNodes_WithoutDiagonalMovement_FindsAllAdjacentOrthogonalNodes()
         {
             Node node = new Node(_level, 5, 5);
@@ -228,7 +228,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 6)));
         }
 
-        [TestMethod]
+        [Test]
         public void IsWalkable_DeterminesIfThereIsAnObstacleAtTheNodesPosition()
         {
             // Anything out of bounds is unwalkable
@@ -253,7 +253,7 @@ namespace Tests.Pathfinding
         }
 
         // Equals Tests
-        [TestMethod]
+        [Test]
         public void Equals_FromIEquatableTInterface_CanCompareNodes()
         {
             Node node = new Node(_level, 1, 2);
@@ -269,7 +269,7 @@ namespace Tests.Pathfinding
             Assert.IsFalse(node.Equals(node2));
         }
 
-        [TestMethod]
+        [Test]
         public void Equals_FromIEquatableTInterface_CanCompareNodeToNull()
         {
             Node node = new Node(_level, 1, 2);
@@ -277,7 +277,7 @@ namespace Tests.Pathfinding
             Assert.IsFalse(node.Equals((Node)null));
         }
 
-        [TestMethod]
+        [Test]
         public void Equals_OverridenFromObjectEquals_CanCompareNodes()
         {
             Object node = new Node(_level, 1, 2);
@@ -293,7 +293,7 @@ namespace Tests.Pathfinding
             Assert.IsFalse(node.Equals(node2));
         }
 
-        [TestMethod]
+        [Test]
         public void Equals_OverridenFromObjectEquals_CanCompareNodeToNull()
         {
             Object node = new Node(_level, 1, 2);
@@ -301,7 +301,7 @@ namespace Tests.Pathfinding
             Assert.IsFalse(node.Equals(null));
         }
 
-        [TestMethod]
+        [Test]
         public void Equals_OverridenFromObjectEquals_ReturnsFalseIfOtherObjectIsNotANode()
         {
             Object node = new Node(_level, 1, 2);
@@ -309,7 +309,7 @@ namespace Tests.Pathfinding
             Assert.IsFalse(node.Equals(new Object()));
         }
 
-        [TestMethod]
+        [Test]
         public void EqualityOperator_IsImplemented()
         {
             Node node = new Node(_level, 1, 2);
@@ -318,7 +318,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(node == node2);
         }
 
-        [TestMethod]
+        [Test]
         public void InequalityOperator_IsImplemented()
         {
             Node node = new Node(_level, 1, 2);
@@ -327,7 +327,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(node != node2);
         }
 
-        [TestMethod]
+        [Test]
         public void EqualityOperator_CanComparePositionToNull()
         {
             Node node = null;
@@ -335,7 +335,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(node == null);
         }
 
-        [TestMethod]
+        [Test]
         public void InequalityOperator_CanComparePositionToNull()
         {
             Node node = new Node(_level, 1, 2);
@@ -343,7 +343,7 @@ namespace Tests.Pathfinding
             Assert.IsTrue(node != null);
         }
 
-        [TestMethod]
+        [Test]
         public void GetHashCode_UsesThePositionsHashCode()
         {
             Node node = new Node(_level, 1, 2);
@@ -351,7 +351,7 @@ namespace Tests.Pathfinding
             Assert.AreEqual(node.Position.GetHashCode(), node.GetHashCode());
         }
 
-        [TestMethod]
+        [Test]
         public void ToString_DisplaysXAndYCoordinatesOfNodeAndParent()
         {
             Node parent = new Node(_level, 8, 8);
@@ -360,7 +360,7 @@ namespace Tests.Pathfinding
             Assert.AreEqual("(7, 7); Parent (8, 8)", node.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void ToString_ForNodeWithNullParent_DisplaysNullForParent()
         {
             Node node = new Node(_level, 8, 8);

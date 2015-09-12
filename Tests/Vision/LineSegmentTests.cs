@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Tests.Factories;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +11,10 @@ using Turnable.Utilities;
 
 namespace Tests.Vision
 {
-    [TestClass]
+    [TestFixture]
     public class LineSegmentTests
     {
-        [TestMethod]
+        [Test]
         public void Constructor_GivenTwoAdjacentPositions_CreatesALineWithTwoPoints()
         {
             Position start = new Position(1, 1);
@@ -31,7 +31,7 @@ namespace Tests.Vision
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenTwoDistantPoints_CreatesALine()
         {
             Position start = new Position(1, 1);
@@ -48,7 +48,7 @@ namespace Tests.Vision
             Assert.AreEqual(end, line.Points[5]);
         }
 
-        [TestMethod]
+        [Test]
         public void Start_ReturnsTheVeryFirstPoint()
         {
             Position start = new Position(1, 1);
@@ -58,7 +58,7 @@ namespace Tests.Vision
             Assert.AreEqual(line.Points[0], line.Start);
         }
 
-        [TestMethod]
+        [Test]
         public void End_ReturnsTheVeryLastPoint()
         {
             Position start = new Position(1, 1);
@@ -68,7 +68,7 @@ namespace Tests.Vision
             Assert.AreEqual(line.Points[5], line.End);
         }
 
-        [TestMethod]
+        [Test]
         public void IsVertical_IfLineSegmentIsVertical_ReturnsTrue()
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(0, 4));
@@ -84,7 +84,7 @@ namespace Tests.Vision
             Assert.IsFalse(lineSegment.IsVertical());
         }
 
-        [TestMethod]
+        [Test]
         public void IsHorizontal_IfLineSegmentIsHorizontal_ReturnsTrue()
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(4, 0));
@@ -100,7 +100,7 @@ namespace Tests.Vision
             Assert.IsFalse(lineSegment.IsHorizontal());
         }
 
-        [TestMethod]
+        [Test]
         public void GetRandomPoint_ReturnsARandomPointAlongTheLine()
         {
             Position start = new Position(1, 1);
@@ -112,7 +112,7 @@ namespace Tests.Vision
             Assert.IsTrue(line.Points.Contains(randomPoint));
         }
 
-        [TestMethod]
+        [Test]
         public void GetMidpoint_ReturnsTheMidpointOfTheLine()
         {
             Position start = new Position(1, 1);
@@ -136,7 +136,7 @@ namespace Tests.Vision
             Assert.AreEqual(line.Points[2], midpoint);
         }
 
-        [TestMethod]
+        [Test]
         public void Intersects_GivenARectangleThatTheLineSegmentDoesNotIntersectWith_ReturnsFalse()
         {
             Rectangle rectangle = new Rectangle(new Position(5, 5), new Position(10, 10));
@@ -149,7 +149,7 @@ namespace Tests.Vision
             Assert.IsFalse(lineSegment.Intersects(rectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void Intersects_GivenARectangleThatTheLineSegmentIntersectsWith_ReturnsTrue()
         {
             Rectangle rectangle = new Rectangle(new Position(5, 5), new Position(10, 10));
@@ -166,7 +166,7 @@ namespace Tests.Vision
             Assert.IsTrue(lineSegment.Intersects(rectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void Intersects_AskedToExcludeTheStartingAndEndingPoints_ReturnsFalseIfOnlyTheStartOrEndPointsIntersectWithARectangle()
         {
             Rectangle rectangle = new Rectangle(new Position(5, 5), new Position(10, 10));
@@ -183,7 +183,7 @@ namespace Tests.Vision
             Assert.IsTrue(lineSegment.Intersects(rectangle, true));
         }
 
-        [TestMethod]
+        [Test]
         public void IsParallelTo_GivenTwoSegmentsThatAreParallelToEachOther_ReturnsTrue()
         {
             LineSegment first = new LineSegment(new Position(0, 0), new Position(0, 4));
@@ -207,7 +207,7 @@ namespace Tests.Vision
             Assert.IsTrue(first.IsParallelTo(second));
         }
 
-        [TestMethod]
+        [Test]
         public void IsParallelTo_GivenTwoSegmentsOfTheSameLine_ReturnsTrue()
         {
             // The exact same segment
@@ -223,7 +223,7 @@ namespace Tests.Vision
             Assert.IsTrue(first.IsParallelTo(second));
         }
 
-        [TestMethod]
+        [Test]
         public void IsParallelTo_GivenTwoSegmentsThatAreNotParallelToEachOther_ReturnsFalse()
         {
             LineSegment first = new LineSegment(new Position(0, 0), new Position(0, 4));
@@ -242,7 +242,7 @@ namespace Tests.Vision
             Assert.IsFalse(first.IsParallelTo(second));
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void DistanceBetween_GivenTwoSegmentsThatAreNotParallel_ThrowsAnException()
         {
@@ -252,7 +252,7 @@ namespace Tests.Vision
             first.DistanceBetween(second);
         }
 
-        [TestMethod]
+        [Test]
         public void DistanceBetween_GivenTwoParallelSegments_ReturnsTheDistanceBetweenThem()
         {
             LineSegment first = new LineSegment(new Position(0, 0), new Position(0, 4));
@@ -276,7 +276,7 @@ namespace Tests.Vision
             Assert.AreEqual(3, first.DistanceBetween(second));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoNonParallelSegments_ReturnsFalse()
         {
             LineSegment first = new LineSegment(new Position(0, 1), new Position(5, 7));
@@ -285,7 +285,7 @@ namespace Tests.Vision
             Assert.IsFalse(first.IsTouching(second));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoParallelSegmentsThatTouchAlongTheirEntireLength_ReturnsTrue()
         {
             // * First line segment; - Second Line Segment
@@ -316,7 +316,7 @@ namespace Tests.Vision
             Assert.IsTrue(second.IsTouching(first));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoParallelSegmentsThatTouchAlongSomePartOfTheirLengtth_ReturnsTrue()
         {
             // * First line segment; - Second Line Segment
@@ -353,7 +353,7 @@ namespace Tests.Vision
             Assert.IsTrue(second.IsTouching(first));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoCloseParallelSegmentsThatDontTouch_ReturnsFalse()
         {
             // * First line segment; - Second Line Segment
@@ -392,7 +392,7 @@ namespace Tests.Vision
             Assert.IsFalse(second.IsTouching(first));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoParallelSegmentsThatDontTouch_ReturnsFalse()
         {
             // * First line segment; - Second Line Segment
@@ -436,7 +436,7 @@ namespace Tests.Vision
         }
 
         // Equals Tests
-        [TestMethod]
+        [Test]
         public void Equals_FromIEquatableTInterface_CanCompareLineSegments()
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
@@ -455,7 +455,7 @@ namespace Tests.Vision
             Assert.IsFalse(lineSegment.Equals(lineSegment2));
         }
 
-        [TestMethod]
+        [Test]
         public void Equals_FromIEquatableTInterface_CanCompareLineSegmentToNull()
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
@@ -463,7 +463,7 @@ namespace Tests.Vision
             Assert.IsFalse(lineSegment.Equals((Position)null));
         }
 
-        [TestMethod]
+        [Test]
         public void Equals_OverridenFromObjectEquals_CanCompareLineSegments()
         {
             Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
@@ -482,7 +482,7 @@ namespace Tests.Vision
             Assert.IsFalse(lineSegment.Equals(lineSegment2));
         }
 
-        [TestMethod]
+        [Test]
         public void Equals_OverridenFromObjectEquals_CanCompareLineSegmentToNull()
         {
             Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
@@ -490,7 +490,7 @@ namespace Tests.Vision
             Assert.IsFalse(lineSegment.Equals(null));
         }
 
-        [TestMethod]
+        [Test]
         public void Equals_OverridenFromObjectEquals_ReturnsFalseIfOtherObjectIsNotALineSegment()
         {
             Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
@@ -498,7 +498,7 @@ namespace Tests.Vision
             Assert.IsFalse(lineSegment.Equals(new Object()));
         }
 
-        [TestMethod]
+        [Test]
         public void EqualityOperator_IsImplemented()
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
@@ -507,7 +507,7 @@ namespace Tests.Vision
             Assert.IsTrue(lineSegment == lineSegment2);
         }
 
-        [TestMethod]
+        [Test]
         public void InequalityOperator_IsImplemented()
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
@@ -516,7 +516,7 @@ namespace Tests.Vision
             Assert.IsTrue(lineSegment != lineSegment2);
         }
 
-        [TestMethod]
+        [Test]
         public void EqualityOperator_CanCompareLineSegmentToNull()
         {
             LineSegment lineSegment = null;
@@ -524,7 +524,7 @@ namespace Tests.Vision
             Assert.IsTrue(lineSegment == null);
         }
 
-        [TestMethod]
+        [Test]
         public void InequalityOperator_CanCompareLineSegmentToNull()
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1)); ;
@@ -532,7 +532,7 @@ namespace Tests.Vision
             Assert.IsTrue(lineSegment != null);
         }
 
-        [TestMethod]
+        [Test]
         public void GetHashCode_IsOverridenToReturnASuitableHashCode()
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1)); ;

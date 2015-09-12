@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.IO;
 using Tests.Factories;
 using Turnable.Tiled;
 
 namespace Tests.Tiled
 {
-    [TestClass]
+    [TestFixture]
     public class SpecialTileTests
     {
         private Tileset _tileset;
 
-        [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
             _tileset = TiledFactory.BuildTileset();
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             SpecialTile specialTile = new SpecialTile(_tileset, 1);
@@ -28,7 +28,7 @@ namespace Tests.Tiled
             Assert.AreEqual(_tileset, specialTile.Tileset);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenSpecialTileDataWithProperies_InitializesAllPropertiesCorrectly()
         {
             SpecialTile specialTile = new SpecialTile(_tileset, TiledFactory.BuildSpecialTileXElementWithProperties());
@@ -41,7 +41,7 @@ namespace Tests.Tiled
             Assert.AreEqual("Value", specialTile.Properties["Property"]);
         }
 
-        [TestMethod]
+        [Test]
         public void GlobalId_IsCalculatedFromTheId()
         {
             SpecialTile specialTile = new SpecialTile(_tileset, 1);

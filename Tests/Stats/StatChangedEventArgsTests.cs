@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Stats;
 using Turnable.Api;
 
 namespace Tests.Stats
 {
-    [TestClass]
+    [TestFixture]
     public class StatChangedEventArgsTests
     {
-        [TestMethod]
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             IStatManager statManager = new StatManager();

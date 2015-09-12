@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Components;
 using Turnable.Utilities;
 using Turnable.LevelGenerators;
@@ -8,10 +8,10 @@ using Turnable.Vision;
 
 namespace Tests.Utilities
 {
-    [TestClass]
+    [TestFixture]
     public class RectangleTests
     {
-        [TestMethod]
+        [Test]
         public void Constructor_GivenTwoCornersOfTheRectangle_InitializesAllProperties()
         {
             Rectangle rectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
@@ -34,7 +34,7 @@ namespace Tests.Utilities
             Assert.AreEqual(new Position(0, 0), rectangle.Edges[3].End);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenTheBottomLeftCornerAndTheWidthAndTheHeight_InitializesAllProperties()
         {
             Rectangle rectangle = new Rectangle(new Position(0, 0), 5, 5);
@@ -45,7 +45,7 @@ namespace Tests.Utilities
             Assert.AreEqual(5, rectangle.Height);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildRandomRectangle_GivenSomeBounds_ReturnsARandomlySizedRectangleWithinThoseBounds()
         {
             Rectangle bounds = new Rectangle(new Position(0, 0), 5, 4);
@@ -56,7 +56,7 @@ namespace Tests.Utilities
             Assert.IsTrue(bounds.Contains(rectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenAnyTwoCorners_CorrectlyCalculatesBottomLeftAndTopRightCorners()
         {
             // BottomLeft, TopRight corners. Handled by default.
@@ -92,7 +92,7 @@ namespace Tests.Utilities
             Assert.AreEqual(new Position(4, 3), rectangle.TopRight);
         }
 
-        [TestMethod]
+        [Test]
         public void Contains_GivenAPositionWithinTheRectangleIncludingTheEdgesOfTheRectangle_ReturnsTrue()
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
@@ -104,7 +104,7 @@ namespace Tests.Utilities
             Assert.IsTrue(rectangle.Contains(new Position(5, 4)));
         }
 
-        [TestMethod]
+        [Test]
         public void Contains_GivenAPositionOutsideTheRectangle_ReturnsFalse()
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
@@ -116,7 +116,7 @@ namespace Tests.Utilities
             Assert.IsFalse(rectangle.Contains(new Position(5, 6)));
         }
 
-        [TestMethod]
+        [Test]
         public void Contains_GivenARectangleThatFitsIntoTheOtherRectangleEvenIfSomeEdgesOfBothRectangleTouch_ReturnsTrue()
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
@@ -140,7 +140,7 @@ namespace Tests.Utilities
             Assert.IsTrue(rectangle.Contains(otherRectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void Contains_GivenARectangleThatIsPartiallyInsideAndPartiallyOutsideTheOtherRectangle_ReturnsFalse()
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
@@ -158,7 +158,7 @@ namespace Tests.Utilities
             Assert.IsFalse(rectangle.Contains(otherRectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void Contains_GivenARectangleThatIsCompletelyOutsideTheOtherRectangle_ReturnsFalse()
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
@@ -167,7 +167,7 @@ namespace Tests.Utilities
             Assert.IsFalse(rectangle.Contains(otherRectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void Contains_GivenARectangleThatIsBiggerAndPlacedOverTheOtherRectangle_ReturnsFalse()
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
@@ -176,7 +176,7 @@ namespace Tests.Utilities
             Assert.IsFalse(rectangle.Contains(otherRectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoRectanglesThatAreTouchingEachOtherAlongOneWholeEdge_ReturnsTrue()
         {
             // * First rectangle 
@@ -230,7 +230,7 @@ namespace Tests.Utilities
             Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoRectanglesThatAreTouchingEachOtherAtLeastAtOnePointAlongOneEdge_ReturnsTrue()
         {
             // *****
@@ -288,7 +288,7 @@ namespace Tests.Utilities
             Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoRectanglesThatAreDiagonallyPlacedToEachOtherWithNotEvenOnePointTouchingAlongAEdge_ReturnsFalse()
         {
             // *****
@@ -350,7 +350,7 @@ namespace Tests.Utilities
             Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTouching_GivenTwoRectanglesThatAreSeparatedByAtleastOnePointFromEachOther_ReturnsFalse()
         {
             // * First rectangle 
@@ -418,7 +418,7 @@ namespace Tests.Utilities
             Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
         }
 
-        [TestMethod]
+        [Test]
         public void GetClosestEdges_GivenTwoRectanglesWithSuitableParallelEdges_ReturnsTwoEdgesThatAreClosestAndParallelToEachOther()
         {
             // * First rectangle, : Second Rectangle, C Closest edge
@@ -486,7 +486,7 @@ namespace Tests.Utilities
             Assert.AreEqual(new Position(4, 4), closestEdges[1].End);
         }
 
-        [TestMethod]
+        [Test]
         public void GetClosestEdges_GivenTwoRectanglesWithParallelEdgesThatAreTouching_ReturnsThoseParallelEdges()
         {
             // * First rectangle, : Second Rectangle, C Closest edge
@@ -527,7 +527,7 @@ namespace Tests.Utilities
             Assert.AreEqual(new Position(2, 2), closestEdges[1].End);
         }
 
-        [TestMethod]
+        [Test]
         public void GetClosestEdges_GivenTwoRectanglesWithSuitableParallelAndNonParallelEdges_PrefersToReturnTheParallelEdges()
         {
             // * First rectangle, : Second Rectangle, F Facing edge
@@ -551,7 +551,7 @@ namespace Tests.Utilities
             Assert.AreEqual(new Position(5, 0), closestEdges[1].End);
         }
 
-        [TestMethod]
+        [Test]
         public void GetClosestEdges_GivenTwoRectanglesWithNoSuitableParallelEdges_ReturnsTheClosesNonParallelEdges()
         {
             // ***

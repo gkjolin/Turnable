@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Turnable.Tiled;
 using Tests.Factories;
 using Turnable.Components;
@@ -9,10 +9,10 @@ using Turnable.Utilities;
 
 namespace Tests.Tiled
 {
-    [TestClass]
+    [TestFixture]
     public class LayerTests
     {
-        [TestMethod]
+        [Test]
         public void Constructor_GivenAWidthAndHeight_InitializesLayerCorrectly()
         {
             Layer layer = new Layer("Layer 1", 48, 64);
@@ -25,7 +25,7 @@ namespace Tests.Tiled
             Assert.IsNotNull(layer.Properties);
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_GivenALayerXElementWithNoProperties_InitializesAnEmptyPropertiesCollection()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithNoProperties());
@@ -34,7 +34,7 @@ namespace Tests.Tiled
             Assert.IsNotNull(layer.Tiles);
         }
         
-        [TestMethod]
+        [Test]
         public void Constructor_GivenALayerXElement_InitializesLayerIncludingPropertiesAndTiles()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElement());
@@ -57,7 +57,7 @@ namespace Tests.Tiled
         // ************************
         // Layer Manipulation Tests
         // ************************
-        [TestMethod]
+        [Test]
         public void IsTileAt_GivenAPositionWhereATileExists_ReturnsTrue()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -66,7 +66,7 @@ namespace Tests.Tiled
             Assert.IsTrue(layer.IsTileAt(new Position(7, 2)));
         }
 
-        [TestMethod]
+        [Test]
         public void IsTileAt_GivenAPositionWhereATileDoesNotExist_ReturnsFalse()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -74,7 +74,7 @@ namespace Tests.Tiled
             Assert.IsFalse(layer.IsTileAt(new Position(7, 2)));
         }
 
-        [TestMethod]
+        [Test]
         public void GetTile_GivenAPositionWithNoTile_ReturnsNull()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -82,7 +82,7 @@ namespace Tests.Tiled
             Assert.IsNull(layer.GetTile(new Position(7, 2)));
         }
 
-        [TestMethod]
+        [Test]
         public void GetTile_GivenAPositionWithATile_ReturnsTheTile()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -95,7 +95,7 @@ namespace Tests.Tiled
             Assert.AreEqual(2, tile.Y);
         }
 
-        [TestMethod]
+        [Test]
         public void MoveTile_MovesATileToAnEmptyPositionInTheSameLayer()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -118,7 +118,7 @@ namespace Tests.Tiled
             Assert.AreEqual(tileGlobalId, tile.GlobalId);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void MoveTile_WhenNoTileExistsAtThePositionInTheLayer_ThrowsAnException()
         {
@@ -127,7 +127,7 @@ namespace Tests.Tiled
             layer.MoveTile(new Position(7, 2), new Position(7, 3));
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void MoveTile_WhenDestinationIsOccupied_ThrowsAnException()
         {
@@ -136,7 +136,7 @@ namespace Tests.Tiled
             layer.MoveTile(new Position(6, 1), new Position(5, 13));
         }
 
-        [TestMethod]
+        [Test]
         public void SwapTile_SwapsTwoTilesInTheSameLayer()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -164,7 +164,7 @@ namespace Tests.Tiled
             Assert.AreEqual(tile2GlobalId, tile.GlobalId);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void SwapTile_WhenNoTileExistsInTheFirstPosition_ThrowsAnException()
         {
@@ -173,7 +173,7 @@ namespace Tests.Tiled
             layer.SwapTile(new Position(7, 2), new Position(5, 13));
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void SwapTile_WhenNoTileExistsInTheSecondPosition_ThrowsAnException()
         {
@@ -182,7 +182,7 @@ namespace Tests.Tiled
             layer.SwapTile(new Position(6, 1), new Position(7, 2));
         }
 
-        [TestMethod]
+        [Test]
         public void SetTile_SetsATileAtAnEmptyPosition()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -195,7 +195,7 @@ namespace Tests.Tiled
             Assert.AreEqual(2, tile.Y);
         }
 
-        [TestMethod]
+        [Test]
         public void SetTile_WhenATileAlreadyExistsAtThePosition_Succeeds()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -211,7 +211,7 @@ namespace Tests.Tiled
 
         // TODO: Setting a tile outside the bounds of the Layer is illegal, write unit test for this
 
-        [TestMethod]
+        [Test]
         public void RemoveTile_GivenAPosition_RemovesTheTileThatExistsAtThatPosition()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -224,7 +224,7 @@ namespace Tests.Tiled
             Assert.AreEqual(tileCount - 1, layer.Tiles.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveTile_GivenAPositionThatHasNoTileToRemove_FailsWithoutThrowingAnException()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -233,7 +233,7 @@ namespace Tests.Tiled
             layer.RemoveTile(new Position(7, 2));
         }
 
-        [TestMethod]
+        [Test]
         public void Fill_GivenAGlobalId_FillsTheEntireLayerWithTiles()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
@@ -252,7 +252,7 @@ namespace Tests.Tiled
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Fill_GivenARectangleWithinItsBounds_FillsTheRectangleWithTiles()
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());

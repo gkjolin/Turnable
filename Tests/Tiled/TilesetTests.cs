@@ -1,15 +1,15 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Tests.Factories;
 using Turnable.Tiled;
 using System.Collections.Generic;
 
 namespace Tests.Tiled
 {
-    [TestClass]
+    [TestFixture]
     public class TilesetTests
     {
-        [TestMethod]
+        [Test]
         public void Constructor_GivenATilesetXElement_InitializesAllProperties()
         {
             Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElement());
@@ -26,7 +26,7 @@ namespace Tests.Tiled
             Assert.AreEqual(1, tileset.SpecialTiles[332].Properties.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void FindSpecialTiles_GivenAPropertyNameAndValue_FindsAllSpecialTilesThatMatch()
         {
             Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElementWithSpecialTiles());
@@ -40,7 +40,7 @@ namespace Tests.Tiled
             }
         }
 
-        [TestMethod]
+        [Test]
         public void FindSpecialTiles_WhenGivenAPropertyNameThatDoesNotExist_ReturnsAnEmptyList()
         {
             Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElementWithSpecialTiles());
@@ -54,10 +54,10 @@ namespace Tests.Tiled
 
 //namespace Tests.Tmx
 //{
-//    [TestClass]
+//    [TestFixture]
 //    public class TilesetTests
 //    {
-//        [TestMethod]
+//        [Test]
 //        public void Tileset_ExternalTilesetConstruction_IsSuccessful()
 //        {
 //            Tileset tileset = new Tileset(TmxFactory.BuildExternalTilesetXElement(), "../../Fixtures/FullExample.tmx");
@@ -71,14 +71,14 @@ namespace Tests.Tiled
 //            Assert.IsNotNull(tileset.ReferenceTiles);
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        [ExpectedException(typeof(ArgumentNullException))]
 //        public void Tileset_ExternalTilesetConstructionWhenTheTmxFilePathIsNotPassedIn_ThrowsAnException()
 //        {
 //            Tileset tileset = new Tileset(TmxFactory.BuildExternalTilesetXElement());
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Tileset_GivenAPropertyNameAndValue_CanFindAReferenceTile()
 //        {
 //            Tileset tileset = TmxFactory.BuildTileset();
@@ -89,7 +89,7 @@ namespace Tests.Tiled
 //            Assert.AreEqual("Knight M", referenceTile.Properties["Model"]);
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Tileset_GivenAPropertyNameAndValue_ReturnsNullIfReferenceTileWithPropertyCannotBeFound()
 //        {
 //            Tileset tileset = TmxFactory.BuildTileset();
@@ -99,7 +99,7 @@ namespace Tests.Tiled
 //            Assert.IsNull(referenceTile);
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void Tileset_GivenATile_CanFindTheReferenceTile()
 //        {
 //            Tileset tileset = TmxFactory.BuildTileset();

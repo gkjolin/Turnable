@@ -12,39 +12,39 @@ namespace Tests.Factories
         // Maps
         public static Map BuildMap()
         {
-            return (new Map("../../Fixtures/FullExample.tmx"));
+            return (new Map("c:/git/Turnable/Tests/Fixtures/FullExample.tmx"));
         }
 
         // Layers
         public static Layer BuildLayer()
         {
-            return (new Layer(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>()));
+            return (new Layer(XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>()));
         }
 
         public static XElement BuildLayerXElement()
         {
-            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>());
+            return (XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>());
         }
 
         public static XElement BuildLayerXElementWithNoProperties()
         {
-            return (XDocument.Load("../../Fixtures/MinimalBase64ZlibCompressed.tmx").Element("map").Elements("layer").First<XElement>());
+            return (XDocument.Load("c:/git/Turnable/Tests/Fixtures/MinimalBase64ZlibCompressed.tmx").Element("map").Elements("layer").First<XElement>());
         }
 
         public static XElement BuildLayerXElementWithProperties()
         {
-            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>());
+            return (XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>());
         }
 
         // Tilesets
         public static Tileset BuildTileset()
         {
-            return (new Tileset(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>()));
+            return (new Tileset(XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>()));
         }
 
         public static XElement BuildTilesetXElement()
         {
-            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").First<XElement>());
+            return (XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("tileset").First<XElement>());
         }
 
         //public static XElement BuildExternalTilesetXElement()
@@ -54,30 +54,30 @@ namespace Tests.Factories
 
         public static XElement BuildTilesetXElementWithSpecialTiles()
         {
-            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>());
+            return (XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("tileset").Last<XElement>());
         }
 
         // Data
         public static Data BuildDataWithNoTiles()
         {
-            return (new Data(XDocument.Load("../../Fixtures/MinimalBase64ZlibCompressed.tmx").Element("map").Elements("layer").First<XElement>().Element("data")));
+            return (new Data(XDocument.Load("c:/git/Turnable/Tests/Fixtures/MinimalBase64ZlibCompressed.tmx").Element("map").Elements("layer").First<XElement>().Element("data")));
         }
 
         public static Data BuildDataWithTiles()
         {
-            return (new Data(XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>().Element("data")));
+            return (new Data(XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("layer").Last<XElement>().Element("data")));
         }
 
         // Properties
         public static IEnumerable<XElement> BuildPropertiesXElements()
         {
-            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>().Element("properties").Elements("property"));
+            return (XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("layer").First<XElement>().Element("properties").Elements("property"));
         }
 
         // Special Tiles
         public static XElement BuildSpecialTileXElementWithProperties()
         {
-            return (XDocument.Load("../../Fixtures/FullExample.tmx").Element("map").Elements("tileset").First<XElement>().Elements("tile").First<XElement>());
+            return (XDocument.Load("c:/git/Turnable/Tests/Fixtures/FullExample.tmx").Element("map").Elements("tileset").First<XElement>().Elements("tile").First<XElement>());
         }
     }
 }
