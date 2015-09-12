@@ -31,10 +31,10 @@ namespace Turnable.Locations
             Height = height;
         }
 
-        public Viewport(ILevel level, int mapOriginX, int mapOriginY, int width, int height)
+        public Viewport(ILevel level, Position mapOrigin, int width, int height)
             : this(level, width, height)
         {
-            MapOrigin = new Position(mapOriginX, mapOriginY);
+            MapOrigin = mapOrigin;
         }
 
         public void Move(Direction direction)

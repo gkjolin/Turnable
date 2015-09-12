@@ -356,20 +356,20 @@ namespace Tests.LevelGenerators
             Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(2, 1)));
             Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(2, 1)));
             Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(2, 0)));
-            Assert.That(new Position(3, 0), corridor.LineSegments[2].Start);
-            Assert.That(new Position(3, 0), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(3, 0)));
+            Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(3, 0)));
 
             // E.. 
             //   ..S
             corridor = Corridor.Build(end, start);
 
             Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
-            Assert.That(new Position(1, 1), corridor.LineSegments[0].Start);
-            Assert.That(new Position(2, 1), corridor.LineSegments[0].End);
-            Assert.That(new Position(2, 0), corridor.LineSegments[1].Start);
-            Assert.That(new Position(2, 0), corridor.LineSegments[1].End);
-            Assert.That(new Position(3, 0), corridor.LineSegments[2].Start);
-            Assert.That(new Position(3, 0), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(2, 0)));
+            Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(2, 0)));
+            Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(3, 0)));
+            Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(3, 0)));
 
             //   ..E
             // S..
@@ -378,24 +378,24 @@ namespace Tests.LevelGenerators
             corridor = Corridor.Build(end, start);
 
             Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
-            Assert.That(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.That(new Position(2, 0), corridor.LineSegments[0].End);
-            Assert.That(new Position(2, 1), corridor.LineSegments[1].Start);
-            Assert.That(new Position(2, 1), corridor.LineSegments[1].End);
-            Assert.That(new Position(3, 1), corridor.LineSegments[2].Start);
-            Assert.That(new Position(3, 1), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(2, 0)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(3, 1)));
+            Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(3, 1)));
 
             //   ..S
             // E..
             corridor = Corridor.Build(start, end);
 
             Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
-            Assert.That(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.That(new Position(2, 0), corridor.LineSegments[0].End);
-            Assert.That(new Position(2, 1), corridor.LineSegments[1].Start);
-            Assert.That(new Position(2, 1), corridor.LineSegments[1].End);
-            Assert.That(new Position(3, 1), corridor.LineSegments[2].Start);
-            Assert.That(new Position(3, 1), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(2, 0)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(3, 1)));
+            Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(3, 1)));
         }
 
         [Test]
@@ -412,7 +412,7 @@ namespace Tests.LevelGenerators
 
             Corridor corridor = firstRoom.Join(secondRoom);
 
-            Assert.IsNull(corridor);
+            Assert.(corridor, Is.Null);
         }
 
         [Test]
@@ -430,13 +430,13 @@ namespace Tests.LevelGenerators
             Corridor corridor = firstRoom.Join(secondRoom);
 
             Assert.IsNotNull(corridor);
-            Assert.That(1, corridor.LineSegments.Count);
-            Assert.That(new Position(5, 2), corridor.LineSegments[0].Start);
-            Assert.That(new Position(6, 2), corridor.LineSegments[0].End);
-            Assert.That(firstRoom, corridor.ConnectedRooms[0]);
-            Assert.That(secondRoom, corridor.ConnectedRooms[1]);
-            Assert.That(corridor, firstRoom.Corridors[0]);
-            Assert.That(corridor, secondRoom.Corridors[0]);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(5, 2)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(6, 2)));
+            Assert.That(corridor.ConnectedRooms[0], Is.SameAs(firstRoom));
+            Assert.That(corridor.ConnectedRooms[1], Is.SameAs(secondRoom));
+            Assert.That(firstRoom.Corridors[0], Is.SameAs(corridor));
+            Assert.That(secondRoom.Corridors[0], Is.SameAs(corridor));
         }
 
         [Test]
@@ -453,9 +453,9 @@ namespace Tests.LevelGenerators
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
 
-            Assert.That(2, roomsToJoin.Count);
-            Assert.That(firstListOfRooms[0], roomsToJoin[0]);
-            Assert.That(secondListOfRooms[0], roomsToJoin[1]);
+            Assert.That(roomsToJoin.Count, Is.EqualTo(2));
+            Assert.That(firstListOfRooms[0], Is.EqualTo(roomsToJoin[0]));
+            Assert.That(secondListOfRooms[0], Is.EqualTo(roomsToJoin[1]));
         }
 
         [Test]
@@ -477,9 +477,9 @@ namespace Tests.LevelGenerators
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
 
-            Assert.That(2, roomsToJoin.Count);
-            Assert.That(firstListOfRooms[0], roomsToJoin[0]);
-            Assert.That(secondListOfRooms[1], roomsToJoin[1]);
+            Assert.That(roomsToJoin.Count, Is.EqualTo(2));
+            Assert.That(firstListOfRooms[0], Is.EqualTo(roomsToJoin[0]));
+            Assert.That(secondListOfRooms[1], Is.EqualTo(roomsToJoin[1]));
         }
 
         [Test]
@@ -502,9 +502,9 @@ namespace Tests.LevelGenerators
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
 
-            Assert.That(2, roomsToJoin.Count);
-            Assert.That(firstListOfRooms[1], roomsToJoin[0]);
-            Assert.That(secondListOfRooms[1], roomsToJoin[1]);
+            Assert.That(roomsToJoin.Count, Is.EqualTo(2));
+            Assert.That(firstListOfRooms[1], Is.EqualTo(roomsToJoin[0]));
+            Assert.That(secondListOfRooms[1], Is.EqualTo(roomsToJoin[1]));
         }
     }
 }

@@ -28,13 +28,13 @@ namespace Tests.Locations
         {
             LevelSetupParameters levelSetupParameters = new LevelSetupParameters();
 
-            Assert.IsNull(levelSetupParameters.TmxFullFilePath);
+            Assert.That(levelSetupParameters.TmxFullFilePath, Is.Null);
         }
 
         [Test]
         public void LevelSetupParameters_ImplementsTheISetupParametersInterface()
         {
-            Assert.IsInstanceOfType(_levelSetupParameters, typeof(ISetupParameters));
+            Assert.That(_levelSetupParameters, Is.InstanceOf<ISetupParameters>());
         }
     }
 }

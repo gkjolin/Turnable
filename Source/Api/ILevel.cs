@@ -34,7 +34,7 @@ namespace Turnable.Api
         void InitializeSpecialLayers();
         void SetUpViewport();
         void SetUpViewport(int width, int height);
-        void SetUpViewport(int mapOriginX, int mapOriginY, int width, int height);
+        void SetUpViewport(Position mapOrigin, int width, int height);
         void SetUpVisionCalculator();
         void SetUpCharacterManager();
         void SetUpModelManager();

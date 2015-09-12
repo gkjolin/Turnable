@@ -80,7 +80,7 @@ namespace Tests.Stats
 
             _stat.Value -= 10;
 
-            Assert.IsTrue(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag);
             Assert.That(_stat, _statChangedEventArgs.Stat);
             Assert.That(90, _statChangedEventArgs.OldValue);
             Assert.That(80, _statChangedEventArgs.NewValue);
@@ -93,7 +93,7 @@ namespace Tests.Stats
 
             _stat.Value = 90;
 
-            Assert.IsFalse(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag);
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Tests.Stats
 
             _stat.Value += 20;
 
-            Assert.IsTrue(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag);
             Assert.That(_stat, _statChangedEventArgs.Stat);
             Assert.That(90, _statChangedEventArgs.OldValue);
             Assert.That(100, _statChangedEventArgs.NewValue);
@@ -117,7 +117,7 @@ namespace Tests.Stats
 
             _stat.Value += 20;
 
-            Assert.IsFalse(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace Tests.Stats
             _stat.Changed += this.SetEventTriggeredFlag;
             _stat.Value -= 250;
 
-            Assert.IsTrue(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag);
 
             Assert.That(_stat, _statChangedEventArgs.Stat);
             Assert.That(90, _statChangedEventArgs.OldValue);
@@ -141,7 +141,7 @@ namespace Tests.Stats
 
             _stat.Value -=100;
 
-            Assert.IsFalse(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag);
         }
 
         private void SetEventTriggeredFlag(object sender, StatChangedEventArgs e)

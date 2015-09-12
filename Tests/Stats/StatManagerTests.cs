@@ -114,7 +114,7 @@ namespace Tests
             _statManager.StatChanged += SetEventTriggeredFlag;
             stat.Value = 50;
 
-            Assert.IsTrue(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag);
             Assert.That(stat, _statChangedEventArgs.Stat);
             Assert.That(100, _statChangedEventArgs.OldValue);
             Assert.That(50, _statChangedEventArgs.NewValue);

@@ -51,9 +51,9 @@ namespace Tests.Utilities
             Rectangle bounds = new Rectangle(new Position(0, 0), 5, 4);
             Rectangle rectangle = Rectangle.BuildRandomRectangle(bounds);
 
-            Assert.IsTrue(rectangle.Width >= 0 && rectangle.Width <= 5);
-            Assert.IsTrue(rectangle.Height >= 0 && rectangle.Width <= 4);
-            Assert.IsTrue(bounds.Contains(rectangle));
+            Assert.That(rectangle.Width >= 0 && rectangle.Width <= 5);
+            Assert.That(rectangle.Height >= 0 && rectangle.Width <= 4);
+            Assert.That(bounds.Contains(rectangle));
         }
 
         [Test]
@@ -97,11 +97,11 @@ namespace Tests.Utilities
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
 
-            Assert.IsTrue(rectangle.Contains(new Position(2, 3)));
-            Assert.IsTrue(rectangle.Contains(new Position(1, 1)));
-            Assert.IsTrue(rectangle.Contains(new Position(5, 1)));
-            Assert.IsTrue(rectangle.Contains(new Position(1, 4)));
-            Assert.IsTrue(rectangle.Contains(new Position(5, 4)));
+            Assert.That(rectangle.Contains(new Position(2, 3)));
+            Assert.That(rectangle.Contains(new Position(1, 1)));
+            Assert.That(rectangle.Contains(new Position(5, 1)));
+            Assert.That(rectangle.Contains(new Position(1, 4)));
+            Assert.That(rectangle.Contains(new Position(5, 4)));
         }
 
         [Test]
@@ -109,11 +109,11 @@ namespace Tests.Utilities
         {
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
 
-            Assert.IsFalse(rectangle.Contains(new Position(0, 0)));
-            Assert.IsFalse(rectangle.Contains(new Position(0, 1)));
-            Assert.IsFalse(rectangle.Contains(new Position(6, 1)));
-            Assert.IsFalse(rectangle.Contains(new Position(1, 5)));
-            Assert.IsFalse(rectangle.Contains(new Position(5, 6)));
+            Assert.That(rectangle.Contains(new Position(0, 0)));
+            Assert.That(rectangle.Contains(new Position(0, 1)));
+            Assert.That(rectangle.Contains(new Position(6, 1)));
+            Assert.That(rectangle.Contains(new Position(1, 5)));
+            Assert.That(rectangle.Contains(new Position(5, 6)));
         }
 
         [Test]
@@ -123,21 +123,21 @@ namespace Tests.Utilities
 
             // A rectangle totally within the first rectangle
             Rectangle otherRectangle = new Rectangle(new Position(2, 2), 2, 1);
-            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
 
             // Rectangles that share some of the edges of the first rectangle
             otherRectangle = new Rectangle(new Position(1, 1), 2, 1);
-            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
             otherRectangle = new Rectangle(new Position(3, 1), 2, 1);
-            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
             otherRectangle = new Rectangle(new Position(3, 4), 2, 1);
-            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
             otherRectangle = new Rectangle(new Position(1, 4), 2, 1);
-            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
 
             // Rectangle that is the exact size of the first rectangle
             otherRectangle = new Rectangle(new Position(1, 1), 5, 4);
-            Assert.IsTrue(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
         }
 
         [Test]
@@ -146,16 +146,16 @@ namespace Tests.Utilities
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
 
             Rectangle otherRectangle = new Rectangle(new Position(0, 1), 2, 1);
-            Assert.IsFalse(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
 
             otherRectangle = new Rectangle(new Position(5, 1), 2, 1);
-            Assert.IsFalse(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
 
             otherRectangle = new Rectangle(new Position(1, 5), 2, 2);
-            Assert.IsFalse(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
 
             otherRectangle = new Rectangle(new Position(5, 5), 2, 2);
-            Assert.IsFalse(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace Tests.Utilities
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
 
             Rectangle otherRectangle = new Rectangle(new Position(7, 7), 2, 1);
-            Assert.IsFalse(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace Tests.Utilities
             Rectangle rectangle = new Rectangle(new Position(1, 1), 5, 4);
 
             Rectangle otherRectangle = new Rectangle(new Position(0, 0), 7, 7);
-            Assert.IsFalse(rectangle.Contains(otherRectangle));
+            Assert.That(rectangle.Contains(otherRectangle));
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace Tests.Utilities
             Rectangle firstRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
             Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(9, 4));
 
-            Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle to right of second rectangle
             // :::::*****
@@ -198,7 +198,7 @@ namespace Tests.Utilities
             // :::::*****
             // :::::*****
             // :::::*****
-            Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle above second rectangle
             // *****
@@ -214,7 +214,7 @@ namespace Tests.Utilities
             firstRectangle = new Rectangle(new Position(0, 5), new Position(4, 9));
             secondRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle below second rectangle
             // :::::
@@ -227,7 +227,7 @@ namespace Tests.Utilities
             // *****
             // *****
             // *****
-            Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
         }
 
         [Test]
@@ -246,7 +246,7 @@ namespace Tests.Utilities
             Rectangle firstRectangle = new Rectangle(new Position(0, 8), new Position(4, 4));
             Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(5, 4));
 
-            Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // :::::
             // :::::
@@ -258,7 +258,7 @@ namespace Tests.Utilities
             //      *****
             //      *****
             // First rectangle to right and below second rectangle
-            Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle to right and above second rectangle
             //      *****
@@ -273,7 +273,7 @@ namespace Tests.Utilities
             firstRectangle = new Rectangle(new Position(5, 8), new Position(9, 4));
             secondRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle to left and below second rectangle
             //      :::::
@@ -285,7 +285,7 @@ namespace Tests.Utilities
             // *****
             // *****
             // *****
-            Assert.IsTrue(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
         }
 
         [Test]
@@ -305,7 +305,7 @@ namespace Tests.Utilities
             Rectangle firstRectangle = new Rectangle(new Position(0, 9), new Position(4, 5));
             Rectangle secondRectangle = new Rectangle(new Position(5, 0), new Position(9, 4));
 
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // :::::
             // :::::
@@ -318,7 +318,7 @@ namespace Tests.Utilities
             //      *****
             //      *****
             // First rectangle to right and below second rectangle
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle to right and above second rectangle
             //      *****
@@ -334,7 +334,7 @@ namespace Tests.Utilities
             firstRectangle = new Rectangle(new Position(5, 9), new Position(9, 5));
             secondRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle to left and below second rectangle
             //      :::::
@@ -347,7 +347,7 @@ namespace Tests.Utilities
             // *****
             // *****
             // *****
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
         }
 
         [Test]
@@ -364,7 +364,7 @@ namespace Tests.Utilities
             Rectangle firstRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
             Rectangle secondRectangle = new Rectangle(new Position(6, 0), new Position(10, 4));
 
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle to right of second rectangle
             // ::::: *****
@@ -372,7 +372,7 @@ namespace Tests.Utilities
             // ::::: *****
             // ::::: *****
             // ::::: *****
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle above second rectangle
             // *****
@@ -389,7 +389,7 @@ namespace Tests.Utilities
             firstRectangle = new Rectangle(new Position(0, 6), new Position(4, 10));
             secondRectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // First rectangle below second rectangle
             // :::::
@@ -403,7 +403,7 @@ namespace Tests.Utilities
             // *****
             // *****
             // *****
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
 
             // ***
             // ***
@@ -415,7 +415,7 @@ namespace Tests.Utilities
             //      :::
             firstRectangle = new Rectangle(new Position(0, 3), new Position(2, 7));
             secondRectangle = new Rectangle(new Position(5, 0), new Position(7, 2));
-            Assert.IsFalse(firstRectangle.IsTouching(secondRectangle));
+            Assert.That(firstRectangle.IsTouching(secondRectangle));
         }
 
         [Test]

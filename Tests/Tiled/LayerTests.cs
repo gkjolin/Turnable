@@ -63,7 +63,7 @@ namespace Tests.Tiled
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
             layer.SetTile(new Position(7, 2), 2107);
 
-            Assert.IsTrue(layer.IsTileAt(new Position(7, 2)));
+            Assert.That(layer.IsTileAt(new Position(7, 2)));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace Tests.Tiled
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
 
-            Assert.IsFalse(layer.IsTileAt(new Position(7, 2)));
+            Assert.That(layer.IsTileAt(new Position(7, 2)));
         }
 
         [Test]
@@ -105,8 +105,8 @@ namespace Tests.Tiled
 
             layer.MoveTile(new Position(6, 1), new Position(6, 2));
 
-            Assert.IsFalse(layer.IsTileAt(new Position(6, 1)));
-            Assert.IsTrue(layer.IsTileAt(new Position(6, 2)));
+            Assert.That(layer.IsTileAt(new Position(6, 1)));
+            Assert.That(layer.IsTileAt(new Position(6, 2)));
 
             // Make sure that the tileCount does not change
             Assert.That(tileCount, layer.Tiles.Count);
@@ -147,8 +147,8 @@ namespace Tests.Tiled
 
             layer.SwapTile(new Position(6, 1), new Position(5, 13));
 
-            Assert.IsTrue(layer.IsTileAt(new Position(6, 1)));
-            Assert.IsTrue(layer.IsTileAt(new Position(5, 13)));
+            Assert.That(layer.IsTileAt(new Position(6, 1)));
+            Assert.That(layer.IsTileAt(new Position(5, 13)));
 
             // Make sure that the tileCount does not change
             Assert.That(tileCount, layer.Tiles.Count);
@@ -220,7 +220,7 @@ namespace Tests.Tiled
             int tileCount = layer.Tiles.Count;
             layer.RemoveTile(new Position(7, 2));
 
-            Assert.IsFalse(layer.IsTileAt(new Position(7, 2)));
+            Assert.That(layer.IsTileAt(new Position(7, 2)));
             Assert.That(tileCount - 1, layer.Tiles.Count);
         }
 

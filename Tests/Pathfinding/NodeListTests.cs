@@ -74,7 +74,7 @@ namespace Tests.Pathfinding
 
             foreach (Node node in _nodes)
             {
-                Assert.IsTrue(_nodeList.Contains(node));
+                Assert.That(_nodeList.Contains(node));
             }
         }
     }

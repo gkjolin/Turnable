@@ -58,9 +58,9 @@ namespace Tests.Vision
         //public void VisionCalculator_CanEnableAndDisableItself()
         //{
         //    _visionCalculator.Disable();
-        //    Assert.IsFalse(_visionCalculator.IsEnabled);
+        //    Assert.That(_visionCalculator.IsEnabled);
         //    _visionCalculator.Enable();
-        //    Assert.IsTrue(_visionCalculator.IsEnabled);
+        //    Assert.That(_visionCalculator.IsEnabled);
         //}
 
         //--------------------------------
@@ -73,7 +73,7 @@ namespace Tests.Vision
             IEnumerable<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 14, 0);
 
             Assert.That(1, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 14)));
+            Assert.That(visiblePositions.Contains(new Position(7, 14)));
         }
 
         [Test]
@@ -83,11 +83,11 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 3, 1);
 
             Assert.That(5, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 3)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 2)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 4)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 3)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(8, 3)));
+            Assert.That(visiblePositions.Contains(new Position(7, 3)));
+            Assert.That(visiblePositions.Contains(new Position(7, 2)));
+            Assert.That(visiblePositions.Contains(new Position(7, 4)));
+            Assert.That(visiblePositions.Contains(new Position(6, 3)));
+            Assert.That(visiblePositions.Contains(new Position(8, 3)));
         }
 
         [Test]
@@ -98,11 +98,11 @@ namespace Tests.Vision
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
             Assert.That(5, distinctVisiblePositions.Count<Position>());
-            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(6, 4)));
-            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(6, 5)));
-            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(6, 3)));
-            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(5, 4)));
-            Assert.IsTrue(distinctVisiblePositions.Contains(new Position(7, 4)));
+            Assert.That(distinctVisiblePositions.Contains(new Position(6, 4)));
+            Assert.That(distinctVisiblePositions.Contains(new Position(6, 5)));
+            Assert.That(distinctVisiblePositions.Contains(new Position(6, 3)));
+            Assert.That(distinctVisiblePositions.Contains(new Position(5, 4)));
+            Assert.That(distinctVisiblePositions.Contains(new Position(7, 4)));
         }
 
         //[Test]
@@ -113,11 +113,11 @@ namespace Tests.Vision
         //    IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
         //    Assert.That(5, distinctVisiblePositions.Count<Position>());
-        //    Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 10)));
-        //    Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 11)));
-        //    Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 9)));
-        //    Assert.IsTrue(distinctVisiblePositions.Contains(new Position(3, 10)));
-        //    Assert.IsTrue(distinctVisiblePositions.Contains(new Position(1, 10)));
+        //    Assert.That(distinctVisiblePositions.Contains(new Position(2, 10)));
+        //    Assert.That(distinctVisiblePositions.Contains(new Position(2, 11)));
+        //    Assert.That(distinctVisiblePositions.Contains(new Position(2, 9)));
+        //    Assert.That(distinctVisiblePositions.Contains(new Position(3, 10)));
+        //    Assert.That(distinctVisiblePositions.Contains(new Position(1, 10)));
         //}
 
         // Testing each octant in the FOV with a VisualRange = 2
@@ -137,9 +137,9 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(6, 4, 2);
 
             Assert.That(12, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 4)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
-            Assert.IsFalse(visiblePositions.Contains(new Position(6, 6)));
+            Assert.That(visiblePositions.Contains(new Position(6, 4)));
+            Assert.That(visiblePositions.Contains(new Position(6, 5)));
+            Assert.That(visiblePositions.Contains(new Position(6, 6)));
         }
 
         // Obstacle to the NE
@@ -149,8 +149,8 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(5, 4, 2);
 
             Assert.That(13, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(5, 4)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
+            Assert.That(visiblePositions.Contains(new Position(5, 4)));
+            Assert.That(visiblePositions.Contains(new Position(6, 5)));
         }
 
         // Obstacle to the E
@@ -160,9 +160,9 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(5, 5, 2);
 
             Assert.That(12, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(5, 5)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
-            Assert.IsFalse(visiblePositions.Contains(new Position(7, 5)));
+            Assert.That(visiblePositions.Contains(new Position(5, 5)));
+            Assert.That(visiblePositions.Contains(new Position(6, 5)));
+            Assert.That(visiblePositions.Contains(new Position(7, 5)));
         }
 
         // Obstacle to the SE
@@ -172,8 +172,8 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(5, 6, 2);
 
             Assert.That(13, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(5, 6)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
+            Assert.That(visiblePositions.Contains(new Position(5, 6)));
+            Assert.That(visiblePositions.Contains(new Position(6, 5)));
         }
 
         // Obstacle to the S
@@ -183,9 +183,9 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(6, 6, 2);
 
             Assert.That(12, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 6)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
-            Assert.IsFalse(visiblePositions.Contains(new Position(6, 4)));
+            Assert.That(visiblePositions.Contains(new Position(6, 6)));
+            Assert.That(visiblePositions.Contains(new Position(6, 5)));
+            Assert.That(visiblePositions.Contains(new Position(6, 4)));
         }
 
         // Obstacle to the SW
@@ -195,8 +195,8 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 6, 2);
 
             Assert.That(13, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 6)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
+            Assert.That(visiblePositions.Contains(new Position(7, 6)));
+            Assert.That(visiblePositions.Contains(new Position(6, 5)));
         }
 
         // Obstacle to the W
@@ -206,9 +206,9 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 5, 2);
 
             Assert.That(12, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 5)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
-            Assert.IsFalse(visiblePositions.Contains(new Position(5, 5)));
+            Assert.That(visiblePositions.Contains(new Position(7, 5)));
+            Assert.That(visiblePositions.Contains(new Position(6, 5)));
+            Assert.That(visiblePositions.Contains(new Position(5, 5)));
         }
 
         // Obstacle to the NW
@@ -218,8 +218,8 @@ namespace Tests.Vision
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 4, 2);
 
             Assert.That(13, visiblePositions.Count<Position>());
-            Assert.IsTrue(visiblePositions.Contains(new Position(7, 4)));
-            Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
+            Assert.That(visiblePositions.Contains(new Position(7, 4)));
+            Assert.That(visiblePositions.Contains(new Position(6, 5)));
         }
 
         ////--------------------------------
@@ -256,7 +256,7 @@ namespace Tests.Vision
         //    // Only orthogonal nodes are in a visual range of 1 from the starting position
         //    foreach (Node node in startingNode.GetAdjacentNodes(false))
         //    {
-        //        Assert.IsTrue(_visionCalculator.IsInLineOfSight(startingPosition, node.Position, 1));
+        //        Assert.That(_visionCalculator.IsInLineOfSight(startingPosition, node.Position, 1));
         //    }
         //}
 
@@ -272,7 +272,7 @@ namespace Tests.Vision
         //    {
         //        if (!node.IsOrthogonalTo(new Node(_level, startingPosition.X, startingPosition.Y)))
         //        {
-        //            Assert.IsFalse(_visionCalculator.IsInLineOfSight(startingPosition, node.Position, 1));
+        //            Assert.That(_visionCalculator.IsInLineOfSight(startingPosition, node.Position, 1));
         //        }
         //    }
         //}
@@ -287,7 +287,7 @@ namespace Tests.Vision
         //    // All adjacent nodes including diagonal nodes are in a visual range of 2 from the starting position
         //    foreach (Node node in startingNode.GetAdjacentNodes(false))
         //    {
-        //        Assert.IsTrue(_visionCalculator.IsInLineOfSight(startingPosition, node.Position, 2));
+        //        Assert.That(_visionCalculator.IsInLineOfSight(startingPosition, node.Position, 2));
         //    }
         //}
 
@@ -298,7 +298,7 @@ namespace Tests.Vision
 
         //    Position endingPosition = new Position(3, 3);
 
-        //    Assert.IsTrue(_visionCalculator.IsInLineOfSight(startingPosition, endingPosition, 3));
+        //    Assert.That(_visionCalculator.IsInLineOfSight(startingPosition, endingPosition, 3));
         //}
 
         //[Test]
@@ -308,7 +308,7 @@ namespace Tests.Vision
 
         //    Position endingPosition = new Position(4, 4);
 
-        //    Assert.IsFalse(_visionCalculator.IsInLineOfSight(startingPosition, endingPosition, 3));
+        //    Assert.That(_visionCalculator.IsInLineOfSight(startingPosition, endingPosition, 3));
         //}
 
         //// Obstacles in between starting and ending position
@@ -319,7 +319,7 @@ namespace Tests.Vision
 
         //    Position endingPosition = new Position(3, 5);
 
-        //    Assert.IsFalse(_visionCalculator.IsInLineOfSight(startingPosition, endingPosition, 3));
+        //    Assert.That(_visionCalculator.IsInLineOfSight(startingPosition, endingPosition, 3));
         //}
     }
 }

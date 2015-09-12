@@ -36,7 +36,7 @@ namespace Tests.Pathfinding
             Pathfinder pathfinder = new Pathfinder(_level);
 
             Assert.That(_level, pathfinder.Level);
-            Assert.IsTrue(pathfinder.AllowDiagonalMovement);
+            Assert.That(pathfinder.AllowDiagonalMovement);
         }
 
         [Test]
@@ -389,13 +389,13 @@ namespace Tests.Pathfinding
     //                HashSet<Node> possibleMoveLocations = PathFinder.GetPossibleMoveLocations(new Node(2, 1), _mapData, 1);
 
     //                Assert.That(7, possibleMoveLocations.Count);
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 0)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(2, 0)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 0)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 1)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 1)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 2)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 2)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(1, 0)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(2, 0)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(3, 0)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(1, 1)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(3, 1)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(1, 2)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(3, 2)));
     //            }
 
     //            [Test]
@@ -416,30 +416,30 @@ namespace Tests.Pathfinding
 
     //                Assert.That(19, possibleMoveLocations.Count);
     //                AssertPossibleMoveLocationsFor1MovementPoint(possibleMoveLocations);
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 0)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 0)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 1)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 1)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 2)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 2)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 3)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(6, 3)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(7, 3)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(8, 3)));
-    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 3)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(5, 0)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(9, 0)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(5, 1)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(9, 1)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(5, 2)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(9, 2)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(5, 3)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(6, 3)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(7, 3)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(8, 3)));
+    //                Assert.That(possibleMoveLocations.Contains(new Node(9, 3)));
     //            }
 
     //            private void AssertPossibleMoveLocationsFor1MovementPoint(HashSet<Node> moveLocations)
     //            {
-    //                Assert.IsTrue(moveLocations.Contains(new Node(6, 0)));
-    //                Assert.IsTrue(moveLocations.Contains(new Node(7, 0)));
-    //                Assert.IsTrue(moveLocations.Contains(new Node(8, 0)));
-    //                Assert.IsTrue(moveLocations.Contains(new Node(6, 1)));
-    //                Assert.IsFalse(moveLocations.Contains(new Node(7, 1)));
-    //                Assert.IsTrue(moveLocations.Contains(new Node(8, 1)));
-    //                Assert.IsTrue(moveLocations.Contains(new Node(6, 2)));
-    //                Assert.IsTrue(moveLocations.Contains(new Node(7, 2)));
-    //                Assert.IsTrue(moveLocations.Contains(new Node(8, 2)));
+    //                Assert.That(moveLocations.Contains(new Node(6, 0)));
+    //                Assert.That(moveLocations.Contains(new Node(7, 0)));
+    //                Assert.That(moveLocations.Contains(new Node(8, 0)));
+    //                Assert.That(moveLocations.Contains(new Node(6, 1)));
+    //                Assert.That(moveLocations.Contains(new Node(7, 1)));
+    //                Assert.That(moveLocations.Contains(new Node(8, 1)));
+    //                Assert.That(moveLocations.Contains(new Node(6, 2)));
+    //                Assert.That(moveLocations.Contains(new Node(7, 2)));
+    //                Assert.That(moveLocations.Contains(new Node(8, 2)));
     //            }
     //        }
     //}

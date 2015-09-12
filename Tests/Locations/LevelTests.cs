@@ -29,11 +29,11 @@ namespace Tests.Locations
             ILevel level = new Level();
 
             // TODO: Uncomment these out as we implement these systems
-            Assert.IsNotNull(level.Map);
-            Assert.IsNotNull(level.SpecialLayers);
-            Assert.IsNull(level.Pathfinder);
-            Assert.IsNull(level.CharacterManager);
-            Assert.IsNull(level.ModelManager);
+            Assert.That(level.Map, Is.Not.Null);
+            Assert.That(level.SpecialLayers, Is.Not.Null);
+            Assert.That(level.Pathfinder, Is.Null);
+            Assert.That(level.CharacterManager, Is.Null);
+            Assert.That(level.ModelManager, Is.Null);
             //Assert.IsNull(level.World);
             //Assert.IsNull(level.VisionCalculator);
             //Assert.IsNull(level.Viewport);
@@ -48,20 +48,20 @@ namespace Tests.Locations
             ILevel level = new Level(levelSetupParameters);
 
             // TODO: This should really test that Map's constructor was called correctly and assigned to the Level's Map property.
-            Assert.IsNotNull(level.Map);
-            Assert.That(4, level.Map.Layers.Count);
+            Assert.That(level.Map, Is.Not.Null);
+            Assert.That(level.Map.Layers.Count, Is.EqualTo(4));
         }
 
         [Test]
         public void IsCollidable_ReturnsTrueIfThereIsAnyTileInTheCollisionSpecialLayerForTheLevel()
         {
             // The example level has a "wall" around the entire 15x15 level
-            Assert.IsTrue(_level.IsCollidable(new Position(0, 0)));
-            Assert.IsTrue(_level.IsCollidable(new Position(0, 1)));
-            Assert.IsTrue(_level.IsCollidable(new Position(1, 0)));
-            Assert.IsTrue(_level.IsCollidable(new Position(2, 0)));
+            Assert.That(_level.IsCollidable(new Position(0, 0)), Is.True);
+            Assert.That(_level.IsCollidable(new Position(0, 1)), Is.True);
+            Assert.That(_level.IsCollidable(new Position(1, 0)), Is.True);
+            Assert.That(_level.IsCollidable(new Position(2, 0)), Is.True);
 
-            Assert.IsFalse(_level.IsCollidable(new Position(9, 1)));
+            Assert.That(_level.IsCollidable(new Position(9, 1)), Is.False);
         }
 
         [Test]
@@ -70,10 +70,10 @@ namespace Tests.Locations
             // The example level has a "wall" around the entire 15x15 level
             _level.SpecialLayers.Remove(SpecialLayer.Collision);
 
-            Assert.IsFalse(_level.IsCollidable(new Position(0, 0)));
-            Assert.IsFalse(_level.IsCollidable(new Position(0, 1)));
-            Assert.IsFalse(_level.IsCollidable(new Position(1, 0)));
-            Assert.IsFalse(_level.IsCollidable(new Position(2, 0)));
+            Assert.That(_level.IsCollidable(new Position(0, 0)), Is.False);
+            Assert.That(_level.IsCollidable(new Position(0, 1)), Is.False);
+            Assert.That(_level.IsCollidable(new Position(1, 0)), Is.False);
+            Assert.That(_level.IsCollidable(new Position(2, 0)), Is.False);
         }
 
         // Special layer tests
@@ -94,7 +94,7 @@ namespace Tests.Locations
         {
             foreach (SpecialLayer specialLayer in Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>())
             {
-                Assert.That("Is" + specialLayer.ToString() + "Layer", Level.SpecialLayerPropertyKey(specialLayer));
+                Assert.That(Level.SpecialLayerPropertyKey(specialLayer), Is.EqualTo("Is" + specialLayer.ToString() + "Layer"));
             }
         }
 
@@ -105,20 +105,20 @@ namespace Tests.Locations
             _level.SpecialLayers.Clear();
             _level.InitializeSpecialLayers();
             
-            Assert.That(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
-            Assert.That(_level.Map.Layers[1], _level.SpecialLayers[SpecialLayer.Collision]);
-            Assert.That(_level.Map.Layers[2], _level.SpecialLayers[SpecialLayer.Object]);
-            Assert.That(_level.Map.Layers[3], _level.SpecialLayers[SpecialLayer.Character]);
+            Assert.That(_level.SpecialLayers[SpecialLayer.Background], Is.SameAs(_level.Map.Layers[0]));
+            Assert.That(_level.SpecialLayers[SpecialLayer.Collision], Is.SameAs(_level.Map.Layers[1]));
+            Assert.That(_level.SpecialLayers[SpecialLayer.Object], Is.SameAs(_level.Map.Layers[2]));
+            Assert.That(_level.SpecialLayers[SpecialLayer.Character], Is.SameAs(_level.Map.Layers[3]));
         }
 
         [Test]
         public void Level_SpecialLayerEnum_Defines4DifferentSpecialLayers()
         {
-            Assert.That(4, Enum.GetValues(typeof(SpecialLayer)).Length);
-            Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Background"));
-            Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Collision"));
-            Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Object"));
-            Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Character"));
+            Assert.That(Enum.GetValues(typeof(SpecialLayer)).Length, Is.EqualTo(4));
+            Assert.That(Enum.IsDefined(typeof(SpecialLayer), "Background"), Is.True);
+            Assert.That(Enum.IsDefined(typeof(SpecialLayer), "Collision"), Is.True);
+            Assert.That(Enum.IsDefined(typeof(SpecialLayer), "Object"), Is.True);
+            Assert.That(Enum.IsDefined(typeof(SpecialLayer), "Character"), Is.True);
         }
 
         [Test]
@@ -131,17 +131,16 @@ namespace Tests.Locations
             foreach (SpecialLayer specialLayer in Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>())
             {
                 _level.SpecialLayers[specialLayer] = _level.Map.Layers[0];
-                Assert.That("true", _level.Map.Layers[0].Properties["Is" + specialLayer.ToString() + "Layer"]);
+                Assert.That(_level.Map.Layers[0].Properties["Is" + specialLayer.ToString() + "Layer"], Is.EqualTo("true"));
             }
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void SpecialLayers_SettingASpecialLayerWhenTheSpecificSpecialLayerAlreadyExists_ThrowsException()
         {
             // Usually special layers requires quite a bit of processing by the framework. For example, processing the character layer sets up teams, NPCs, PCs etc. Once the processing is done for a special layer, there is no easy way currently to undo and redo processing for a new layer. We therefore throw an exception to prevent a special layer being reassigned to another layer.
             _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[0];
-            _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[1];
+            Assert.That(() => _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[1], Throws.ArgumentException);
         }
 
         [Test]
@@ -151,7 +150,7 @@ namespace Tests.Locations
             _level.SpecialLayers.Clear();
             _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[0];
 
-            Assert.That(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
+            Assert.That(_level.SpecialLayers[SpecialLayer.Background], Is.SameAs(_level.Map.Layers[0]));
         }
 
         [Test]
@@ -161,7 +160,7 @@ namespace Tests.Locations
             _level.SpecialLayers.Clear();
             _level.SpecialLayers[SpecialLayer.Character] = _level.Map.Layers[0];
 
-            Assert.IsNull(_level.SpecialLayers[SpecialLayer.Background]);
+            Assert.That(_level.SpecialLayers[SpecialLayer.Background], Is.Null);
         }
 
         // Map Manipulation Tests
@@ -174,11 +173,10 @@ namespace Tests.Locations
 
             _level.SetLayer("Layer 1", 48, 64, SpecialLayer.Character);
 
-            Assert.That(1, _level.Map.Layers.Count);
-            Assert.IsNotNull(_level.SpecialLayers[SpecialLayer.Character]);
+            Assert.That(_level.Map.Layers.Count, Is.EqualTo(1));
+            Assert.That(_level.SpecialLayers[SpecialLayer.Character], Is.Not.Null);
         }
 
-        // Map Manipulation Tests
         [Test]
         public void SetLayer_ForANewlyConstructedLevel_StillWorksCorrectly()
         {
@@ -186,8 +184,8 @@ namespace Tests.Locations
 
             level.SetLayer("Layer 1", 48, 64, SpecialLayer.Character);
 
-            Assert.That(1, level.Map.Layers.Count);
-            Assert.IsNotNull(level.SpecialLayers[SpecialLayer.Character]);
+            Assert.That(level.Map.Layers.Count, Is.EqualTo(1));
+            Assert.That(level.SpecialLayers[SpecialLayer.Character], Is.Not.Null);
         }
 
         // -------
@@ -200,12 +198,12 @@ namespace Tests.Locations
         {
             _level.SetUpViewport();
 
-            Assert.IsNotNull(_level.Viewport);
-            Assert.That(_level, _level.Viewport.Level);
-            Assert.That(0, _level.Viewport.MapOrigin.X);
-            Assert.That(0, _level.Viewport.MapOrigin.Y);
-            Assert.That(_level.Map.Width, _level.Viewport.Width);
-            Assert.That(_level.Map.Height, _level.Viewport.Height);
+            Assert.That(_level.Viewport, Is.Not.Null);
+            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
+            Assert.That(_level.Viewport.MapOrigin.X, Is.EqualTo(0));
+            Assert.That(_level.Viewport.MapOrigin.Y, Is.EqualTo(0));
+            Assert.That(_level.Viewport.Width, Is.EqualTo(_level.Map.Width));
+            Assert.That(_level.Viewport.Height, Is.EqualTo(_level.Map.Height));
         }
 
         [Test]
@@ -214,24 +212,23 @@ namespace Tests.Locations
             _level.SetUpViewport(5, 6);
 
             Assert.IsNotNull(_level.Viewport);
-            Assert.That(_level, _level.Viewport.Level);
-            Assert.That(0, _level.Viewport.MapOrigin.X);
-            Assert.That(0, _level.Viewport.MapOrigin.Y);
-            Assert.That(5, _level.Viewport.Width);
-            Assert.That(6, _level.Viewport.Height);
+            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
+            Assert.That(_level.Viewport.MapOrigin.X, Is.EqualTo(0));
+            Assert.That(_level.Viewport.MapOrigin.Y, Is.EqualTo(0));
+            Assert.That(_level.Viewport.Width, Is.EqualTo(5));
+            Assert.That(_level.Viewport.Height, Is.EqualTo(6));
         }
 
         [Test]
         public void SetUpViewport_GivenAMapOriginWidthAndHeight_CreatesAViewportForTheLevel()
         {
-            _level.SetUpViewport(8, 8, 5, 5);
+            _level.SetUpViewport(new Position(8, 8), 5, 5);
 
             Assert.IsNotNull(_level.Viewport);
-            Assert.That(_level, _level.Viewport.Level);
-            Assert.That(8, _level.Viewport.MapOrigin.X);
-            Assert.That(8, _level.Viewport.MapOrigin.Y);
-            Assert.That(5, _level.Viewport.Width);
-            Assert.That(5, _level.Viewport.Height);
+            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
+            Assert.That(_level.Viewport.MapOrigin, Is.EqualTo(new Position(8, 8)));
+            Assert.That(_level.Viewport.Width, Is.EqualTo(5));
+            Assert.That(_level.Viewport.Height, Is.EqualTo(5));
         }
 
         // VisionCalculator
@@ -240,8 +237,8 @@ namespace Tests.Locations
         {
             _level.SetUpVisionCalculator();
 
-            Assert.IsNotNull(_level.VisionCalculator);
-            Assert.That(_level, _level.VisionCalculator.Level);
+            Assert.That(_level.VisionCalculator, Is.Not.Null);
+            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
         }
 
         // CharacterManager
@@ -250,8 +247,8 @@ namespace Tests.Locations
         {
             _level.SetUpCharacterManager();
 
-            Assert.IsNotNull(_level.CharacterManager);
-            Assert.That(_level, _level.CharacterManager.Level);
+            Assert.That(_level.CharacterManager, Is.Not.Null);
+            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
         }
 
         // ModelManager
@@ -260,10 +257,9 @@ namespace Tests.Locations
         {
             _level.SetUpModelManager();
 
-            Assert.IsNotNull(_level.ModelManager);
-            Assert.That(_level, _level.ModelManager.Level);
+            Assert.That(_level.ModelManager, Is.Not.Null);
+            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
         }
-
     }
 }
 

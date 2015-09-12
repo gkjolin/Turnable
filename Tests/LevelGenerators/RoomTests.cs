@@ -19,7 +19,7 @@ namespace Tests.LevelGenerators
             Rectangle roomBounds = new Rectangle(new Position(1, 1), new Position(2, 2));
             Room room = new Room(chunk, roomBounds);
 
-            Assert.IsInstanceOfType(room, typeof(IBounded));
+            Assert.That(room, Is.InstanceOf<IBounded>());
         }
 
         [Test]
@@ -30,10 +30,10 @@ namespace Tests.LevelGenerators
             Rectangle roomBounds = new Rectangle(new Position(1, 1), new Position(2, 2));
             Room room = new Room(chunk, roomBounds);
 
-            Assert.That(chunk, room.ParentChunk);
-            Assert.That(roomBounds, room.Bounds);
-            Assert.That(room, chunk.Room);
-            Assert.IsNotNull(room.Corridors);
+            Assert.That(room.ParentChunk, Is.SameAs(chunk));
+            Assert.That(room.Bounds, Is.SameAs(roomBounds));
+            Assert.That(chunk.Room, Is.SameAs(room));
+            Assert.That(room.Corridors, Is.Not.Null);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Tests.LevelGenerators
             Chunk parentChunk = new Chunk(new Rectangle(new Position(0, 0), new Position(100, 100)));
             Room room = new Room(parentChunk, new Rectangle(new Position(0, 0), new Position(10, 10)));
 
-            Assert.That("BottomLeft: (0, 0); TopRight: (10, 10)", room.ToString());
+            Assert.That(room.ToString(), Is.EqualTo("BottomLeft: (0, 0); TopRight: (10, 10)"));
         }
 
         // TODO: Test that if any corners are out of the chunk, the construction is invalid (use the bounds checking feature of parent chunk)

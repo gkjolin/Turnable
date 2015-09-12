@@ -69,7 +69,7 @@ namespace Tests.Skills
         //    TargetMap targetMap = skill.CalculateTargetMap(_level, new Position(6, 14));
 
         //    Assert.That(1, targetMap.Count);
-        //    Assert.IsTrue(targetMap.ContainsKey(new <int, int>(7, 1)));
+        //    Assert.That(targetMap.ContainsKey(new <int, int>(7, 1)));
         //    HashSet<Position> originMap = targetMap[new <int, int>(7, 1)];
         //    Assert.That(originMap.Count, skill.OriginMapCalculator.Calculate(_level, new Position(6, 14), new Position(7, 1), skill.Range).Count);
         //}
@@ -98,7 +98,7 @@ namespace Tests.Skills
         //    _skill.Applied += SetEventTriggeredFlag;
         //    _skill.Apply(_skillUser, _target);
 
-        //    Assert.IsTrue(_eventTriggeredFlag);
+        //    Assert.That(_eventTriggeredFlag);
         //    Assert.That(_skillUser, _eventArgs.Entity);
         //    Assert.That(_skill, _eventArgs.Skill);
         //    Assert.That(_target, _eventArgs.Target);

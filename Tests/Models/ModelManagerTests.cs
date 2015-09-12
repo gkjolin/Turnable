@@ -24,14 +24,14 @@ namespace Tests.Models
         {
             IModelManager modelManager = new ModelManager(_level);
 
-            Assert.That(_level, modelManager.Level);
-            Assert.IsNotNull(modelManager.Models);
-            Assert.IsInstanceOfType(modelManager.Models, typeof(IDictionary<string, SpecialTile>));
-            Assert.That(3, modelManager.Models.Count);
+            Assert.That(modelManager.Level, Is.SameAs(_level));
+            Assert.That(modelManager.Models, Is.Not.Null);
+            Assert.That(modelManager.Models, Is.InstanceOf<IDictionary<string, SpecialTile>>()));
+            Assert.That(modelManager.Models.Count, Is.EqualTo(3));
             // Is the right SpecialTile associated with the model name?
             SpecialTile specialTile = modelManager.Models["Knight M"];
-            Assert.That((uint)0, specialTile.Id);
-            Assert.That("Knight M", specialTile.Properties["Model"]);
+            Assert.That(specialTile.Id, Is.EqualTo((uint)0));
+            Assert.That(specialTile.Properties["Model"], Is.EqualTo("Knight M"));
         }
     }
 }
