@@ -16,8 +16,8 @@ namespace Tests.LevelGenerators
         {
             Corridor corridor = new Corridor();
 
-            Assert.IsNotNull(corridor.LineSegments);
-            Assert.IsNotNull(corridor.ConnectedRooms);
+            Assert.That(corridor.LineSegments, Is.Not.Null);
+            Assert.That(corridor.ConnectedRooms, Is.Not.Null);
         }
 
         [Test]
@@ -31,9 +31,9 @@ namespace Tests.LevelGenerators
 
             Corridor corridor = new Corridor(firstRoom, secondRoom, segments);
 
-            Assert.AreEqual(corridor.LineSegments, segments);
-            Assert.AreEqual(corridor.ConnectedRooms[0], firstRoom);
-            Assert.AreEqual(corridor.ConnectedRooms[1], secondRoom);
+            Assert.That(corridor.LineSegments, Is.SameAs(segments));
+            Assert.That(corridor.ConnectedRooms[0], Is.SameAs(firstRoom));
+            Assert.That(corridor.ConnectedRooms[1], Is.SameAs(secondRoom));
         }
     }
 }

@@ -23,8 +23,8 @@ namespace Tests.Tiled
 
             _elementList.Add(layer);
 
-            Assert.AreEqual(layer, _elementList[0]);
-            Assert.AreEqual(layer, _elementList[layer.Name]);
+            Assert.That(layer, _elementList[0]);
+            Assert.That(layer, _elementList[layer.Name]);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Tests.Tiled
 
             for (int i = 0; i < 3; i++)
             {
-                Assert.AreEqual(layers[i], _elementList[i]);
+                Assert.That(layers[i], _elementList[i]);
             }
         }
 

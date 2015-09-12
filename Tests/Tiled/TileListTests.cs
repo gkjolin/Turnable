@@ -16,7 +16,7 @@ namespace Tests.Tiled
         {
             TileList tileList = new TileList();
 
-            Assert.AreEqual(0, tileList.Count);
+            Assert.That(0, tileList.Count);
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Tests.Tiled
         {
             TileList tileList = new TileList(15, 15, null);
 
-            Assert.AreEqual(0, tileList.Count);
+            Assert.That(0, tileList.Count);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace Tests.Tiled
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
 
-            Assert.AreEqual(0, tileList.Count);
+            Assert.That(0, tileList.Count);
         }
         
         [Test]
@@ -40,16 +40,16 @@ namespace Tests.Tiled
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
 
-            Assert.AreEqual(8, tileList.Count);
+            Assert.That(8, tileList.Count);
 
             // Test to see if one tile is loaded up correctly. 
             // The Tiled(.tmx) format uses an origin that starts at the top left with Y increasing going down
             // However most libraries use an origin that starts at the bottom left with Y increasing going up
             // So we need to test that Y is "flipped" using (height - row - 1)
             Tile tile = tileList[new Position(6, 1)];
-            Assert.AreEqual((uint)2107, tile.GlobalId);
-            Assert.AreEqual(6, tile.X);
-            Assert.AreEqual(1, tile.Y);
+            Assert.That((uint)2107, tile.GlobalId);
+            Assert.That(6, tile.X);
+            Assert.That(1, tile.Y);
         }
 
         [Test]
@@ -60,9 +60,9 @@ namespace Tests.Tiled
             // Test to see if one tile is loaded up correctly. 
             Tile tile = tileList[new Position(6, 1)];
 
-            Assert.AreEqual((uint)2107, tile.GlobalId);
-            Assert.AreEqual(6, tile.X);
-            Assert.AreEqual(1, tile.Y);
+            Assert.That((uint)2107, tile.GlobalId);
+            Assert.That(6, tile.X);
+            Assert.That(1, tile.Y);
         }
 
         [Test]
@@ -85,9 +85,9 @@ namespace Tests.Tiled
             tileList[new Position(6, 1)] = tile;
 
             tile = tileList[new Position(6, 1)];
-            Assert.AreEqual((uint)2107, tile.GlobalId);
-            Assert.AreEqual(6, tile.X);
-            Assert.AreEqual(1, tile.Y);
+            Assert.That((uint)2107, tile.GlobalId);
+            Assert.That(6, tile.X);
+            Assert.That(1, tile.Y);
         }
 
         [Test]
@@ -101,9 +101,9 @@ namespace Tests.Tiled
             tileList[new Position(6, 1)] = tile;
 
             tile = tileList[new Position(6, 1)];
-            Assert.AreEqual((uint)2106, tile.GlobalId);
-            Assert.AreEqual(6, tile.X);
-            Assert.AreEqual(1, tile.Y);
+            Assert.That((uint)2106, tile.GlobalId);
+            Assert.That(6, tile.X);
+            Assert.That(1, tile.Y);
         }
 
         [Test]

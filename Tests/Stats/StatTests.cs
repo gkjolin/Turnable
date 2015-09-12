@@ -25,7 +25,7 @@ namespace Tests.Stats
         {
             _stat.Value -= 5;
 
-            Assert.AreEqual(85, _stat.Value);
+            Assert.That(85, _stat.Value);
         }
 
         [Test]
@@ -33,21 +33,21 @@ namespace Tests.Stats
         {
             _stat.Value -= 90;
 
-            Assert.AreEqual(0, _stat.Value);
+            Assert.That(0, _stat.Value);
         }
 
         [Test]
         public void Value_IsClampedToAMinimumValueOf0ByDefault()
         {
             _stat.Value -= 100;
-            Assert.AreEqual(0, _stat.Value);
+            Assert.That(0, _stat.Value);
         }
 
         [Test]
         public void Value_IsClampedToAMaximumValueOf100ByDefault()
         {
             _stat.Value += 100;
-            Assert.AreEqual(100, _stat.Value);
+            Assert.That(100, _stat.Value);
         }
 
         [Test]
@@ -56,10 +56,10 @@ namespace Tests.Stats
             Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
             
             stat.Value += 100;
-            Assert.AreEqual(95, stat.Value);
+            Assert.That(95, stat.Value);
 
             stat.Value -= 100;
-            Assert.AreEqual(5, stat.Value);
+            Assert.That(5, stat.Value);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Tests.Stats
 
             _stat.Reset();
 
-            Assert.AreEqual(90, _stat.Value);
+            Assert.That(90, _stat.Value);
         }
 
         [Test]
@@ -81,9 +81,9 @@ namespace Tests.Stats
             _stat.Value -= 10;
 
             Assert.IsTrue(_eventTriggeredFlag);
-            Assert.AreEqual(_stat, _statChangedEventArgs.Stat);
-            Assert.AreEqual(90, _statChangedEventArgs.OldValue);
-            Assert.AreEqual(80, _statChangedEventArgs.NewValue);
+            Assert.That(_stat, _statChangedEventArgs.Stat);
+            Assert.That(90, _statChangedEventArgs.OldValue);
+            Assert.That(80, _statChangedEventArgs.NewValue);
         }
 
         [Test]
@@ -104,9 +104,9 @@ namespace Tests.Stats
             _stat.Value += 20;
 
             Assert.IsTrue(_eventTriggeredFlag);
-            Assert.AreEqual(_stat, _statChangedEventArgs.Stat);
-            Assert.AreEqual(90, _statChangedEventArgs.OldValue);
-            Assert.AreEqual(100, _statChangedEventArgs.NewValue);
+            Assert.That(_stat, _statChangedEventArgs.Stat);
+            Assert.That(90, _statChangedEventArgs.OldValue);
+            Assert.That(100, _statChangedEventArgs.NewValue);
         }
 
         [Test]
@@ -128,9 +128,9 @@ namespace Tests.Stats
 
             Assert.IsTrue(_eventTriggeredFlag);
 
-            Assert.AreEqual(_stat, _statChangedEventArgs.Stat);
-            Assert.AreEqual(90, _statChangedEventArgs.OldValue);
-            Assert.AreEqual(0, _statChangedEventArgs.NewValue);
+            Assert.That(_stat, _statChangedEventArgs.Stat);
+            Assert.That(90, _statChangedEventArgs.OldValue);
+            Assert.That(0, _statChangedEventArgs.NewValue);
         }
 
         [Test]

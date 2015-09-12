@@ -26,7 +26,7 @@ namespace Tests.Tiled
 
             using (BinaryReader reader = new BinaryReader(data.Contents))
             {
-                Assert.AreEqual((UInt32)0, reader.ReadUInt32());
+                Assert.That((UInt32)0, reader.ReadUInt32());
             }
         }
 
@@ -39,7 +39,7 @@ namespace Tests.Tiled
 
             using (BinaryReader reader = new BinaryReader(data.Contents))
             {
-                Assert.AreEqual((UInt32)0, reader.ReadUInt32());
+                Assert.That((UInt32)0, reader.ReadUInt32());
             }
         }
     }

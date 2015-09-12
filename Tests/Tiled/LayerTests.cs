@@ -17,11 +17,11 @@ namespace Tests.Tiled
         {
             Layer layer = new Layer("Layer 1", 48, 64);
 
-            Assert.AreEqual("Layer 1", layer.Name);
-            Assert.AreEqual(48, layer.Width);
-            Assert.AreEqual(64, layer.Height);
-            Assert.AreEqual(1.0, layer.Opacity);
-            Assert.AreEqual(true, layer.IsVisible);
+            Assert.That("Layer 1", layer.Name);
+            Assert.That(48, layer.Width);
+            Assert.That(64, layer.Height);
+            Assert.That(1.0, layer.Opacity);
+            Assert.That(true, layer.IsVisible);
             Assert.IsNotNull(layer.Properties);
         }
 
@@ -39,19 +39,19 @@ namespace Tests.Tiled
         {
             Layer layer = new Layer(TiledFactory.BuildLayerXElement());
 
-            Assert.AreEqual("Background", layer.Name);
-            Assert.AreEqual(15, layer.Width);
-            Assert.AreEqual(15, layer.Height);
-            Assert.AreEqual(1.0, layer.Opacity);
-            Assert.AreEqual(true, layer.IsVisible);
+            Assert.That("Background", layer.Name);
+            Assert.That(15, layer.Width);
+            Assert.That(15, layer.Height);
+            Assert.That(1.0, layer.Opacity);
+            Assert.That(true, layer.IsVisible);
 
             // Are the tiles in the layer created? 
             // In the case of the fixture that we use (FullExample.tmx), the background is fully filled in, so this simple assert is enough.
             // Tiles is a sparse dictionary, so the below Assert will not always be true. However in this case, the background layer has a tile for each position.
-            Assert.AreEqual(layer.Width * layer.Height, layer.Tiles.Count);
+            Assert.That(layer.Width * layer.Height, layer.Tiles.Count);
 
             // Are the Properties for this Layer loaded?
-            Assert.AreEqual(1, layer.Properties.Count);
+            Assert.That(1, layer.Properties.Count);
         }
 
         // ************************
@@ -90,9 +90,9 @@ namespace Tests.Tiled
 
             Tile tile = layer.GetTile(new Position(7, 2));
 
-            Assert.AreEqual((uint)2107, tile.GlobalId);
-            Assert.AreEqual(7, tile.X);
-            Assert.AreEqual(2, tile.Y);
+            Assert.That((uint)2107, tile.GlobalId);
+            Assert.That(7, tile.X);
+            Assert.That(2, tile.Y);
         }
 
         [Test]
@@ -109,13 +109,13 @@ namespace Tests.Tiled
             Assert.IsTrue(layer.IsTileAt(new Position(6, 2)));
 
             // Make sure that the tileCount does not change
-            Assert.AreEqual(tileCount, layer.Tiles.Count);
+            Assert.That(tileCount, layer.Tiles.Count);
 
             // Make sure that the tile data is changed as well
             Tile tile = layer.Tiles[new Position(6, 2)];
-            Assert.AreEqual(6, tile.X);
-            Assert.AreEqual(2, tile.Y);
-            Assert.AreEqual(tileGlobalId, tile.GlobalId);
+            Assert.That(6, tile.X);
+            Assert.That(2, tile.Y);
+            Assert.That(tileGlobalId, tile.GlobalId);
         }
 
         [Test]
@@ -151,17 +151,17 @@ namespace Tests.Tiled
             Assert.IsTrue(layer.IsTileAt(new Position(5, 13)));
 
             // Make sure that the tileCount does not change
-            Assert.AreEqual(tileCount, layer.Tiles.Count);
+            Assert.That(tileCount, layer.Tiles.Count);
 
             // Make sure that the tile data is changed as well
             Tile tile = layer.Tiles[new Position(5, 13)];
-            Assert.AreEqual(5, tile.X);
-            Assert.AreEqual(13, tile.Y);
-            Assert.AreEqual(tile1GlobalId, tile.GlobalId);
+            Assert.That(5, tile.X);
+            Assert.That(13, tile.Y);
+            Assert.That(tile1GlobalId, tile.GlobalId);
             tile = layer.Tiles[new Position(6, 1)];
-            Assert.AreEqual(6, tile.X);
-            Assert.AreEqual(1, tile.Y);
-            Assert.AreEqual(tile2GlobalId, tile.GlobalId);
+            Assert.That(6, tile.X);
+            Assert.That(1, tile.Y);
+            Assert.That(tile2GlobalId, tile.GlobalId);
         }
 
         [Test]
@@ -190,9 +190,9 @@ namespace Tests.Tiled
             layer.SetTile(new Position(7, 2), 200);
 
             Tile tile = layer.Tiles[new Position(7, 2)];
-            Assert.AreEqual((uint)200, tile.GlobalId);
-            Assert.AreEqual(7, tile.X);
-            Assert.AreEqual(2, tile.Y);
+            Assert.That((uint)200, tile.GlobalId);
+            Assert.That(7, tile.X);
+            Assert.That(2, tile.Y);
         }
 
         [Test]
@@ -204,9 +204,9 @@ namespace Tests.Tiled
             layer.SetTile(new Position(7, 2), 2106);
 
             Tile tile = layer.Tiles[new Position(7, 2)];
-            Assert.AreEqual((uint)2106, tile.GlobalId);
-            Assert.AreEqual(7, tile.X);
-            Assert.AreEqual(2, tile.Y);
+            Assert.That((uint)2106, tile.GlobalId);
+            Assert.That(7, tile.X);
+            Assert.That(2, tile.Y);
         }
 
         // TODO: Setting a tile outside the bounds of the Layer is illegal, write unit test for this
@@ -221,7 +221,7 @@ namespace Tests.Tiled
             layer.RemoveTile(new Position(7, 2));
 
             Assert.IsFalse(layer.IsTileAt(new Position(7, 2)));
-            Assert.AreEqual(tileCount - 1, layer.Tiles.Count);
+            Assert.That(tileCount - 1, layer.Tiles.Count);
         }
 
         [Test]
@@ -245,9 +245,9 @@ namespace Tests.Tiled
                 for (int row = 0; row < layer.Height; row++)
                 {
                     Tile tile = layer.Tiles[new Position(col, row)];
-                    Assert.AreEqual((uint)1, tile.GlobalId);
-                    Assert.AreEqual(col, tile.X);
-                    Assert.AreEqual(row, tile.Y);
+                    Assert.That((uint)1, tile.GlobalId);
+                    Assert.That(col, tile.X);
+                    Assert.That(row, tile.Y);
                 }
             }
         }
@@ -264,9 +264,9 @@ namespace Tests.Tiled
                 for (int row = 1; row <= 2; row++)
                 {
                     Tile tile = layer.Tiles[new Position(col, row)];
-                    Assert.AreEqual((uint)1, tile.GlobalId);
-                    Assert.AreEqual(col, tile.X);
-                    Assert.AreEqual(row, tile.Y);
+                    Assert.That((uint)1, tile.GlobalId);
+                    Assert.That(col, tile.X);
+                    Assert.That(row, tile.Y);
                 }
             }
         }

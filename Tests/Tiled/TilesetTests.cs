@@ -14,16 +14,16 @@ namespace Tests.Tiled
         {
             Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElement());
 
-            Assert.AreEqual((uint)1, tileset.FirstGlobalId);
-            Assert.AreEqual("World", tileset.Name);
-            Assert.AreEqual(24, tileset.TileWidth);
-            Assert.AreEqual(24, tileset.TileHeight);
-            Assert.AreEqual(0, tileset.Spacing);
-            Assert.AreEqual(0, tileset.Margin);
+            Assert.That((uint)1, tileset.FirstGlobalId);
+            Assert.That("World", tileset.Name);
+            Assert.That(24, tileset.TileWidth);
+            Assert.That(24, tileset.TileHeight);
+            Assert.That(0, tileset.Spacing);
+            Assert.That(0, tileset.Margin);
 
             // Have all the special tiles been loaded?
-            Assert.AreEqual(1, tileset.SpecialTiles.Count);
-            Assert.AreEqual(1, tileset.SpecialTiles[332].Properties.Count);
+            Assert.That(1, tileset.SpecialTiles.Count);
+            Assert.That(1, tileset.SpecialTiles[332].Properties.Count);
         }
 
         [Test]
@@ -33,10 +33,10 @@ namespace Tests.Tiled
 
             List<SpecialTile> specialTiles = tileset.FindSpecialTiles("IsPC", "true");
 
-            Assert.AreEqual(3, specialTiles.Count);
+            Assert.That(3, specialTiles.Count);
             foreach (SpecialTile specialTile in specialTiles)
             {
-                Assert.AreEqual("true", specialTile.Properties["IsPC"]);
+                Assert.That("true", specialTile.Properties["IsPC"]);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Tests.Tiled
 
             List<SpecialTile> specialTiles = tileset.FindSpecialTiles("UnknownPropertyName", "true");
 
-            Assert.AreEqual(0, specialTiles.Count);
+            Assert.That(0, specialTiles.Count);
         }
     }
 }
@@ -62,12 +62,12 @@ namespace Tests.Tiled
 //        {
 //            Tileset tileset = new Tileset(TmxFactory.BuildExternalTilesetXElement(), "../../Fixtures/FullExample.tmx");
 
-//            Assert.AreEqual((uint)2107, tileset.FirstGid);
-//            Assert.AreEqual("Characters", tileset.Name);
-//            Assert.AreEqual(24, tileset.TileWidth);
-//            Assert.AreEqual(24, tileset.TileHeight);
-//            Assert.AreEqual(0, tileset.Spacing);
-//            Assert.AreEqual(0, tileset.Margin);
+//            Assert.That((uint)2107, tileset.FirstGid);
+//            Assert.That("Characters", tileset.Name);
+//            Assert.That(24, tileset.TileWidth);
+//            Assert.That(24, tileset.TileHeight);
+//            Assert.That(0, tileset.Spacing);
+//            Assert.That(0, tileset.Margin);
 //            Assert.IsNotNull(tileset.ReferenceTiles);
 //        }
 
@@ -86,7 +86,7 @@ namespace Tests.Tiled
 //            ReferenceTile referenceTile = tileset.FindReferenceTileByProperty("Model", "Knight M");
 
 //            Assert.IsNotNull(referenceTile);
-//            Assert.AreEqual("Knight M", referenceTile.Properties["Model"]);
+//            Assert.That("Knight M", referenceTile.Properties["Model"]);
 //        }
 
 //        [Test]
@@ -108,7 +108,7 @@ namespace Tests.Tiled
 //            ReferenceTile referenceTile = tileset.FindReferenceTileByTile(tile);
 
 //            Assert.IsNotNull(referenceTile);
-//            Assert.AreEqual(referenceTile.Id, tile.Gid - tileset.FirstGid);
+//            Assert.That(referenceTile.Id, tile.Gid - tileset.FirstGid);
 //        }
 //    }
 //}

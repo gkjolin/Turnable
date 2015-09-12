@@ -27,9 +27,9 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(_level, 0, 0);
 
-            Assert.AreEqual(_level, node.Level);
-            Assert.AreEqual(0, node.Position.X);
-            Assert.AreEqual(0, node.Position.Y);
+            Assert.That(_level, node.Level);
+            Assert.That(0, node.Position.X);
+            Assert.That(0, node.Position.Y);
             Assert.IsNull(node.Parent);
         }
 
@@ -40,9 +40,9 @@ namespace Tests.Pathfinding
 
             Node node = new Node(_level, 0, 0, parentNode);
 
-            Assert.AreEqual(0, node.Position.X);
-            Assert.AreEqual(0, node.Position.Y);
-            Assert.AreEqual(parentNode, node.Parent);           
+            Assert.That(0, node.Position.X);
+            Assert.That(0, node.Position.Y);
+            Assert.That(parentNode, node.Parent);           
         }
 
         [Test]
@@ -53,8 +53,8 @@ namespace Tests.Pathfinding
             
             Node node = new Node(_level, position, parentNode);
 
-            Assert.AreEqual(position, node.Position);
-            Assert.AreEqual(parentNode, node.Parent);
+            Assert.That(position, node.Position);
+            Assert.That(parentNode, node.Parent);
         }
 
         // Calculating values for A* algorithm (PathScore, EstimatedMovementCost and ActualMovementCost)
@@ -64,19 +64,19 @@ namespace Tests.Pathfinding
             _node.ActualMovementCost = 4;
             _node.EstimatedMovementCost = 5;
 
-            Assert.AreEqual(_node.ActualMovementCost + _node.EstimatedMovementCost, _node.PathScore);
+            Assert.That(_node.ActualMovementCost + _node.EstimatedMovementCost, _node.PathScore);
         }
 
         [Test]
         public void ActualMovementCost_ForANodeWithoutAParent_Is0()
         {
-            Assert.AreEqual(0, _node.ActualMovementCost);
+            Assert.That(0, _node.ActualMovementCost);
         }
 
         [Test]
         public void EstimatedMovementCost_ForANodeWithoutAParent_Is0()
         {
-            Assert.AreEqual(0, _node.EstimatedMovementCost);
+            Assert.That(0, _node.EstimatedMovementCost);
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace Tests.Pathfinding
             {
                 Node node = new Node(_level, parent.Position.NeighboringPosition(direction), parent);
                 
-                Assert.AreEqual(parent.ActualMovementCost + Node.OrthogonalMovementCost, node.ActualMovementCost);
+                Assert.That(parent.ActualMovementCost + Node.OrthogonalMovementCost, node.ActualMovementCost);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Tests.Pathfinding
             {
                 Node node = new Node(_level, parent.Position.NeighboringPosition(direction), parent);
 
-                Assert.AreEqual(parent.ActualMovementCost + Node.DiagonalMovementCost, node.ActualMovementCost);
+                Assert.That(parent.ActualMovementCost + Node.DiagonalMovementCost, node.ActualMovementCost);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Tests.Pathfinding
         {
             _node.EstimatedMovementCost = 10;
 
-            Assert.AreEqual(10, _node.EstimatedMovementCost);
+            Assert.That(10, _node.EstimatedMovementCost);
         }
 
         [Test]
@@ -122,13 +122,13 @@ namespace Tests.Pathfinding
             Node node = new Node(_level, 5, 5, null);
 
             node.CalculateEstimatedMovementCost(4, 4);
-            Assert.AreEqual(20, node.EstimatedMovementCost);
+            Assert.That(20, node.EstimatedMovementCost);
 
             node.CalculateEstimatedMovementCost(4, 5);
-            Assert.AreEqual(10, node.EstimatedMovementCost);
+            Assert.That(10, node.EstimatedMovementCost);
 
             node.CalculateEstimatedMovementCost(5, 4);
-            Assert.AreEqual(10, node.EstimatedMovementCost);
+            Assert.That(10, node.EstimatedMovementCost);
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace Tests.Pathfinding
 
             List<Node> adjacentNodes = node.GetAdjacentNodes();
 
-            Assert.AreEqual(8, adjacentNodes.Count);
+            Assert.That(8, adjacentNodes.Count);
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 4)));
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 4)));
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 4)));
@@ -208,7 +208,7 @@ namespace Tests.Pathfinding
 
             List<Node> adjacentNodes = _node.GetAdjacentNodes();
 
-            Assert.AreEqual(3, adjacentNodes.Count);
+            Assert.That(3, adjacentNodes.Count);
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 0)));
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 0, 1)));
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 1, 1)));
@@ -221,7 +221,7 @@ namespace Tests.Pathfinding
 
             List<Node> adjacentNodes = node.GetAdjacentNodes(false);
 
-            Assert.AreEqual(4, adjacentNodes.Count);
+            Assert.That(4, adjacentNodes.Count);
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 5, 4)));
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 4, 5)));
             Assert.IsTrue(adjacentNodes.Contains(new Node(_level, 6, 5)));
@@ -348,7 +348,7 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(_level, 1, 2);
 
-            Assert.AreEqual(node.Position.GetHashCode(), node.GetHashCode());
+            Assert.That(node.Position.GetHashCode(), node.GetHashCode());
         }
 
         [Test]
@@ -357,7 +357,7 @@ namespace Tests.Pathfinding
             Node parent = new Node(_level, 8, 8);
             Node node = new Node(_level, 7, 7, parent);
 
-            Assert.AreEqual("(7, 7); Parent (8, 8)", node.ToString());
+            Assert.That("(7, 7); Parent (8, 8)", node.ToString());
         }
 
         [Test]
@@ -365,7 +365,7 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(_level, 8, 8);
 
-            Assert.AreEqual("(8, 8); Parent null", node.ToString());
+            Assert.That("(8, 8); Parent null", node.ToString());
         }
     }
 }

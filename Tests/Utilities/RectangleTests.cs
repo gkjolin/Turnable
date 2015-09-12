@@ -16,22 +16,22 @@ namespace Tests.Utilities
         {
             Rectangle rectangle = new Rectangle(new Position(0, 0), new Position(4, 4));
 
-            Assert.AreEqual(new Position(0, 0), rectangle.BottomLeft);
-            Assert.AreEqual(new Position(4, 4), rectangle.TopRight);
-            Assert.AreEqual(5, rectangle.Width);
-            Assert.AreEqual(5, rectangle.Height);
+            Assert.That(new Position(0, 0), rectangle.BottomLeft);
+            Assert.That(new Position(4, 4), rectangle.TopRight);
+            Assert.That(5, rectangle.Width);
+            Assert.That(5, rectangle.Height);
 
             // Check if four edges (one for each edge of the rectangle) are initialized.
             // Also check to see if the edges are ordered counter-clockwise.
-            Assert.AreEqual(4, rectangle.Edges.Count);
-            Assert.AreEqual(new Position(0, 0), rectangle.Edges[0].Start);
-            Assert.AreEqual(new Position(4, 0), rectangle.Edges[0].End);
-            Assert.AreEqual(new Position(4, 0), rectangle.Edges[1].Start);
-            Assert.AreEqual(new Position(4, 4), rectangle.Edges[1].End);
-            Assert.AreEqual(new Position(4, 4), rectangle.Edges[2].Start);
-            Assert.AreEqual(new Position(0, 4), rectangle.Edges[2].End);
-            Assert.AreEqual(new Position(0, 4), rectangle.Edges[3].Start);
-            Assert.AreEqual(new Position(0, 0), rectangle.Edges[3].End);
+            Assert.That(4, rectangle.Edges.Count);
+            Assert.That(new Position(0, 0), rectangle.Edges[0].Start);
+            Assert.That(new Position(4, 0), rectangle.Edges[0].End);
+            Assert.That(new Position(4, 0), rectangle.Edges[1].Start);
+            Assert.That(new Position(4, 4), rectangle.Edges[1].End);
+            Assert.That(new Position(4, 4), rectangle.Edges[2].Start);
+            Assert.That(new Position(0, 4), rectangle.Edges[2].End);
+            Assert.That(new Position(0, 4), rectangle.Edges[3].Start);
+            Assert.That(new Position(0, 0), rectangle.Edges[3].End);
         }
 
         [Test]
@@ -39,10 +39,10 @@ namespace Tests.Utilities
         {
             Rectangle rectangle = new Rectangle(new Position(0, 0), 5, 5);
 
-            Assert.AreEqual(new Position(0, 0), rectangle.BottomLeft);
-            Assert.AreEqual(new Position(4, 4), rectangle.TopRight);
-            Assert.AreEqual(5, rectangle.Width);
-            Assert.AreEqual(5, rectangle.Height);
+            Assert.That(new Position(0, 0), rectangle.BottomLeft);
+            Assert.That(new Position(4, 4), rectangle.TopRight);
+            Assert.That(5, rectangle.Width);
+            Assert.That(5, rectangle.Height);
         }
 
         [Test]
@@ -64,32 +64,32 @@ namespace Tests.Utilities
             // BottomRight, TopLeft
             Rectangle rectangle = new Rectangle(new Position(3, 1), new Position(1, 4));
 
-            Assert.AreEqual(new Position(1, 1), rectangle.BottomLeft);
-            Assert.AreEqual(new Position(3, 4), rectangle.TopRight);
+            Assert.That(new Position(1, 1), rectangle.BottomLeft);
+            Assert.That(new Position(3, 4), rectangle.TopRight);
 
             // TopRight, BottomLeft
             rectangle = new Rectangle(new Position(4, 4), new Position(1, 1));
 
-            Assert.AreEqual(new Position(1, 1), rectangle.BottomLeft);
-            Assert.AreEqual(new Position(4, 4), rectangle.TopRight);
+            Assert.That(new Position(1, 1), rectangle.BottomLeft);
+            Assert.That(new Position(4, 4), rectangle.TopRight);
 
             // TopLeft, BottomRight
             rectangle = new Rectangle(new Position(1, 4), new Position(3, 1));
 
-            Assert.AreEqual(new Position(1, 1), rectangle.BottomLeft);
-            Assert.AreEqual(new Position(3, 4), rectangle.TopRight);
+            Assert.That(new Position(1, 1), rectangle.BottomLeft);
+            Assert.That(new Position(3, 4), rectangle.TopRight);
 
             // Rectangles with a width of 1
             rectangle = new Rectangle(new Position(4, 4), new Position(4, 1));
 
-            Assert.AreEqual(new Position(4, 1), rectangle.BottomLeft);
-            Assert.AreEqual(new Position(4, 4), rectangle.TopRight);
+            Assert.That(new Position(4, 1), rectangle.BottomLeft);
+            Assert.That(new Position(4, 4), rectangle.TopRight);
 
             // Rectangles with a height of 1
             rectangle = new Rectangle(new Position(4, 3), new Position(1, 3));
 
-            Assert.AreEqual(new Position(1, 3), rectangle.BottomLeft);
-            Assert.AreEqual(new Position(4, 3), rectangle.TopRight);
+            Assert.That(new Position(1, 3), rectangle.BottomLeft);
+            Assert.That(new Position(4, 3), rectangle.TopRight);
         }
 
         [Test]
@@ -432,11 +432,11 @@ namespace Tests.Utilities
 
             List<LineSegment> closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
 
-            Assert.AreEqual(2, closestEdges.Count);
-            Assert.AreEqual(new Position(2, 0), closestEdges[0].Start);
-            Assert.AreEqual(new Position(2, 4), closestEdges[0].End);
-            Assert.AreEqual(new Position(5, 2), closestEdges[1].Start);
-            Assert.AreEqual(new Position(5, 0), closestEdges[1].End);
+            Assert.That(2, closestEdges.Count);
+            Assert.That(new Position(2, 0), closestEdges[0].Start);
+            Assert.That(new Position(2, 4), closestEdges[0].End);
+            Assert.That(new Position(5, 2), closestEdges[1].Start);
+            Assert.That(new Position(5, 0), closestEdges[1].End);
 
             // * First rectangle, : Second Rectangle, F Facing edge
             // ::C
@@ -446,11 +446,11 @@ namespace Tests.Utilities
             // ::C  C**
             closestEdges = secondRectangle.GetClosestEdges(firstRectangle);
 
-            Assert.AreEqual(2, closestEdges.Count);
-            Assert.AreEqual(new Position(5, 2), closestEdges[0].Start);
-            Assert.AreEqual(new Position(5, 0), closestEdges[0].End);
-            Assert.AreEqual(new Position(2, 0), closestEdges[1].Start);
-            Assert.AreEqual(new Position(2, 4), closestEdges[1].End);
+            Assert.That(2, closestEdges.Count);
+            Assert.That(new Position(5, 2), closestEdges[0].Start);
+            Assert.That(new Position(5, 0), closestEdges[0].End);
+            Assert.That(new Position(2, 0), closestEdges[1].Start);
+            Assert.That(new Position(2, 4), closestEdges[1].End);
 
             // *****
             // *****
@@ -464,11 +464,11 @@ namespace Tests.Utilities
 
             closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
 
-            Assert.AreEqual(2, closestEdges.Count);
-            Assert.AreEqual(new Position(0, 4), closestEdges[0].Start);
-            Assert.AreEqual(new Position(4, 4), closestEdges[0].End);
-            Assert.AreEqual(new Position(3, 1), closestEdges[1].Start);
-            Assert.AreEqual(new Position(0, 1), closestEdges[1].End);
+            Assert.That(2, closestEdges.Count);
+            Assert.That(new Position(0, 4), closestEdges[0].Start);
+            Assert.That(new Position(4, 4), closestEdges[0].End);
+            Assert.That(new Position(3, 1), closestEdges[1].Start);
+            Assert.That(new Position(0, 1), closestEdges[1].End);
 
             // :::::
             // :::::
@@ -479,11 +479,11 @@ namespace Tests.Utilities
             // ****
             closestEdges = secondRectangle.GetClosestEdges(firstRectangle);
 
-            Assert.AreEqual(2, closestEdges.Count);
-            Assert.AreEqual(new Position(3, 1), closestEdges[0].Start);
-            Assert.AreEqual(new Position(0, 1), closestEdges[0].End);
-            Assert.AreEqual(new Position(0, 4), closestEdges[1].Start);
-            Assert.AreEqual(new Position(4, 4), closestEdges[1].End);
+            Assert.That(2, closestEdges.Count);
+            Assert.That(new Position(3, 1), closestEdges[0].Start);
+            Assert.That(new Position(0, 1), closestEdges[0].End);
+            Assert.That(new Position(0, 4), closestEdges[1].Start);
+            Assert.That(new Position(4, 4), closestEdges[1].End);
         }
 
         [Test]
@@ -500,11 +500,11 @@ namespace Tests.Utilities
 
             List<LineSegment> closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
 
-            Assert.AreEqual(2, closestEdges.Count);
-            Assert.AreEqual(new Position(2, 0), closestEdges[0].Start);
-            Assert.AreEqual(new Position(2, 4), closestEdges[0].End);
-            Assert.AreEqual(new Position(3, 2), closestEdges[1].Start);
-            Assert.AreEqual(new Position(3, 0), closestEdges[1].End);
+            Assert.That(2, closestEdges.Count);
+            Assert.That(new Position(2, 0), closestEdges[0].Start);
+            Assert.That(new Position(2, 4), closestEdges[0].End);
+            Assert.That(new Position(3, 2), closestEdges[1].Start);
+            Assert.That(new Position(3, 0), closestEdges[1].End);
 
             // * First rectangle, : Second Rectangle, C Closest edge
             // ***
@@ -520,11 +520,11 @@ namespace Tests.Utilities
 
             closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
 
-            Assert.AreEqual(2, closestEdges.Count);
-            Assert.AreEqual(new Position(0, 3), closestEdges[0].Start);
-            Assert.AreEqual(new Position(2, 3), closestEdges[0].End);
-            Assert.AreEqual(new Position(4, 2), closestEdges[1].Start);
-            Assert.AreEqual(new Position(2, 2), closestEdges[1].End);
+            Assert.That(2, closestEdges.Count);
+            Assert.That(new Position(0, 3), closestEdges[0].Start);
+            Assert.That(new Position(2, 3), closestEdges[0].End);
+            Assert.That(new Position(4, 2), closestEdges[1].Start);
+            Assert.That(new Position(2, 2), closestEdges[1].End);
         }
 
         [Test]
@@ -544,11 +544,11 @@ namespace Tests.Utilities
 
             List<LineSegment> closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
 
-            Assert.AreEqual(2, closestEdges.Count);
-            Assert.AreEqual(new Position(2, 3), closestEdges[0].Start);
-            Assert.AreEqual(new Position(2, 7), closestEdges[0].End);
-            Assert.AreEqual(new Position(5, 2), closestEdges[1].Start);
-            Assert.AreEqual(new Position(5, 0), closestEdges[1].End);
+            Assert.That(2, closestEdges.Count);
+            Assert.That(new Position(2, 3), closestEdges[0].Start);
+            Assert.That(new Position(2, 7), closestEdges[0].End);
+            Assert.That(new Position(5, 2), closestEdges[1].Start);
+            Assert.That(new Position(5, 0), closestEdges[1].End);
         }
 
         [Test]
@@ -567,11 +567,11 @@ namespace Tests.Utilities
 
             List<LineSegment> closestEdges = firstRectangle.GetClosestEdges(secondRectangle);
 
-            Assert.AreEqual(2, closestEdges.Count);
-            Assert.AreEqual(new Position(0, 3), closestEdges[0].Start);
-            Assert.AreEqual(new Position(2, 3), closestEdges[0].End);
-            Assert.AreEqual(new Position(3, 2), closestEdges[1].Start);
-            Assert.AreEqual(new Position(3, 0), closestEdges[1].End);
+            Assert.That(2, closestEdges.Count);
+            Assert.That(new Position(0, 3), closestEdges[0].Start);
+            Assert.That(new Position(2, 3), closestEdges[0].End);
+            Assert.That(new Position(3, 2), closestEdges[1].Start);
+            Assert.That(new Position(3, 0), closestEdges[1].End);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Tests.Locations
 
             // TODO: This should really test that Map's constructor was called correctly and assigned to the Level's Map property.
             Assert.IsNotNull(level.Map);
-            Assert.AreEqual(4, level.Map.Layers.Count);
+            Assert.That(4, level.Map.Layers.Count);
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace Tests.Locations
         {
             foreach (SpecialLayer specialLayer in Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>())
             {
-                Assert.AreEqual("Is" + specialLayer.ToString() + "Layer", Level.SpecialLayerPropertyKey(specialLayer));
+                Assert.That("Is" + specialLayer.ToString() + "Layer", Level.SpecialLayerPropertyKey(specialLayer));
             }
         }
 
@@ -105,16 +105,16 @@ namespace Tests.Locations
             _level.SpecialLayers.Clear();
             _level.InitializeSpecialLayers();
             
-            Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
-            Assert.AreEqual(_level.Map.Layers[1], _level.SpecialLayers[SpecialLayer.Collision]);
-            Assert.AreEqual(_level.Map.Layers[2], _level.SpecialLayers[SpecialLayer.Object]);
-            Assert.AreEqual(_level.Map.Layers[3], _level.SpecialLayers[SpecialLayer.Character]);
+            Assert.That(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
+            Assert.That(_level.Map.Layers[1], _level.SpecialLayers[SpecialLayer.Collision]);
+            Assert.That(_level.Map.Layers[2], _level.SpecialLayers[SpecialLayer.Object]);
+            Assert.That(_level.Map.Layers[3], _level.SpecialLayers[SpecialLayer.Character]);
         }
 
         [Test]
         public void Level_SpecialLayerEnum_Defines4DifferentSpecialLayers()
         {
-            Assert.AreEqual(4, Enum.GetValues(typeof(SpecialLayer)).Length);
+            Assert.That(4, Enum.GetValues(typeof(SpecialLayer)).Length);
             Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Background"));
             Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Collision"));
             Assert.IsTrue(Enum.IsDefined(typeof(SpecialLayer), "Object"));
@@ -131,7 +131,7 @@ namespace Tests.Locations
             foreach (SpecialLayer specialLayer in Enum.GetValues(typeof(SpecialLayer)).Cast<SpecialLayer>())
             {
                 _level.SpecialLayers[specialLayer] = _level.Map.Layers[0];
-                Assert.AreEqual("true", _level.Map.Layers[0].Properties["Is" + specialLayer.ToString() + "Layer"]);
+                Assert.That("true", _level.Map.Layers[0].Properties["Is" + specialLayer.ToString() + "Layer"]);
             }
         }
 
@@ -151,7 +151,7 @@ namespace Tests.Locations
             _level.SpecialLayers.Clear();
             _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[0];
 
-            Assert.AreEqual(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
+            Assert.That(_level.Map.Layers[0], _level.SpecialLayers[SpecialLayer.Background]);
         }
 
         [Test]
@@ -174,7 +174,7 @@ namespace Tests.Locations
 
             _level.SetLayer("Layer 1", 48, 64, SpecialLayer.Character);
 
-            Assert.AreEqual(1, _level.Map.Layers.Count);
+            Assert.That(1, _level.Map.Layers.Count);
             Assert.IsNotNull(_level.SpecialLayers[SpecialLayer.Character]);
         }
 
@@ -186,7 +186,7 @@ namespace Tests.Locations
 
             level.SetLayer("Layer 1", 48, 64, SpecialLayer.Character);
 
-            Assert.AreEqual(1, level.Map.Layers.Count);
+            Assert.That(1, level.Map.Layers.Count);
             Assert.IsNotNull(level.SpecialLayers[SpecialLayer.Character]);
         }
 
@@ -201,11 +201,11 @@ namespace Tests.Locations
             _level.SetUpViewport();
 
             Assert.IsNotNull(_level.Viewport);
-            Assert.AreEqual(_level, _level.Viewport.Level);
-            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
-            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
-            Assert.AreEqual(_level.Map.Width, _level.Viewport.Width);
-            Assert.AreEqual(_level.Map.Height, _level.Viewport.Height);
+            Assert.That(_level, _level.Viewport.Level);
+            Assert.That(0, _level.Viewport.MapOrigin.X);
+            Assert.That(0, _level.Viewport.MapOrigin.Y);
+            Assert.That(_level.Map.Width, _level.Viewport.Width);
+            Assert.That(_level.Map.Height, _level.Viewport.Height);
         }
 
         [Test]
@@ -214,11 +214,11 @@ namespace Tests.Locations
             _level.SetUpViewport(5, 6);
 
             Assert.IsNotNull(_level.Viewport);
-            Assert.AreEqual(_level, _level.Viewport.Level);
-            Assert.AreEqual(0, _level.Viewport.MapOrigin.X);
-            Assert.AreEqual(0, _level.Viewport.MapOrigin.Y);
-            Assert.AreEqual(5, _level.Viewport.Width);
-            Assert.AreEqual(6, _level.Viewport.Height);
+            Assert.That(_level, _level.Viewport.Level);
+            Assert.That(0, _level.Viewport.MapOrigin.X);
+            Assert.That(0, _level.Viewport.MapOrigin.Y);
+            Assert.That(5, _level.Viewport.Width);
+            Assert.That(6, _level.Viewport.Height);
         }
 
         [Test]
@@ -227,11 +227,11 @@ namespace Tests.Locations
             _level.SetUpViewport(8, 8, 5, 5);
 
             Assert.IsNotNull(_level.Viewport);
-            Assert.AreEqual(_level, _level.Viewport.Level);
-            Assert.AreEqual(8, _level.Viewport.MapOrigin.X);
-            Assert.AreEqual(8, _level.Viewport.MapOrigin.Y);
-            Assert.AreEqual(5, _level.Viewport.Width);
-            Assert.AreEqual(5, _level.Viewport.Height);
+            Assert.That(_level, _level.Viewport.Level);
+            Assert.That(8, _level.Viewport.MapOrigin.X);
+            Assert.That(8, _level.Viewport.MapOrigin.Y);
+            Assert.That(5, _level.Viewport.Width);
+            Assert.That(5, _level.Viewport.Height);
         }
 
         // VisionCalculator
@@ -241,7 +241,7 @@ namespace Tests.Locations
             _level.SetUpVisionCalculator();
 
             Assert.IsNotNull(_level.VisionCalculator);
-            Assert.AreEqual(_level, _level.VisionCalculator.Level);
+            Assert.That(_level, _level.VisionCalculator.Level);
         }
 
         // CharacterManager
@@ -251,7 +251,7 @@ namespace Tests.Locations
             _level.SetUpCharacterManager();
 
             Assert.IsNotNull(_level.CharacterManager);
-            Assert.AreEqual(_level, _level.CharacterManager.Level);
+            Assert.That(_level, _level.CharacterManager.Level);
         }
 
         // ModelManager
@@ -261,7 +261,7 @@ namespace Tests.Locations
             _level.SetUpModelManager();
 
             Assert.IsNotNull(_level.ModelManager);
-            Assert.AreEqual(_level, _level.ModelManager.Level);
+            Assert.That(_level, _level.ModelManager.Level);
         }
 
     }
@@ -347,7 +347,7 @@ namespace Tests.Locations
 
 //            Assert.IsNotNull(_level.PathFinder);
 //            Assert.IsFalse(_level.PathFinder.AllowDiagonalMovement);
-//            Assert.AreEqual(_level, _level.PathFinder.Level);
+//            Assert.That(_level, _level.PathFinder.Level);
 //        }
 
 //        [Test]
@@ -357,7 +357,7 @@ namespace Tests.Locations
 
 //            Assert.IsNotNull(_level.PathFinder);
 //            Assert.IsTrue(_level.PathFinder.AllowDiagonalMovement);
-//            Assert.AreEqual(_level, _level.PathFinder.Level);
+//            Assert.That(_level, _level.PathFinder.Level);
 //        }
 
 //        [Test]
@@ -367,8 +367,8 @@ namespace Tests.Locations
 
 //            Assert.IsNotNull(_level.TransitionPointManager);
 //            Assert.IsNotNull(_level.TransitionPointManager.Entrance);
-//            Assert.AreEqual(1, _level.TransitionPointManager.Exits.Count);
-//            Assert.AreEqual(_level, _level.TransitionPointManager.Level);
+//            Assert.That(1, _level.TransitionPointManager.Exits.Count);
+//            Assert.That(_level, _level.TransitionPointManager.Level);
 //        }
 
 
@@ -388,7 +388,7 @@ namespace Tests.Locations
 //        {
 //            List<Position> allWalkablePositions = _level.CalculateWalkablePositions();
 
-//            Assert.AreEqual(172, allWalkablePositions.Count);
+//            Assert.That(172, allWalkablePositions.Count);
 
 //            foreach (Position position in allWalkablePositions)
 //            {

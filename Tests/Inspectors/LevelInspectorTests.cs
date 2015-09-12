@@ -22,7 +22,7 @@ namespace Tests.Inspectors
     //    {
     //        LevelInspector levelInspector = new LevelInspector(_level);
 
-    //        Assert.AreEqual(_level, levelInspector.Level);
+    //        Assert.That(_level, levelInspector.Level);
     //    }
     //}
 }

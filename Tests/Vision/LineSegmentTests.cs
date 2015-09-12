@@ -25,9 +25,9 @@ namespace Tests.Vision
 
                 LineSegment line = new LineSegment(start, end);
 
-                Assert.AreEqual(2, line.Points.Count);
-                Assert.AreEqual(start, line.Points[0]);
-                Assert.AreEqual(end, line.Points[1]);
+                Assert.That(2, line.Points.Count);
+                Assert.That(start, line.Points[0]);
+                Assert.That(end, line.Points[1]);
             }
         }
 
@@ -39,13 +39,13 @@ namespace Tests.Vision
 
             LineSegment line = new LineSegment(start, end);
 
-            Assert.AreEqual(6, line.Points.Count);
-            Assert.AreEqual(start, line.Points[0]);
-            Assert.AreEqual(new Position(1, 2), line.Points[1]);
-            Assert.AreEqual(new Position(1, 3), line.Points[2]);
-            Assert.AreEqual(new Position(1, 4), line.Points[3]);
-            Assert.AreEqual(new Position(1, 5), line.Points[4]);
-            Assert.AreEqual(end, line.Points[5]);
+            Assert.That(6, line.Points.Count);
+            Assert.That(start, line.Points[0]);
+            Assert.That(new Position(1, 2), line.Points[1]);
+            Assert.That(new Position(1, 3), line.Points[2]);
+            Assert.That(new Position(1, 4), line.Points[3]);
+            Assert.That(new Position(1, 5), line.Points[4]);
+            Assert.That(end, line.Points[5]);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace Tests.Vision
             Position end = new Position(2, 6);
             LineSegment line = new LineSegment(start, end);
 
-            Assert.AreEqual(line.Points[0], line.Start);
+            Assert.That(line.Points[0], line.Start);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Tests.Vision
             Position end = new Position(2, 6);
             LineSegment line = new LineSegment(start, end);
 
-            Assert.AreEqual(line.Points[5], line.End);
+            Assert.That(line.Points[5], line.End);
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace Tests.Vision
 
             // A line with an even number of points uses the (Number of Points)/2 point
             Assert.IsTrue(line.Points.Contains(midpoint));
-            Assert.AreEqual(line.Points[2], midpoint);
+            Assert.That(line.Points[2], midpoint);
 
             start = new Position(1, 1);
             end = new Position(2, 5);
@@ -133,7 +133,7 @@ namespace Tests.Vision
 
             // A line with an odd number of points returns the exact midpoint
             Assert.IsTrue(line.Points.Contains(midpoint));
-            Assert.AreEqual(line.Points[2], midpoint);
+            Assert.That(line.Points[2], midpoint);
         }
 
         [Test]
@@ -258,22 +258,22 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 0), new Position(0, 4));
             LineSegment second = new LineSegment(new Position(1, 0), new Position(1, 4));
 
-            Assert.AreEqual(1, first.DistanceBetween(second));
+            Assert.That(1, first.DistanceBetween(second));
 
             first = new LineSegment(new Position(0, 0), new Position(0, 4));
             second = new LineSegment(new Position(0, 0), new Position(0, 4));
 
-            Assert.AreEqual(0, first.DistanceBetween(second));
+            Assert.That(0, first.DistanceBetween(second));
 
             first = new LineSegment(new Position(0, 2), new Position(4, 2));
             second = new LineSegment(new Position(8, 1), new Position(5, 1));
 
-            Assert.AreEqual(1, first.DistanceBetween(second));
+            Assert.That(1, first.DistanceBetween(second));
 
             first = new LineSegment(new Position(2, 0), new Position(2, 4));
             second = new LineSegment(new Position(5, 0), new Position(5, 2));
 
-            Assert.AreEqual(3, first.DistanceBetween(second));
+            Assert.That(3, first.DistanceBetween(second));
         }
 
         [Test]
@@ -548,7 +548,7 @@ namespace Tests.Vision
                 calculatedHash = hash;
             }
 
-            Assert.AreEqual(calculatedHash, lineSegment.GetHashCode());
+            Assert.That(calculatedHash, lineSegment.GetHashCode());
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Tests.Characters
         //    characterManager.SetUpNpcs();
 
         //    Assert.IsNotNull(characterManager.Characters);
-        //    Assert.AreEqual(8, characterManager.Characters.Count);
+        //    Assert.That(8, characterManager.Characters.Count);
 
         //    // Are all Characters set up with a Model?
         //    foreach (Entity character in characterManager.Characters)
@@ -71,11 +71,11 @@ namespace Tests.Characters
 
         //    // Is a TurnQueue setup with the Player taking the first turn?
         //    Assert.IsNotNull(characterManager.TurnQueue);
-        //    Assert.AreEqual(8, characterManager.TurnQueue.Count);
+        //    Assert.That(8, characterManager.TurnQueue.Count);
 
         //    foreach (Entity character in characterManager.Characters)
         //    {
-        //        Assert.AreEqual(_levelWithoutCharacters, character.GetComponent<OnLevel>().Level);
+        //        Assert.That(_levelWithoutCharacters, character.GetComponent<OnLevel>().Level);
         //    }
         //}
 
@@ -86,7 +86,7 @@ namespace Tests.Characters
         //    characterManager.SetUpNpcs();
 
         //    Assert.IsNotNull(characterManager.Characters);
-        //    Assert.AreEqual(8, characterManager.Characters.Count);
+        //    Assert.That(8, characterManager.Characters.Count);
 
         //    // Are all Characters set up with a Model IF they had a model property in the reference tile?
         //    foreach (Entity character in characterManager.Characters)
@@ -171,11 +171,11 @@ namespace Tests.Characters
         //    MoveResult moveResult = _characterManager.MoveCharacterTo(character, newPosition);
 
         //    // Make sure that character was NOT moved
-        //    Assert.AreEqual(MoveResultStatus.HitCharacter, moveResult.Status);
-        //    Assert.AreEqual(currentPosition, character.GetComponent<Position>());
-        //    Assert.AreEqual(2, moveResult.Path.Count);
-        //    Assert.AreEqual(currentPosition, moveResult.Path[0]);
-        //    Assert.AreEqual(new Position(6, 14), moveResult.Path[1]);
+        //    Assert.That(MoveResultStatus.HitCharacter, moveResult.Status);
+        //    Assert.That(currentPosition, character.GetComponent<Position>());
+        //    Assert.That(2, moveResult.Path.Count);
+        //    Assert.That(currentPosition, moveResult.Path[0]);
+        //    Assert.That(new Position(6, 14), moveResult.Path[1]);
 
         //    // Check to see if the tile in the map was NOT moved
         //    Assert.IsTrue(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
@@ -191,11 +191,11 @@ namespace Tests.Characters
         //    MoveResult moveResult = _characterManager.MoveCharacterTo(character, newPosition);
 
         //    // Make sure that character was NOT moved
-        //    Assert.AreEqual(MoveResultStatus.OutOfBounds, moveResult.Status);
-        //    Assert.AreEqual(currentPosition, character.GetComponent<Position>());
-        //    Assert.AreEqual(2, moveResult.Path.Count);
-        //    Assert.AreEqual(currentPosition, moveResult.Path[0]);
-        //    Assert.AreEqual(new Position(-1, -1), moveResult.Path[1]);
+        //    Assert.That(MoveResultStatus.OutOfBounds, moveResult.Status);
+        //    Assert.That(currentPosition, character.GetComponent<Position>());
+        //    Assert.That(2, moveResult.Path.Count);
+        //    Assert.That(currentPosition, moveResult.Path[0]);
+        //    Assert.That(new Position(-1, -1), moveResult.Path[1]);
 
         //    // Check to see if the tile in the map was NOT moved
         //    Assert.IsTrue(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
@@ -246,8 +246,8 @@ namespace Tests.Characters
 
         //    _characterManager.EndTurn();
 
-        //    Assert.AreEqual(secondCharacter, _characterManager.TurnQueue[0]);
-        //    Assert.AreEqual(firstCharacter, _characterManager.TurnQueue[_characterManager.TurnQueue.Count - 1]);
+        //    Assert.That(secondCharacter, _characterManager.TurnQueue[0]);
+        //    Assert.That(firstCharacter, _characterManager.TurnQueue[_characterManager.TurnQueue.Count - 1]);
         //}
 
         //[Test]
@@ -268,7 +268,7 @@ namespace Tests.Characters
         //    _characterManager.CharacterDestroyed += this.SetEventTriggeredFlag;
         //    _characterManager.DestroyCharacter(characterToDestroy);
         //    Assert.IsTrue(_eventTriggeredFlag);
-        //    Assert.AreEqual(characterToDestroy, ((EntityEventArgs)_eventArgs).Entity);
+        //    Assert.That(characterToDestroy, ((EntityEventArgs)_eventArgs).Entity);
         //}
 
         //[Test]
@@ -278,7 +278,7 @@ namespace Tests.Characters
 
         //    _characterManager.DestroyCharacter(characterToDestroy);
 
-        //    Assert.AreEqual(8, _characterManager.Characters.Count);
+        //    Assert.That(8, _characterManager.Characters.Count);
         //    Assert.IsFalse(_characterManager.Characters.Contains(characterToDestroy));
         //    Assert.IsFalse(_characterManager.TurnQueue.Contains(characterToDestroy));
         //    Assert.IsFalse(_world.EntityManager.Entities.Contains(characterToDestroy));
@@ -295,7 +295,7 @@ namespace Tests.Characters
         //    stat.Value -= 100;
 
         //    Assert.IsTrue(_eventTriggeredFlag);
-        //    Assert.AreEqual(entityToDestroy, ((EntityEventArgs)_eventArgs).Entity);
+        //    Assert.That(entityToDestroy, ((EntityEventArgs)_eventArgs).Entity);
         //}
 
         private void SetCharacterMovedEventTriggeredFlag(object sender, CharacterMovedEventArgs e)

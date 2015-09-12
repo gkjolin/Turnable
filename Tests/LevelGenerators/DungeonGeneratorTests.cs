@@ -33,7 +33,7 @@ namespace Tests.LevelGenerators
             List<Chunk> randomChunks = _dungeonGenerator.CollectLeafChunks(tree);
 
             // TODO: How can I check if the chunk has been broken into multiple random sized chunks?
-            Assert.IsTrue(randomChunks.Count > 1);
+            Assert.That(randomChunks.Count, Is.GreaterThan(1));
         }
 
         [Test]
@@ -44,10 +44,10 @@ namespace Tests.LevelGenerators
 
             List<Room> randomRooms = _dungeonGenerator.PlaceRooms(randomChunks);
 
-            Assert.AreEqual(randomRooms.Count, randomChunks.Count);
+            Assert.That(randomRooms.Count, Is.EqualTo(randomChunks.Count));
             foreach (Room room in randomRooms)
             {
-                Assert.IsTrue(room.ParentChunk.Bounds.Contains(room.Bounds));
+                Assert.That(room.ParentChunk.Bounds.Contains(room.Bounds), Is.True);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Tests.LevelGenerators
 
             // TODO: Test that all rooms are reachable
             // There should atleast be corridors between each set of 2 rooms, so there should atleast be (number of rooms / 2) corridors.
-            Assert.IsTrue(corridors.Count > (randomChunks.Count / 2));
+            Assert.That(corridors.Count, Is.GreaterThan(randomChunks.Count / 2));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace Tests.LevelGenerators
 
             List<Room> rooms = _dungeonGenerator.CollectRooms(tree, tree.Root);
 
-            Assert.AreEqual(randomChunks.Count, rooms.Count);
+            Assert.That(rooms.Count, Is.EqualTo(randomChunks.Count));
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace Tests.LevelGenerators
             List<Room> rooms = _dungeonGenerator.CollectRooms(tree, tree.Root.Right);
             List<BinaryTreeNode<Chunk>> leafNodes = tree.CollectLeafNodes(tree.Root.Right);
 
-            Assert.AreEqual(leafNodes.Count, rooms.Count);
+            Assert.That(rooms.Count, Is.EqualTo(leafNodes.Count));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Tests.LevelGenerators
             _dungeonGenerator.DrawLevel(tree, level);
 
             List<Room> rooms = _dungeonGenerator.CollectRooms(tree);
-            Assert.IsNotNull(level.SpecialLayers[SpecialLayer.Collision]);
+            Assert.That(level.SpecialLayers[SpecialLayer.Collision], Is.Not.Null);
             Layer drawnLayer = level.SpecialLayers[SpecialLayer.Collision];
             foreach (Room room in rooms)
             {
@@ -115,8 +115,8 @@ namespace Tests.LevelGenerators
                     for (row = room.Bounds.BottomLeft.Y; row <= room.Bounds.TopRight.Y; row++)
                     {
                         Tile tile = drawnLayer.GetTile(new Position(col, row));
-                        Assert.IsNotNull(tile);
-                        Assert.AreEqual((uint)0, tile.GlobalId);
+                        Assert.That(tile, Is.Not.Null);
+                        Assert.That(tile.GlobalId, Is.EqualTo((uint)0));
                         emptyPositions.Add(new Position(col, row));
                     }
                 }
@@ -129,8 +129,8 @@ namespace Tests.LevelGenerators
                         foreach (Position point in lineSegment.Points)
                         {
                             Tile tile = drawnLayer.GetTile(point);
-                            Assert.IsNotNull(tile);
-                            Assert.AreEqual((uint)0, tile.GlobalId);
+                            Assert.That(tile, Is.Not.Null);
+                            Assert.That(tile.GlobalId, Is.EqualTo((uint)0));
                             emptyPositions.Add(point);
                         }
                     }
@@ -145,8 +145,8 @@ namespace Tests.LevelGenerators
                         if (!emptyPositions.Contains(new Position(col, row)))
                         {
                             Tile tile = drawnLayer.GetTile(new Position(col, row));
-                            Assert.IsNotNull(tile);
-                            Assert.AreEqual((uint)1, tile.GlobalId);
+                            Assert.That(tile, Is.Not.Null);
+                            Assert.That(tile.GlobalId, Is.EqualTo((uint)1));
                         }
                     }
                 }
@@ -191,16 +191,16 @@ namespace Tests.LevelGenerators
 
             Corridor corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(1, 0)));
 
             // E.S
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(1, 0)));
 
             // S
             // .
@@ -210,18 +210,18 @@ namespace Tests.LevelGenerators
             
             corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(0, 1), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(0, 1), corridor.LineSegments[0].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(0, 1)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(0, 1)));
 
             // E
             // .
             // S
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(0, 1), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(0, 1), corridor.LineSegments[0].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(0, 1)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(0, 1)));
         }
 
         [Test]
@@ -238,16 +238,16 @@ namespace Tests.LevelGenerators
             
             Corridor corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(3, 0), corridor.LineSegments[0].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(3, 0)));
 
             // E...S
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(3, 0), corridor.LineSegments[0].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(3, 0)));
 
             // S
             // .
@@ -259,9 +259,9 @@ namespace Tests.LevelGenerators
             
             corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(0, 3), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(0, 1), corridor.LineSegments[0].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(0, 3)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(0, 1)));
 
             // E
             // .
@@ -270,14 +270,15 @@ namespace Tests.LevelGenerators
             // S
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(0, 1), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(0, 3), corridor.LineSegments[0].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(1));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(0, 1)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(0, 3)));
         }
 
         [Test]
-        public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByMoreThanOneSpace_ReturnsACorridorTODO()
+        public void BuildCorridor_GivenTwoPositionsThatAreSeparatedHorizontallyAndVerticallyByMoreThanOneSpace_ReturnsACorridorThat()
         {
+            // TODO
             // S.
             //  .E
         }
@@ -293,25 +294,25 @@ namespace Tests.LevelGenerators
 
             Corridor corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(3, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[0].End);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[1].Start);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[1].End);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[2].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(2, 0)));
+            Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(2, 0)));
 
             // E. 
             //  ..S
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(3, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[0].End);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[1].Start);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[1].End);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[2].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(2, 0)));
+            Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(2, 0)));
 
             //  ..E
             // S.
@@ -319,25 +320,25 @@ namespace Tests.LevelGenerators
             end = new Position(3, 1);
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(3, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].End);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[1].Start);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[1].End);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[2].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(2, 1)));
 
             //  ..S
             // E.
             corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(3, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].End);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[1].Start);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[1].End);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[2].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(1, 0)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(2, 1)));
         }
 
         [Test]
@@ -350,25 +351,25 @@ namespace Tests.LevelGenerators
 
             Corridor corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(3, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[0].End);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[1].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[1].End);
-            Assert.AreEqual(new Position(3, 0), corridor.LineSegments[2].Start);
-            Assert.AreEqual(new Position(3, 0), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
+            Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(2, 0)));
+            Assert.That(new Position(3, 0), corridor.LineSegments[2].Start);
+            Assert.That(new Position(3, 0), corridor.LineSegments[2].End);
 
             // E.. 
             //   ..S
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(3, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 1), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[0].End);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[1].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[1].End);
-            Assert.AreEqual(new Position(3, 0), corridor.LineSegments[2].Start);
-            Assert.AreEqual(new Position(3, 0), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
+            Assert.That(new Position(1, 1), corridor.LineSegments[0].Start);
+            Assert.That(new Position(2, 1), corridor.LineSegments[0].End);
+            Assert.That(new Position(2, 0), corridor.LineSegments[1].Start);
+            Assert.That(new Position(2, 0), corridor.LineSegments[1].End);
+            Assert.That(new Position(3, 0), corridor.LineSegments[2].Start);
+            Assert.That(new Position(3, 0), corridor.LineSegments[2].End);
 
             //   ..E
             // S..
@@ -376,25 +377,25 @@ namespace Tests.LevelGenerators
             end = new Position(4, 1);
             corridor = Corridor.Build(end, start);
 
-            Assert.AreEqual(3, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[0].End);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[1].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[1].End);
-            Assert.AreEqual(new Position(3, 1), corridor.LineSegments[2].Start);
-            Assert.AreEqual(new Position(3, 1), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
+            Assert.That(new Position(1, 0), corridor.LineSegments[0].Start);
+            Assert.That(new Position(2, 0), corridor.LineSegments[0].End);
+            Assert.That(new Position(2, 1), corridor.LineSegments[1].Start);
+            Assert.That(new Position(2, 1), corridor.LineSegments[1].End);
+            Assert.That(new Position(3, 1), corridor.LineSegments[2].Start);
+            Assert.That(new Position(3, 1), corridor.LineSegments[2].End);
 
             //   ..S
             // E..
             corridor = Corridor.Build(start, end);
 
-            Assert.AreEqual(3, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(1, 0), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(2, 0), corridor.LineSegments[0].End);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[1].Start);
-            Assert.AreEqual(new Position(2, 1), corridor.LineSegments[1].End);
-            Assert.AreEqual(new Position(3, 1), corridor.LineSegments[2].Start);
-            Assert.AreEqual(new Position(3, 1), corridor.LineSegments[2].End);
+            Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
+            Assert.That(new Position(1, 0), corridor.LineSegments[0].Start);
+            Assert.That(new Position(2, 0), corridor.LineSegments[0].End);
+            Assert.That(new Position(2, 1), corridor.LineSegments[1].Start);
+            Assert.That(new Position(2, 1), corridor.LineSegments[1].End);
+            Assert.That(new Position(3, 1), corridor.LineSegments[2].Start);
+            Assert.That(new Position(3, 1), corridor.LineSegments[2].End);
         }
 
         [Test]
@@ -429,13 +430,13 @@ namespace Tests.LevelGenerators
             Corridor corridor = firstRoom.Join(secondRoom);
 
             Assert.IsNotNull(corridor);
-            Assert.AreEqual(1, corridor.LineSegments.Count);
-            Assert.AreEqual(new Position(5, 2), corridor.LineSegments[0].Start);
-            Assert.AreEqual(new Position(6, 2), corridor.LineSegments[0].End);
-            Assert.AreEqual(firstRoom, corridor.ConnectedRooms[0]);
-            Assert.AreEqual(secondRoom, corridor.ConnectedRooms[1]);
-            Assert.AreEqual(corridor, firstRoom.Corridors[0]);
-            Assert.AreEqual(corridor, secondRoom.Corridors[0]);
+            Assert.That(1, corridor.LineSegments.Count);
+            Assert.That(new Position(5, 2), corridor.LineSegments[0].Start);
+            Assert.That(new Position(6, 2), corridor.LineSegments[0].End);
+            Assert.That(firstRoom, corridor.ConnectedRooms[0]);
+            Assert.That(secondRoom, corridor.ConnectedRooms[1]);
+            Assert.That(corridor, firstRoom.Corridors[0]);
+            Assert.That(corridor, secondRoom.Corridors[0]);
         }
 
         [Test]
@@ -452,9 +453,9 @@ namespace Tests.LevelGenerators
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
 
-            Assert.AreEqual(2, roomsToJoin.Count);
-            Assert.AreEqual(firstListOfRooms[0], roomsToJoin[0]);
-            Assert.AreEqual(secondListOfRooms[0], roomsToJoin[1]);
+            Assert.That(2, roomsToJoin.Count);
+            Assert.That(firstListOfRooms[0], roomsToJoin[0]);
+            Assert.That(secondListOfRooms[0], roomsToJoin[1]);
         }
 
         [Test]
@@ -476,9 +477,9 @@ namespace Tests.LevelGenerators
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
 
-            Assert.AreEqual(2, roomsToJoin.Count);
-            Assert.AreEqual(firstListOfRooms[0], roomsToJoin[0]);
-            Assert.AreEqual(secondListOfRooms[1], roomsToJoin[1]);
+            Assert.That(2, roomsToJoin.Count);
+            Assert.That(firstListOfRooms[0], roomsToJoin[0]);
+            Assert.That(secondListOfRooms[1], roomsToJoin[1]);
         }
 
         [Test]
@@ -501,9 +502,9 @@ namespace Tests.LevelGenerators
 
             List<Room> roomsToJoin = _dungeonGenerator.ChooseRoomsToJoin(firstListOfRooms, secondListOfRooms);
 
-            Assert.AreEqual(2, roomsToJoin.Count);
-            Assert.AreEqual(firstListOfRooms[1], roomsToJoin[0]);
-            Assert.AreEqual(secondListOfRooms[1], roomsToJoin[1]);
+            Assert.That(2, roomsToJoin.Count);
+            Assert.That(firstListOfRooms[1], roomsToJoin[0]);
+            Assert.That(secondListOfRooms[1], roomsToJoin[1]);
         }
     }
 }

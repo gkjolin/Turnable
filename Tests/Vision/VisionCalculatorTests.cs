@@ -27,31 +27,31 @@ namespace Tests.Vision
         {
             IVisionCalculator visionCalculator = new VisionCalculator(_level);
 
-            Assert.AreEqual(visionCalculator.Level, _level);
+            Assert.That(visionCalculator.Level, _level);
         }
 
         [Test]
         public void CalculateSlope_CorrectlyCalculatesASlopeBetweenTwoPoints()
         {
             double slope = _visionCalculator.CalculateSlope(0, 0, 1, 1);
-            Assert.AreEqual(1.0, slope);
+            Assert.That(1.0, slope);
         }
 
         [Test]
         public void CalculateSlope_CorrectlyCalculatesAnInverseSlopeBetweenTwoPoints()
         {
             double slope = _visionCalculator.CalculateSlope(4, 2, 3, 4, true);
-            Assert.AreEqual(-2.0, slope);
+            Assert.That(-2.0, slope);
         }
 
         [Test]
         public void CalculateVisibleDistance_CorrectlyCalculatesTheSquaredDistanceBetweenTwoPoints()
         {
             int visibleDistance = _visionCalculator.CalculateVisibleDistance(0, 0, 1, 1);
-            Assert.AreEqual(2, visibleDistance);
+            Assert.That(2, visibleDistance);
 
             visibleDistance = _visionCalculator.CalculateVisibleDistance(4, 2, 3, 4);
-            Assert.AreEqual(5, visibleDistance);
+            Assert.That(5, visibleDistance);
         }
 
         //[Test]
@@ -72,7 +72,7 @@ namespace Tests.Vision
         {
             IEnumerable<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 14, 0);
 
-            Assert.AreEqual(1, visiblePositions.Count<Position>());
+            Assert.That(1, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(7, 14)));
         }
 
@@ -82,7 +82,7 @@ namespace Tests.Vision
             // The FOV algorithm creates a cross for a VisualRange of 1
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 3, 1);
 
-            Assert.AreEqual(5, visiblePositions.Count<Position>());
+            Assert.That(5, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(7, 3)));
             Assert.IsTrue(visiblePositions.Contains(new Position(7, 2)));
             Assert.IsTrue(visiblePositions.Contains(new Position(7, 4)));
@@ -97,7 +97,7 @@ namespace Tests.Vision
 
             IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-            Assert.AreEqual(5, distinctVisiblePositions.Count<Position>());
+            Assert.That(5, distinctVisiblePositions.Count<Position>());
             Assert.IsTrue(distinctVisiblePositions.Contains(new Position(6, 4)));
             Assert.IsTrue(distinctVisiblePositions.Contains(new Position(6, 5)));
             Assert.IsTrue(distinctVisiblePositions.Contains(new Position(6, 3)));
@@ -112,7 +112,7 @@ namespace Tests.Vision
 
         //    IEnumerable<Position> distinctVisiblePositions = visiblePositions.Distinct<Position>();
 
-        //    Assert.AreEqual(5, distinctVisiblePositions.Count<Position>());
+        //    Assert.That(5, distinctVisiblePositions.Count<Position>());
         //    Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 10)));
         //    Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 11)));
         //    Assert.IsTrue(distinctVisiblePositions.Contains(new Position(2, 9)));
@@ -136,7 +136,7 @@ namespace Tests.Vision
         {
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(6, 4, 2);
 
-            Assert.AreEqual(12, visiblePositions.Count<Position>());
+            Assert.That(12, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 4)));
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
             Assert.IsFalse(visiblePositions.Contains(new Position(6, 6)));
@@ -148,7 +148,7 @@ namespace Tests.Vision
         {
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(5, 4, 2);
 
-            Assert.AreEqual(13, visiblePositions.Count<Position>());
+            Assert.That(13, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(5, 4)));
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
         }
@@ -159,7 +159,7 @@ namespace Tests.Vision
         {
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(5, 5, 2);
 
-            Assert.AreEqual(12, visiblePositions.Count<Position>());
+            Assert.That(12, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(5, 5)));
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
             Assert.IsFalse(visiblePositions.Contains(new Position(7, 5)));
@@ -171,7 +171,7 @@ namespace Tests.Vision
         {
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(5, 6, 2);
 
-            Assert.AreEqual(13, visiblePositions.Count<Position>());
+            Assert.That(13, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(5, 6)));
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
         }
@@ -182,7 +182,7 @@ namespace Tests.Vision
         {
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(6, 6, 2);
 
-            Assert.AreEqual(12, visiblePositions.Count<Position>());
+            Assert.That(12, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 6)));
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
             Assert.IsFalse(visiblePositions.Contains(new Position(6, 4)));
@@ -194,7 +194,7 @@ namespace Tests.Vision
         {
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 6, 2);
 
-            Assert.AreEqual(13, visiblePositions.Count<Position>());
+            Assert.That(13, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(7, 6)));
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
         }
@@ -205,7 +205,7 @@ namespace Tests.Vision
         {
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 5, 2);
 
-            Assert.AreEqual(12, visiblePositions.Count<Position>());
+            Assert.That(12, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(7, 5)));
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
             Assert.IsFalse(visiblePositions.Contains(new Position(5, 5)));
@@ -217,7 +217,7 @@ namespace Tests.Vision
         {
             List<Position> visiblePositions = _visionCalculator.CalculateVisiblePositions(7, 4, 2);
 
-            Assert.AreEqual(13, visiblePositions.Count<Position>());
+            Assert.That(13, visiblePositions.Count<Position>());
             Assert.IsTrue(visiblePositions.Contains(new Position(7, 4)));
             Assert.IsTrue(visiblePositions.Contains(new Position(6, 5)));
         }

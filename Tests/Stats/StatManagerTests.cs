@@ -42,20 +42,20 @@ namespace Tests
         {
             Stat stat = _statManager.BuildStat("Health", 100);
 
-            Assert.AreEqual(1, _statManager.Stats.Count);
-            Assert.AreEqual("Health", stat.Name);
-            Assert.AreEqual(100, stat.Value);
-            Assert.AreEqual(0, stat.MinimumValue);
-            Assert.AreEqual(100, stat.MaximumValue);
+            Assert.That(1, _statManager.Stats.Count);
+            Assert.That("Health", stat.Name);
+            Assert.That(100, stat.Value);
+            Assert.That(0, stat.MinimumValue);
+            Assert.That(100, stat.MaximumValue);
         }
 
         [Test]
         public void BuildStat_GivenMinimumAndMaximumValuesForStat_BuildsNewStat()
         {
             Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
-            Assert.AreEqual(10, stat.Value);
-            Assert.AreEqual(5, stat.MinimumValue);
-            Assert.AreEqual(95, stat.MaximumValue);
+            Assert.That(10, stat.Value);
+            Assert.That(5, stat.MinimumValue);
+            Assert.That(95, stat.MaximumValue);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Tests
             _statManager.BuildStat("Mana", 50);
 
             Stat stat = _statManager.GetStat("Health");
-            Assert.AreEqual("Health", stat.Name);
+            Assert.That("Health", stat.Name);
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Tests
             _statManager.BuildStat("Mana", 50);
 
             Stat stat = _statManager.GetStat("health");
-            Assert.AreEqual("Health", stat.Name);
+            Assert.That("Health", stat.Name);
         }
 
         [Test]
@@ -115,9 +115,9 @@ namespace Tests
             stat.Value = 50;
 
             Assert.IsTrue(_eventTriggeredFlag);
-            Assert.AreEqual(stat, _statChangedEventArgs.Stat);
-            Assert.AreEqual(100, _statChangedEventArgs.OldValue);
-            Assert.AreEqual(50, _statChangedEventArgs.NewValue);
+            Assert.That(stat, _statChangedEventArgs.Stat);
+            Assert.That(100, _statChangedEventArgs.OldValue);
+            Assert.That(50, _statChangedEventArgs.NewValue);
         }
 
         private void SetEventTriggeredFlag(object sender, StatChangedEventArgs e)

@@ -11,7 +11,7 @@ namespace Tests.LevelGenerators
         [Test]
         public void DungeonGenerationParameters_ImplementsTheISetupParametersInterface()
         {
-            Assert.IsInstanceOfType(new DungeonGenerationParameters(), typeof(ISetupParameters));
+            Assert.That(new DungeonGenerationParameters(), Is.InstanceOf<ISetupParameters>());
         }
     }
 }

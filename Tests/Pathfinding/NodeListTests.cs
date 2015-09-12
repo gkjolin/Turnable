@@ -31,8 +31,8 @@ namespace Tests.Pathfinding
         {
             _nodeList.Add(_nodes[0]);
 
-            Assert.AreEqual(1, _nodeList.Count);
-            Assert.AreEqual(_nodes[0], _nodeList[0]);
+            Assert.That(1, _nodeList.Count);
+            Assert.That(_nodes[0], _nodeList[0]);
         }
 
         [Test]
@@ -55,9 +55,9 @@ namespace Tests.Pathfinding
                 _nodeList.Add(node);
             }
             
-            Assert.AreEqual(_nodes[2], _nodeList[0]);
-            Assert.AreEqual(_nodes[1], _nodeList[1]);
-            Assert.AreEqual(_nodes[0], _nodeList[2]);
+            Assert.That(_nodes[2], _nodeList[0]);
+            Assert.That(_nodes[1], _nodeList[1]);
+            Assert.That(_nodes[0], _nodeList[2]);
         }
 
         [Test]

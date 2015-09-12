@@ -15,9 +15,9 @@ namespace Tests.Tiled
         {
             Tile tile = new Tile(32, 1, 2);
 
-            Assert.AreEqual((uint)32, tile.GlobalId);
-            Assert.AreEqual(tile.X, 1);
-            Assert.AreEqual(tile.Y, 2);
+            Assert.That((uint)32, tile.GlobalId);
+            Assert.That(tile.X, 1);
+            Assert.That(tile.Y, 2);
         }
     }
 }

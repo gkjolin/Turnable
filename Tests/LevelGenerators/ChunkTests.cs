@@ -70,10 +70,10 @@ namespace Tests.LevelGenerators
             Assert.That(newChunks.Count, Is.EqualTo(2));
             Assert.That(newChunks[0].Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
             Assert.That(newChunks[0].Bounds.Width, Is.EqualTo(7));
-            Assert.AreEqual(1, newChunks[0].Bounds.Height);
-            Assert.AreEqual(new Position(0, 1), newChunks[1].Bounds.BottomLeft);
-            Assert.AreEqual(7, newChunks[1].Bounds.Width);
-            Assert.AreEqual(2, newChunks[1].Bounds.Height);
+            Assert.That(newChunks[0].Bounds.Height, Is.EqualTo(1));
+            Assert.That(newChunks[1].Bounds.BottomLeft, Is.EqualTo(new Position(0, 1)));
+            Assert.That(newChunks[1].Bounds.Width, Is.EqualTo(7));
+            Assert.that(newChunks[1].Bounds.Height, Is.EqualTo(2));
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1);
 
-            Assert.AreEqual(0, newChunks.Count);
+            Assert.That(newChunks.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 1);
 
-            Assert.AreEqual(0, newChunks.Count);
+            Assert.That(newChunks.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 2, 2);
 
-            Assert.AreEqual(0, newChunks.Count);
+            Assert.That(newChunks.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -127,11 +127,10 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 2, 2);
 
-            Assert.AreEqual(0, newChunks.Count);
+            Assert.That(newChunks.Count, Is.EqualTo(0));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void SplitChunk_GivenAMinimumHeightWhenDistanceIsLessThanThisRequirement_ThrowsAnException()
         {
             // Initial Chunk
@@ -142,10 +141,11 @@ namespace Tests.LevelGenerators
             Rectangle bounds = new Rectangle(new Position(0, 0), 7, 4);
             Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1, 2);
+
+            Assert.That(() => initialChunk.Split(SplitDirection.Horizontal, 1, 2), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void SplitChunk_GivenAMinimumWidthRequirementWhenDistanceIsLessThanThisRequirement_ThrowsAnException()
         {
             // Initial Chunk
@@ -154,7 +154,8 @@ namespace Tests.LevelGenerators
             // ****
             Rectangle bounds = new Rectangle(new Position(0, 0), 4, 3);
             Chunk initialChunk = new Chunk(bounds);
-            List<Chunk> newChunks = initialChunk.Split(SplitDirection.Vertical, 1, 2);
+
+            Assert.That(() => initialChunk.Split(SplitDirection.Vertical, 1, 2), Throws.TypeOf<ArgumentException>());
         }
     }
 }
