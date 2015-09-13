@@ -265,7 +265,7 @@ namespace Tests.Pathfinding
             Assert.That(node.Equals(node2), Is.False);
 
             node2 = new Node(_level, 2, 3);
-            Assert.(node.Equals(node2), Is.False);
+            Assert.That(node.Equals(node2), Is.False);
         }
 
         [Test]

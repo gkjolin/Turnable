@@ -267,7 +267,7 @@ namespace Tests.Locations
 
             _level.Viewport.CenterAt(new Position(5, 5));
 
-            Assert.That(_level.Viewport.MapOrigin.X, Is.EqualTo(new Position(3, 3));
+            Assert.That(_level.Viewport.MapOrigin, Is.EqualTo(new Position(3, 3)));
         }
 
         [Test]

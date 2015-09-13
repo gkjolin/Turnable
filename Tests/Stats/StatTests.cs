@@ -18,6 +18,8 @@ namespace Tests.Stats
         {
             _statManager = new StatManager();
             _stat = _statManager.BuildStat("Health", 90);
+            _eventTriggeredFlag = false;
+            _statChangedEventArgs = null;
         }
 
         [Test]
@@ -58,10 +60,10 @@ namespace Tests.Stats
             Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
             
             stat.Value += 100;
-            Assert.That(_stat.Value, Is.EqualTo(95));
+            Assert.That(stat.Value, Is.EqualTo(95));
 
             stat.Value -= 100;
-            Assert.That(_stat.Value, Is.EqualTo(5));
+            Assert.That(stat.Value, Is.EqualTo(5));
         }
 
         [Test]

@@ -15,7 +15,7 @@ namespace Tests.Tiled
         [SetUp]
         public void Initialize()
         {
-            _fullMap = new Map("../../Fixtures/FullExample.tmx");
+            _fullMap = new Map("c:/git/Turnable/Tests/Fixtures/FullExample.tmx");
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Tests.Tiled
         [Test]
         public void Constructor_GivenAPathToAFullExample_CorrectlyInitializesAllProperties()
         {
-            Map map = new Map("../../Fixtures/FullExample.tmx");
+            Map map = new Map("c:/git/Turnable/Tests/Fixtures/FullExample.tmx");
 
             Assert.That(map.TileWidth, Is.EqualTo(24));
             Assert.That(map.TileHeight, Is.EqualTo(24));

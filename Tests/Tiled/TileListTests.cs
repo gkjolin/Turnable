@@ -12,11 +12,11 @@ namespace Tests.Tiled
     public class TileListTests
     {
         [Test]
-        public void Constructor_CreatesAnEmptyTileList()
+        public void DefaultConstructor_CreatesAnEmptyTileList()
         {
             TileList tileList = new TileList();
 
-            Assert.That(0, tileList.Count);
+            Assert.That(tileList.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Tests.Tiled
         {
             TileList tileList = new TileList(15, 15, null);
 
-            Assert.That(0, tileList.Count);
+            Assert.That(tileList.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -32,24 +32,24 @@ namespace Tests.Tiled
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
 
-            Assert.That(0, tileList.Count);
+            Assert.That(tileList.Count, Is.EqualTo(0));
         }
-        
+
         [Test]
         public void Constructor_GivenDataWithTiles_CreatesAllTiles()
         {
             TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
 
-            Assert.That(8, tileList.Count);
+            Assert.That(tileList.Count, Is.EqualTo(8));
 
             // Test to see if one tile is loaded up correctly. 
             // The Tiled(.tmx) format uses an origin that starts at the top left with Y increasing going down
             // However most libraries use an origin that starts at the bottom left with Y increasing going up
             // So we need to test that Y is "flipped" using (height - row - 1)
             Tile tile = tileList[new Position(6, 1)];
-            Assert.That((uint)2107, tile.GlobalId);
-            Assert.That(6, tile.X);
-            Assert.That(1, tile.Y);
+            Assert.That(tile.GlobalId, Is.EqualTo((uint)2107));
+            Assert.That(tile.X, Is.EqualTo(6));
+            Assert.That(tile.Y, Is.EqualTo(1));
         }
 
         [Test]
@@ -60,9 +60,9 @@ namespace Tests.Tiled
             // Test to see if one tile is loaded up correctly. 
             Tile tile = tileList[new Position(6, 1)];
 
-            Assert.That((uint)2107, tile.GlobalId);
-            Assert.That(6, tile.X);
-            Assert.That(1, tile.Y);
+            Assert.That(tile.GlobalId, Is.EqualTo((uint)2107));
+            Assert.That(tile.X, Is.EqualTo(6));
+            Assert.That(tile.Y, Is.EqualTo(1));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Tests.Tiled
             // Test to see if one tile is loaded up correctly. 
             Tile tile = tileList[new Position(7, 1)];
 
-            Assert.IsNull(tile);
+            Assert.That(tile, Is.Null);
         }
 
         [Test]
@@ -85,9 +85,9 @@ namespace Tests.Tiled
             tileList[new Position(6, 1)] = tile;
 
             tile = tileList[new Position(6, 1)];
-            Assert.That((uint)2107, tile.GlobalId);
-            Assert.That(6, tile.X);
-            Assert.That(1, tile.Y);
+            Assert.That(tile.GlobalId, Is.EqualTo((uint)2107));
+            Assert.That(tile.X, Is.EqualTo(6));
+            Assert.That(tile.Y, Is.EqualTo(1));
         }
 
         [Test]
@@ -101,9 +101,9 @@ namespace Tests.Tiled
             tileList[new Position(6, 1)] = tile;
 
             tile = tileList[new Position(6, 1)];
-            Assert.That((uint)2106, tile.GlobalId);
-            Assert.That(6, tile.X);
-            Assert.That(1, tile.Y);
+            Assert.That(tile.GlobalId, Is.EqualTo((uint)2106));
+            Assert.That(tile.X, Is.EqualTo(6));
+            Assert.That(tile.Y, Is.EqualTo(1));
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace Tests.Tiled
 
             tileList.Remove(new Position(6, 1));
 
-            Assert.IsNull(tileList[new Position(6, 1)]);
+            Assert.That(tileList[new Position(6, 1)], Is.Null);
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace Tests.Tiled
 
             tileList.Remove(new Position(6, 1));
 
-            Assert.IsNull(tileList[new Position(6, 1)]);
+            Assert.That(tileList[new Position(6, 1)], Is.Null);
         }
     }
 }

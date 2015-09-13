@@ -297,7 +297,7 @@ namespace Tests.LevelGenerators
             Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
             Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 1)));
             Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(1, 1)));
-            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(1, 1)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(1, 0)));
             Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(1, 0)));
             Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(2, 0)));
             Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(2, 0)));
@@ -354,7 +354,7 @@ namespace Tests.LevelGenerators
             Assert.That(corridor.LineSegments.Count, Is.EqualTo(3));
             Assert.That(corridor.LineSegments[0].Start, Is.EqualTo(new Position(1, 1)));
             Assert.That(corridor.LineSegments[0].End, Is.EqualTo(new Position(2, 1)));
-            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(2, 1)));
+            Assert.That(corridor.LineSegments[1].Start, Is.EqualTo(new Position(2, 0)));
             Assert.That(corridor.LineSegments[1].End, Is.EqualTo(new Position(2, 0)));
             Assert.That(corridor.LineSegments[2].Start, Is.EqualTo(new Position(3, 0)));
             Assert.That(corridor.LineSegments[2].End, Is.EqualTo(new Position(3, 0)));
@@ -412,7 +412,7 @@ namespace Tests.LevelGenerators
 
             Corridor corridor = firstRoom.Join(secondRoom);
 
-            Assert.(corridor, Is.Null);
+            Assert.That(corridor, Is.Null);
         }
 
         [Test]

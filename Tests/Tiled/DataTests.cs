@@ -20,7 +20,7 @@ namespace Tests.Tiled
         [Test]
         public void Constructor_GivenAPathToAMinimalBase64GzipCompressedTmxFile_DecodesTheDataInTheFile()
         {
-            Load("../../Fixtures/MinimalBase64GzipCompressed.tmx");
+            Load("c:/git/Turnable/Tests/Fixtures/MinimalBase64GzipCompressed.tmx");
 
             Data data = new Data(_data);
 
@@ -33,7 +33,7 @@ namespace Tests.Tiled
         [Test]
         public void Constructor_GivenAPathToAMinimalBase64ZlibCompressedTmxFile_DecodesTheDataInTheFile()
         {
-            Load("../../Fixtures/MinimalBase64ZlibCompressed.tmx");
+            Load("c:/git/Turnable/Tests/Fixtures/MinimalBase64ZlibCompressed.tmx");
 
             Data data = new Data(_data);
 

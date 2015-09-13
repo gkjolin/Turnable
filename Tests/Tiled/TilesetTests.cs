@@ -14,16 +14,16 @@ namespace Tests.Tiled
         {
             Tileset tileset = new Tileset(TiledFactory.BuildTilesetXElement());
 
-            Assert.That((uint)1, tileset.FirstGlobalId);
-            Assert.That("World", tileset.Name);
-            Assert.That(24, tileset.TileWidth);
-            Assert.That(24, tileset.TileHeight);
-            Assert.That(0, tileset.Spacing);
-            Assert.That(0, tileset.Margin);
+            Assert.That(tileset.FirstGlobalId, Is.EqualTo((uint)1));
+            Assert.That(tileset.Name, Is.EqualTo("World"));
+            Assert.That(tileset.TileWidth, Is.EqualTo(24));
+            Assert.That(tileset.TileHeight, Is.EqualTo(24));
+            Assert.That(tileset.Spacing, Is.EqualTo(0));
+            Assert.That(tileset.Margin, Is.EqualTo(0));
 
             // Have all the special tiles been loaded?
-            Assert.That(1, tileset.SpecialTiles.Count);
-            Assert.That(1, tileset.SpecialTiles[332].Properties.Count);
+            Assert.That(tileset.SpecialTiles.Count, Is.EqualTo(1));
+            Assert.That(tileset.SpecialTiles[332].Properties.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -33,10 +33,10 @@ namespace Tests.Tiled
 
             List<SpecialTile> specialTiles = tileset.FindSpecialTiles("IsPC", "true");
 
-            Assert.That(3, specialTiles.Count);
+            Assert.That(specialTiles.Count, Is.EqualTo(3));
             foreach (SpecialTile specialTile in specialTiles)
             {
-                Assert.That("true", specialTile.Properties["IsPC"]);
+                Assert.That(specialTile.Properties["IsPC"], Is.EqualTo("true"));
             }
         }
 
@@ -47,7 +47,7 @@ namespace Tests.Tiled
 
             List<SpecialTile> specialTiles = tileset.FindSpecialTiles("UnknownPropertyName", "true");
 
-            Assert.That(0, specialTiles.Count);
+            Assert.That(specialTiles.Count, Is.EqualTo(0));
         }
     }
 }

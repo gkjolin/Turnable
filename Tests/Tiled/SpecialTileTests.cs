@@ -24,8 +24,8 @@ namespace Tests.Tiled
         {
             SpecialTile specialTile = new SpecialTile(_tileset, 1);
 
-            Assert.That((uint)1, specialTile.Id);
-            Assert.That(_tileset, specialTile.Tileset);
+            Assert.That(specialTile.Id, Is.EqualTo((uint)1));
+            Assert.That(specialTile.Tileset, Is.SameAs(_tileset));
         }
 
         [Test]
@@ -33,12 +33,12 @@ namespace Tests.Tiled
         {
             SpecialTile specialTile = new SpecialTile(_tileset, TiledFactory.BuildSpecialTileXElementWithProperties());
 
-            Assert.That((uint)332, specialTile.Id);
-            Assert.That(_tileset, specialTile.Tileset);
+            Assert.That(specialTile.Id, Is.EqualTo(332));
+            Assert.That(specialTile.Tileset, Is.SameAs(_tileset));
             // Have the properties been loaded?
-            Assert.IsNotNull(specialTile.Properties);
-            Assert.That(1, specialTile.Properties.Count);
-            Assert.That("Value", specialTile.Properties["Property"]);
+            Assert.That(specialTile.Properties, Is.Not.Null);
+            Assert.That(specialTile.Properties.Count, Is.EqualTo(1));
+            Assert.That(specialTile.Properties["Property"], Is.EqualTo("Value"));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Tests.Tiled
         {
             SpecialTile specialTile = new SpecialTile(_tileset, 1);
 
-            Assert.That(specialTile.Id + _tileset.FirstGlobalId, specialTile.GlobalId);
+            Assert.That(specialTile.GlobalId, Is.EqualTo(specialTile.Id + _tileset.FirstGlobalId));
         }
     }
 }

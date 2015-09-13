@@ -59,7 +59,7 @@ namespace Tests.Tmx
             properties["New Property"] = "New Value";
             properties["New Property"] = "New Value 2";
 
-            Assert.That(properties["New Property"], Is.EqualTo("New Value"));
+            Assert.That(properties["New Property"], Is.EqualTo("New Value 2"));
         }
 
         [Test]

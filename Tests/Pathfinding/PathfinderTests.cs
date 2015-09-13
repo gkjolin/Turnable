@@ -140,7 +140,7 @@ namespace Tests.Pathfinding
             Assert.That(path, Is.Not.Null);
             Assert.That(path.Count, Is.EqualTo(3));
             Assert.That(path[0], Is.EqualTo(new Node(_level, 6, 9)));
-            Assert.That(path[1], Is.EqualTo(new Node(_level, 6, 9)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 5, 9)));
             Assert.That(path[2], Is.EqualTo(new Node(_level, 5, 10)));
         }
 

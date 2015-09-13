@@ -43,7 +43,7 @@ namespace Tests.Locations
         public void Setup_GivenParametersWithATmxFullFilePath_InitializesTheTiledMap()
         {
             LevelSetupParameters levelSetupParameters = new LevelSetupParameters();
-            levelSetupParameters.TmxFullFilePath = "../../Fixtures/FullExample.tmx";
+            levelSetupParameters.TmxFullFilePath = "c:/git/Turnable/Tests/Fixtures/FullExample.tmx";
 
             ILevel level = new Level(levelSetupParameters);
 
@@ -84,7 +84,7 @@ namespace Tests.Locations
             mockLevel.CallBase = true;
             mockLevel.Setup(l => l.InitializeSpecialLayers()).Verifiable();
 
-            mockLevel.Object.Map = new Map("../../Fixtures/FullExample.tmx");
+            mockLevel.Object.Map = new Map("c:/git/Turnable/Tests/Fixtures/FullExample.tmx");
 
             mockLevel.Verify(l => l.InitializeSpecialLayers());
         }
@@ -139,7 +139,9 @@ namespace Tests.Locations
         public void SpecialLayers_SettingASpecialLayerWhenTheSpecificSpecialLayerAlreadyExists_ThrowsException()
         {
             // Usually special layers requires quite a bit of processing by the framework. For example, processing the character layer sets up teams, NPCs, PCs etc. Once the processing is done for a special layer, there is no easy way currently to undo and redo processing for a new layer. We therefore throw an exception to prevent a special layer being reassigned to another layer.
+            _level.SpecialLayers.Clear();
             _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[0];
+
             Assert.That(() => _level.SpecialLayers[SpecialLayer.Background] = _level.Map.Layers[1], Throws.ArgumentException);
         }
 
@@ -238,7 +240,7 @@ namespace Tests.Locations
             _level.SetUpVisionCalculator();
 
             Assert.That(_level.VisionCalculator, Is.Not.Null);
-            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
+            Assert.That(_level.VisionCalculator.Level, Is.SameAs(_level));
         }
 
         // CharacterManager
@@ -248,7 +250,7 @@ namespace Tests.Locations
             _level.SetUpCharacterManager();
 
             Assert.That(_level.CharacterManager, Is.Not.Null);
-            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
+            Assert.That(_level.CharacterManager.Level, Is.SameAs(_level));
         }
 
         // ModelManager
@@ -258,7 +260,7 @@ namespace Tests.Locations
             _level.SetUpModelManager();
 
             Assert.That(_level.ModelManager, Is.Not.Null);
-            Assert.That(_level.Viewport.Level, Is.SameAs(_level));
+            Assert.That(_level.ModelManager.Level, Is.SameAs(_level));
         }
     }
 }
