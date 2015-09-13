@@ -22,13 +22,13 @@ namespace Tests.Skills
         {
             Skill skill = new Skill("Melee Attack");
 
-            Assert.That("Melee Attack", skill.Name);
-            Assert.That(TargetType.InAnotherTeam, skill.TargetType);
-            Assert.That(RangeType.Adjacent, skill.RangeType);
-            Assert.IsNotNull(skill.Effects);
-            Assert.IsInstanceOfType(skill.Effects, typeof(IEnumerable<IEffect>));
-            Assert.That(0, skill.Range);
-            Assert.That(0, skill.Cost);
+            Assert.That(skill.Name, Is.EqualTo("Melee Attack"));
+            Assert.That(skill.TargetType, Is.EqualTo(TargetType.InAnotherTeam));
+            Assert.That(skill.RangeType, Is.EqualTo(RangeType.Adjacent));
+            Assert.That(skill.Effects, Is.Not.Null);
+            Assert.That(skill.Effects, Is.InstanceOf<IEnumerable<IEffect>>());
+            Assert.That(skill.Range, Is.EqualTo(0));
+            Assert.That(skill.Cost, Is.EqualTo(0));
         }
 
         [Test]
@@ -36,11 +36,11 @@ namespace Tests.Skills
         {
             Skill skill = new Skill("Melee Attack", RangeType.DirectLine, TargetType.InAnotherTeam, 1, 2);
 
-            Assert.That("Melee Attack", skill.Name);
-            Assert.That(TargetType.InAnotherTeam, skill.TargetType);
-            Assert.That(RangeType.DirectLine, skill.RangeType);
-            Assert.That(1, skill.Range);
-            Assert.That(2, skill.Cost);
+            Assert.That(skill.Name, Is.EqualTo("Melee Attack"));
+            Assert.That(skill.TargetType, Is.EqualTo(TargetType.InAnotherTeam));
+            Assert.That(skill.RangeType, Is.EqualTo(RangeType.DirectLine));
+            Assert.That(skill.Range, Is.EqualTo(1));
+            Assert.That(skill.Cost, Is.EqualTo(2));
         }
 
 
@@ -69,7 +69,7 @@ namespace Tests.Skills
         //    TargetMap targetMap = skill.CalculateTargetMap(_level, new Position(6, 14));
 
         //    Assert.That(1, targetMap.Count);
-        //    Assert.That(targetMap.ContainsKey(new <int, int>(7, 1)));
+        //    Assert.IsTrue(targetMap.ContainsKey(new <int, int>(7, 1)));
         //    HashSet<Position> originMap = targetMap[new <int, int>(7, 1)];
         //    Assert.That(originMap.Count, skill.OriginMapCalculator.Calculate(_level, new Position(6, 14), new Position(7, 1), skill.Range).Count);
         //}
@@ -98,7 +98,7 @@ namespace Tests.Skills
         //    _skill.Applied += SetEventTriggeredFlag;
         //    _skill.Apply(_skillUser, _target);
 
-        //    Assert.That(_eventTriggeredFlag);
+        //    Assert.IsTrue(_eventTriggeredFlag);
         //    Assert.That(_skillUser, _eventArgs.Entity);
         //    Assert.That(_skill, _eventArgs.Skill);
         //    Assert.That(_target, _eventArgs.Target);

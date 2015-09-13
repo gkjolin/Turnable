@@ -31,19 +31,18 @@ namespace Tests.Pathfinding
         {
             _nodeList.Add(_nodes[0]);
 
-            Assert.That(1, _nodeList.Count);
-            Assert.That(_nodes[0], _nodeList[0]);
+            Assert.That(_nodeList.Count, Is.EqualTo(1));
+            Assert.That(_nodeList[0], Is.SameAs(_nodes[0]));
         }
 
         [Test]
-        [ExpectedException(typeof(NotImplementedException))]
         public void Insert_ThrowsException_InOrderToPreventOutOfOrderInsertion()
         {
-            _nodeList.Insert(0, _nodes[0]);
+            Assert.That(() => _nodeList.Insert(0, _nodes[0]), Throws.TypeOf<NotImplementedException>());
         }
 
         [Test]
-        public void Add_AddsNodesSortedByPathScore()
+        public void Add_AddsNodesSortedByEstimatedMovementCost()
         {
             _nodes[0].EstimatedMovementCost = 10;
             _nodes[1].EstimatedMovementCost = 5;
@@ -55,9 +54,9 @@ namespace Tests.Pathfinding
                 _nodeList.Add(node);
             }
             
-            Assert.That(_nodes[2], _nodeList[0]);
-            Assert.That(_nodes[1], _nodeList[1]);
-            Assert.That(_nodes[0], _nodeList[2]);
+            Assert.That(_nodeList[0], Is.EqualTo(_nodes[2]));
+            Assert.That(_nodeList[1], Is.EqualTo(_nodes[1]));
+            Assert.That(_nodeList[2], Is.EqualTo(_nodes[0]));
         }
 
         [Test]
@@ -74,7 +73,7 @@ namespace Tests.Pathfinding
 
             foreach (Node node in _nodes)
             {
-                Assert.That(_nodeList.Contains(node));
+                Assert.That(_nodeList.Contains(node), Is.True);
             }
         }
     }

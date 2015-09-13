@@ -23,8 +23,8 @@ namespace Tests.Tiled
 
             _elementList.Add(layer);
 
-            Assert.That(layer, _elementList[0]);
-            Assert.That(layer, _elementList[layer.Name]);
+            Assert.That(_elementList[0], Is.SameAs(layer));
+            Assert.That(_elementList[layer.Name], Is.SameAs(layer));
         }
 
         [Test]
@@ -41,18 +41,17 @@ namespace Tests.Tiled
 
             for (int i = 0; i < 3; i++)
             {
-                Assert.That(layers[i], _elementList[i]);
+                Assert.That(_elementList[i], Is.SameAs(layers[i]));
             }
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void Add_WhenAnElementWithTheSameNameAlreadyExists_ThrowsAnException()
         {
             Layer layer = TiledFactory.BuildLayer();
 
             _elementList.Add(layer);
-            _elementList.Add(layer);
+            Assert.That(() => _elementList.Add(layer), Throws.ArgumentException);
         }
     }
 }

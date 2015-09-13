@@ -27,10 +27,9 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(_level, 0, 0);
 
-            Assert.That(_level, node.Level);
-            Assert.That(0, node.Position.X);
-            Assert.That(0, node.Position.Y);
-            Assert.IsNull(node.Parent);
+            Assert.That(node.Level, Is.SameAs(_level));
+            Assert.That(node.Position, Is.EqualTo(new Position(0, 0)));
+            Assert.That(node.Parent, Is.Null);
         }
 
         [Test]
@@ -40,9 +39,9 @@ namespace Tests.Pathfinding
 
             Node node = new Node(_level, 0, 0, parentNode);
 
-            Assert.That(0, node.Position.X);
-            Assert.That(0, node.Position.Y);
-            Assert.That(parentNode, node.Parent);           
+            Assert.That(node.Level, Is.SameAs(_level));
+            Assert.That(node.Position, Is.EqualTo(new Position(0, 0)));
+            Assert.That(node.Parent, Is.SameAs(parentNode));           
         }
 
         [Test]
@@ -53,8 +52,8 @@ namespace Tests.Pathfinding
             
             Node node = new Node(_level, position, parentNode);
 
-            Assert.That(position, node.Position);
-            Assert.That(parentNode, node.Parent);
+            Assert.That(node.Position, Is.EqualTo(position));
+            Assert.That(node.Parent, Is.SameAs(parentNode));
         }
 
         // Calculating values for A* algorithm (PathScore, EstimatedMovementCost and ActualMovementCost)
@@ -64,19 +63,19 @@ namespace Tests.Pathfinding
             _node.ActualMovementCost = 4;
             _node.EstimatedMovementCost = 5;
 
-            Assert.That(_node.ActualMovementCost + _node.EstimatedMovementCost, _node.PathScore);
+            Assert.That(_node.PathScore, Is.EqualTo(_node.ActualMovementCost + _node.EstimatedMovementCost));
         }
 
         [Test]
         public void ActualMovementCost_ForANodeWithoutAParent_Is0()
         {
-            Assert.That(0, _node.ActualMovementCost);
+            Assert.That(_node.ActualMovementCost, Is.EqualTo(0));
         }
 
         [Test]
         public void EstimatedMovementCost_ForANodeWithoutAParent_Is0()
         {
-            Assert.That(0, _node.EstimatedMovementCost);
+            Assert.That(_node.EstimatedMovementCost, Is.EqualTo(0));
         }
 
         [Test]
@@ -89,7 +88,7 @@ namespace Tests.Pathfinding
             {
                 Node node = new Node(_level, parent.Position.NeighboringPosition(direction), parent);
                 
-                Assert.That(parent.ActualMovementCost + Node.OrthogonalMovementCost, node.ActualMovementCost);
+                Assert.That(node.ActualMovementCost, Is.EqualTo(parent.ActualMovementCost + Node.OrthogonalMovementCost));
             }
         }
 
@@ -103,7 +102,7 @@ namespace Tests.Pathfinding
             {
                 Node node = new Node(_level, parent.Position.NeighboringPosition(direction), parent);
 
-                Assert.That(parent.ActualMovementCost + Node.DiagonalMovementCost, node.ActualMovementCost);
+                Assert.That(node.ActualMovementCost, Is.EqualTo(parent.ActualMovementCost + Node.DiagonalMovementCost));
             }
         }
 
@@ -112,7 +111,7 @@ namespace Tests.Pathfinding
         {
             _node.EstimatedMovementCost = 10;
 
-            Assert.That(10, _node.EstimatedMovementCost);
+            Assert.That(_node.EstimatedMovementCost, Is.EqualTo(10));
         }
 
         [Test]
@@ -122,13 +121,13 @@ namespace Tests.Pathfinding
             Node node = new Node(_level, 5, 5, null);
 
             node.CalculateEstimatedMovementCost(4, 4);
-            Assert.That(20, node.EstimatedMovementCost);
+            Assert.That(node.EstimatedMovementCost, Is.EqualTo(20));
 
             node.CalculateEstimatedMovementCost(4, 5);
-            Assert.That(10, node.EstimatedMovementCost);
+            Assert.That(node.EstimatedMovementCost, Is.EqualTo(10));
 
             node.CalculateEstimatedMovementCost(5, 4);
-            Assert.That(10, node.EstimatedMovementCost);
+            Assert.That(node.EstimatedMovementCost, Is.EqualTo(10));
         }
 
         [Test]
@@ -137,13 +136,13 @@ namespace Tests.Pathfinding
             Node node = new Node(_level, 5, 5);
 
             Node node2 = new Node(_level, 5, 6);
-            Assert.That(node.IsOrthogonalTo(node2));
+            Assert.That(node.IsOrthogonalTo(node2), Is.True);
 
             node2 = new Node(_level, 4, 5);
-            Assert.That(node.IsOrthogonalTo(node2));
+            Assert.That(node.IsOrthogonalTo(node2), Is.True);
 
             node2 = new Node(_level, 6, 6);
-            Assert.That(node.IsOrthogonalTo(node2));
+            Assert.That(node.IsOrthogonalTo(node2), Is.False);
         }
 
         [Test]
@@ -152,35 +151,35 @@ namespace Tests.Pathfinding
             Node node = new Node(_level, 5, 5);
 
             Node node2 = new Node(_level, 5, 6);
-            Assert.That(node.IsDiagonalTo(node2));
+            Assert.That(node.IsDiagonalTo(node2), Is.False);
 
             node2 = new Node(_level, 4, 5);
-            Assert.That(node.IsDiagonalTo(node2));
+            Assert.That(node.IsDiagonalTo(node2), Is.False);
 
             node2 = new Node(_level, 6, 6);
-            Assert.That(node.IsDiagonalTo(node2));
+            Assert.That(node.IsDiagonalTo(node2), Is.True);
         }
 
         [Test]
         public void IsWithinBounds_ReturnsWhetherTheNodeIsPositionedWithinTheBoundsOfTheLevel()
         {
             Node node = new Node(_level, 7, 7);
-            Assert.That(node.IsWithinBounds());
+            Assert.That(node.IsWithinBounds(), Is.True);
 
             node = new Node(_level, 0, 0);
-            Assert.That(node.IsWithinBounds());
+            Assert.That(node.IsWithinBounds(), Is.True);
 
             node = new Node(_level, 14, 14);
-            Assert.That(node.IsWithinBounds());
+            Assert.That(node.IsWithinBounds(), Is.True);
 
             node = new Node(_level, 20, 4);
-            Assert.That(node.IsWithinBounds());
+            Assert.That(node.IsWithinBounds(), Is.False);
 
             node = new Node(_level, -1, -1);
-            Assert.That(node.IsWithinBounds());
+            Assert.That(node.IsWithinBounds(), Is.False);
 
             node = new Node(_level, 16, 16);
-            Assert.That(node.IsWithinBounds());
+            Assert.That(node.IsWithinBounds(), Is.False);
         }
 
         [Test]
@@ -190,15 +189,15 @@ namespace Tests.Pathfinding
 
             List<Node> adjacentNodes = node.GetAdjacentNodes();
 
-            Assert.That(8, adjacentNodes.Count);
-            Assert.That(adjacentNodes.Contains(new Node(_level, 4, 4)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 5, 4)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 6, 4)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 4, 5)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 6, 5)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 4, 6)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 5, 6)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 6, 6)));
+            Assert.That(adjacentNodes.Count, Is.EqualTo(8));
+            Assert.That(adjacentNodes.Contains(new Node(_level, 4, 4)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 5, 4)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 6, 4)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 4, 5)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 6, 5)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 4, 6)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 5, 6)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 6, 6)), Is.True);
         }
 
         [Test]
@@ -208,10 +207,10 @@ namespace Tests.Pathfinding
 
             List<Node> adjacentNodes = _node.GetAdjacentNodes();
 
-            Assert.That(3, adjacentNodes.Count);
-            Assert.That(adjacentNodes.Contains(new Node(_level, 1, 0)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 0, 1)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 1, 1)));
+            Assert.That(adjacentNodes.Count, Is.EqualTo(3));
+            Assert.That(adjacentNodes.Contains(new Node(_level, 1, 0)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 0, 1)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 1, 1)), Is.True);
         }
 
         [Test]
@@ -221,11 +220,11 @@ namespace Tests.Pathfinding
 
             List<Node> adjacentNodes = node.GetAdjacentNodes(false);
 
-            Assert.That(4, adjacentNodes.Count);
-            Assert.That(adjacentNodes.Contains(new Node(_level, 5, 4)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 4, 5)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 6, 5)));
-            Assert.That(adjacentNodes.Contains(new Node(_level, 5, 6)));
+            Assert.That(adjacentNodes.Count, Is.EqualTo(4));
+            Assert.That(adjacentNodes.Contains(new Node(_level, 5, 4)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 4, 5)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 6, 5)), Is.True);
+            Assert.That(adjacentNodes.Contains(new Node(_level, 5, 6)), Is.True);
         }
 
         [Test]
@@ -233,23 +232,23 @@ namespace Tests.Pathfinding
         {
             // Anything out of bounds is unwalkable
             _node = new Node(_level, -1, 1);
-            Assert.That(_node.IsWalkable());
+            Assert.That(_node.IsWalkable(), Is.False);
 
             // Any obstacle is unwalkable
             _node = new Node(_level, 0, 0);
-            Assert.That(_node.IsWalkable());
+            Assert.That(_node.IsWalkable(), Is.False);
             _node = new Node(_level, 0, 1);
-            Assert.That(_node.IsWalkable());
+            Assert.That(_node.IsWalkable(), Is.False);
 
             // TODO: Test the unwalkability of characters (NPCs and PCs)
             //_node = new Node(_level, 5, 14);
-            //Assert.That(_node.IsWalkable());
+            //Assert.IsFalse(_node.IsWalkable());
 
             // Empty spaces are walkable
             _node = new Node(_level, 5, 5);
-            Assert.That(_node.IsWalkable());
+            Assert.That(_node.IsWalkable(), Is.True);
             _node = new Node(_level, 1, 13);
-            Assert.That(_node.IsWalkable());
+            Assert.That(_node.IsWalkable(), Is.True);
         }
 
         // Equals Tests
@@ -259,14 +258,14 @@ namespace Tests.Pathfinding
             Node node = new Node(_level, 1, 2);
             Node node2 = new Node(_level, 1, 2);
 
-            Assert.That(node.Equals(node2));
+            Assert.That(node.Equals(node2), Is.True);
 
             ILevel anotherLevel = LocationsFactory.BuildLevel();
             node2 = new Node(anotherLevel, 1, 2);
-            Assert.That(node.Equals(node2));
+            Assert.That(node.Equals(node2), Is.False);
 
             node2 = new Node(_level, 2, 3);
-            Assert.That(node.Equals(node2));
+            Assert.(node.Equals(node2), Is.False);
         }
 
         [Test]
@@ -274,7 +273,7 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(_level, 1, 2);
 
-            Assert.That(node.Equals((Node)null));
+            Assert.That(node.Equals((Node)null), Is.False);
         }
 
         [Test]
@@ -283,14 +282,14 @@ namespace Tests.Pathfinding
             Object node = new Node(_level, 1, 2);
             Object node2 = new Node(_level, 1, 2);
 
-            Assert.That(node.Equals(node2));
+            Assert.That(node.Equals(node2), Is.True);
 
             ILevel anotherLevel = LocationsFactory.BuildLevel();
             node2 = new Node(anotherLevel, 1, 2);
-            Assert.That(node.Equals(node2));
+            Assert.That(node.Equals(node2), Is.False);
 
             node2 = new Node(_level, 2, 3);
-            Assert.That(node.Equals(node2));
+            Assert.That(node.Equals(node2), Is.False);
         }
 
         [Test]
@@ -298,7 +297,7 @@ namespace Tests.Pathfinding
         {
             Object node = new Node(_level, 1, 2);
 
-            Assert.That(node.Equals(null));
+            Assert.That(node.Equals(null), Is.False);
         }
 
         [Test]
@@ -306,7 +305,7 @@ namespace Tests.Pathfinding
         {
             Object node = new Node(_level, 1, 2);
 
-            Assert.That(node.Equals(new Object()));
+            Assert.That(node.Equals(new Object()), Is.False);
         }
 
         [Test]
@@ -315,7 +314,7 @@ namespace Tests.Pathfinding
             Node node = new Node(_level, 1, 2);
             Node node2 = new Node(_level, 1, 2);
 
-            Assert.That(node == node2);
+            Assert.That(node == node2, Is.True);
         }
 
         [Test]
@@ -324,7 +323,7 @@ namespace Tests.Pathfinding
             Node node = new Node(_level, 1, 2);
             Node node2 = new Node(_level, 2, 3);
 
-            Assert.That(node != node2);
+            Assert.That(node != node2, Is.True);
         }
 
         [Test]
@@ -332,7 +331,7 @@ namespace Tests.Pathfinding
         {
             Node node = null;
 
-            Assert.That(node == null);
+            Assert.That(node == null, Is.True);
         }
 
         [Test]
@@ -340,7 +339,7 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(_level, 1, 2);
 
-            Assert.That(node != null);
+            Assert.That(node != null, Is.True);
         }
 
         [Test]
@@ -348,7 +347,7 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(_level, 1, 2);
 
-            Assert.That(node.Position.GetHashCode(), node.GetHashCode());
+            Assert.That(node.GetHashCode(), Is.EqualTo(node.Position.GetHashCode()));
         }
 
         [Test]
@@ -357,7 +356,7 @@ namespace Tests.Pathfinding
             Node parent = new Node(_level, 8, 8);
             Node node = new Node(_level, 7, 7, parent);
 
-            Assert.That("(7, 7); Parent (8, 8)", node.ToString());
+            Assert.That(node.ToString(), Is.EqualTo("(7, 7); Parent (8, 8)"));
         }
 
         [Test]
@@ -365,7 +364,7 @@ namespace Tests.Pathfinding
         {
             Node node = new Node(_level, 8, 8);
 
-            Assert.That("(8, 8); Parent null", node.ToString());
+            Assert.That(node.ToString(), Is.EqualTo("(8, 8); Parent null"));
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Tests.Stats
         {
             _stat.Value -= 5;
 
-            Assert.That(85, _stat.Value);
+            Assert.That(_stat.Value, Is.EqualTo(85));
         }
 
         [Test]
@@ -33,21 +33,23 @@ namespace Tests.Stats
         {
             _stat.Value -= 90;
 
-            Assert.That(0, _stat.Value);
+            Assert.That(_stat.Value, Is.EqualTo(0));
         }
 
         [Test]
         public void Value_IsClampedToAMinimumValueOf0ByDefault()
         {
             _stat.Value -= 100;
-            Assert.That(0, _stat.Value);
+
+            Assert.That(_stat.Value, Is.EqualTo(0));
         }
 
         [Test]
         public void Value_IsClampedToAMaximumValueOf100ByDefault()
         {
             _stat.Value += 100;
-            Assert.That(100, _stat.Value);
+
+            Assert.That(_stat.Value, Is.EqualTo(100));
         }
 
         [Test]
@@ -56,10 +58,10 @@ namespace Tests.Stats
             Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
             
             stat.Value += 100;
-            Assert.That(95, stat.Value);
+            Assert.That(_stat.Value, Is.EqualTo(95));
 
             stat.Value -= 100;
-            Assert.That(5, stat.Value);
+            Assert.That(_stat.Value, Is.EqualTo(5));
         }
 
         [Test]
@@ -70,7 +72,7 @@ namespace Tests.Stats
 
             _stat.Reset();
 
-            Assert.That(90, _stat.Value);
+            Assert.That(_stat.Value, Is.EqualTo(90));
         }
 
         [Test]
@@ -80,10 +82,10 @@ namespace Tests.Stats
 
             _stat.Value -= 10;
 
-            Assert.That(_eventTriggeredFlag);
-            Assert.That(_stat, _statChangedEventArgs.Stat);
-            Assert.That(90, _statChangedEventArgs.OldValue);
-            Assert.That(80, _statChangedEventArgs.NewValue);
+            Assert.That(_eventTriggeredFlag, Is.True);
+            Assert.That(_statChangedEventArgs.Stat, Is.SameAs(_stat));
+            Assert.That(_statChangedEventArgs.OldValue, Is.EqualTo(90));
+            Assert.That(_statChangedEventArgs.NewValue, Is.EqualTo(80));
         }
 
         [Test]
@@ -93,7 +95,7 @@ namespace Tests.Stats
 
             _stat.Value = 90;
 
-            Assert.That(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag, Is.False);
         }
 
         [Test]
@@ -103,10 +105,10 @@ namespace Tests.Stats
 
             _stat.Value += 20;
 
-            Assert.That(_eventTriggeredFlag);
-            Assert.That(_stat, _statChangedEventArgs.Stat);
-            Assert.That(90, _statChangedEventArgs.OldValue);
-            Assert.That(100, _statChangedEventArgs.NewValue);
+            Assert.That(_eventTriggeredFlag, Is.True);
+            Assert.That(_statChangedEventArgs.Stat, Is.SameAs(_stat));
+            Assert.That(_statChangedEventArgs.OldValue, Is.EqualTo(90));
+            Assert.That(_statChangedEventArgs.NewValue, Is.EqualTo(100));
         }
 
         [Test]
@@ -117,7 +119,7 @@ namespace Tests.Stats
 
             _stat.Value += 20;
 
-            Assert.That(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag, Is.False);
         }
 
         [Test]
@@ -126,11 +128,11 @@ namespace Tests.Stats
             _stat.Changed += this.SetEventTriggeredFlag;
             _stat.Value -= 250;
 
-            Assert.That(_eventTriggeredFlag);
+            Assert.IsTrue(_eventTriggeredFlag);
 
-            Assert.That(_stat, _statChangedEventArgs.Stat);
-            Assert.That(90, _statChangedEventArgs.OldValue);
-            Assert.That(0, _statChangedEventArgs.NewValue);
+            Assert.That(_statChangedEventArgs.Stat, Is.SameAs(_stat));
+            Assert.That(_statChangedEventArgs.OldValue, Is.EqualTo(90));
+            Assert.That(_statChangedEventArgs.NewValue, Is.EqualTo(0));
         }
 
         [Test]
@@ -141,7 +143,7 @@ namespace Tests.Stats
 
             _stat.Value -=100;
 
-            Assert.That(_eventTriggeredFlag);
+            Assert.That(_eventTriggeredFlag, Is.False);
         }
 
         private void SetEventTriggeredFlag(object sender, StatChangedEventArgs e)

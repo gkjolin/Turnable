@@ -28,13 +28,13 @@ namespace Tests
         {
             StatManager statManager = new StatManager();
 
-            Assert.IsNotNull(statManager.Stats);
+            Assert.That(statManager.Stats, Is.Not.Null);
         }
 
         [Test]
         public void StatManager_IsAnEntropyComponent()
         {
-            Assert.IsInstanceOfType(_statManager, typeof(IComponent));
+            Assert.That(_statManager, Is.InstanceOf<IComponent>());
         }
 
         [Test]
@@ -42,36 +42,34 @@ namespace Tests
         {
             Stat stat = _statManager.BuildStat("Health", 100);
 
-            Assert.That(1, _statManager.Stats.Count);
-            Assert.That("Health", stat.Name);
-            Assert.That(100, stat.Value);
-            Assert.That(0, stat.MinimumValue);
-            Assert.That(100, stat.MaximumValue);
+            Assert.That(_statManager.Stats.Count, Is.EqualTo(1));
+            Assert.That(stat.Name, Is.EqualTo("Health"));
+            Assert.That(stat.Value, Is.EqualTo(100));
+            Assert.That(stat.MinimumValue, Is.EqualTo(0));
+            Assert.That(stat.MaximumValue, Is.EqualTo(100));
         }
 
         [Test]
         public void BuildStat_GivenMinimumAndMaximumValuesForStat_BuildsNewStat()
         {
             Stat stat = _statManager.BuildStat("Hit Chance", 10, 5, 95);
-            Assert.That(10, stat.Value);
-            Assert.That(5, stat.MinimumValue);
-            Assert.That(95, stat.MaximumValue);
+            Assert.That(stat.Value, Is.EqualTo(10));
+            Assert.That(stat.MinimumValue, Is.EqualTo(5));
+            Assert.That(stat.MaximumValue, Is.EqualTo(95));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void BuildStat_BuildingAStatThatAlreadyExists_ThrowsException()
         {
             _statManager.BuildStat("Health", 100);
-            _statManager.BuildStat("Health", 100);
+            Assert.That(() => _statManager.BuildStat("Health", 100), Throws.ArgumentException);
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void BuildStat_BuildingAStatThatAlreadyExistsDifferingByCaseForName_ThrowsException()
         {
             _statManager.BuildStat("Health", 100);
-            _statManager.BuildStat("HEALTH", 100);
+            Assert.That(() => _statManager.BuildStat("HEALTH", 100), Throws.ArgumentException);
         }
 
         [Test]
@@ -81,7 +79,7 @@ namespace Tests
             _statManager.BuildStat("Mana", 50);
 
             Stat stat = _statManager.GetStat("Health");
-            Assert.That("Health", stat.Name);
+            Assert.That(stat.Name, Is.EqualTo("Health"));
         }
 
         [Test]
@@ -91,7 +89,7 @@ namespace Tests
             _statManager.BuildStat("Mana", 50);
 
             Stat stat = _statManager.GetStat("health");
-            Assert.That("Health", stat.Name);
+            Assert.That(stat.Name, Is.EqualTo("Health"));
         }
 
         [Test]
@@ -114,10 +112,10 @@ namespace Tests
             _statManager.StatChanged += SetEventTriggeredFlag;
             stat.Value = 50;
 
-            Assert.That(_eventTriggeredFlag);
-            Assert.That(stat, _statChangedEventArgs.Stat);
-            Assert.That(100, _statChangedEventArgs.OldValue);
-            Assert.That(50, _statChangedEventArgs.NewValue);
+            Assert.That(_eventTriggeredFlag, Is.True);
+            Assert.That(_statChangedEventArgs.Stat, Is.SameAs(stat));
+            Assert.That(_statChangedEventArgs.OldValue, Is.EqualTo(100));
+            Assert.That(_statChangedEventArgs.NewValue, Is.EqualTo(50));
         }
 
         private void SetEventTriggeredFlag(object sender, StatChangedEventArgs e)

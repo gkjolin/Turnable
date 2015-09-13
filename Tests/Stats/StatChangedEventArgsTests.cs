@@ -16,9 +16,9 @@ namespace Tests.Stats
 
             StatChangedEventArgs statChangedEvent = new StatChangedEventArgs(stat, 100, 90);
 
-            Assert.That(stat, statChangedEvent.Stat);
-            Assert.That(100, statChangedEvent.OldValue);
-            Assert.That(90, statChangedEvent.NewValue);
+            Assert.That(statChangedEvent.Stat, Is.SameAs(stat));
+            Assert.That(statChangedEvent.OldValue, Is.EqualTo(100));
+            Assert.That(statChangedEvent.NewValue, Is.EqualTo(90));
         }
     }
 }

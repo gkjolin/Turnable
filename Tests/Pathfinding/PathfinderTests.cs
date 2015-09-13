@@ -35,21 +35,20 @@ namespace Tests.Pathfinding
         {
             Pathfinder pathfinder = new Pathfinder(_level);
 
-            Assert.That(_level, pathfinder.Level);
-            Assert.That(pathfinder.AllowDiagonalMovement);
+            Assert.That(pathfinder.Level, Is.SameAs(_level));
+            Assert.That(pathfinder.AllowDiagonalMovement, Is.True);
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void FindPath_WhenEndingNodeIsUnwalkable_ThrowsException()
         {
-            List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 4, 14), new Node(_level, 6, 5));
+            Assert.That(() => _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 4, 14), new Node(_level, 6, 5)), Throws.InvalidOperationException);
         }
 
         [Test]
         public void FindPath_WhenEndingNodeIsUnreachable_ReturnsNull()
         {
-            Assert.IsNull(_pathfinderWithDiagonalMovement.FindPath(new Node(_level, 5, 5), new Node(_level, 13, 13)));
+            Assert.That(_pathfinderWithDiagonalMovement.FindPath(new Node(_level, 5, 5), new Node(_level, 13, 13)), Is.Null);
         }
 
         [Test]
@@ -57,10 +56,10 @@ namespace Tests.Pathfinding
         {
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 1, 1), new Node(_level, 1, 2));
 
-            Assert.IsNotNull(path);
-            Assert.That(2, path.Count);
-            Assert.That(new Node(_level, 1, 1), path[0]);
-            Assert.That(new Node(_level, 1, 2), path[1]);
+            Assert.That(path, Is.Not.Null);
+            Assert.That(path.Count, Is.EqualTo(2));
+            Assert.That(path[0], Is.EqualTo(new Node(_level, 1, 1)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 1, 2)));
         }
 
         [Test]
@@ -68,10 +67,10 @@ namespace Tests.Pathfinding
         {
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 6, 6), new Node(_level, 5, 5));
 
-            Assert.IsNotNull(path);
-            Assert.That(2, path.Count);
-            Assert.That(new Node(_level, 6, 6), path[0]);
-            Assert.That(new Node(_level, 5, 5), path[1]);
+            Assert.That(path, Is.Not.Null);
+            Assert.That(path.Count, Is.EqualTo(2));
+            Assert.That(path[0], Is.EqualTo(new Node(_level, 6, 6)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 5, 5)));
         }
 
         [Test]
@@ -79,12 +78,12 @@ namespace Tests.Pathfinding
         {
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 1, 1), new Node(_level, 4, 1));
 
-            Assert.IsNotNull(path);
-            Assert.That(4, path.Count);
-            Assert.That(new Node(_level, 1, 1), path[0]);
-            Assert.That(new Node(_level, 2, 1), path[1]);
-            Assert.That(new Node(_level, 3, 1), path[2]);
-            Assert.That(new Node(_level, 4, 1), path[3]);
+            Assert.That(path, Is.Not.Null);
+            Assert.That(path.Count, Is.EqualTo(4));
+            Assert.That(path[0], Is.EqualTo(new Node(_level, 1, 1)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 2, 1)));
+            Assert.That(path[2], Is.EqualTo(new Node(_level, 3, 1)));
+            Assert.That(path[3], Is.EqualTo(new Node(_level, 4, 1)));
         }
 
         [Test]
@@ -92,11 +91,11 @@ namespace Tests.Pathfinding
         {
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 3, 5), new Node(_level, 5, 7));
 
-            Assert.IsNotNull(path);
-            Assert.That(3, path.Count);
-            Assert.That(new Node(_level, 3, 5), path[0]);
-            Assert.That(new Node(_level, 4, 6), path[1]);
-            Assert.That(new Node(_level, 5, 7), path[2]);
+            Assert.That(path, Is.Not.Null);
+            Assert.That(path.Count, Is.EqualTo(3));
+            Assert.That(path[0], Is.EqualTo(new Node(_level, 3, 5)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 4, 6)));
+            Assert.That(path[2], Is.EqualTo(new Node(_level, 5, 7)));
         }
 
         [Test]
@@ -105,13 +104,13 @@ namespace Tests.Pathfinding
             // Collidable at (6, 5)
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 6, 3), new Node(_level, 6, 7));
 
-            Assert.IsNotNull(path);
-            Assert.That(5, path.Count);
-            Assert.That(new Node(_level, 6, 3), path[0]);
-            Assert.That(new Node(_level, 6, 4), path[1]);
-            Assert.That(new Node(_level, 5, 5), path[2]);
-            Assert.That(new Node(_level, 6, 6), path[3]);
-            Assert.That(new Node(_level, 6, 7), path[4]);
+            Assert.That(path, Is.Not.Null);
+            Assert.That(path.Count, Is.EqualTo(5));
+            Assert.That(path[0], Is.EqualTo(new Node(_level, 6, 3)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 6, 4)));
+            Assert.That(path[2], Is.EqualTo(new Node(_level, 5, 5)));
+            Assert.That(path[3], Is.EqualTo(new Node(_level, 6, 6)));
+            Assert.That(path[4], Is.EqualTo(new Node(_level, 6, 7)));
         }
 
         [Test]
@@ -120,14 +119,14 @@ namespace Tests.Pathfinding
             // Collidable at (6, 5)
             List<Node> path = _pathfinderWithDiagonalMovement.FindPath(new Node(_level, 4, 3), new Node(_level, 8, 7));
 
-            Assert.IsNotNull(path);
-            Assert.That(6, path.Count);
-            Assert.That(new Node(_level, 4, 3), path[0]);
-            Assert.That(new Node(_level, 5, 4), path[1]);
-            Assert.That(new Node(_level, 6, 4), path[2]);
-            Assert.That(new Node(_level, 7, 5), path[3]);
-            Assert.That(new Node(_level, 8, 6), path[4]);
-            Assert.That(new Node(_level, 8, 7), path[5]);
+            Assert.That(path, Is.Not.Null);
+            Assert.That(path.Count, Is.EqualTo(6));
+            Assert.That(path[0], Is.EqualTo(new Node(_level, 4, 3)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 5, 4)));
+            Assert.That(path[2], Is.EqualTo(new Node(_level, 6, 4)));
+            Assert.That(path[3], Is.EqualTo(new Node(_level, 7, 5)));
+            Assert.That(path[4], Is.EqualTo(new Node(_level, 8, 6)));
+            Assert.That(path[5], Is.EqualTo(new Node(_level, 8, 7)));
         }
 
         // **********************************************
@@ -138,11 +137,11 @@ namespace Tests.Pathfinding
         {
             List<Node> path = _pathfinderWithoutDiagonalMovement.FindPath(new Node(_level, 6, 9), new Node(_level, 5, 10));
 
-            Assert.IsNotNull(path);
-            Assert.That(3, path.Count);
-            Assert.That(new Node(_level, 6, 9), path[0]);
-            Assert.That(new Node(_level, 5, 9), path[1]);
-            Assert.That(new Node(_level, 5, 10), path[2]);
+            Assert.That(path, Is.Not.Null);
+            Assert.That(path.Count, Is.EqualTo(3));
+            Assert.That(path[0], Is.EqualTo(new Node(_level, 6, 9)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 6, 9)));
+            Assert.That(path[2], Is.EqualTo(new Node(_level, 5, 10)));
         }
 
         [Test]
@@ -150,15 +149,15 @@ namespace Tests.Pathfinding
         {
             List<Node> path = _pathfinderWithoutDiagonalMovement.FindPath(new Node(_level, 6, 3), new Node(_level, 6, 7));
 
-            Assert.IsNotNull(path);
-            Assert.That(7, path.Count);
-            Assert.That(new Node(_level, 6, 3), path[0]);
-            Assert.That(new Node(_level, 6, 4), path[1]);
-            Assert.That(new Node(_level, 5, 4), path[2]);
-            Assert.That(new Node(_level, 5, 5), path[3]);
-            Assert.That(new Node(_level, 5, 6), path[4]);
-            Assert.That(new Node(_level, 5, 7), path[5]);
-            Assert.That(new Node(_level, 6, 7), path[6]);
+            Assert.That(path, Is.Not.Null);
+            Assert.That(path.Count, Is.EqualTo(7));
+            Assert.That(path[0], Is.EqualTo(new Node(_level, 6, 3)));
+            Assert.That(path[1], Is.EqualTo(new Node(_level, 6, 4)));
+            Assert.That(path[2], Is.EqualTo(new Node(_level, 5, 4)));
+            Assert.That(path[3], Is.EqualTo(new Node(_level, 5, 5)));
+            Assert.That(path[4], Is.EqualTo(new Node(_level, 5, 6)));
+            Assert.That(path[5], Is.EqualTo(new Node(_level, 5, 7)));
+            Assert.That(path[6], Is.EqualTo(new Node(_level, 6, 7)));
         }
     }
 
@@ -389,13 +388,13 @@ namespace Tests.Pathfinding
     //                HashSet<Node> possibleMoveLocations = PathFinder.GetPossibleMoveLocations(new Node(2, 1), _mapData, 1);
 
     //                Assert.That(7, possibleMoveLocations.Count);
-    //                Assert.That(possibleMoveLocations.Contains(new Node(1, 0)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(2, 0)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(3, 0)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(1, 1)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(3, 1)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(1, 2)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(3, 2)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 0)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(2, 0)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 0)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 1)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 1)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(1, 2)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(3, 2)));
     //            }
 
     //            [Test]
@@ -416,30 +415,30 @@ namespace Tests.Pathfinding
 
     //                Assert.That(19, possibleMoveLocations.Count);
     //                AssertPossibleMoveLocationsFor1MovementPoint(possibleMoveLocations);
-    //                Assert.That(possibleMoveLocations.Contains(new Node(5, 0)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(9, 0)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(5, 1)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(9, 1)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(5, 2)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(9, 2)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(5, 3)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(6, 3)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(7, 3)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(8, 3)));
-    //                Assert.That(possibleMoveLocations.Contains(new Node(9, 3)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 0)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 0)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 1)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 1)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 2)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 2)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(5, 3)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(6, 3)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(7, 3)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(8, 3)));
+    //                Assert.IsTrue(possibleMoveLocations.Contains(new Node(9, 3)));
     //            }
 
     //            private void AssertPossibleMoveLocationsFor1MovementPoint(HashSet<Node> moveLocations)
     //            {
-    //                Assert.That(moveLocations.Contains(new Node(6, 0)));
-    //                Assert.That(moveLocations.Contains(new Node(7, 0)));
-    //                Assert.That(moveLocations.Contains(new Node(8, 0)));
-    //                Assert.That(moveLocations.Contains(new Node(6, 1)));
-    //                Assert.That(moveLocations.Contains(new Node(7, 1)));
-    //                Assert.That(moveLocations.Contains(new Node(8, 1)));
-    //                Assert.That(moveLocations.Contains(new Node(6, 2)));
-    //                Assert.That(moveLocations.Contains(new Node(7, 2)));
-    //                Assert.That(moveLocations.Contains(new Node(8, 2)));
+    //                Assert.IsTrue(moveLocations.Contains(new Node(6, 0)));
+    //                Assert.IsTrue(moveLocations.Contains(new Node(7, 0)));
+    //                Assert.IsTrue(moveLocations.Contains(new Node(8, 0)));
+    //                Assert.IsTrue(moveLocations.Contains(new Node(6, 1)));
+    //                Assert.IsFalse(moveLocations.Contains(new Node(7, 1)));
+    //                Assert.IsTrue(moveLocations.Contains(new Node(8, 1)));
+    //                Assert.IsTrue(moveLocations.Contains(new Node(6, 2)));
+    //                Assert.IsTrue(moveLocations.Contains(new Node(7, 2)));
+    //                Assert.IsTrue(moveLocations.Contains(new Node(8, 2)));
     //            }
     //        }
     //}
