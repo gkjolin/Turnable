@@ -43,7 +43,6 @@ namespace Tests.Skills
             Assert.That(skill.Cost, Is.EqualTo(2));
         }
 
-
         //[Test]
         //public void Skill_Construction_CreatesAnOriginMapCalculatorOfTheCorrectType()
         //{

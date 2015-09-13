@@ -142,7 +142,7 @@ namespace Tests.LevelGenerators
             Chunk initialChunk = new Chunk(bounds);
             List<Chunk> newChunks = initialChunk.Split(SplitDirection.Horizontal, 1, 2);
 
-            Assert.That(() => initialChunk.Split(SplitDirection.Horizontal, 1, 2), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => initialChunk.Split(SplitDirection.Horizontal, 1, 2), Throws.ArgumentException);
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace Tests.LevelGenerators
             Rectangle bounds = new Rectangle(new Position(0, 0), 4, 3);
             Chunk initialChunk = new Chunk(bounds);
 
-            Assert.That(() => initialChunk.Split(SplitDirection.Vertical, 1, 2), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => initialChunk.Split(SplitDirection.Vertical, 1, 2), Throws.ArgumentException);
         }
     }
 }

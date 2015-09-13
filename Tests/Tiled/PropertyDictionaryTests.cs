@@ -15,7 +15,7 @@ namespace Tests.Tmx
         {
             PropertyDictionary properties = new PropertyDictionary();
 
-            Assert.That(0, properties.Count);
+            Assert.That(properties.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -23,8 +23,8 @@ namespace Tests.Tmx
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
 
-            Assert.That(1, properties.Count);
-            Assert.That("true", properties["IsBackgroundLayer"]);
+            Assert.That(properties.Count, Is.EqualTo(1));
+            Assert.That(properties["IsBackgroundLayer"], Is.EqualTo("true"));
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace Tests.Tmx
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
 
-            Assert.That("true", properties["isbackgroundlayer"]);
+            Assert.That(properties["isbackgroundlayer"], Is.EqualTo("true"));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Tests.Tmx
         {
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
 
-            Assert.IsNull(properties["DoesNotExist"]);
+            Assert.That(properties["DoesNotExist"], Is.Null);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Tests.Tmx
             PropertyDictionary properties = new PropertyDictionary(TiledFactory.BuildPropertiesXElements());
             properties["New Property"] = "New Value";
 
-            Assert.That("New Value", properties["New Property"]);
+            Assert.That(properties["New Property"], Is.EqualTo("New Value"));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace Tests.Tmx
             properties["New Property"] = "New Value";
             properties["New Property"] = "New Value 2";
 
-            Assert.That("New Value 2", properties["New Property"]);
+            Assert.That(properties["New Property"], Is.EqualTo("New Value"));
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace Tests.Tmx
             properties["New Property"] = "New Value";
             properties["new property"] = "New Value 2";
 
-            Assert.That("New Value 2", properties["New Property"]);
+            Assert.That(properties["New Property"], Is.EqualTo("New Value 2"));
         }
     }
 }

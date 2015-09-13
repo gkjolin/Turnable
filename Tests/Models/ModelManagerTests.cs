@@ -26,7 +26,7 @@ namespace Tests.Models
 
             Assert.That(modelManager.Level, Is.SameAs(_level));
             Assert.That(modelManager.Models, Is.Not.Null);
-            Assert.That(modelManager.Models, Is.InstanceOf<IDictionary<string, SpecialTile>>()));
+            Assert.That(modelManager.Models, Is.InstanceOf<IDictionary<string, SpecialTile>>());
             Assert.That(modelManager.Models.Count, Is.EqualTo(3));
             // Is the right SpecialTile associated with the model name?
             SpecialTile specialTile = modelManager.Models["Knight M"];

@@ -66,7 +66,7 @@ namespace Tests.Characters
         //    {
         //        Assert.IsNotNull(character.GetComponent<Model>());
         //        // TODO: Test that the models are set up correctly for each character
-        //        Assert.That(new List<String> { "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
+        //        Assert.IsTrue(new List<String> { "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
         //    }
 
         //    // Is a TurnQueue setup with the Player taking the first turn?
@@ -94,7 +94,7 @@ namespace Tests.Characters
         //        if (character.GetComponent<Model>() != null)
         //        {
         //            // TODO: Test that the models are set up correctly for each character
-        //            Assert.That(new List<String> { "Knight M", "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
+        //            Assert.IsTrue(new List<String> { "Knight M", "Skeleton", "Skeleton Archer", "Pharaoh" }.Contains(character.GetComponent<Model>().Name));
         //        }
         //    }
         //}
@@ -178,7 +178,7 @@ namespace Tests.Characters
         //    Assert.That(new Position(6, 14), moveResult.Path[1]);
 
         //    // Check to see if the tile in the map was NOT moved
-        //    Assert.That(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
+        //    Assert.IsTrue(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
         //}
 
         //[Test]
@@ -198,7 +198,7 @@ namespace Tests.Characters
         //    Assert.That(new Position(-1, -1), moveResult.Path[1]);
 
         //    // Check to see if the tile in the map was NOT moved
-        //    Assert.That(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
+        //    Assert.IsTrue(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
         //}
 
         [Test]
@@ -235,7 +235,7 @@ namespace Tests.Characters
         //[Test]
         //public void CharacterManager_CanDetermineIfThereIsACharacterAtALocation()
         //{
-        //    Assert.That(_characterManager.IsCharacterAt(_characterManager.Characters[0].GetComponent<Position>().X, _characterManager.Characters[0].GetComponent<Position>().Y));
+        //    Assert.IsTrue(_characterManager.IsCharacterAt(_characterManager.Characters[0].GetComponent<Position>().X, _characterManager.Characters[0].GetComponent<Position>().Y));
         //}
 
         //[Test]
@@ -256,7 +256,7 @@ namespace Tests.Characters
         //    // TODO: How do I check that the EntityEventArgs are correctly set?
         //    _characterManager.CharacterTurnEnded += this.SetEventTriggeredFlag;
         //    _characterManager.EndTurn();
-        //    Assert.That(_eventTriggeredFlag);
+        //    Assert.IsTrue(_eventTriggeredFlag);
         //}
 
         //[Test]
@@ -267,7 +267,7 @@ namespace Tests.Characters
         //    // TODO: How do I check that the EntityEventArgs are correctly set?
         //    _characterManager.CharacterDestroyed += this.SetEventTriggeredFlag;
         //    _characterManager.DestroyCharacter(characterToDestroy);
-        //    Assert.That(_eventTriggeredFlag);
+        //    Assert.IsTrue(_eventTriggeredFlag);
         //    Assert.That(characterToDestroy, ((EntityEventArgs)_eventArgs).Entity);
         //}
 
@@ -279,9 +279,9 @@ namespace Tests.Characters
         //    _characterManager.DestroyCharacter(characterToDestroy);
 
         //    Assert.That(8, _characterManager.Characters.Count);
-        //    Assert.That(_characterManager.Characters.Contains(characterToDestroy));
-        //    Assert.That(_characterManager.TurnQueue.Contains(characterToDestroy));
-        //    Assert.That(_world.EntityManager.Entities.Contains(characterToDestroy));
+        //    Assert.IsFalse(_characterManager.Characters.Contains(characterToDestroy));
+        //    Assert.IsFalse(_characterManager.TurnQueue.Contains(characterToDestroy));
+        //    Assert.IsFalse(_world.EntityManager.Entities.Contains(characterToDestroy));
         //}
 
         //[Test]
@@ -294,7 +294,7 @@ namespace Tests.Characters
         //    Stat stat = entityToDestroy.GetComponent<StatManager>().GetStat("Health");
         //    stat.Value -= 100;
 
-        //    Assert.That(_eventTriggeredFlag);
+        //    Assert.IsTrue(_eventTriggeredFlag);
         //    Assert.That(entityToDestroy, ((EntityEventArgs)_eventArgs).Entity);
         //}
 

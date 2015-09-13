@@ -73,15 +73,15 @@ namespace Tests.Vision
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(0, 4));
 
-            Assert.That(lineSegment.IsVertical());
+            Assert.IsTrue(lineSegment.IsVertical());
 
             lineSegment = new LineSegment(new Position(0, 0), new Position(4, 0));
             
-            Assert.That(lineSegment.IsVertical());
+            Assert.IsFalse(lineSegment.IsVertical());
 
             lineSegment = new LineSegment(new Position(0, 0), new Position(4, 4));
 
-            Assert.That(lineSegment.IsVertical());
+            Assert.IsFalse(lineSegment.IsVertical());
         }
 
         [Test]
@@ -89,15 +89,15 @@ namespace Tests.Vision
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(4, 0));
 
-            Assert.That(lineSegment.IsHorizontal());
+            Assert.IsTrue(lineSegment.IsHorizontal());
 
             lineSegment = new LineSegment(new Position(0, 0), new Position(0, 4));
 
-            Assert.That(lineSegment.IsHorizontal());
+            Assert.IsFalse(lineSegment.IsHorizontal());
 
             lineSegment = new LineSegment(new Position(0, 0), new Position(4, 4));
 
-            Assert.That(lineSegment.IsHorizontal());
+            Assert.IsFalse(lineSegment.IsHorizontal());
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace Tests.Vision
 
             Position randomPoint = line.GetRandomPoint();
 
-            Assert.That(line.Points.Contains(randomPoint));
+            Assert.IsTrue(line.Points.Contains(randomPoint));
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace Tests.Vision
             Position midpoint = line.GetMidpoint();
 
             // A line with an even number of points uses the (Number of Points)/2 point
-            Assert.That(line.Points.Contains(midpoint));
+            Assert.IsTrue(line.Points.Contains(midpoint));
             Assert.That(line.Points[2], midpoint);
 
             start = new Position(1, 1);
@@ -132,7 +132,7 @@ namespace Tests.Vision
             midpoint = line.GetMidpoint();
 
             // A line with an odd number of points returns the exact midpoint
-            Assert.That(line.Points.Contains(midpoint));
+            Assert.IsTrue(line.Points.Contains(midpoint));
             Assert.That(line.Points[2], midpoint);
         }
 
@@ -142,11 +142,11 @@ namespace Tests.Vision
             Rectangle rectangle = new Rectangle(new Position(5, 5), new Position(10, 10));
             LineSegment lineSegment = new LineSegment(new Position(0, 1), new Position(4, 4));
 
-            Assert.That(lineSegment.Intersects(rectangle));
+            Assert.IsFalse(lineSegment.Intersects(rectangle));
 
             lineSegment = new LineSegment(new Position(4, 5), new Position(4, 10));
 
-            Assert.That(lineSegment.Intersects(rectangle));
+            Assert.IsFalse(lineSegment.Intersects(rectangle));
         }
 
         [Test]
@@ -155,15 +155,15 @@ namespace Tests.Vision
             Rectangle rectangle = new Rectangle(new Position(5, 5), new Position(10, 10));
             LineSegment lineSegment = new LineSegment(new Position(0, 1), new Position(5, 5));
 
-            Assert.That(lineSegment.Intersects(rectangle));
+            Assert.IsTrue(lineSegment.Intersects(rectangle));
 
             lineSegment = new LineSegment(new Position(15, 15), new Position(10, 10));
 
-            Assert.That(lineSegment.Intersects(rectangle));
+            Assert.IsTrue(lineSegment.Intersects(rectangle));
 
             lineSegment = new LineSegment(new Position(15, 15), new Position(5, 5));
 
-            Assert.That(lineSegment.Intersects(rectangle));
+            Assert.IsTrue(lineSegment.Intersects(rectangle));
         }
 
         [Test]
@@ -172,15 +172,15 @@ namespace Tests.Vision
             Rectangle rectangle = new Rectangle(new Position(5, 5), new Position(10, 10));
             LineSegment lineSegment = new LineSegment(new Position(5, 5), new Position(4, 4));
 
-            Assert.That(lineSegment.Intersects(rectangle, true));
+            Assert.IsFalse(lineSegment.Intersects(rectangle, true));
 
             lineSegment = new LineSegment(new Position(10, 10), new Position(11, 11));
 
-            Assert.That(lineSegment.Intersects(rectangle, true));
+            Assert.IsFalse(lineSegment.Intersects(rectangle, true));
 
             lineSegment = new LineSegment(new Position(5, 5), new Position(7, 7));
 
-            Assert.That(lineSegment.Intersects(rectangle, true));
+            Assert.IsTrue(lineSegment.Intersects(rectangle, true));
         }
 
         [Test]
@@ -189,22 +189,22 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 0), new Position(0, 4));
             LineSegment second = new LineSegment(new Position(1, 0), new Position(1, 4));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsTrue(first.IsParallelTo(second));
 
             first = new LineSegment(new Position(0, 4), new Position(0, 0));
             second = new LineSegment(new Position(1, 4), new Position(1, 0));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsTrue(first.IsParallelTo(second));
 
             first = new LineSegment(new Position(0, 0), new Position(4, 0));
             second = new LineSegment(new Position(0, 1), new Position(4, 1));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsTrue(first.IsParallelTo(second));
 
             first = new LineSegment(new Position(4, 0), new Position(0, 0));
             second = new LineSegment(new Position(4, 1), new Position(0, 1));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsTrue(first.IsParallelTo(second));
         }
 
         [Test]
@@ -214,13 +214,13 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 0), new Position(0, 4));
             LineSegment second = new LineSegment(new Position(0, 0), new Position(0, 4));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsTrue(first.IsParallelTo(second));
 
             // Two segments on the same line
             first = new LineSegment(new Position(0, 4), new Position(0, 0));
             second = new LineSegment(new Position(0, 4), new Position(0, 8));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsTrue(first.IsParallelTo(second));
         }
 
         [Test]
@@ -229,17 +229,17 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 0), new Position(0, 4));
             LineSegment second = new LineSegment(new Position(0, 0), new Position(4, 0));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsFalse(first.IsParallelTo(second));
 
             first = new LineSegment(new Position(0, 0), new Position(0, 4));
             second = new LineSegment(new Position(0, 4), new Position(4, 4));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsFalse(first.IsParallelTo(second));
 
             first = new LineSegment(new Position(5, 5), new Position(3, 3));
             second = new LineSegment(new Position(17, 13), new Position(4, 4));
 
-            Assert.That(first.IsParallelTo(second));
+            Assert.IsFalse(first.IsParallelTo(second));
         }
 
         [Test]
@@ -282,7 +282,7 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 1), new Position(5, 7));
             LineSegment second = new LineSegment(new Position(0, 1), new Position(4, 6));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsFalse(first.IsTouching(second));
         }
 
         [Test]
@@ -294,11 +294,11 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 1), new Position(3, 1));
             LineSegment second = new LineSegment(new Position(0, 0), new Position(3, 0));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsTrue(first.IsTouching(second));
 
             // ----
             // ****
-            Assert.That(second.IsTouching(first));
+            Assert.IsTrue(second.IsTouching(first));
 
             // *-
             // *-
@@ -307,13 +307,13 @@ namespace Tests.Vision
             first = new LineSegment(new Position(0, 0), new Position(0, 3));
             second = new LineSegment(new Position(1, 0), new Position(1, 3));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsTrue(first.IsTouching(second));
 
             // -*
             // -*
             // -*
             // -*
-            Assert.That(second.IsTouching(first));
+            Assert.IsTrue(second.IsTouching(first));
         }
 
         [Test]
@@ -325,11 +325,11 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 1), new Position(3, 1));
             LineSegment second = new LineSegment(new Position(3, 0), new Position(6, 0));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsTrue(first.IsTouching(second));
 
             // ----
             //    ****
-            Assert.That(second.IsTouching(first));
+            Assert.IsTrue(second.IsTouching(first));
 
             // *
             // *
@@ -341,7 +341,7 @@ namespace Tests.Vision
             first = new LineSegment(new Position(0, 3), new Position(0, 6));
             second = new LineSegment(new Position(1, 0), new Position(1, 3));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsTrue(first.IsTouching(second));
 
             // -
             // -
@@ -350,7 +350,7 @@ namespace Tests.Vision
             //  *
             //  *
             //  *
-            Assert.That(second.IsTouching(first));
+            Assert.IsTrue(second.IsTouching(first));
         }
 
         [Test]
@@ -362,11 +362,11 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 1), new Position(3, 1));
             LineSegment second = new LineSegment(new Position(4, 0), new Position(7, 0));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsFalse(first.IsTouching(second));
 
             // ----
             //     ****
-            Assert.That(second.IsTouching(first));
+            Assert.IsFalse(second.IsTouching(first));
 
             // *
             // *
@@ -379,7 +379,7 @@ namespace Tests.Vision
             first = new LineSegment(new Position(0, 4), new Position(0, 7));
             second = new LineSegment(new Position(1, 0), new Position(1, 3));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsFalse(first.IsTouching(second));
 
             // -
             // -
@@ -389,7 +389,7 @@ namespace Tests.Vision
             //  *
             //  *
             //  *
-            Assert.That(second.IsTouching(first));
+            Assert.IsFalse(second.IsTouching(first));
         }
 
         [Test]
@@ -403,13 +403,13 @@ namespace Tests.Vision
             LineSegment first = new LineSegment(new Position(0, 3), new Position(3, 3));
             LineSegment second = new LineSegment(new Position(4, 0), new Position(7, 0));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsFalse(first.IsTouching(second));
 
             // ----
             //     
             //     
             //     ****
-            Assert.That(second.IsTouching(first));
+            Assert.IsFalse(second.IsTouching(first));
 
             // *
             // *
@@ -422,7 +422,7 @@ namespace Tests.Vision
             first = new LineSegment(new Position(0, 4), new Position(0, 7));
             second = new LineSegment(new Position(3, 0), new Position(3, 3));
 
-            Assert.That(first.IsTouching(second));
+            Assert.IsFalse(first.IsTouching(second));
 
             // -
             // -
@@ -432,7 +432,7 @@ namespace Tests.Vision
             //    *
             //    *
             //    *
-            Assert.That(second.IsTouching(first));
+            Assert.IsFalse(second.IsTouching(first));
         }
 
         // Equals Tests
@@ -442,17 +442,17 @@ namespace Tests.Vision
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
             LineSegment lineSegment2 = new LineSegment(new Position(0, 0), new Position(1, 1));
 
-            Assert.That(lineSegment.Equals(lineSegment2));
+            Assert.IsTrue(lineSegment.Equals(lineSegment2));
 
             lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
             lineSegment2 = new LineSegment(new Position(1, 1), new Position(0, 0));
 
-            Assert.That(lineSegment.Equals(lineSegment2));
+            Assert.IsTrue(lineSegment.Equals(lineSegment2));
 
             lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
             lineSegment2 = new LineSegment(new Position(0, 2), new Position(2, 2));
 
-            Assert.That(lineSegment.Equals(lineSegment2));
+            Assert.IsFalse(lineSegment.Equals(lineSegment2));
         }
 
         [Test]
@@ -460,7 +460,7 @@ namespace Tests.Vision
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
 
-            Assert.That(lineSegment.Equals((Position)null));
+            Assert.IsFalse(lineSegment.Equals((Position)null));
         }
 
         [Test]
@@ -469,17 +469,17 @@ namespace Tests.Vision
             Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
             Object lineSegment2 = new LineSegment(new Position(0, 0), new Position(1, 1));
 
-            Assert.That(lineSegment.Equals(lineSegment2));
+            Assert.IsTrue(lineSegment.Equals(lineSegment2));
 
             lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
             lineSegment2 = new LineSegment(new Position(1, 1), new Position(0, 0));
 
-            Assert.That(lineSegment.Equals(lineSegment2));
+            Assert.IsTrue(lineSegment.Equals(lineSegment2));
 
             lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
             lineSegment2 = new LineSegment(new Position(0, 2), new Position(2, 2));
 
-            Assert.That(lineSegment.Equals(lineSegment2));
+            Assert.IsFalse(lineSegment.Equals(lineSegment2));
         }
 
         [Test]
@@ -487,7 +487,7 @@ namespace Tests.Vision
         {
             Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
 
-            Assert.That(lineSegment.Equals(null));
+            Assert.IsFalse(lineSegment.Equals(null));
         }
 
         [Test]
@@ -495,7 +495,7 @@ namespace Tests.Vision
         {
             Object lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
 
-            Assert.That(lineSegment.Equals(new Object()));
+            Assert.IsFalse(lineSegment.Equals(new Object()));
         }
 
         [Test]
@@ -504,7 +504,7 @@ namespace Tests.Vision
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
             LineSegment lineSegment2 = new LineSegment(new Position(0, 0), new Position(1, 1));
 
-            Assert.That(lineSegment == lineSegment2);
+            Assert.IsTrue(lineSegment == lineSegment2);
         }
 
         [Test]
@@ -513,7 +513,7 @@ namespace Tests.Vision
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1));
             LineSegment lineSegment2 = new LineSegment(new Position(0, 0), new Position(2, 2));
 
-            Assert.That(lineSegment != lineSegment2);
+            Assert.IsTrue(lineSegment != lineSegment2);
         }
 
         [Test]
@@ -521,7 +521,7 @@ namespace Tests.Vision
         {
             LineSegment lineSegment = null;
 
-            Assert.That(lineSegment == null);
+            Assert.IsTrue(lineSegment == null);
         }
 
         [Test]
@@ -529,7 +529,7 @@ namespace Tests.Vision
         {
             LineSegment lineSegment = new LineSegment(new Position(0, 0), new Position(1, 1)); ;
 
-            Assert.That(lineSegment != null);
+            Assert.IsTrue(lineSegment != null);
         }
 
         [Test]
