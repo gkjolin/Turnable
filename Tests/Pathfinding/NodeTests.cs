@@ -16,7 +16,7 @@ namespace Tests.Pathfinding
         private ILevel _level;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _level = LocationsFactory.BuildLevel();
             _node = new Node(_level, 0, 0);

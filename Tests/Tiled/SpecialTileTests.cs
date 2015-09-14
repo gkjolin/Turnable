@@ -14,7 +14,7 @@ namespace Tests.Tiled
         private Tileset _tileset;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _tileset = TiledFactory.BuildTileset();
         }

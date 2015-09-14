@@ -19,7 +19,7 @@ namespace Tests.LevelGenerators
         private Chunk _initialChunk;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _dungeonGenerator = new DungeonGenerator();
             Rectangle bounds = new Rectangle(new Position(0, 0), 100, 100);

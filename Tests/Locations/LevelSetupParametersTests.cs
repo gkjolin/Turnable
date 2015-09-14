@@ -18,7 +18,7 @@ namespace Tests.Locations
         private LevelSetupParameters _levelSetupParameters; 
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _levelSetupParameters = new LevelSetupParameters();
         }

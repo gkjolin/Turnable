@@ -13,7 +13,7 @@ namespace Tests.Tiled
         private Map _fullMap;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _fullMap = new Map("c:/git/Turnable/Tests/Fixtures/FullExample.tmx");
         }

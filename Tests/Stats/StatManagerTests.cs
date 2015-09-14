@@ -18,7 +18,7 @@ namespace Tests
         private StatChangedEventArgs _statChangedEventArgs;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _statManager = new StatManager();
         }

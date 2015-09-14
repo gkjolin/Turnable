@@ -14,7 +14,7 @@ namespace Tests.Stats
         private StatChangedEventArgs _statChangedEventArgs;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _statManager = new StatManager();
             _stat = _statManager.BuildStat("Health", 90);

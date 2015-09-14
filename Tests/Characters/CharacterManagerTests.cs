@@ -19,7 +19,7 @@ namespace Tests.Characters
         private CharacterMovedEventArgs _characterMovedEventArgs;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _level = LocationsFactory.BuildLevel();
             _characterManager = new CharacterManager(_level);

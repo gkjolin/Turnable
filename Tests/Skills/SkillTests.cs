@@ -13,7 +13,7 @@ namespace Tests.Skills
     public class SkillTests
     {
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
         }
 

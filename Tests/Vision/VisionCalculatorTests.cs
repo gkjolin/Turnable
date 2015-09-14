@@ -16,7 +16,7 @@ namespace Tests.Vision
         private IVisionCalculator _visionCalculator;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _level = LocationsFactory.BuildLevel();
             _visionCalculator = new VisionCalculator(_level);

@@ -15,7 +15,7 @@ namespace Tests.Locations
         private IViewport _viewport;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _level = LocationsFactory.BuildLevel();
             _level.SetUpViewport(new Position(8, 8), 5, 5);

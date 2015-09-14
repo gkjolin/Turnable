@@ -20,7 +20,7 @@ namespace Tests.Pathfinding
         private Pathfinder _pathfinderWithoutDiagonalMovement;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _node = new Node(_level, 0, 0);
             _level = LocationsFactory.BuildLevel();

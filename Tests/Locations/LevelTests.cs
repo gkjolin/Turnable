@@ -18,7 +18,7 @@ namespace Tests.Locations
         private ILevel _level;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _level = LocationsFactory.BuildLevel();
         }
@@ -296,7 +296,7 @@ namespace Tests.Locations
 //        //private EventArgs _eventArgs;
 
 //        [SetUp]
-//        public void Initialize()
+//        public void SetUp()
 //        {
 //            //_eventTriggeredFlag = false;
 //            _world = new World();

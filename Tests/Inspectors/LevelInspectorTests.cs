@@ -12,7 +12,7 @@ namespace Tests.Inspectors
     //    private ILevel _level;
 
     //    [SetUp]
-    //    public void Initialize()
+    //    public void SetUp()
     //    {
     //        _level = LocationsFactory.BuildLevel();
     //    }

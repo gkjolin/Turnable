@@ -111,6 +111,7 @@
     <Compile Include="Tiled\TileListTests.cs" />
     <Compile Include="Tiled\TilesetTests.cs" />
     <Compile Include="Tiled\TileTests.cs" />
+    <Compile Include="Time\GameLoopTests.cs" />
     <Compile Include="Utilities\RectangleTests.cs" />
     <Compile Include="Vision\LineSegmentTests.cs" />
     <Compile Include="Vision\VisionCalculatorTests.cs" />
@@ -137,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AI\" />
-    <Folder Include="Time\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

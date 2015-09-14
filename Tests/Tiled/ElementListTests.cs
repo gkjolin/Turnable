@@ -11,7 +11,7 @@ namespace Tests.Tiled
         private ElementList<Layer> _elementList;
 
         [SetUp]
-        public void Initialize()
+        public void SetUp()
         {
             _elementList = new ElementList<Layer>();
         }
