@@ -23,6 +23,12 @@ namespace Tests.Locations
         }
 
         [Test]
+        public void Viewport_ImplementsTheIBoundedInterface()
+        {
+            Assert.That(_viewport, Is.InstanceOf<IBounded>());
+        }
+
+        [Test]
         public void Constructor_GivenALevel_CreatesAViewportWithMapOriginAtZerpAndSameSizeAsTheLevel()
         {
             Viewport viewport = new Viewport(_level);

@@ -27,8 +27,8 @@ namespace Turnable.Utilities
             Edges.Add(new LineSegment(new Position(BottomLeft.X, TopRight.Y), new Position(BottomLeft.X, BottomLeft.Y)));
         }
 
-        public Rectangle(Position topLeft, int width, int height)
-            : this(topLeft, new Position(topLeft.X + width - 1, topLeft.Y + height - 1))
+        public Rectangle(Position bottomLeft, int width, int height)
+            : this(bottomLeft, new Position(bottomLeft.X + width - 1, bottomLeft.Y + height - 1))
         {
         }
 

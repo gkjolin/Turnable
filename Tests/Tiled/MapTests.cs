@@ -4,6 +4,7 @@ using Turnable.Tiled;
 using System.Linq;
 using Moq;
 using Turnable.Api;
+using Turnable.Components;
 
 namespace Tests.Tiled
 {
@@ -19,6 +20,12 @@ namespace Tests.Tiled
         }
 
         [Test]
+        public void Map_ImplementsTheIBoundedInterface()
+        {
+            Assert.That(_fullMap, Is.InstanceOf<IBounded>());
+        }
+
+        [Test]
         public void Constructor_InitializesAllProperties()
         {
             Map map = new Map();
@@ -31,6 +38,7 @@ namespace Tests.Tiled
             Assert.That(map.Orientation, Is.EqualTo(Orientation.Orthogonal));
             Assert.That(map.Layers, Is.Not.Null);
             Assert.That(map.Version, Is.Null);
+            Assert.That(map.Bounds, Is.Null);
         }
 
         [Test]
@@ -54,6 +62,11 @@ namespace Tests.Tiled
 
             // Tilesets loaded?
             Assert.That(map.Tilesets.Count, Is.EqualTo(2));
+
+            // Is a Bounds for the Map initialized?
+            Assert.That(map.Bounds, Is.Not.Null);
+            Assert.That(map.Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
+            Assert.That(map.Bounds.TopRight, Is.EqualTo(new Position(14, 14)));
         }
     }
 }

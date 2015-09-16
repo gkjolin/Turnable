@@ -5,15 +5,17 @@ using System.Text;
 using Turnable.Api;
 using Turnable.Components;
 using Turnable.Pathfinding;
+using Turnable.Utilities;
 
 namespace Turnable.Locations
 {
-    public class Viewport : IViewport
+    public class Viewport : IViewport, IBounded
     {
         public ILevel Level { get; set; }
         public Position MapOrigin { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public Rectangle Bounds { get; set; }
 
         public Viewport(ILevel level)
         {

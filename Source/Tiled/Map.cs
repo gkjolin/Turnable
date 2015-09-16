@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Turnable.Api;
+using Turnable.Components;
+using Turnable.Utilities;
 
 namespace Turnable.Tiled
 {
-    public class Map : IMap
+    public class Map : IMap, IBounded
     {
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
@@ -18,6 +20,7 @@ namespace Turnable.Tiled
         public string Version { get; set; }
         public ElementList<Layer> Layers { get; set; }
         public ElementList<Tileset> Tilesets { get; set; }
+        public Rectangle Bounds { get; set; }
 
         public Map()
         {
@@ -49,6 +52,9 @@ namespace Turnable.Tiled
             {
                 Tilesets.Add(new Tileset(xTileset));
             }
+
+            // Initialize a Bounds for this Map
+            Bounds = new Rectangle(new Position(0, 0), new Position(Width - 1, Height - 1));
         }
     }
 }
