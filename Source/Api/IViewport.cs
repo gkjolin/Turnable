@@ -15,7 +15,7 @@ namespace Turnable.Api
         // ----------------
 
         // Methods
-        bool IsMapOriginValid();
+        bool IsMapLocationValid();
         void Move(Direction direction);
         void CenterAt(Position center);
 

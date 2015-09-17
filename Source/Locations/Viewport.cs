@@ -35,33 +35,32 @@ namespace Turnable.Locations
 
         public void Move(Direction direction)
         {
-            //Position oldMapOrigin = MapOrigin.Copy();
-            //MapOrigin = MapOrigin.NeighboringPosition(direction);
+            Position oldMapOrigin = MapOrigin.Copy();
+            MapOrigin = MapOrigin.NeighboringPosition(direction);
 
-            //// The viewport should be able to move in a certain direction as much as possible while still staying within bounds.
-            //// Example: The left edge of a Viewport is flush against the left edge of the Map. Trying to move the Viewport NW should still move the Viewport North.
+            // The viewport should be able to move in a certain direction as much as possible while still staying within bounds.
+            // Example: The left edge of a Viewport is flush against the left edge of the Map. Trying to move the Viewport NW should still move the Viewport North.
 
-            //// If MapOrigin.X is invalid, reset it
-            //if (MapOrigin.X < 0 || (MapOrigin.X + Width) > Level.Map.Width)
-            //{
-            //    MapOrigin = new Position(oldMapOrigin.X, MapOrigin.Y);
-            //}
+            // If MapOrigin.X is invalid, reset it
+            if (MapOrigin.X < 0 || (MapOrigin.X + Width) > Level.Map.Width)
+            {
+                MapOrigin = new Position(oldMapOrigin.X, MapOrigin.Y);
+            }
 
-            //// If MapOrigin.Y is invalid, reset it
-            //if (MapOrigin.Y < 0 || (MapOrigin.Y + Height) > Level.Map.Height)
-            //{
-            //    MapOrigin = new Position(MapOrigin.X, oldMapOrigin.Y);
-            //}
+            // If MapOrigin.Y is invalid, reset it
+            if (MapOrigin.Y < 0 || (MapOrigin.Y + Height) > Level.Map.Height)
+            {
+                MapOrigin = new Position(MapOrigin.X, oldMapOrigin.Y);
+            }
         }
 
-        public bool IsMapOriginValid()
+        public bool IsMapLocationValid()
         {
-            // The MapOrigin is considered valid if the viewport is within the bounds of the Map.
+            // The MapLocation is considered valid if the viewport is within the bounds of the Map.
             // Or in other words, Do the Map Bounds contain the Viewport bounds?
             Rectangle mapBounds = ((IBounded)Level.Map).Bounds;
 
             return (mapBounds.Contains(Bounds));
-            //return !(MapOrigin.X < 0 || MapOrigin.Y < 0 || (MapOrigin.X + Width) > (Level.Map.Width - 1) || (MapOrigin.Y + Height) > (Level.Map.Height - 1));
         }
 
         public void CenterAt(Position center)
