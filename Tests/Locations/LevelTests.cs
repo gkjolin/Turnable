@@ -196,16 +196,12 @@ namespace Tests.Locations
 
         // Viewport
         [Test]
-        public void SetUpViewport_GivenNoParamters_CreatesAViewportTheSameSizeAsTheLevel()
+        public void SetUpViewport_GivenNoParameters_CreatesAViewportTheSameSizeAsTheLevel()
         {
             _level.SetUpViewport();
 
             Assert.That(_level.Viewport, Is.Not.Null);
             Assert.That(_level.Viewport.Level, Is.SameAs(_level));
-            Assert.That(_level.Viewport.MapOrigin.X, Is.EqualTo(0));
-            Assert.That(_level.Viewport.MapOrigin.Y, Is.EqualTo(0));
-            Assert.That(_level.Viewport.Width, Is.EqualTo(_level.Map.Width));
-            Assert.That(_level.Viewport.Height, Is.EqualTo(_level.Map.Height));
         }
 
         [Test]
@@ -215,10 +211,6 @@ namespace Tests.Locations
 
             Assert.IsNotNull(_level.Viewport);
             Assert.That(_level.Viewport.Level, Is.SameAs(_level));
-            Assert.That(_level.Viewport.MapOrigin.X, Is.EqualTo(0));
-            Assert.That(_level.Viewport.MapOrigin.Y, Is.EqualTo(0));
-            Assert.That(_level.Viewport.Width, Is.EqualTo(5));
-            Assert.That(_level.Viewport.Height, Is.EqualTo(6));
         }
 
         [Test]
@@ -228,9 +220,6 @@ namespace Tests.Locations
 
             Assert.IsNotNull(_level.Viewport);
             Assert.That(_level.Viewport.Level, Is.SameAs(_level));
-            Assert.That(_level.Viewport.MapOrigin, Is.EqualTo(new Position(8, 8)));
-            Assert.That(_level.Viewport.Width, Is.EqualTo(5));
-            Assert.That(_level.Viewport.Height, Is.EqualTo(5));
         }
 
         // VisionCalculator
@@ -270,31 +259,6 @@ namespace Tests.Locations
 //    [TestFixture]
 //    public class LevelTests
 //    {
-//        // The sample level:
-//        // XXXXXXXXXXXXXXXX
-//        // X....EEE.......X
-//        // X..........X...X
-//        // X.......E......X
-//        // X.E.X..........X
-//        // X.....E....E...X
-//        // X........X.....X
-//        // X..........XXXXX
-//        // X..........X...X
-//        // X..........X...X
-//        // X......X.......X
-//        // X.X........X...X
-//        // X..........X...X
-//        // X..........X...X
-//        // X......P...X...X
-//        // XXXXXXXXXXXXXXXX
-//        // X - Obstacles, P - Player, E - Enemies
-
-//        private ILevel _level;
-//        private Mock<ICharacterManager> _mockCharacterManager;
-//        private IWorld _world;
-//        //private bool _eventTriggeredFlag;
-//        //private EventArgs _eventArgs;
-
 //        [SetUp]
 //        public void SetUp()
 //        {

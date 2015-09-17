@@ -29,15 +29,14 @@ namespace Tests.Locations
         }
 
         [Test]
-        public void Constructor_GivenALevel_CreatesAViewportWithMapOriginAtZerpAndSameSizeAsTheLevel()
+        public void Constructor_GivenALevel_CreatesAViewportWithMapOriginAtZeroAndSameSizeAsTheLevel()
         {
             Viewport viewport = new Viewport(_level);
 
             Assert.That(viewport.Level, Is.SameAs(_level));
-            Assert.That(viewport.MapOrigin.X, Is.EqualTo(0));
-            Assert.That(viewport.MapOrigin.Y, Is.EqualTo(0));
-            Assert.That(viewport.Width, Is.EqualTo(_level.Map.Width));
-            Assert.That(viewport.Height, Is.EqualTo(_level.Map.Height));
+            Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
+            Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(_level.Map.Width - 1, _level.Map.Height - 1)));
+
         }
         [Test]
         public void Constructor_GivenALevelAndSize_InitializesAllProperties()
@@ -45,8 +44,8 @@ namespace Tests.Locations
             Viewport viewport = new Viewport(_level, 16, 16);
 
             Assert.That(viewport.Level, Is.SameAs(_level));
-            Assert.That(viewport.Width, Is.EqualTo(16));
-            Assert.That(viewport.Height, Is.EqualTo(16));
+            Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
+            Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(15, 15)));
         }
 
         [Test]
@@ -55,29 +54,38 @@ namespace Tests.Locations
             Viewport viewport = new Viewport(_level, new Position(54, 53), 16, 16);
 
             Assert.That(viewport.Level, Is.SameAs(_level));
-            Assert.That(viewport.MapOrigin, Is.EqualTo(new Position(54, 53)));
-            Assert.That(viewport.Width, Is.EqualTo(16));
-            Assert.That(viewport.Height, Is.EqualTo(16));
+            Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(54, 53)));
+            Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(54 + 15, 53 + 15)));
         }
 
         [Test]
         public void IsMapOriginValid_WhenViewportHasAMapOriginThatIsOutOfBounds_ReturnsFalse()
         {
             List<Position> invalidMapOrigins = new List<Position>();
-            invalidMapOrigins.Add(new Position(-1, 0));
-            invalidMapOrigins.Add(new Position(0, -1));
-            invalidMapOrigins.Add(new Position(11, 0));
-            invalidMapOrigins.Add(new Position(10, -1));
-            invalidMapOrigins.Add(new Position(10, 11));
-            invalidMapOrigins.Add(new Position(11, 10));
-            invalidMapOrigins.Add(new Position(-1, 11));
-            invalidMapOrigins.Add(new Position(0, 11));
 
-            foreach (Position position in invalidMapOrigins) 
-            {
-                _viewport.MapOrigin = position;
-                Assert.That(_viewport.IsMapOriginValid(), Is.False);
-            }
+            _viewport.MapOrigin = new Position(-1, 0);
+            Assert.That(_viewport.IsMapOriginValid(), Is.False);
+
+            _viewport.MapOrigin = new Position(0, -1);
+            Assert.That(_viewport.IsMapOriginValid(), Is.False);
+
+            _viewport.MapOrigin = new Position(11, 0);
+            Assert.That(_viewport.IsMapOriginValid(), Is.False);
+
+            _viewport.MapOrigin = new Position(10, -1);
+            Assert.That(_viewport.IsMapOriginValid(), Is.False);
+
+            _viewport.MapOrigin = new Position(10, 11);
+            Assert.That(_viewport.IsMapOriginValid(), Is.False);
+
+            _viewport.MapOrigin = new Position(11, 10);
+            Assert.That(_viewport.IsMapOriginValid(), Is.False);
+
+            _viewport.MapOrigin = new Position(-1, 11);
+            Assert.That(_viewport.IsMapOriginValid(), Is.False);
+
+            _viewport.MapOrigin = new Position(0, 11);
+            Assert.That(_viewport.IsMapOriginValid(), Is.False);
         }
 
         // -------------------

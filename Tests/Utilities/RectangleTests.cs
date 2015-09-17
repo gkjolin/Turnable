@@ -574,5 +574,22 @@ namespace Tests.Utilities
             Assert.That(closestEdges[1].Start, Is.EqualTo(new Position(3, 2)));
             Assert.That(closestEdges[1].End, Is.EqualTo(new Position(3, 0)));
         }
+
+        // Manipulation Tests
+        [Test]
+        public void Move_GivenANewPositionForTheBottomLeftCorner_MovesTheRectangle()
+        {
+            Rectangle rectangle = new Rectangle(new Position(0, 3), new Position(2, 7));
+            int width = rectangle.Width;
+            int height = rectangle.Height;
+
+            rectangle.Move(new Position(3, 4));
+
+            Assert.That(rectangle.BottomLeft, Is.EqualTo(new Position(3, 4)));
+            // Make sure that the length or height have not changed
+            Assert.That(rectangle.Width, Is.EqualTo(width));
+            Assert.That(rectangle.Height, Is.EqualTo(height));
+            Assert.That(rectangle.TopRight, Is.EqualTo(new Position(5, 8)));
+        }
     }
 }

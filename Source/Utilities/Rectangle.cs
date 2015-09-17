@@ -11,16 +11,25 @@ namespace Turnable.Utilities
     public class Rectangle
     {
         public Position BottomLeft { get; private set; }
-        public Position TopRight { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
         public List<LineSegment> Edges { get; private set; }
 
         public Rectangle(Position firstCorner, Position secondCorner)
         {
             BottomLeft = new Position(Math.Min(firstCorner.X, secondCorner.X), Math.Min(firstCorner.Y, secondCorner.Y));
-            TopRight = new Position(Math.Max(firstCorner.X, secondCorner.X), Math.Max(firstCorner.Y, secondCorner.Y));
+            Position topRight = new Position(Math.Max(firstCorner.X, secondCorner.X), Math.Max(firstCorner.Y, secondCorner.Y));
+            Width = topRight.X - BottomLeft.X + 1;
+            Height = topRight.Y - BottomLeft.Y + 1;
 
             // Intialize the edges
             Edges = new List<LineSegment>();
+            CalculateEdges();
+        }
+
+        private void CalculateEdges()
+        {
+            Edges.Clear();
             Edges.Add(new LineSegment(new Position(BottomLeft.X, BottomLeft.Y), new Position(TopRight.X, BottomLeft.Y)));
             Edges.Add(new LineSegment(new Position(TopRight.X, BottomLeft.Y), new Position(TopRight.X, TopRight.Y)));
             Edges.Add(new LineSegment(new Position(TopRight.X, TopRight.Y), new Position(BottomLeft.X, TopRight.Y)));
@@ -32,18 +41,11 @@ namespace Turnable.Utilities
         {
         }
 
-        public int Width { 
-            get 
-            {
-                return (TopRight.X - BottomLeft.X + 1);
-            }
-        }
-
-        public int Height
+        public Position TopRight
         {
             get
             {
-                return (TopRight.Y - BottomLeft.Y + 1);
+                return new Position(BottomLeft.X + Width - 1, BottomLeft.Y + Height - 1);
             }
         }
 
@@ -173,6 +175,12 @@ namespace Turnable.Utilities
             }
 
             return facingEdges;
+        }
+
+        public void Move(Position newPosition)
+        {
+            // Move the rectangle by repositioning its BottomLeft corner.
+            BottomLeft = newPosition;
         }
     }
 }
