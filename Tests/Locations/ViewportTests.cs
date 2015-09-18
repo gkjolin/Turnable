@@ -284,7 +284,7 @@ namespace Tests.Locations
 
             _level.Viewport.CenterAt(new Position(5, 5));
 
-            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(3, 3)));
+            Assert.That(_level.Viewport.MapLocation, Is.EqualTo(new Position(3, 3)));
         }
 
         [Test]
@@ -294,22 +294,22 @@ namespace Tests.Locations
 
             // Bottom left
             _level.Viewport.CenterAt(new Position(0, 0));
-            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 0)));
+            Assert.That(_level.Viewport.MapLocation, Is.EqualTo(new Position(0, 0)));
 
             // Bottom right
             _level.Viewport.CenterAt(new Position(_level.Map.Width - 1, 0));
-            Assert.That(_viewport.MapLocation.X, Is.EqualTo(_level.Map.Width - ((IBounded)_level.Viewport).Bounds.Width));
-            Assert.That(_viewport.MapLocation.Y, Is.EqualTo(0));
+            Assert.That(_level.Viewport.MapLocation.X, Is.EqualTo(_level.Map.Width - ((IBounded)_level.Viewport).Bounds.Width));
+            Assert.That(_level.Viewport.MapLocation.Y, Is.EqualTo(0));
 
             // Top right
             _level.Viewport.CenterAt(new Position(_level.Map.Width - 1, _level.Map.Height - 1));
-            Assert.That(_viewport.MapLocation, Is.EqualTo(_level.Map.Width - ((IBounded)_level.Viewport).Bounds.Width));
-            Assert.That(_viewport.MapLocation.Y, Is.EqualTo(_level.Map.Height - ((IBounded)_level.Viewport).Bounds.Height));
+            Assert.That(_level.Viewport.MapLocation.X, Is.EqualTo(_level.Map.Width - ((IBounded)_level.Viewport).Bounds.Width));
+            Assert.That(_level.Viewport.MapLocation.Y, Is.EqualTo(_level.Map.Height - ((IBounded)_level.Viewport).Bounds.Height));
 
             // Top left
             _level.Viewport.CenterAt(new Position(0, _level.Map.Height - 1));
-            Assert.That(_viewport.MapLocation.X, Is.EqualTo(0));
-            Assert.That(_viewport.MapLocation.Y, Is.EqualTo(_level.Map.Height - ((IBounded)_level.Viewport).Bounds.Height));
+            Assert.That(_level.Viewport.MapLocation.X, Is.EqualTo(0));
+            Assert.That(_level.Viewport.MapLocation.Y, Is.EqualTo(_level.Map.Height - ((IBounded)_level.Viewport).Bounds.Height));
         }
     }
 }
