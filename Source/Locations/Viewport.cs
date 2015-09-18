@@ -14,6 +14,14 @@ namespace Turnable.Locations
         public ILevel Level { get; set; }
         public Rectangle Bounds { get; set; }
 
+        public Position MapLocation
+        {
+            get
+            {
+                return Bounds.BottomLeft;
+            }
+        }
+
         public Viewport(ILevel level)
         {
             Level = level;
@@ -35,22 +43,22 @@ namespace Turnable.Locations
 
         public void Move(Direction direction)
         {
-            Position oldMapOrigin = MapOrigin.Copy();
-            MapOrigin = MapOrigin.NeighboringPosition(direction);
+            Position oldMapLocation = Bounds.BottomLeft.Copy();
+            Bounds.Move(Bounds.BottomLeft.NeighboringPosition(direction));
 
             // The viewport should be able to move in a certain direction as much as possible while still staying within bounds.
             // Example: The left edge of a Viewport is flush against the left edge of the Map. Trying to move the Viewport NW should still move the Viewport North.
 
-            // If MapOrigin.X is invalid, reset it
-            if (MapOrigin.X < 0 || (MapOrigin.X + Width) > Level.Map.Width)
+            // If MapLocation.X is invalid, reset it
+            if (Bounds.BottomLeft.X < 0 || (Bounds.BottomLeft.X + Bounds.Width) > Level.Map.Width)
             {
-                MapOrigin = new Position(oldMapOrigin.X, MapOrigin.Y);
+                Bounds.Move(new Position(oldMapLocation.X, Bounds.BottomLeft.Y));
             }
 
             // If MapOrigin.Y is invalid, reset it
-            if (MapOrigin.Y < 0 || (MapOrigin.Y + Height) > Level.Map.Height)
+            if (Bounds.BottomLeft.Y < 0 || (Bounds.BottomLeft.Y + Bounds.Height) > Level.Map.Height)
             {
-                MapOrigin = new Position(MapOrigin.X, oldMapOrigin.Y);
+                Bounds.Move(new Position(Bounds.BottomLeft.X, oldMapLocation.Y));
             }
         }
 
@@ -65,30 +73,30 @@ namespace Turnable.Locations
 
         public void CenterAt(Position center)
         {
-            //int x, y;
+            int x, y;
 
-            //x = center.X - Width / 2;
-            //y = center.Y - Height / 2;
+            x = center.X - Bounds.Width / 2;
+            y = center.Y - Bounds.Height / 2;
 
-            //// When parts of the viewport are out of bounds of the Map, move the new MapOrigin to compensate
-            //if ((Width / 2 + center.X) > Level.Map.Width)
-            //{
-            //    x -= (Width / 2 - (Level.Map.Width - center.X - 1));
-            //}
-            //if ((Height / 2 + center.Y) > Level.Map.Height)
-            //{
-            //    y -= (Height / 2 - (Level.Map.Height - center.Y - 1));
-            //}
-            //if (x < 0)
-            //{
-            //    x = 0;
-            //}
-            //if (y < 0)
-            //{
-            //    y = 0;
-            //}
+            // When parts of the viewport are out of bounds of the Map, move the new MapOrigin to compensate
+            if ((Bounds.Width / 2 + center.X) > Level.Map.Width)
+            {
+                x -= (Bounds.Width / 2 - (Level.Map.Width - center.X - 1));
+            }
+            if ((Bounds.Height / 2 + center.Y) > Level.Map.Height)
+            {
+                y -= (Bounds.Height / 2 - (Level.Map.Height - center.Y - 1));
+            }
+            if (x < 0)
+            {
+                x = 0;
+            }
+            if (y < 0)
+            {
+                y = 0;
+            }
 
-            //MapOrigin = new Position(x, y);
+            Bounds.Move(new Position(x, y));
         }
     }
 }

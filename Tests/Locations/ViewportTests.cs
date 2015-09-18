@@ -36,8 +36,9 @@ namespace Tests.Locations
             Assert.That(viewport.Level, Is.SameAs(_level));
             Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
             Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(_level.Map.Width - 1, _level.Map.Height - 1)));
-
+            Assert.That(viewport.MapLocation, Is.EqualTo(viewport.Bounds.BottomLeft));
         }
+
         [Test]
         public void Constructor_GivenALevelAndSize_InitializesAllProperties()
         {
@@ -46,6 +47,7 @@ namespace Tests.Locations
             Assert.That(viewport.Level, Is.SameAs(_level));
             Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
             Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(15, 15)));
+            Assert.That(viewport.MapLocation, Is.EqualTo(viewport.Bounds.BottomLeft));
         }
 
         [Test]
@@ -56,6 +58,7 @@ namespace Tests.Locations
             Assert.That(viewport.Level, Is.SameAs(_level));
             Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(54, 53)));
             Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(54 + 15, 53 + 15)));
+            Assert.That(viewport.MapLocation, Is.EqualTo(viewport.Bounds.BottomLeft));
         }
 
         [Test]
@@ -102,211 +105,211 @@ namespace Tests.Locations
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {
                 _viewport.Move(direction);
-                Assert.That(((IBounded)_viewport).Bounds.BottomLeft, Is.EqualTo(currentMapLocation.NeighboringPosition(direction)));
-                currentMapLocation = ((IBounded)_viewport).Bounds.BottomLeft;
+                Assert.That(_viewport.MapLocation, Is.EqualTo(currentMapLocation.NeighboringPosition(direction)));
+                currentMapLocation = _viewport.MapLocation;
             }
         }
 
+        [Test]
+        public void Viewport_MovingTheMapOriginOutOfBounds_MovesAsMuchAsPossible()
+        {
+            // Viewport at lower left of the Map
+            ((IBounded)_viewport).Bounds.Move(new Position(0, 0));
+
+            _viewport.Move(Direction.West);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 0)));
+            _viewport.Move(Direction.NorthWest);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 1)));
+            _viewport.Move(Direction.SouthWest);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 0)));
+            _viewport.Move(Direction.South);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 0)));
+
+            // Viewport at bottom right of the Map
+            ((IBounded)_viewport).Bounds.Move(new Position(10, 0));
+
+            _viewport.Move(Direction.East);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(10, 0)));
+            _viewport.Move(Direction.NorthEast);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(10, 1)));
+            _viewport.Move(Direction.SouthEast);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(10, 0)));
+            _viewport.Move(Direction.South);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(10, 0)));
+
+            // Viewport at top right of the Map
+            ((IBounded)_viewport).Bounds.Move(new Position(10, 10));
+
+            _viewport.Move(Direction.North);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(10, 10)));
+            _viewport.Move(Direction.NorthEast);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(10, 10)));
+            _viewport.Move(Direction.East);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(10, 10)));
+            _viewport.Move(Direction.SouthEast);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(10, 9)));
+
+            // Viewport at top left of the Map
+            ((IBounded)_viewport).Bounds.Move(new Position(0, 10));
+
+            _viewport.Move(Direction.West);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 10)));
+            _viewport.Move(Direction.NorthWest);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 10)));
+            _viewport.Move(Direction.SouthWest);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 9)));
+            _viewport.Move(Direction.North);
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 10)));
+        }
+
+        //// Testing the automatic movement of MapOrigin when the player moves
+        //// Enough space on all sides to allow movement of MapOrigin
+        //// Viewport with odd height and width
         //[Test]
-        //public void Viewport_MovingTheMapOriginOutOfBounds_MovesAsMuchAsPossible()
+        //public void Viewport_MovingPlayerLocateadAtTheExactCenterOfTheViewport_MovesTheMapOriginOfViewportInThatSameDirection()
         //{
-        //    // Viewport at lower left of the Map
-        //    _viewport.MapOrigin = new Position(0, 0);
+        //    _level.SetUpViewport(5, 1, 5, 5);
+        //    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 3));
 
-        //    _viewport.Move(Direction.West);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(0, 0)));
-        //    _viewport.Move(Direction.NorthWest);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(0, 1)));
-        //    _viewport.Move(Direction.SouthWest);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(0, 0)));
-        //    _viewport.Move(Direction.South);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(0, 0)));
+        //    foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+        //    {
+        //        _level.MovePlayer(direction);
+        //        Assert.That(2, Math.Abs(_level.Viewport.MapOrigin.X - _level.CharacterManager.Player.GetComponent<Position>().X));
+        //        Assert.That(2, Math.Abs(_level.Viewport.MapOrigin.Y - _level.CharacterManager.Player.GetComponent<Position>().Y));
 
-        //    // Viewport at bottom right of the Map
-        //    _viewport.MapOrigin = new Position(10, 0);
-
-        //    _viewport.Move(Direction.East);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(10, 0)));
-        //    _viewport.Move(Direction.NorthEast);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(10, 1)));
-        //    _viewport.Move(Direction.SouthEast);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(10, 0)));
-        //    _viewport.Move(Direction.South);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(10, 0)));
-
-        //    // Viewport at top right of the Map
-        //    _viewport.MapOrigin = new Position(10, 10);
-
-        //    _viewport.Move(Direction.North);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(10, 10)));
-        //    _viewport.Move(Direction.NorthEast);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(10, 10)));
-        //    _viewport.Move(Direction.East);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(10, 10)));
-        //    _viewport.Move(Direction.SouthEast);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(10, 9)));
-
-        //    // Viewport at top left of the Map
-        //    _viewport.MapOrigin = new Position(0, 10);
-
-        //    _viewport.Move(Direction.West);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(0, 10)));
-        //    _viewport.Move(Direction.NorthWest);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(0, 10)));
-        //    _viewport.Move(Direction.SouthWest);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(0, 9)));
-        //    _viewport.Move(Direction.North);
-        //    Assert.That(_viewport.MapOrigin, Is.EqualTo(new Position(0, 10)));
-        //}
-
-        ////// Testing the automatic movement of MapOrigin when the player moves
-        ////// Enough space on all sides to allow movement of MapOrigin
-        ////// Viewport with odd height and width
-        ////[Test]
-        ////public void Viewport_MovingPlayerLocateadAtTheExactCenterOfTheViewport_MovesTheMapOriginOfViewportInThatSameDirection()
-        ////{
-        ////    _level.SetUpViewport(5, 1, 5, 5);
-        ////    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 3));
-
-        ////    foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-        ////    {
-        ////        _level.MovePlayer(direction);
-        ////        Assert.That(2, Math.Abs(_level.Viewport.MapOrigin.X - _level.CharacterManager.Player.GetComponent<Position>().X));
-        ////        Assert.That(2, Math.Abs(_level.Viewport.MapOrigin.Y - _level.CharacterManager.Player.GetComponent<Position>().Y));
-
-        ////        // Reset viewport and player's position
-        ////        _level.Viewport.MapOrigin.X = 5;
-        ////        _level.Viewport.MapOrigin.Y = 1;
-        ////        _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 3));
-        ////    }
-        ////}
-
-        ////[Test]
-        ////public void Viewport_MovingPlayerWhenLocatedAtTheCentralRowInAnyColumnOfTheViewport_MovesTheMapOriginCorrectly()
-        ////{
-        ////    _level.SetUpViewport(5, 1, 5, 5);
-        ////    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(5, 3));
-
-        ////    // If player moves North or South, the viewport should shift North or South respectively
-        ////    _level.MovePlayer(Direction.North);
-        ////    Assert.That(5, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(2, _level.Viewport.MapOrigin.Y);
-        ////    _level.MovePlayer(Direction.South);
-        ////    Assert.That(5, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(1, _level.Viewport.MapOrigin.Y);
-
-        ////    // If player Moves NorthEast Or SouthEast, the viewport just shifts North or South respectively
-        ////    // It should not shift to the East as the player is still not located at the central column of the viewport
-        ////    _level.MovePlayer(Direction.NorthEast);
-        ////    Assert.That(5, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(2, _level.Viewport.MapOrigin.Y);
-        ////    _level.MovePlayer(Direction.SouthEast);
-        ////    Assert.That(5, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(1, _level.Viewport.MapOrigin.Y);
-        ////}
-
-        ////[Test]
-        ////public void Viewport_MovingPlayerWhenLocatedAtTheCentralColumnInAnyRowOfTheViewport_MovesTheMapOriginCorrectly()
-        ////{
-        ////    _level.SetUpViewport(5, 1, 5, 5);
-        ////    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 1));
-
-        ////    // If player moves East or West, the viewport should shift East or West respectively
-        ////    _level.MovePlayer(Direction.East);
-        ////    Assert.That(6, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(1, _level.Viewport.MapOrigin.Y);
-        ////    _level.MovePlayer(Direction.West);
-        ////    Assert.That(5, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(1, _level.Viewport.MapOrigin.Y);
-
-        ////    // If player Moves NorthEast Or NorthWest, the viewport just shifts East or West respectively
-        ////    // It should not shift to the North as the player is still not located at the central row of the viewport
-        ////    _level.MovePlayer(Direction.NorthEast);
-        ////    Assert.That(6, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(1, _level.Viewport.MapOrigin.Y);
-        ////    _level.MovePlayer(Direction.NorthWest);
-        ////    Assert.That(5, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(1, _level.Viewport.MapOrigin.Y);
-        ////}
-
-        ////// Enough space on all sides to allow movement of MapOrigin
-        ////// Test Viewport with even height and width
-        ////[Test]
-        ////public void Viewport_MovingPlayerWhenLocatedAtTheCenterOfAViewportWithEvenWidthAndHeight_MovesTheMapOriginCorrectly()
-        ////{
-        ////    _level.SetUpViewport(3, 4, 6, 6);
-        ////    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(6, 7));
-
-        ////    foreach (Direction direction in Enum.GetValues(typeof(Direction)))
-        ////    {
-        ////        _level.MovePlayer(direction);
-        ////        Assert.That(3, Math.Abs(_level.Viewport.MapOrigin.X - _level.CharacterManager.Player.GetComponent<Position>().X));
-        ////        Assert.That(3, Math.Abs(_level.Viewport.MapOrigin.Y - _level.CharacterManager.Player.GetComponent<Position>().Y));
-
-        ////        // Reset viewport and player's position
-        ////        _level.Viewport.MapOrigin.X = 3;
-        ////        _level.Viewport.MapOrigin.Y = 4;
-        ////        _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(6, 7));
-        ////    }
-        ////}
-
-        ////// Test Viewport does not move when player hits obstacle or player hits character
-        ////[Test]
-        ////public void Viewport_WhenAMovingPlayerHitsAnObstacleOrCharacter_DoesNotMoveItself()
-        ////{
-        ////    _level.SetUpViewport(4, 1, 6, 6);
-        ////    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 4));
-
-        ////    _level.MovePlayer(Direction.North);
-
-        ////    Assert.That(4, _level.Viewport.MapOrigin.X);
-        ////    Assert.That(1, _level.Viewport.MapOrigin.Y);
-        ////}
-
-        //// Centering a viewport
-        //[Test]
-        //public void CenterAt_WithEvenViewportWidthAndViewportHeightAndEnoughSpaceAroundCenter_CentersViewportAtPosition()
-        //{
-        //    _level.SetUpViewport(6, 6);
-
-        //    _level.Viewport.CenterAt(new Position(5, 5));
-
-        //    Assert.That(_level.Viewport.MapOrigin, Is.EqualTo(new Position(2, 2)));
+        //        // Reset viewport and player's position
+        //        _level.Viewport.MapOrigin.X = 5;
+        //        _level.Viewport.MapOrigin.Y = 1;
+        //        _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 3));
+        //    }
         //}
 
         //[Test]
-        //public void CenterAt_WithOddViewportWidthAndViewportHeightAndEnoughSpaceAroundCenter_CentersViewportAtPosition()
+        //public void Viewport_MovingPlayerWhenLocatedAtTheCentralRowInAnyColumnOfTheViewport_MovesTheMapOriginCorrectly()
         //{
-        //    _level.SetUpViewport(5, 5);
+        //    _level.SetUpViewport(5, 1, 5, 5);
+        //    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(5, 3));
 
-        //    _level.Viewport.CenterAt(new Position(5, 5));
+        //    // If player moves North or South, the viewport should shift North or South respectively
+        //    _level.MovePlayer(Direction.North);
+        //    Assert.That(5, _level.Viewport.MapOrigin.X);
+        //    Assert.That(2, _level.Viewport.MapOrigin.Y);
+        //    _level.MovePlayer(Direction.South);
+        //    Assert.That(5, _level.Viewport.MapOrigin.X);
+        //    Assert.That(1, _level.Viewport.MapOrigin.Y);
 
-        //    Assert.That(_level.Viewport.MapOrigin, Is.EqualTo(new Position(3, 3)));
+        //    // If player Moves NorthEast Or SouthEast, the viewport just shifts North or South respectively
+        //    // It should not shift to the East as the player is still not located at the central column of the viewport
+        //    _level.MovePlayer(Direction.NorthEast);
+        //    Assert.That(5, _level.Viewport.MapOrigin.X);
+        //    Assert.That(2, _level.Viewport.MapOrigin.Y);
+        //    _level.MovePlayer(Direction.SouthEast);
+        //    Assert.That(5, _level.Viewport.MapOrigin.X);
+        //    Assert.That(1, _level.Viewport.MapOrigin.Y);
         //}
 
         //[Test]
-        //public void CenterAt_WhenThereIsNotEnoughSpaceAroundCenter_CentersViewportAsMuchAsPossible()
+        //public void Viewport_MovingPlayerWhenLocatedAtTheCentralColumnInAnyRowOfTheViewport_MovesTheMapOriginCorrectly()
         //{
-        //    _level.SetUpViewport(5, 5);
+        //    _level.SetUpViewport(5, 1, 5, 5);
+        //    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 1));
 
-        //    // Bottom left
-        //    _level.Viewport.CenterAt(new Position(0, 0));
-        //    Assert.That(_level.Viewport.MapOrigin, Is.EqualTo(new Position(0, 0)));
+        //    // If player moves East or West, the viewport should shift East or West respectively
+        //    _level.MovePlayer(Direction.East);
+        //    Assert.That(6, _level.Viewport.MapOrigin.X);
+        //    Assert.That(1, _level.Viewport.MapOrigin.Y);
+        //    _level.MovePlayer(Direction.West);
+        //    Assert.That(5, _level.Viewport.MapOrigin.X);
+        //    Assert.That(1, _level.Viewport.MapOrigin.Y);
 
-        //    // Bottom right
-        //    _level.Viewport.CenterAt(new Position(_level.Map.Width - 1, 0));
-        //    Assert.That(_level.Viewport.MapOrigin.X, Is.EqualTo(_level.Map.Width - _level.Viewport.Width));
-        //    Assert.That(_level.Viewport.MapOrigin.Y, Is.EqualTo(0));
-
-        //    // Top right
-        //    _level.Viewport.CenterAt(new Position(_level.Map.Width - 1, _level.Map.Height - 1));
-        //    Assert.That(_level.Viewport.MapOrigin.X, Is.EqualTo(_level.Map.Width - _level.Viewport.Width));
-        //    Assert.That(_level.Viewport.MapOrigin.Y, Is.EqualTo(_level.Map.Height - _level.Viewport.Height));
-
-        //    // Top left
-        //    _level.Viewport.CenterAt(new Position(0, _level.Map.Height - 1));
-        //    Assert.That(_level.Viewport.MapOrigin.X, Is.EqualTo(0));
-        //    Assert.That(_level.Viewport.MapOrigin.Y, Is.EqualTo(_level.Map.Height - _level.Viewport.Height));
+        //    // If player Moves NorthEast Or NorthWest, the viewport just shifts East or West respectively
+        //    // It should not shift to the North as the player is still not located at the central row of the viewport
+        //    _level.MovePlayer(Direction.NorthEast);
+        //    Assert.That(6, _level.Viewport.MapOrigin.X);
+        //    Assert.That(1, _level.Viewport.MapOrigin.Y);
+        //    _level.MovePlayer(Direction.NorthWest);
+        //    Assert.That(5, _level.Viewport.MapOrigin.X);
+        //    Assert.That(1, _level.Viewport.MapOrigin.Y);
         //}
+
+        //// Enough space on all sides to allow movement of MapOrigin
+        //// Test Viewport with even height and width
+        //[Test]
+        //public void Viewport_MovingPlayerWhenLocatedAtTheCenterOfAViewportWithEvenWidthAndHeight_MovesTheMapOriginCorrectly()
+        //{
+        //    _level.SetUpViewport(3, 4, 6, 6);
+        //    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(6, 7));
+
+        //    foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+        //    {
+        //        _level.MovePlayer(direction);
+        //        Assert.That(3, Math.Abs(_level.Viewport.MapOrigin.X - _level.CharacterManager.Player.GetComponent<Position>().X));
+        //        Assert.That(3, Math.Abs(_level.Viewport.MapOrigin.Y - _level.CharacterManager.Player.GetComponent<Position>().Y));
+
+        //        // Reset viewport and player's position
+        //        _level.Viewport.MapOrigin.X = 3;
+        //        _level.Viewport.MapOrigin.Y = 4;
+        //        _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(6, 7));
+        //    }
+        //}
+
+        //// Test Viewport does not move when player hits obstacle or player hits character
+        //[Test]
+        //public void Viewport_WhenAMovingPlayerHitsAnObstacleOrCharacter_DoesNotMoveItself()
+        //{
+        //    _level.SetUpViewport(4, 1, 6, 6);
+        //    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 4));
+
+        //    _level.MovePlayer(Direction.North);
+
+        //    Assert.That(4, _level.Viewport.MapOrigin.X);
+        //    Assert.That(1, _level.Viewport.MapOrigin.Y);
+        //}
+
+        // Centering a viewport
+        [Test]
+        public void CenterAt_WithEvenViewportWidthAndViewportHeightAndEnoughSpaceAroundCenter_CentersViewportAtPosition()
+        {
+            _level.SetUpViewport(6, 6);
+
+            _level.Viewport.CenterAt(new Position(5, 5));
+
+            Assert.That(_level.Viewport.MapLocation, Is.EqualTo(new Position(2, 2)));
+        }
+
+        [Test]
+        public void CenterAt_WithOddViewportWidthAndViewportHeightAndEnoughSpaceAroundCenter_CentersViewportAtPosition()
+        {
+            _level.SetUpViewport(5, 5);
+
+            _level.Viewport.CenterAt(new Position(5, 5));
+
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(3, 3)));
+        }
+
+        [Test]
+        public void CenterAt_WhenThereIsNotEnoughSpaceAroundCenter_CentersViewportAsMuchAsPossible()
+        {
+            _level.SetUpViewport(5, 5);
+
+            // Bottom left
+            _level.Viewport.CenterAt(new Position(0, 0));
+            Assert.That(_viewport.MapLocation, Is.EqualTo(new Position(0, 0)));
+
+            // Bottom right
+            _level.Viewport.CenterAt(new Position(_level.Map.Width - 1, 0));
+            Assert.That(_viewport.MapLocation.X, Is.EqualTo(_level.Map.Width - ((IBounded)_level.Viewport).Bounds.Width));
+            Assert.That(_viewport.MapLocation.Y, Is.EqualTo(0));
+
+            // Top right
+            _level.Viewport.CenterAt(new Position(_level.Map.Width - 1, _level.Map.Height - 1));
+            Assert.That(_viewport.MapLocation, Is.EqualTo(_level.Map.Width - ((IBounded)_level.Viewport).Bounds.Width));
+            Assert.That(_viewport.MapLocation.Y, Is.EqualTo(_level.Map.Height - ((IBounded)_level.Viewport).Bounds.Height));
+
+            // Top left
+            _level.Viewport.CenterAt(new Position(0, _level.Map.Height - 1));
+            Assert.That(_viewport.MapLocation.X, Is.EqualTo(0));
+            Assert.That(_viewport.MapLocation.Y, Is.EqualTo(_level.Map.Height - ((IBounded)_level.Viewport).Bounds.Height));
+        }
     }
 }
