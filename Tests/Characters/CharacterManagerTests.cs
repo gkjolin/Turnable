@@ -31,7 +31,7 @@ namespace Tests.Characters
         {
             CharacterManager characterManager = new CharacterManager(_level);
 
-            Assert.That(_level, Is.EqualTo(characterManager.Level));
+            Assert.That(characterManager.Level, Is.SameAs(_level));
             Assert.That(characterManager.Pcs, Is.Not.Null);
             Assert.That(characterManager.Pcs, Is.InstanceOf<List<Entity>>());
             Assert.That(characterManager.Npcs, Is.Not.Null);
@@ -228,7 +228,7 @@ namespace Tests.Characters
             _characterManager.MoveCharacter(_characterManager.Pcs[0], new Position(1, 1));
 
             Assert.That(_characterMovedEventTriggeredFlag, Is.True);
-            Assert.That(_characterMovedEventArgs.Character, Is.EqualTo(_characterManager.Pcs[0]));
+            Assert.That(_characterMovedEventArgs.Character, Is.SameAs(_characterManager.Pcs[0]));
             Assert.That(_characterMovedEventArgs.Movement, Is.Not.Null);
         }
 

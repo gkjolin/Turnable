@@ -26,7 +26,7 @@ namespace Tests.LevelGenerators
             Rectangle bounds = new Rectangle(new Position(0, 0), 5, 3);
             Chunk chunk = new Chunk(bounds);
 
-            Assert.That(chunk.Bounds, Is.EqualTo(bounds));
+            Assert.That(chunk.Bounds, Is.SameAs(bounds));
         }
 
         [Test]
