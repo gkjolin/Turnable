@@ -197,25 +197,25 @@ namespace Tests.Pathfinding
             // Starting and Ending locations are the same
             startingNode = new Node(_level, 0, 0);
             endingNode = new Node(_level, 0, 0);
-            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(0));
+            Assert.That(_pathfinderWithoutDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(0));
 
             // Starting and Ending locations are in the same line vertically or horizontally
             endingNode = new Node(_level, 0, 5);
-            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(5));
+            Assert.That(_pathfinderWithoutDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(5));
             endingNode = new Node(_level, 3, 0);
-            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(3));
+            Assert.That(_pathfinderWithoutDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(3));
 
             // Starting and Ending locations are exactly diagonal to each other
             endingNode = new Node(_level, 5, 5);
-            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(10));
+            Assert.That(_pathfinderWithoutDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(10));
             endingNode = new Node(_level, 3, 3);
-            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(6));
+            Assert.That(_pathfinderWithoutDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(6));
 
             // Starting and Ending locations are not exactly diagonal or in the same line horizontally or vertically
             endingNode = new Node(_level, 3, 5);
-            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(8));
+            Assert.That(_pathfinderWithoutDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(8));
             endingNode = new Node(_level, 6, 1);
-            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(7));
+            Assert.That(_pathfinderWithoutDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(7));
         }
     }
 
