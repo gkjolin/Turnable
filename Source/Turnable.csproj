@@ -50,9 +50,9 @@
   <ItemGroup>
     <Compile Include="Api\IBounded.cs" />
     <Compile Include="Api\IDungeonGenerator.cs" />
-    <Compile Include="Api\IGameLoop.cs" />
     <Compile Include="Api\ILayer.cs" />
     <Compile Include="Api\ITileset.cs" />
+    <Compile Include="Api\ITurnManager.cs" />
     <Compile Include="Api\IVisionCalculator.cs" />
     <Compile Include="Api\IViewport.cs" />
     <Compile Include="Api\ISetupParameters.cs" />
@@ -67,7 +67,8 @@
     <Compile Include="Characters\CharacterMovedEventArgs.cs" />
     <Compile Include="Components\TeamMembership.cs" />
     <Compile Include="Components\Position.cs" />
-    <Compile Include="Time\GameLoop.cs" />
+    <Compile Include="Time\CharacterFocusChangedEventArgs.cs" />
+    <Compile Include="Time\TurnManager.cs" />
     <Compile Include="Utilities\BinaryTree.cs" />
     <Compile Include="Inspectors\LevelInspector.cs" />
     <Compile Include="LevelGenerators\Chunk.cs" />

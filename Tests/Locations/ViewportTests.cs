@@ -260,7 +260,7 @@ namespace Tests.Locations
         //    _level.SetUpViewport(4, 1, 6, 6);
         //    _level.MoveCharacterTo(_level.CharacterManager.Player, new Position(7, 4));
 
-        //    _level.MovePlayer(Direction.North);
+            //    _level.MovePlayer(Direction.North);
 
         //    Assert.That(4, _level.Viewport.MapOrigin.X);
         //    Assert.That(1, _level.Viewport.MapOrigin.Y);

@@ -9,6 +9,7 @@ namespace Turnable.Characters
 {
     public class CharacterMovedEventArgs : EventArgs
     {
+        // TODO: Unit test
         public Entity Character { get; set; }
         public Movement Movement { get; set; }
 
