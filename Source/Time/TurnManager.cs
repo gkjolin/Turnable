@@ -41,7 +41,7 @@ namespace Turnable.Time
 
             _focusedIndex++;
 
-            if (_focusedIndex >= CharacterManager.Pcs.Count)
+            if (_focusedIndex >= Queue.Count)
             {
                 _focusedIndex = 0;
             }

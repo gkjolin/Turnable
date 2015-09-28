@@ -159,7 +159,66 @@ namespace Tests.Pathfinding
             Assert.That(path[5], Is.EqualTo(new Node(_level, 5, 7)));
             Assert.That(path[6], Is.EqualTo(new Node(_level, 6, 7)));
         }
+
+        [Test]
+        public void MovementCost_WhenDiagonalMovementIsAllowed_ReturnsMovementCostBetweenTwoNodes()
+        {
+            Node startingNode, endingNode;
+
+            // Starting and Ending locations are the same
+            startingNode = new Node(_level, 0, 0);
+            endingNode = new Node(_level, 0, 0);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(0));
+
+            // Starting and Ending locations are in the same line vertically or horizontally
+            endingNode = new Node(_level, 0, 5);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(5));
+            endingNode = new Node(_level, 3, 0);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(3));
+
+            // Starting and Ending locations are exactly diagonal to each other
+            endingNode = new Node(_level, 5, 5);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(5));
+            endingNode = new Node(_level, 3, 3);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(3));
+
+            // Starting and Ending locations are not exactly diagonal or in the same line horizontally or vertically
+            endingNode = new Node(_level, 3, 5);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(5));
+            endingNode = new Node(_level, 6, 1);
+            Assert.That( _pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(6));
+        }
+
+        [Test]
+        public void MovementCost_WhenDiagonalMovementIsNotAllowed_ReturnsMovementCostBetweenTwoNodes()
+        {
+            Node startingNode, endingNode;
+
+            // Starting and Ending locations are the same
+            startingNode = new Node(_level, 0, 0);
+            endingNode = new Node(_level, 0, 0);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(0));
+
+            // Starting and Ending locations are in the same line vertically or horizontally
+            endingNode = new Node(_level, 0, 5);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(5));
+            endingNode = new Node(_level, 3, 0);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(3));
+
+            // Starting and Ending locations are exactly diagonal to each other
+            endingNode = new Node(_level, 5, 5);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(10));
+            endingNode = new Node(_level, 3, 3);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(6));
+
+            // Starting and Ending locations are not exactly diagonal or in the same line horizontally or vertically
+            endingNode = new Node(_level, 3, 5);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(8));
+            endingNode = new Node(_level, 6, 1);
+            Assert.That(_pathfinderWithDiagonalMovement.MovementCost(startingNode, endingNode), Is.EqualTo(7));
+        }
     }
+
 
 
 
@@ -202,63 +261,6 @@ namespace Tests.Pathfinding
     //        Assert.That(new Node(_level, 12, 13), path[10]);
     //    }
 
-    //    [Test]
-    //    public void PathFinder_WhenDiagonalMovementIsAllowed_CanDetermineMovementPointCostBetweenTwoNodes()
-    //    {
-    //        Node startingNode, endingNode;
-
-    //         Starting and Ending location are the same
-    //        startingNode = new Node(_level, 0, 0);
-    //        endingNode = new Node(_level, 0, 0);
-    //        Assert.That(0, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-
-    //         Starting and Ending location are in the same line vertically or horizontally
-    //        endingNode = new Node(_level, 0, 5);
-    //        Assert.That(5, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-    //        endingNode = new Node(_level, 3, 0);
-    //        Assert.That(3, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-
-    //         Starting and Ending location are exactly diagonal to each other
-    //        endingNode = new Node(_level, 5, 5);
-    //        Assert.That(5, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-    //        endingNode = new Node(_level, 3, 3);
-    //        Assert.That(3, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-
-    //         Starting and Ending location are not exactly diagonal or in the same line horizontally or vertically
-    //        endingNode = new Node(_level, 3, 5);
-    //        Assert.That(5, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-    //        endingNode = new Node(_level, 6, 1);
-    //        Assert.That(6, _pathFinderWithDiagonalMovement.MovementPointCost(startingNode, endingNode));
-    //    }
-
-    //    [Test]
-    //    public void PathFinder_WhenDiagonalMovementIsNotAllowed_CanDetermineMovementPointCostBetweenTwoNodes()
-    //    {
-    //        Node startingNode, endingNode;
-
-    //         Starting and Ending location are the same
-    //        startingNode = new Node(_level, 0, 0);
-    //        endingNode = new Node(_level, 0, 0);
-    //        Assert.That(0, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-
-    //         Starting and Ending location are in the same line vertically or horizontally
-    //        endingNode = new Node(_level, 0, 5);
-    //        Assert.That(5, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-    //        endingNode = new Node(_level, 3, 0);
-    //        Assert.That(3, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-
-    //         Starting and Ending location are exactly diagonal to each other
-    //        endingNode = new Node(_level, 5, 5);
-    //        Assert.That(10, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-    //        endingNode = new Node(_level, 3, 3);
-    //        Assert.That(6, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-
-    //         Starting and Ending location are not exactly diagonal or in the same line horizontally or vertically
-    //        endingNode = new Node(_level, 3, 5);
-    //        Assert.That(8, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-    //        endingNode = new Node(_level, 6, 1);
-    //        Assert.That(7, _pathFinderWithoutDiagonalMovement.MovementPointCost(startingNode, endingNode));
-    //    }
 
     //    [Test]
     //    public void PathFinder_WhenDiagonalMovementIsAllowed_CanFindClosestNodeToAnotherNodeFromASetOfNodes()

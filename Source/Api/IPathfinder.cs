@@ -14,6 +14,7 @@ namespace Turnable.Api
 
         // Methods
         List<Node> FindPath(Node startingNode, Node endingNode);
+        int MovementCost(Node startingNode, Node endingNode);
 
         // Properties
         bool AllowDiagonalMovement { get; set; }

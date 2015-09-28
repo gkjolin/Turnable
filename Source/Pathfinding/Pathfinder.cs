@@ -115,5 +115,17 @@ namespace Turnable.Pathfinding
                 return null;
             }
         }
+
+        public int MovementCost(Node startingNode, Node endingNode)
+        {
+            if (AllowDiagonalMovement)
+            {
+                return Math.Max(Math.Abs(startingNode.Position.X - endingNode.Position.X), Math.Abs(startingNode.Position.Y - endingNode.Position.Y));
+            }
+            else
+            {
+                return (Math.Abs(startingNode.Position.X - endingNode.Position.X) + Math.Abs(startingNode.Position.Y - endingNode.Position.Y));
+            }
+        }
     }
 }
