@@ -22,6 +22,22 @@ namespace Turnable.Locations
             }
         }
 
+        public int Width
+        {
+            get
+            {
+                return Bounds.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return Bounds.Height;
+            }
+        }
+
         public Viewport(ILevel level)
         {
             Level = level;

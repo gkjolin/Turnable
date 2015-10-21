@@ -21,6 +21,7 @@ namespace Turnable.Api
         Movement MoveCharacter(Entity character, Direction direction);
         void SetUpPcs();
         void SetUpNpcs();
+        bool IsCharacterAt(Position position);
 
         // Properties
         ILevel Level { get; set; }

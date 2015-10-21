@@ -24,6 +24,7 @@ namespace Tests.Characters
             _level = LocationsFactory.BuildLevel();
             _characterManager = new CharacterManager(_level);
             _characterManager.SetUpPcs();
+            _characterManager.SetUpNpcs();
         }
 
         [Test]
@@ -51,6 +52,20 @@ namespace Tests.Characters
             Assert.That(characterManager.Pcs[2].Get<Position>(), Is.EqualTo(new Position(6, 1)));
         }
 
+        [Test]
+        public void SetUpNpcs_InitializesTheLocationOfAllPcs()
+        {
+            CharacterManager characterManager = new CharacterManager(_level);
+            characterManager.SetUpNpcs();
+
+            Assert.That(characterManager.Npcs, Is.Not.Null);
+            Assert.That(characterManager.Npcs.Count, Is.EqualTo(5));
+            Assert.That(characterManager.Npcs[0].Get<Position>(), Is.EqualTo(new Position(4, 13)));
+            Assert.That(characterManager.Npcs[1].Get<Position>(), Is.EqualTo(new Position(5, 13)));
+            Assert.That(characterManager.Npcs[2].Get<Position>(), Is.EqualTo(new Position(7, 13)));
+            Assert.That(characterManager.Npcs[3].Get<Position>(), Is.EqualTo(new Position(8, 13)));
+            Assert.That(characterManager.Npcs[4].Get<Position>(), Is.EqualTo(new Position(9, 13)));
+        }
         //[Test]
         //public void CharacterManager_SettingUpNpcs_IsSuccessful()
         //{
@@ -149,7 +164,7 @@ namespace Tests.Characters
 
             Movement movement = _characterManager.MoveCharacter(character, newPosition);
 
-            // Make sure that character was NOT moved
+            // Make sure that the character was NOT moved
             Assert.That(movement.Status, Is.EqualTo(MovementStatus.HitObstacle));
             Assert.That(character.Get<Position>(), Is.EqualTo(currentPosition));
             Assert.That(movement.Path.Count, Is.EqualTo(2));
@@ -161,25 +176,26 @@ namespace Tests.Characters
             Assert.That(_level.SpecialLayers[SpecialLayer.Character].IsTileAt(newPosition), Is.False);
         }
 
-        //[Test]
-        //public void CharacterManager_MovingCharacterToAPositionOccupiedByAnotherCharacter_ReturnsHitCharacterMoveResultAndPositionOfOtherCharacterToIndicateFailure()
-        //{
-        //    Entity character = _characterManager.Characters[0];
-        //    Position currentPosition = character.GetComponent<Position>().DeepClone();
-        //    Position newPosition = new Position(currentPosition.X + 1, currentPosition.Y);
+        [Test]
+        public void MoveCharacter_GivenACharacterAndAPositionOccupiedByAnotherCharacter_ReturnsHitCharacterMoveResultAndPositionOfOtherCharacter()
+        {
+            Entity character = _characterManager.Pcs[0];
+            _characterManager.MoveCharacter(character, new Position(3, 13)); // Move PC next to NPC
+            Position currentPosition = character.Get<Position>();
+            Position newPosition = new Position(currentPosition.X + 1, currentPosition.Y);
 
-        //    MoveResult moveResult = _characterManager.MoveCharacterTo(character, newPosition);
+            Movement movement = _characterManager.MoveCharacter(character, newPosition);
 
-        //    // Make sure that character was NOT moved
-        //    Assert.That(MoveResultStatus.HitCharacter, moveResult.Status);
-        //    Assert.That(currentPosition, character.GetComponent<Position>());
-        //    Assert.That(2, moveResult.Path.Count);
-        //    Assert.That(currentPosition, moveResult.Path[0]);
-        //    Assert.That(new Position(6, 14), moveResult.Path[1]);
+            // Make sure that the character was NOT moved
+            Assert.That(movement.Status, Is.EqualTo(MovementStatus.HitCharacter));
+            Assert.That(character.Get<Position>(), Is.EqualTo(currentPosition));
+            Assert.That(movement.Path.Count, Is.EqualTo(2));
+            Assert.That(movement.Path[0], Is.EqualTo(currentPosition));
+            Assert.That(movement.Path[1], Is.EqualTo(new Position(6, 14)));
 
-        //    // Check to see if the tile in the map was NOT moved
-        //    Assert.IsTrue(_level.Map.Layers["Characters"].IsTileAt(currentPosition));
-        //}
+            // Check to see if the tile in the map was NOT moved
+            Assert.That(_level.Map.Layers["Characters"].IsTileAt(currentPosition), Is.True);
+        }
 
         //[Test]
         //public void CharacterManager_MovingCharacterToAPositionOutOfBoundsOfTheMap_ReturnsOutOfBoundsMoveResultAndPositionOfOutOfBoundsLocationToIndicateFailure()
@@ -232,11 +248,12 @@ namespace Tests.Characters
             Assert.That(_characterMovedEventArgs.Movement, Is.Not.Null);
         }
 
-        //[Test]
-        //public void CharacterManager_CanDetermineIfThereIsACharacterAtALocation()
-        //{
-        //    Assert.IsTrue(_characterManager.IsCharacterAt(_characterManager.Characters[0].GetComponent<Position>().X, _characterManager.Characters[0].GetComponent<Position>().Y));
-        //}
+        [Test]
+        public void CharacterManager_CanDetermineIfThereIsACharacterAtALocation()
+        {
+            Assert.That(_characterManager.IsCharacterAt(_characterManager.Pcs[0].Get<Position>()), Is.True);
+            Assert.That(_characterManager.IsCharacterAt(_characterManager.Npcs[0].Get<Position>()), Is.True);
+        }
 
         //[Test]
         //public void CharacterManager_EndingTurn_MovesTheCurrentCharacterToTheEndOfTheTurnQueue()

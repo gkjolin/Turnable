@@ -94,7 +94,22 @@ namespace Turnable.Characters
 
         public void SetUpNpcs()
         {
-            throw new NotImplementedException();
+            List<uint> pcTilesGlobalIds = new List<uint>();
+
+            foreach (Tileset tileset in Level.Map.Tilesets)
+            {
+                List<SpecialTile> pcTiles = tileset.FindSpecialTiles("IsPC", "true");
+                pcTilesGlobalIds.AddRange(pcTiles.ConvertAll<uint>(pt => pt.GlobalId));
+            }
+
+            // TODO: Test that missing playerTiles still allows SetUpPcs to succeed.
+            foreach (Tile tile in Level.SpecialLayers[SpecialLayer.Character].Tiles.Values)
+            {
+                if (!(pcTilesGlobalIds.Contains(tile.GlobalId)))
+                {
+                    SetUpNpc(new Position(tile.X, tile.Y));
+                }
+            }
         }
 
         private void SetUpPc(Position startingPosition)
@@ -103,13 +118,33 @@ namespace Turnable.Characters
             pc.Add(startingPosition);
             Pcs.Add(pc);
         }
-        
+
+        private void SetUpNpc(Position startingPosition)
+        {
+            Entity npc = new Entity();
+            npc.Add(startingPosition);
+            Npcs.Add(npc);
+        }
+
         protected virtual void OnCharacterMoved(CharacterMovedEventArgs e)
         {
             if (CharacterMoved != null)
             {
                 CharacterMoved(this, e);
             }
+        }
+
+        public bool IsCharacterAt(Position position)
+        {
+            foreach (Entity character in Pcs.Concat<Entity>(Npcs))
+            {
+                if (character.Get<Position>() == position)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public event EventHandler<CharacterMovedEventArgs> CharacterMoved;

@@ -36,6 +36,8 @@ namespace Tests.Locations
             Assert.That(viewport.Level, Is.SameAs(_level));
             Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
             Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(_level.Map.Width - 1, _level.Map.Height - 1)));
+            Assert.That(viewport.Width, Is.EqualTo(_level.Map.Width));
+            Assert.That(viewport.Height, Is.EqualTo(_level.Map.Height));
             Assert.That(viewport.MapLocation, Is.EqualTo(viewport.Bounds.BottomLeft));
         }
 
@@ -47,6 +49,8 @@ namespace Tests.Locations
             Assert.That(viewport.Level, Is.SameAs(_level));
             Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(0, 0)));
             Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(15, 15)));
+            Assert.That(viewport.Width, Is.EqualTo(16));
+            Assert.That(viewport.Height, Is.EqualTo(16));
             Assert.That(viewport.MapLocation, Is.EqualTo(viewport.Bounds.BottomLeft));
         }
 
@@ -58,6 +62,8 @@ namespace Tests.Locations
             Assert.That(viewport.Level, Is.SameAs(_level));
             Assert.That(viewport.Bounds.BottomLeft, Is.EqualTo(new Position(54, 53)));
             Assert.That(viewport.Bounds.TopRight, Is.EqualTo(new Position(54 + 15, 53 + 15)));
+            Assert.That(viewport.Width, Is.EqualTo(16));
+            Assert.That(viewport.Height, Is.EqualTo(16));
             Assert.That(viewport.MapLocation, Is.EqualTo(viewport.Bounds.BottomLeft));
         }
 

@@ -22,6 +22,8 @@ namespace Turnable.Api
         // Properties
         ILevel Level { get; set; }
         Position MapLocation { get; }
+        int Width { get; }
+        int Height { get; }
 
         // -----------------
         // Private interface
