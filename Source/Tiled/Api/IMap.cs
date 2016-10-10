@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Turnable.Tiled.Api
+﻿namespace Turnable.Tiled.Api
 {
     public interface IMap
     {
@@ -13,6 +8,10 @@ namespace Turnable.Tiled.Api
         string Version { get; set; }
         Orientation Orientation { get; set; }
         RenderOrder RenderOrder { get; set; }
+        int? Width { get; set; }
+        int? Height { get; set; }
+        int? TileWidth { get; set; }
+        int? TileHeight { get; set; }
 
         // Events
     }

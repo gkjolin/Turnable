@@ -41,12 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tiled\Api\ILayer.cs" />
+    <Compile Include="Tiled\Api\IMap.cs" />
+    <Compile Include="Tiled\Layer.cs" />
+    <Compile Include="Tiled\Map.cs" />
+    <Compile Include="Tiled\RenderOrder.cs" />
+    <Compile Include="Tiled\Orientation.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tiled\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
