@@ -9,7 +9,7 @@ namespace Tests.Tiled
     public class MapTests
     {
         [Test]
-        public void Constructor_SuccessfullyCreatesANewMap()
+        public void DefaultConstructor_SuccessfullyCreatesANewMap()
         {
             IMap map = new Map();
 
@@ -31,7 +31,7 @@ namespace Tests.Tiled
         [Test]
         public void Constructor_GivenAPathToATmxFile_CorrectlyInitializesAllProperties()
         {
-            Map map = new Map("c:/git/Turnable/Tests/SampleData/TmxMap.tmx");
+            IMap map = new Map("c:/git/Turnable/Tests/SampleData/TmxMap.tmx");
 
             Assert.That(map.TileWidth, Is.EqualTo(48));
             Assert.That(map.TileHeight, Is.EqualTo(48));
