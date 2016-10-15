@@ -6,7 +6,7 @@ using Turnable.Utilities.Api;
 
 namespace Turnable.Utilities
 {
-    public class Coordinate : ICoordinate, IEquatable<Coordinate>
+    public class Coordinate : ICoordinate, IEquatable<ICoordinate>
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -28,8 +28,7 @@ namespace Turnable.Utilities
         }
 
         // Notes and example on implementing IEquatable<Coordinate>: http://msdn.microsoft.com/en-us/library/ms131190%28v=vs.110%29.aspx
-        // http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
-        public bool Equals(Coordinate other)
+        public bool Equals(ICoordinate other)
         {
             if (other == null)
             {
@@ -73,5 +72,24 @@ namespace Turnable.Utilities
             return !(coordinate1.Equals(coordinate2));
         }
 
+        public override int GetHashCode()
+        {
+            // http://stackoverflow.com/a/263416
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = 17;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 486187739 + X.GetHashCode();
+                hash = hash * 486187739 + Y.GetHashCode();
+
+                return hash;
+            }
+        }
+
+        public override string ToString()
+        {
+            // http://stackoverflow.com/a/10278430
+            return String.Format("({0}, {1})", X, Y);
+        }
     }
 }

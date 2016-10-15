@@ -92,8 +92,8 @@ namespace Tests.Utilities
         [Test]
         public void EqualityOperator_IsImplemented()
         {
-            ICoordinate coordinate1 = new Coordinate(1, 2);
-            ICoordinate coordinate2 = new Coordinate(1, 2);
+            Coordinate coordinate1 = new Coordinate(1, 2);
+            Coordinate coordinate2 = new Coordinate(1, 2);
 
             Assert.That(coordinate1 == coordinate2, Is.True);
         }
@@ -101,8 +101,8 @@ namespace Tests.Utilities
         [Test]
         public void InequalityOperator_IsImplemented()
         {
-            ICoordinate coordinate1 = new Coordinate(1, 2);
-            ICoordinate coordinate2 = new Coordinate(1, 2);
+            Coordinate coordinate1 = new Coordinate(1, 2);
+            Coordinate coordinate2 = new Coordinate(2, 3);
 
             Assert.That(coordinate1 != coordinate2, Is.True);
         }
@@ -110,7 +110,7 @@ namespace Tests.Utilities
         [Test]
         public void EqualityOperator_CanCompareCoordinateToNull()
         {
-            ICoordinate coordinate = null;
+            Coordinate coordinate = null;
 
             Assert.That(coordinate == null, Is.True);
         }
@@ -118,38 +118,38 @@ namespace Tests.Utilities
         [Test]
         public void InequalityOperator_CanComparePositionToNull()
         {
-            ICoordinate coordinate = new Coordinate(1, 2);
+            Coordinate coordinate = new Coordinate(1, 2);
 
             Assert.That(coordinate != null, Is.True);
         }
 
+        [Test]
+        public void GetHashCode_IsOverridenToReturnASuitableHashCode()
+        {
+            Coordinate coordinate = new Coordinate(1, 2);
+            int calculatedHash;
+
+            unchecked 
+            {
+                calculatedHash = 17;
+                // Suitable nullity checks etc, of course :)
+                calculatedHash = calculatedHash * 486187739 + coordinate.X.GetHashCode();
+                calculatedHash = calculatedHash * 486187739 + coordinate.Y.GetHashCode();
+            }
+
+            Assert.That(coordinate.GetHashCode(), Is.EqualTo(calculatedHash));
+        }
+
+        [Test]
+        public void ToString_DisplaysXAndYCoordinates()
+        {
+            ICoordinate coordinate = new Coordinate(4, 5);
+
+            Assert.That(coordinate.ToString(), Is.EqualTo("(4, 5)"));
+        }
+
         /*
 
-[Test]
-public void GetHashCode_IsOverridenToReturnASuitableHashCode()
-{
-    Position position = new Position(1, 2);
-    int calculatedHash;
-
-    unchecked // Overflow is fine, just wrap
-    {
-        int hash = (int)2166136261;
-        // Suitable nullity checks etc, of course :)
-        hash = hash * 16777619 ^ position.X.GetHashCode();
-        hash = hash * 16777619 ^ position.Y.GetHashCode();
-        calculatedHash = hash;
-    }
-
-    Assert.That(position.GetHashCode(), Is.EqualTo(calculatedHash));
-}
-
-[Test]
-public void ToString_DisplaysXAndYCoordinates()
-{
-    Position position = new Position(4, 5);
-
-    Assert.That(position.ToString(), Is.EqualTo("(4, 5)"));
-}
 
 [Test]
 public void NeighboringPosition_GivenADirection_ReturnsTheNeighboringPositionInThatDirection()
@@ -257,18 +257,7 @@ public void NeighboringPosition_GivenADirection_ReturnsTheNeighboringPositionInT
                     return !(position1.Equals(position2));
                 }
 
-                public override int GetHashCode()
-                {
-                    unchecked // Overflow is fine, just wrap
-                    {
-                        int hash = (int)2166136261;
-                        // Suitable nullity checks etc, of course :)
-                        hash = hash * 16777619 ^ X.GetHashCode();
-                        hash = hash * 16777619 ^ Y.GetHashCode();
 
-                        return hash;
-                    }
-                }
 
                 public override string ToString()
                 {

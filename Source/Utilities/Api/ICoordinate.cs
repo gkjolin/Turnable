@@ -9,6 +9,7 @@ namespace Turnable.Utilities.Api
     {
         // Methods
         ICoordinate Copy();
+        string ToString();
 
         // Properties
         int X { get; set; }
