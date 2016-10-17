@@ -1,29 +1,29 @@
 ﻿using NUnit.Framework;
+using Turnable.Tiled;
 
 namespace Tests.Tiled
 {
     [TestFixture]
-    public class TileDictionaryTests
+    public class TileCollectionTests
     {
+        [Test]
+        public void DefaultConstructor_CreatesAnEmptyTileCollection()
+        {
+            var tileCollection = new TileCollection();
+
+            Assert.That(tileCollection.Count, Is.EqualTo(0));
+        }
 /*
         [Test]
-        public void DefaultConstructor_CreatesAnEmptyTileList()
+        public void Constructor_GivenNullData_CreatesAnEmptyTileCollection()
         {
-            var tileDictionary = new TileDictionary();
+            var tileCollection = new TileCollection(15, 15, null);
 
-            Assert.That(tileDictionary.Count, Is.EqualTo(0));
+            Assert.That(tileCollection.Count, Is.EqualTo(0));
         }
 */
 
-/*
-        [Test]
-        public void Constructor_GivenNullData_CreatesAnEmptyTileList()
-        {
-            TileList tileList = new TileList(15, 15, null);
-
-            Assert.That(tileList.Count, Is.EqualTo(0));
-        }
-
+        /*
         [Test]
         public void Constructor_GivenDataWithNoTiles_CreatesAnEmptyTileList()
         {

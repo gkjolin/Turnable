@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Turnable.Utilities.Api
 {
-    public interface ICoordinate
+    public interface ICoordinates
     {
         // Methods
-        ICoordinate Copy();
+        ICoordinates Copy();
         string ToString();
 
         // Properties

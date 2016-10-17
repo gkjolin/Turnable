@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zlib, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dependencies\Ionic.Zlib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,17 +46,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tiled\Api\IData.cs" />
     <Compile Include="Tiled\Api\ILayer.cs" />
     <Compile Include="Tiled\Api\IMap.cs" />
-    <Compile Include="Tiled\Api\ITileDictionary.cs" />
+    <Compile Include="Tiled\Api\ITile.cs" />
+    <Compile Include="Tiled\Api\ITileCollection.cs" />
+    <Compile Include="Tiled\Data.cs" />
     <Compile Include="Tiled\Layer.cs" />
     <Compile Include="Tiled\Map.cs" />
     <Compile Include="Tiled\RenderOrder.cs" />
     <Compile Include="Tiled\Orientation.cs" />
-    <Compile Include="Utilities\Api\ICoordinate.cs" />
-    <Compile Include="Utilities\Coordinate.cs" />
+    <Compile Include="Tiled\Tile.cs" />
+    <Compile Include="Tiled\TileCollection.cs" />
+    <Compile Include="Utilities\Api\ICoordinates.cs" />
+    <Compile Include="Utilities\Coordinates.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Dependencies\Ionic.Zlib.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,29 +6,29 @@ using Turnable.Utilities.Api;
 
 namespace Turnable.Utilities
 {
-    public class Coordinate : ICoordinate, IEquatable<ICoordinate>
+    public class Coordinates : ICoordinates, IEquatable<ICoordinates>
     {
         public int X { get; set; }
         public int Y { get; set; }
 
-        public Coordinate()
+        public Coordinates()
         {
         }
 
-        public Coordinate(int x, int y) : this()
+        public Coordinates(int x, int y) : this()
         {
             X = x;
             Y = y;
         }
 
-        public ICoordinate Copy()
+        public ICoordinates Copy()
         // http://stackoverflow.com/a/78856
         {
-            return new Coordinate(X, Y);
+            return new Coordinates(X, Y);
         }
 
         // Notes and example on implementing IEquatable<Coordinate>: http://msdn.microsoft.com/en-us/library/ms131190%28v=vs.110%29.aspx
-        public bool Equals(ICoordinate other)
+        public bool Equals(ICoordinates other)
         {
             if (other == null)
             {
@@ -40,7 +40,7 @@ namespace Turnable.Utilities
 
         public override bool Equals(Object other)
         {
-            ICoordinate otherCoordinate = other as ICoordinate;
+            ICoordinates otherCoordinate = other as ICoordinates;
 
             if (otherCoordinate == null)
             {
@@ -52,24 +52,24 @@ namespace Turnable.Utilities
             }
         }
 
-        public static bool operator ==(Coordinate coordinate1, Coordinate coordinate2)
+        public static bool operator ==(Coordinates coordinates1, Coordinates coordinates2)
         {
-            if ((object)coordinate1 == null || ((object)coordinate2) == null)
+            if ((object)coordinates1 == null || ((object)coordinates2) == null)
             {
-                return Object.Equals(coordinate1, coordinate2);
+                return Object.Equals(coordinates1, coordinates2);
             }
 
-            return coordinate1.Equals(coordinate2);
+            return coordinates1.Equals(coordinates2);
         }
 
-        public static bool operator !=(Coordinate coordinate1, Coordinate coordinate2)
+        public static bool operator !=(Coordinates coordinates1, Coordinates coordinates2)
         {
-            if ((object)coordinate1 == null || ((object)coordinate2) == null)
+            if ((object)coordinates1 == null || ((object)coordinates2) == null)
             {
-                return !Object.Equals(coordinate1, coordinate2);
+                return !Object.Equals(coordinates1, coordinates2);
             }
 
-            return !(coordinate1.Equals(coordinate2));
+            return !(coordinates1.Equals(coordinates2));
         }
 
         public override int GetHashCode()
