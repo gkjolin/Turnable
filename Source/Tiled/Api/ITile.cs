@@ -12,7 +12,6 @@ namespace Turnable.Tiled.Api
 
         // Properties
         uint GlobalId { get; set; }
-        Coordinates Location { get; set; }
 
         // Events
     }

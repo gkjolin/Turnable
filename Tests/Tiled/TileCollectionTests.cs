@@ -1,19 +1,34 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using System.Xml.Linq;
+using NUnit.Framework;
 using Turnable.Tiled;
+using Turnable.Utilities;
 
 namespace Tests.Tiled
 {
     [TestFixture]
     public class TileCollectionTests
     {
+        private Data data;
+
+        [SetUp]
+        public void Init()
+        {
+            var tmxDocument = XDocument.Load("c:/git/Turnable/Tests/SampleData/TmxMap.tmx");
+            var tmxLayerData = from l in tmxDocument.Elements("map").Elements("layer")
+                               where (l.Attribute("name").Value == "walls")
+                               select l;
+            data = new Data(tmxLayerData.Elements("data").First());
+        }
+
         [Test]
         public void DefaultConstructor_CreatesAnEmptyTileCollection()
         {
             var tileCollection = new TileCollection();
 
             Assert.That(tileCollection.Count, Is.EqualTo(0));
+
         }
-/*
         [Test]
         public void Constructor_GivenNullData_CreatesAnEmptyTileCollection()
         {
@@ -21,109 +36,87 @@ namespace Tests.Tiled
 
             Assert.That(tileCollection.Count, Is.EqualTo(0));
         }
-*/
-
-        /*
-        [Test]
-        public void Constructor_GivenDataWithNoTiles_CreatesAnEmptyTileList()
-        {
-            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
-
-            Assert.That(tileList.Count, Is.EqualTo(0));
-        }
 
         [Test]
         public void Constructor_GivenDataWithTiles_CreatesAllTiles()
         {
-            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
+            var tileCollection = new TileCollection(14, 11, data);
 
-            Assert.That(tileList.Count, Is.EqualTo(8));
-
-            // Test to see if one tile is loaded up correctly. 
-            // The Tiled(.tmx) format uses an origin that starts at the top left with Y increasing going down
-            // However most libraries use an origin that starts at the bottom left with Y increasing going up
-            // So we need to test that Y is "flipped" using (height - row - 1)
-            Tile tile = tileList[new Position(6, 1)];
-            Assert.That(tile.GlobalId, Is.EqualTo((uint)2107));
-            Assert.That(tile.X, Is.EqualTo(6));
-            Assert.That(tile.Y, Is.EqualTo(1));
+            Assert.That(tileCollection.Count, Is.EqualTo(105));
         }
 
         [Test]
-        public void Indexer_GivenAPositionWithATileAtThatPosition_ReturnsTheTile()
+        public void Indexer_GivenALocationWithATileAtThatLocation_ReturnsTheTile()
         {
-            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
+            var tileCollection = new TileCollection(14, 11, data);
 
             // Test to see if one tile is loaded up correctly. 
-            Tile tile = tileList[new Position(6, 1)];
+            Tile tile = tileCollection[new Coordinates(6, 1)];
 
-            Assert.That(tile.GlobalId, Is.EqualTo((uint)2107));
-            Assert.That(tile.X, Is.EqualTo(6));
-            Assert.That(tile.Y, Is.EqualTo(1));
+            Assert.That(tile.GlobalId, Is.EqualTo((uint)263));
         }
 
         [Test]
-        public void Indexer_GivenAPositionWithNoTileAtThatPosition_ReturnsNull()
+        public void Indexer_GivenALocationWithNoTileAtThatLocation_ReturnsNull()
         {
-            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithTiles());
+            var tileCollection = new TileCollection(14, 11, data);
 
-            // Test to see if one tile is loaded up correctly. 
-            Tile tile = tileList[new Position(7, 1)];
+            // Test to see if a missing tile is returned as null. 
+            Tile tile = tileCollection[new Coordinates(1, 2)];
 
             Assert.That(tile, Is.Null);
         }
-
+        
         [Test]
-        public void Indexer_GivenAPositionAndValue_SetsTileAtThePosition()
+        public void Indexer_GivenALocationAndATile_SetsTileAtTheLocation()
         {
-            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
+            var tileCollection = new TileCollection(14, 11, null);
 
-            Tile tile = new Tile(2107, 6, 1);
-            tileList[new Position(6, 1)] = tile;
+            Coordinates location = new Coordinates(6, 1);
+            Tile tile = new Tile(105);
+            tileCollection[location] = tile;
 
-            tile = tileList[new Position(6, 1)];
-            Assert.That(tile.GlobalId, Is.EqualTo((uint)2107));
-            Assert.That(tile.X, Is.EqualTo(6));
-            Assert.That(tile.Y, Is.EqualTo(1));
+            tile = tileCollection[location];
+            Assert.That(tile.GlobalId, Is.EqualTo((uint)105));
         }
 
         [Test]
-        public void Indexer_GivenAPositionThatAlreadyHasATile_OverwritesTilesAtThePosition()
+        public void Indexer_GivenALocationThatAlreadyHasATile_OverwritesTheTileAtThatPosition()
         {
-            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
+            var tileCollection = new TileCollection(14, 11, null);
 
-            Tile tile = new Tile(2107, 6, 1);
-            tileList[new Position(6, 1)] = tile;
-            tile = new Tile(2106, 6, 1);
-            tileList[new Position(6, 1)] = tile;
+            Coordinates location = new Coordinates(6, 1);
+            Tile tile = new Tile(2107);
+            tileCollection[location] = tile;
+            tile = new Tile(106);
+            tileCollection[location] = tile;
 
-            tile = tileList[new Position(6, 1)];
-            Assert.That(tile.GlobalId, Is.EqualTo((uint)2106));
-            Assert.That(tile.X, Is.EqualTo(6));
-            Assert.That(tile.Y, Is.EqualTo(1));
+            tile = tileCollection[location];
+            Assert.That(tile.GlobalId, Is.EqualTo((uint)106));
         }
 
         [Test]
-        public void Remove_GivenAPositionThatHasATile_RemovesTileAtThatPosition()
+        public void Remove_GivenALocationThatHasATile_RemovesTileAtThatPosition()
         {
-            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
-            Tile tile = new Tile(2107, 6, 1);
-            tileList[new Position(6, 1)] = tile;
+            Coordinates location = new Coordinates(6, 1);
+            var tileCollection = new TileCollection(14, 11, null);
+            Tile tile = new Tile(2107);
+            tileCollection[location] = tile;
 
-            tileList.Remove(new Position(6, 1));
+            tileCollection.Remove(location);
 
-            Assert.That(tileList[new Position(6, 1)], Is.Null);
+            Assert.That(tileCollection[location], Is.Null);
         }
 
         [Test]
-        public void Remove_GivenAPositionThatHasNoTile_DoesNotDoAnything()
+        public void Remove_GivenALocationThatHasNoTile_DoesNotDoAnything()
         {
-            TileList tileList = new TileList(15, 15, TiledFactory.BuildDataWithNoTiles());
+            Coordinates location = new Coordinates(6, 1);
+            var tileCollection = new TileCollection(14, 11, null);
 
-            tileList.Remove(new Position(6, 1));
+            tileCollection.Remove(location);
 
-            Assert.That(tileList[new Position(6, 1)], Is.Null);
+            Assert.That(tileCollection[location], Is.Null);
         }
-*/
     }
 }

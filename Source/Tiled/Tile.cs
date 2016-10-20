@@ -10,12 +10,10 @@ namespace Turnable.Tiled
     public class Tile : ITile
     {
         public uint GlobalId { get; set; }
-        public Coordinates Location { get; set; }
 
-        public Tile(uint globalId, Coordinates coordinates)
+        public Tile(uint globalId)
         {
             GlobalId = globalId;
-            Location = coordinates;
         }
     }
 }

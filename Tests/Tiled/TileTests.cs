@@ -16,10 +16,9 @@ namespace Tests
         [Test]
         public void Constructor_InitializesAllProperties()
         {
-            ITile tile = new Tile(32, new Coordinates(1, 2));
+            ITile tile = new Tile(32);
 
             Assert.That(tile.GlobalId, Is.EqualTo((uint)32));
-            Assert.That(tile.Location, Is.EqualTo(new Coordinates(1, 2)));
         }
     }
 }
