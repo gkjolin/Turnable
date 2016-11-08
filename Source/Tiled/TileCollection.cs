@@ -10,7 +10,7 @@ using Turnable.Utilities.Api;
 
 namespace Turnable.Tiled
 {
-    public class TileCollection : Dictionary<ICoordinates, Tile>, ITileCollection
+    internal class TileCollection : Dictionary<ICoordinates, Tile>, ITileCollection
     {
         public TileCollection()
         {
@@ -36,9 +36,6 @@ namespace Turnable.Tiled
                             }
                             else
                             {
-                                Console.WriteLine("Null");
-                                Console.WriteLine(row);
-                                Console.WriteLine(col);
                             }
                         }
                     }
@@ -46,7 +43,7 @@ namespace Turnable.Tiled
             }
         }
 
-        public Tile this[Coordinates coordinates]
+        public new Tile this[ICoordinates coordinates]
         {
             get
             {
@@ -62,6 +59,19 @@ namespace Turnable.Tiled
             {
                 Remove(coordinates); // Always remove a tile at an existing coordinates
                 Add(coordinates, value);
+            }
+        }
+
+        public Tile this[int x, int y]
+        {
+            get
+            {
+                return this[new Coordinates(x, y)];
+            }
+
+            set
+            {
+                this[new Coordinates(x, y)] = value;
             }
         }
     }
