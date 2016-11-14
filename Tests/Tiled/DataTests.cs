@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Turnable.Tiled;
+using Turnable.Tiled.Internal;
 
 namespace Tests.Tiled
 {

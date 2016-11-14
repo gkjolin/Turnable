@@ -102,7 +102,7 @@ namespace Tests.Tiled
         [Test]
         public void MoveTile_MovesATileToAnEmptyDestinationInTheSameLayer()
         {
-            int tileCount = layer.TileCount;
+            int initialTileCount = layer.TileCount;
             uint tileGlobalId = layer.GetTile(new Coordinates(7, 2)).GlobalId;
 
             layer.MoveTile(new Coordinates(7, 2), new Coordinates(6, 2));
@@ -110,8 +110,8 @@ namespace Tests.Tiled
             Assert.That(layer.IsTilePresent(new Coordinates(7, 2)), Is.False);
             Assert.That(layer.IsTilePresent(new Coordinates(6, 2)), Is.True);
 
-            // The number of tiles in the layer should not change
-            Assert.That(layer.TileCount, Is.EqualTo(tileCount));
+            // The number of tiles in the layer should not have changed
+            Assert.That(layer.TileCount, Is.EqualTo(initialTileCount));
 
             // The tile should have moved correctly
             Tile tile = layer.GetTile(new Coordinates(6, 2));
@@ -129,102 +129,74 @@ namespace Tests.Tiled
         {
             Assert.That(() => layer.MoveTile(new Coordinates(7, 2), new Coordinates(1, 2)), Throws.InvalidOperationException);
         }
-/*
+
         [Test]
         public void SwapTile_SwapsTwoTilesInTheSameLayer()
         {
-            int tileCount = layer.Tiles.Count;
+            int initialTileCount = layer.TileCount;
 
-            uint tile1GlobalId = layer.Tiles[new Coordinates(7, 2)].GlobalId;
-            uint tile2GlobalId = layer.Tiles[new Coordinates(1, 2)].GlobalId;
+            uint tile1GlobalId = layer.GetTile(new Coordinates(7, 2)).GlobalId;
+            uint tile2GlobalId = layer.GetTile(new Coordinates(1, 2)).GlobalId;
 
-            layer.SwapTile(new Position(6, 1), new Position(5, 13));
+            layer.SwapTile(new Coordinates(7, 2), new Coordinates(1, 2));
 
-            Assert.That(layer.IsTileAt(new Position(6, 1)), Is.True);
-            Assert.That(layer.IsTileAt(new Position(5, 13)), Is.True);
+            Assert.That(layer.IsTilePresent(new Coordinates(7, 2)), Is.True);
+            Assert.That(layer.IsTilePresent(new Coordinates(1, 2)), Is.True);
 
-            // Make sure that the tileCount does not change
-            Assert.That(layer.Tiles.Count, Is.EqualTo(tileCount));
+            // The number of tiles in the layer should not have changed
+            Assert.That(layer.TileCount, Is.EqualTo(initialTileCount));
 
-            // Make sure that the tile data is changed as well
-            Tile tile = layer.Tiles[new Position(5, 13)];
-            Assert.That(tile.X, Is.EqualTo(5));
-            Assert.That(tile.Y, Is.EqualTo(13));
-            Assert.That(tile.GlobalId, Is.EqualTo(tile1GlobalId));
-            tile = layer.Tiles[new Position(6, 1)];
-            Assert.That(tile.X, Is.EqualTo(6));
-            Assert.That(tile.Y, Is.EqualTo(1));
-            Assert.That(tile.GlobalId, Is.EqualTo(tile2GlobalId));
+            // The tiles should have been swapped correctly
+            Assert.That(layer.GetTile(new Coordinates(7, 2)).GlobalId, Is.EqualTo(tile2GlobalId));
+            Assert.That(layer.GetTile(new Coordinates(1, 2)).GlobalId, Is.EqualTo(tile1GlobalId));
         }
 
         [Test]
         public void SwapTile_WhenNoTileExistsInTheFirstPosition_ThrowsAnException()
         {
-            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
-
-            Assert.That(() => layer.SwapTile(new Position(7, 2), new Position(5, 13)), Throws.InvalidOperationException);
+            Assert.That(() => layer.SwapTile(new Coordinates(6, 2), new Coordinates(7, 2)), Throws.InvalidOperationException);
         }
 
         [Test]
         public void SwapTile_WhenNoTileExistsInTheSecondPosition_ThrowsAnException()
         {
-            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
-
-            Assert.That(() => layer.SwapTile(new Position(6, 1), new Position(7, 2)), Throws.InvalidOperationException);
-        }*/
-
-        /*
-        [Test]
-        public void SetTile_SetsATileAtAnEmptyPosition()
-        {
-            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
-
-            layer.SetTile(new Position(7, 2), 200);
-
-            Tile tile = layer.Tiles[new Position(7, 2)];
-            Assert.That(tile.GlobalId, Is.EqualTo((uint)200));
-            Assert.That(tile.X, Is.EqualTo(7));
-            Assert.That(tile.Y, Is.EqualTo(2));
+            Assert.That(() => layer.SwapTile(new Coordinates(7, 2), new Coordinates(6, 2)), Throws.InvalidOperationException);
         }
 
         [Test]
-        public void SetTile_WhenATileAlreadyExistsAtThePosition_Succeeds()
+        public void SetTile_GivenCoordinatesForAnEmptyPosition_SetsTileAtThatPosition()
         {
-            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+            layer.SetTile(new Coordinates(0, 0), 200);
 
-            layer.SetTile(new Position(7, 2), 2107);
-            layer.SetTile(new Position(7, 2), 2106);
-
-            Tile tile = layer.Tiles[new Position(7, 2)];
-            Assert.That(tile.GlobalId, Is.EqualTo((uint)2106));
-            Assert.That(tile.X, Is.EqualTo(7));
-            Assert.That(tile.Y, Is.EqualTo(2));
-        }
-
-        // TODO: Setting a tile outside the bounds of the Layer is illegal, write unit test for this
-
-        [Test]
-        public void RemoveTile_GivenAPosition_RemovesTheTileThatExistsAtThatPosition()
-        {
-            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
-
-            layer.SetTile(new Position(7, 2), 2107);
-            int tileCount = layer.Tiles.Count;
-            layer.RemoveTile(new Position(7, 2));
-
-            Assert.That(layer.IsTileAt(new Position(7, 2)), Is.False);
-            Assert.That(layer.Tiles.Count, Is.EqualTo(tileCount - 1));
+            Assert.That(layer.GetTile(new Coordinates(0, 0)).GlobalId, Is.EqualTo((uint)200));
         }
 
         [Test]
-        public void RemoveTile_GivenAPositionThatHasNoTileToRemove_DoesNotThrowAnException()
+        public void SetTile_GivenCoordinatesWhereTileAlreadyExistsAtThePosition_Succeeds()
         {
-            Layer layer = new Layer(TiledFactory.BuildLayerXElementWithProperties());
+            layer.SetTile(new Coordinates(0, 0), 200);
+            layer.SetTile(new Coordinates(0, 0), 201);
 
-            layer.RemoveTile(new Position(7, 2));
-            Assert.That(() => layer.RemoveTile(new Position(7, 2)), Throws.Nothing);
+            Assert.That(layer.GetTile(new Coordinates(0, 0)).GlobalId, Is.EqualTo((uint)201));
         }
-*/
 
+        // TODO: Setting a tile outside the bounds of the Layer is illegal, write a unit test for this
+        [Test]
+        public void RemoveTile_GivenCoordiatesWhereATileExists_RemovesTileThatExistsAtThatPosition()
+        {
+            layer.SetTile(new Coordinates(0, 0), 200);
+            int tileCount = layer.TileCount;
+
+            layer.RemoveTile(new Coordinates(0, 0));
+
+            Assert.That(layer.IsTilePresent(new Coordinates(0, 0)), Is.False);
+            Assert.That(layer.TileCount, Is.EqualTo(tileCount - 1));
+        }
+
+        [Test]
+        public void RemoveTile_GivenCoordinatesThatHasNoTileAtThatPosition_DoesNotThrowAnException()
+        {
+            Assert.That(() => layer.RemoveTile(new Coordinates(7, 2)), Throws.Nothing);
+        }
     }
 }

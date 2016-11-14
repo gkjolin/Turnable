@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +9,7 @@ using Turnable.Tiled.Api;
 using Turnable.Utilities;
 using Turnable.Utilities.Api;
 
-namespace Turnable.Tiled
+namespace Turnable.Tiled.Internal
 {
     internal class TileCollection : Dictionary<ICoordinates, Tile>, ITileCollection
     {
@@ -73,6 +74,11 @@ namespace Turnable.Tiled
             {
                 this[new Coordinates(x, y)] = value;
             }
+        }
+
+        public new void Remove(ICoordinates coordinates)
+        {
+            base.Remove(coordinates);
         }
     }
 }

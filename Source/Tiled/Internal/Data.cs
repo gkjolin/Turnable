@@ -7,9 +7,9 @@ using System.Text;
 using System.Xml.Linq;
 using Turnable.Tiled.Api;
 
-namespace Turnable.Tiled
+namespace Turnable.Tiled.Internal
 {
-    public class Data : IData
+    internal class Data : IData
     {
         public Stream Contents { get; set; }
 

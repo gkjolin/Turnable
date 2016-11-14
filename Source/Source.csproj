@@ -51,13 +51,13 @@
     <Compile Include="Tiled\Api\IMap.cs" />
     <Compile Include="Tiled\Api\ITile.cs" />
     <Compile Include="Tiled\Api\ITileCollection.cs" />
-    <Compile Include="Tiled\Data.cs" />
+    <Compile Include="Tiled\Internal\Data.cs" />
     <Compile Include="Tiled\Layer.cs" />
     <Compile Include="Tiled\Map.cs" />
     <Compile Include="Tiled\RenderOrder.cs" />
     <Compile Include="Tiled\Orientation.cs" />
     <Compile Include="Tiled\Tile.cs" />
-    <Compile Include="Tiled\TileCollection.cs" />
+    <Compile Include="Tiled\Internal\TileCollection.cs" />
     <Compile Include="Utilities\Api\ICoordinates.cs" />
     <Compile Include="Utilities\Coordinates.cs" />
   </ItemGroup>

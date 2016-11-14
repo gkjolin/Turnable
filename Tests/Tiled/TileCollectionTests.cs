@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using Turnable.Tiled;
 using Turnable.Tiled.Api;
+using Turnable.Tiled.Internal;
 using Turnable.Utilities;
 
 namespace Tests.Tiled

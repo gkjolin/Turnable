@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Turnable.Tiled.Api;
+using Turnable.Tiled.Internal;
 using Turnable.Utilities;
 using Turnable.Utilities.Api;
 
@@ -38,7 +39,10 @@ namespace Turnable.Tiled
 
         public void RemoveTile(ICoordinates coordinates)
         {
-            throw new NotImplementedException();
+            if (IsTilePresent(coordinates))
+            {
+                Tiles.Remove(coordinates);
+            }
         }
 
         public void MoveTile(ICoordinates origin, ICoordinates destination)
@@ -54,7 +58,14 @@ namespace Turnable.Tiled
 
         public void SwapTile(ICoordinates firstCoordinates, ICoordinates secondCoordinates)
         {
-            throw new NotImplementedException();
+            if (Tiles[firstCoordinates] == null || Tiles[secondCoordinates] == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            Tile tempTile = Tiles[firstCoordinates];
+            Tiles[firstCoordinates] = Tiles[secondCoordinates];
+            Tiles[secondCoordinates] = tempTile;
         }
 
         public Layer(string name)
